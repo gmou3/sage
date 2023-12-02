@@ -36,10 +36,9 @@ Functions
 # ****************************************************************************
 
 from sage.matrix.constructor import Matrix
-from sage.matroids.basis_matroid import BasisMatroid
 from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
 from sage.matroids.constructor import Matroid
-from sage.matroids.linear_matroid import (LinearMatroid, RegularMatroid,
+from sage.matroids.linear_matroid import (RegularMatroid,
                                           BinaryMatroid, TernaryMatroid,
                                           QuaternaryMatroid)
 from sage.matroids.rank_matroid import RankMatroid
@@ -174,12 +173,14 @@ def Fano(groundset='abcdefg'):
         ....:                  7)]).is_isomorphic(matroids.CompleteGraphic(4))
         True
     """
+    if len(groundset) != 7:
+        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 1, 0, 1, 1],
         [0, 0, 1, 1, 1, 0, 1]
     ])
-    M = BinaryMatroid(A, 'abcdefg')
+    M = BinaryMatroid(A, groundset)
     M.rename('Fano: ' + repr(M))
     return M
 
@@ -493,13 +494,15 @@ def S8(groundset='abcdefgh'):
         [...True...]
 
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 0, 1, 0, 1, 1],
         [0, 0, 1, 0, 1, 1, 0, 1],
         [0, 0, 0, 1, 1, 1, 1, 1]
     ])
-    M = BinaryMatroid(A, 'abcdefgh')
+    M = BinaryMatroid(A, groundset)
     M.rename('S8: ' + repr(M))
     return M
 
@@ -1058,6 +1061,8 @@ def R10(groundset='abcdefghij'):
         sage: matroids.named_matroids.R10().linear_extensions(simple=True)
         []
     """
+    if len(groundset) != 10:
+        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
     A = Matrix(ZZ, [
         [1, 0, 0, 0, 0, -1, 1, 0, 0, 1],
         [0, 1, 0, 0, 0, 1, -1, 1, 0, 0],
@@ -1065,7 +1070,7 @@ def R10(groundset='abcdefghij'):
         [0, 0, 0, 1, 0, 0, 0, 1, -1, 1],
         [0, 0, 0, 0, 1, 1, 0, 0, 1, -1]
     ])
-    M = RegularMatroid(A, 'abcdefghij')
+    M = RegularMatroid(A, groundset)
     M.rename('R10: ' + repr(M))
     return M
 
@@ -1091,6 +1096,8 @@ def R12(groundset='abcdefghijkl'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 12:
+        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
     A = Matrix(ZZ, [
         [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
         [0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
@@ -1099,7 +1106,7 @@ def R12(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1],
         [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1]
     ])
-    M = RegularMatroid(A, 'abcdefghijkl')
+    M = RegularMatroid(A, groundset)
     M.rename('R12: ' + repr(M))
     return M
 
@@ -1432,6 +1439,8 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 24:
+        raise ValueError("The groundset should be of size 24 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
         [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],
@@ -1446,7 +1455,7 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ])
-    M = BinaryMatroid(A, 'abcdefghijklmnopqrstuvwx')
+    M = BinaryMatroid(A, groundset)
     M.rename('Extended Binary Golay Code: ' + repr(M))
     return M
 
@@ -1548,6 +1557,8 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
         True
 
     """
+    if len(groundset) != 16:
+        raise ValueError("The groundset should be of size 16 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
         [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
@@ -1558,7 +1569,7 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
         [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0]
     ])
-    M = BinaryMatroid(A, 'abcdefghijklmnop')
+    M = BinaryMatroid(A, groundset)
     M.rename('D16: ' + repr(M))
     return M
 
@@ -1579,6 +1590,8 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
         True
 
     """
+    if len(groundset) != 16:
+        raise ValueError("The groundset should be of size 16 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -1589,7 +1602,7 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0]
     ])
-    M = BinaryMatroid(A, 'abcdefghijklmnop')
+    M = BinaryMatroid(A, groundset)
     M.rename('Terrahawk: ' + repr(M))
     return M
 
@@ -1662,6 +1675,8 @@ def T12(groundset='abcdefghijkl'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 12:
+        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
         [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
@@ -1670,7 +1685,7 @@ def T12(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0],
         [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1]
     ])
-    M = BinaryMatroid(A, 'abcdefghijkl')
+    M = BinaryMatroid(A, groundset)
     M.rename('T12: ' + repr(M))
     return M
 
@@ -1690,12 +1705,14 @@ def P9(groundset='abcdefghi'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 0, 0, 1, 1],
         [0, 1, 0, 0, 1, 1, 0, 0, 1],
         [0, 0, 1, 0, 0, 1, 1, 0, 1],
         [0, 0, 0, 1, 0, 0, 1, 1, 0]
     ])
-    M = BinaryMatroid(A, 'abcdefghi')
+    M = BinaryMatroid(A, groundset)
     M.rename('P9: ' + repr(M))
     return M
