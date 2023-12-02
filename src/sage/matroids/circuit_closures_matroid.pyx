@@ -573,7 +573,8 @@ cdef class CircuitClosuresMatroid(Matroid):
         return sage.matroids.unpickling.unpickle_circuit_closures_matroid, (version, data)
 
     def relabel(self, l):
-        E, d = self._relabel_map(l)
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
         CC = {}
         for i in self.circuit_closures():
             CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]

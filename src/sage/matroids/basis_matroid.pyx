@@ -556,7 +556,8 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
 
         """
-        E, d = self._relabel_map(l)
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
         B = [[d[y] for y in list(x)] for x in self.bases()]
         from sage.matroids.basis_matroid import BasisMatroid
         M = BasisMatroid(groundset=E, bases=B)
