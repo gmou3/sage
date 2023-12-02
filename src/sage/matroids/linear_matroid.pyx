@@ -2982,6 +2982,41 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         data = (A, gs, reduced, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_linear_matroid, (version, data)
 
+    cpdef relabel(self, l):
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        """
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        from sage.matroids.linear_matroid import LinearMatroid
+        M = LinearMatroid(groundset=E, matrix=self._matrix_())
+        if not self.is_isomorphic(M):
+            raise ValueError("Relabeled matroid is not isomorphic to original")
+        return M
+
 # Binary matroid
 
 cdef class BinaryMatroid(LinearMatroid):
@@ -5674,6 +5709,41 @@ cdef class QuaternaryMatroid(LinearMatroid):
             basis = self._current_rows_cols()[0]
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_quaternary_matroid, (version, data)
+
+    cpdef relabel(self, l):
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        """
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        from sage.matroids.linear_matroid import QuaternaryMatroid
+        M = QuaternaryMatroid(groundset=E, matrix=self._matrix_())
+        if not self.is_isomorphic(M):
+            raise ValueError("Relabeled matroid is not isomorphic to original")
+        return M
 
 # Regular Matroids
 

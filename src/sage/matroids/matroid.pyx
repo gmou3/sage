@@ -8146,4 +8146,4 @@ cdef class Matroid(SageObject):
                 d[x] = x
         if len(E) != len(self.groundset()):
             raise ValueError("Given map doesn't relabel the groundset properly")
-        return E, d
+        return d
