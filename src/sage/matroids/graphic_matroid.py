@@ -2042,3 +2042,38 @@ class GraphicMatroid(Matroid):
         from sage.matroids.constructor import Matroid as ConstructorMatroid
         X = [l for u, v, l in self._G.edge_iterator()]
         return ConstructorMatroid(groundset=X, graph=self._G, regular=True)
+
+    def relabel(self, l):
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        """
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        from sage.matroids.graphic_matroid import GraphicMatroid
+        M = GraphicMatroid(self.graph(), groundset=E)
+        if not self.is_isomorphic(M):
+            raise ValueError("Relabeled matroid is not isomorphic to original")
+        return M
