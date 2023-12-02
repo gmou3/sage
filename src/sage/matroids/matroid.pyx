@@ -8130,3 +8130,20 @@ cdef class Matroid(SageObject):
         # place this matroid at the beginning of the list
         matroids.insert(0, self)
         return union_matroid.MatroidSum(iter(matroids))
+
+    def _relabel_map(self, l):
+        E = set()
+        d = {}
+        for x in self.groundset():
+            if x in l:
+                try:
+                    E.add(l[x])
+                    d[x] = l[x]
+                except:
+                    raise TypeError("Invalid map given")
+            else:
+                E.add(x)
+                d[x] = x
+        if len(E) != len(self.groundset()):
+            raise ValueError("Given map doesn't relabel the groundset properly")
+        return E, d

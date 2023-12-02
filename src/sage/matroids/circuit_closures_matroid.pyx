@@ -572,4 +572,15 @@ cdef class CircuitClosuresMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_circuit_closures_matroid, (version, data)
 
+    def relabel(self, l):
+        E, d = self._relabel_map(l)
+        CC = {}
+        for i in self.circuit_closures():
+            CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]
+        from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
+        M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+        if not self.is_isomorphic(M):
+            raise ValueError("Relabeled matroid is not isomorphic to original")
+        return M
+
 # todo: customized minor, extend methods.

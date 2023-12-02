@@ -53,7 +53,7 @@ lazy_import('sage.schemes.projective.projective_space', 'ProjectiveSpace')
 # The order is the same as in Oxley.
 
 
-def Q6():
+def Q6(groundset='abcdef'):
     """
     Return the matroid `Q_6`, represented over `GF(4)`.
 
@@ -86,7 +86,7 @@ def Q6():
     return M
 
 
-def P6():
+def P6(groundset='abcdef'):
     """
     Return the matroid `P_6`, represented as circuit closures.
 
@@ -115,12 +115,12 @@ def P6():
         2: ['abc'],
         3: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('P6: ' + repr(M))
     return M
 
 
-def R6():
+def R6(groundset='abcdef'):
     """
     Return the matroid `R_6`, represented over `GF(3)`.
 
@@ -151,7 +151,7 @@ def R6():
     return M
 
 
-def Fano():
+def Fano(groundset='abcdefg'):
     r"""
     Return the Fano matroid, represented over `GF(2)`.
 
@@ -184,7 +184,7 @@ def Fano():
     return M
 
 
-def NonFano():
+def NonFano(groundset='abcdefg'):
     """
     Return the non-Fano matroid, represented over `GF(3)`
 
@@ -216,7 +216,7 @@ def NonFano():
     return M
 
 
-def O7():
+def O7(groundset='abcdefg'):
     """
     Return the matroid `O_7`, represented over `GF(3)`.
 
@@ -245,7 +245,7 @@ def O7():
     return M
 
 
-def P7():
+def P7(groundset='abcdefg'):
     """
     Return the matroid `P_7`, represented over `GF(3)`.
 
@@ -278,7 +278,7 @@ def P7():
 # AG(3, 2) - use AG()
 
 
-def AG32prime():
+def AG32prime(groundset='abcdefgh'):
     """
     Return the matroid `AG(3, 2)'`, represented as circuit closures.
 
@@ -314,12 +314,12 @@ def AG32prime():
             'cfgh', 'bcef', 'adgh', 'acdf', 'begh', 'aceg'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('AG(3, 2)\': ' + repr(M))
     return M
 
 
-def R8():
+def R8(groundset='abcdefgh'):
     """
     Return the matroid `R_8`, represented over `GF(3)`.
 
@@ -351,7 +351,7 @@ def R8():
     return M
 
 
-def F8():
+def F8(groundset='abcdefgh'):
     """
     Return the matroid `F_8`, represented as circuit closures.
 
@@ -385,12 +385,12 @@ def F8():
             'cfgh', 'bcef', 'adgh', 'acdf', 'aceg'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('F8: ' + repr(M))
     return M
 
 
-def Q8():
+def Q8(groundset='abcdefgh'):
     """
     Return the matroid `Q_8`, represented as circuit closures.
 
@@ -425,12 +425,12 @@ def Q8():
             'cfgh', 'bcef', 'adgh', 'acdf'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('Q8: ' + repr(M))
     return M
 
 
-def L8():
+def L8(groundset='abcdefgh'):
     """
     Return the matroid `L_8`, represented as circuit closures.
 
@@ -457,12 +457,12 @@ def L8():
         3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'aceg', 'bdfh'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('L8: ' + repr(M))
     return M
 
 
-def S8():
+def S8(groundset='abcdefgh'):
     """
     Return the matroid `S_8`, represented over `GF(2)`.
 
@@ -504,7 +504,7 @@ def S8():
     return M
 
 
-def Vamos():
+def Vamos(groundset='abcdefgh'):
     """
     Return the Vamos matroid, represented as circuit closures.
 
@@ -535,12 +535,12 @@ def Vamos():
         3: ['abcd', 'abef', 'cdef', 'abgh', 'efgh'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('Vamos: ' + repr(M))
     return M
 
 
-def T8():
+def T8(groundset='abcdefgh'):
     """
     Return the matroid `T_8`, represented over `GF(3)`.
 
@@ -572,7 +572,7 @@ def T8():
     return M
 
 
-def J():
+def J(groundset='abcdefgh'):
     """
     Return the matroid `J`, represented over `GF(3)`.
 
@@ -605,7 +605,7 @@ def J():
     return M
 
 
-def P8():
+def P8(groundset='abcdefgh'):
     """
     Return the matroid `P_8`, represented over `GF(3)`.
 
@@ -639,7 +639,7 @@ def P8():
     return M
 
 
-def P8pp():
+def P8pp(groundset='abcdefgh'):
     """
     Return the matroid `P_8^=`, represented as circuit closures.
 
@@ -671,12 +671,12 @@ def P8pp():
     E = 'abcdefgh'
     CC = {3: ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh'],
           4: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('P8\'\': ' + repr(M))
     return M
 
 
-def K33dual():
+def K33dual(groundset='abcdefghi'):
     """
     Return the matroid `M*(K_{3, 3})`, represented over the regular partial
     field.
@@ -708,7 +708,7 @@ def K33dual():
 # AG(2, 3) - use AG()
 
 
-def TernaryDowling3():
+def TernaryDowling3(groundset='abcdefghi'):
     """
     Return the matroid `Q_3(GF(3)^\times)`, represented over `GF(3)`.
 
@@ -935,7 +935,7 @@ def Uniform(r, n):
         CC = {r: [E]}
     else:
         CC = {}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('U(' + str(r) + ', ' + str(n) + '): ' + repr(M))
     return M
 
@@ -1028,7 +1028,7 @@ def AG(n, q, x=None):
 # Named matroids
 
 
-def R10():
+def R10(groundset='abcdefghij'):
     """
     Return the matroid `R_{10}`, represented over the regular partial field.
 
@@ -1070,7 +1070,7 @@ def R10():
     return M
 
 
-def R12():
+def R12(groundset='abcdefghijkl'):
     """
     Return the matroid `R_{12}`, represented over the regular partial field.
 
@@ -1104,7 +1104,7 @@ def R12():
     return M
 
 
-def NonVamos():
+def NonVamos(groundset='abcdefgh'):
     """
     Return the non-Vamos matroid.
 
@@ -1133,12 +1133,12 @@ def NonVamos():
         3: ['abcd', 'abef', 'cdef', 'abgh', 'cdgh', 'efgh'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('NonVamos: ' + repr(M))
     return M
 
 
-def Pappus():
+def Pappus(groundset='abcdefghi'):
     """
     Return the Pappus matroid.
 
@@ -1171,12 +1171,12 @@ def Pappus():
         2: ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
         3: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('Pappus: ' + repr(M))
     return M
 
 
-def NonPappus():
+def NonPappus(groundset='abcdefghi'):
     """
     Return the non-Pappus matroid.
 
@@ -1206,12 +1206,12 @@ def NonPappus():
         2: ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
         3: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('NonPappus: ' + repr(M))
     return M
 
 
-def TicTacToe():
+def TicTacToe(groundset='abcdefghi'):
     """
     Return the TicTacToe matroid.
 
@@ -1231,12 +1231,12 @@ def TicTacToe():
             'beghi', 'cfghi'],
         5: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('TicTacToe: ' + repr(M))
     return M
 
 
-def Q10():
+def Q10(groundset='abcdefghij'):
     r"""
     Return the matroid `Q_{10}`, represented over `\GF{4}`.
 
@@ -1276,7 +1276,7 @@ def Q10():
     return M
 
 
-def N1():
+def N1(groundset='abcdefghij'):
     r"""
     Return the matroid `N_1`, represented over `\GF{3}`.
 
@@ -1303,7 +1303,7 @@ def N1():
     return M
 
 
-def N2():
+def N2(groundset='abcdefghijkl'):
     r"""
     Return the matroid `N_2`, represented over `\GF{3}`.
 
@@ -1331,7 +1331,7 @@ def N2():
     return M
 
 
-def BetsyRoss():
+def BetsyRoss(groundset='abcdefghijk'):
     """
     Return the Betsy Ross matroid, represented by circuit closures.
 
@@ -1354,12 +1354,12 @@ def BetsyRoss():
             'egk', 'ahk', 'bik', 'cjk'],
         3: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('BetsyRoss: ' + repr(M))
     return M
 
 
-def Block_9_4():
+def Block_9_4(groundset='abcdefghi'):
     """
     Return the paving matroid whose non-spanning circuits form the blocks of a
     `2-(9, 4, 3)` design.
@@ -1380,12 +1380,12 @@ def Block_9_4():
             'cehi', 'afhi'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('Block(9, 4): ' + repr(M))
     return M
 
 
-def Block_10_5():
+def Block_10_5(groundset='abcdefghij'):
     """
     Return the paving matroid whose non-spanning circuits form the blocks of a
     `3-(10, 5, 3)` design.
@@ -1410,12 +1410,12 @@ def Block_10_5():
             'cghij'],
         5: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('Block(10, 5): ' + repr(M))
     return M
 
 
-def ExtendedBinaryGolayCode():
+def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
     """
     Return the matroid of the extended binary Golay code.
 
@@ -1451,7 +1451,7 @@ def ExtendedBinaryGolayCode():
     return M
 
 
-def ExtendedTernaryGolayCode():
+def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
     """
     Return the matroid of the extended ternary Golay code.
 
@@ -1480,7 +1480,7 @@ def ExtendedTernaryGolayCode():
     return M
 
 
-def AG23minus():
+def AG23minus(groundset='abcdefgh'):
     """
     Return the ternary affine plane minus a point.
 
@@ -1498,12 +1498,12 @@ def AG23minus():
     E = 'abcdefgh'
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
           3: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('AG23minus: ' + repr(M))
     return M
 
 
-def NotP8():
+def NotP8(groundset='abcdefgh'):
     """
     Return the matroid ``NotP8``.
 
@@ -1530,7 +1530,7 @@ def NotP8():
     return M
 
 
-def D16():  # A.K.A. the Carolyn Chun Matroid
+def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
     """
     Return the matroid `D_{16}`.
 
@@ -1563,7 +1563,7 @@ def D16():  # A.K.A. the Carolyn Chun Matroid
     return M
 
 
-def Terrahawk():  # A.K.A. the Dillon Mayhew Matroid
+def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
     """
     Return the Terrahawk matroid.
 
@@ -1594,7 +1594,7 @@ def Terrahawk():  # A.K.A. the Dillon Mayhew Matroid
     return M
 
 
-def R9A():
+def R9A(groundset='abcdefghi'):
     """
     Return the matroid `R_9^A`.
 
@@ -1614,12 +1614,12 @@ def R9A():
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'aefh', 'adgh', 'acdi', 'abfi',
               'defi', 'begi', 'bdhi', 'cehi', 'fghi'],
           4: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('R9A: ' + repr(M))
     return M
 
 
-def R9B():
+def R9B(groundset='abcdefghi'):
     """
     Return the matroid `R_9^B`.
 
@@ -1639,12 +1639,12 @@ def R9B():
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
               'abgi', 'degi', 'bdhi', 'aehi', 'fghi'],
           4: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
     M.rename('R9B: ' + repr(M))
     return M
 
 
-def T12():
+def T12(groundset='abcdefghijkl'):
     """
     Return the matroid `T_{12}`.
 
@@ -1675,7 +1675,7 @@ def T12():
     return M
 
 
-def P9():
+def P9(groundset='abcdefghi'):
     """
     Return the matroid `P_9`.
 
