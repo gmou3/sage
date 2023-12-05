@@ -2947,7 +2947,7 @@ cdef class Matroid(SageObject):
             [[1, 2], [1, 4], [2, 3, 4]]
         """
         if ordering is None:
-            ordering = sorted(self.groundset())
+            ordering = sorted(self.groundset(), key=str)
         else:
             orderset = frozenset(ordering)
             if len(orderset) != len(self.groundset()) or orderset != self.groundset():
@@ -3006,7 +3006,7 @@ cdef class Matroid(SageObject):
         cdef list rev_order
 
         if ordering is None:
-            rev_order = sorted(self.groundset(), reverse=True)
+            rev_order = sorted(self.groundset(), key=str, reverse=True)
         else:
             if frozenset(ordering) != self.groundset():
                 raise ValueError("not an ordering of the groundset")
@@ -6136,9 +6136,9 @@ cdef class Matroid(SageObject):
 
         if basis is None:
             basis = self.basis()
-        basis = sorted(basis)
+        basis = sorted(basis, key=str)
         bdx = {basis[i]: i for i in range(len(basis))}
-        E = sorted(self.groundset())
+        E = sorted(self.groundset(), key=str)
         idx = {Ei: i for i, Ei in enumerate(E)}
         A = TernaryMatrix(len(basis), len(E))
         for e in basis:
@@ -7721,7 +7721,7 @@ cdef class Matroid(SageObject):
         # Create the ambient polynomial ring
         from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
         try:
-            names = ['A{}'.format(''.join(str(x) for x in sorted(F))) for F in flats]
+            names = ['A{}'.format(''.join(str(x) for x in sorted(F, key=str))) for F in flats]
             P = PolynomialRing(R, names)
         except ValueError: # variables are not proper names
             P = PolynomialRing(R, 'A', len(flats))
@@ -8036,7 +8036,7 @@ cdef class Matroid(SageObject):
 
                         # add the facet
                         DM.add_face([f'L{i}' for i in I] +
-                                    [f'R{sorted(F)}' for F in c])
+                                    [f'R{sorted(F, key=str)}' for F in c])
         return DM
 
     def union(self, matroids):
@@ -8177,11 +8177,9 @@ cdef class Matroid(SageObject):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        CC = {}
-        for i in self.circuit_closures():
-            CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]
-        from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
-        M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC) # potentially inefficient
+        B = [[d[y] for y in list(x)] for x in self.bases()]
+        from sage.matroids.basis_matroid import BasisMatroid
+        M = BasisMatroid(groundset=E, bases=B)
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
         return M

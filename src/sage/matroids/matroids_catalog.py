@@ -11,16 +11,19 @@ matroids can be accessed from the submenu ``matroids.named_matroids.<tab>``.
 To create a custom matroid using a variety of inputs, see the function
 :func:`Matroid() <sage.matroids.constructor.Matroid>`.
 
-- Parametrized matroid constructors
-    - :func:`matroids.AG <sage.matroids.catalog.AG>`
-    - :func:`matroids.CompleteGraphic <sage.matroids.catalog.CompleteGraphic>`
-    - :func:`matroids.PG <sage.matroids.catalog.PG>`
-    - :func:`matroids.Uniform <sage.matroids.catalog.Uniform>`
-    - :func:`matroids.Wheel <sage.matroids.catalog.Wheel>`
-    - :func:`matroids.Whirl <sage.matroids.catalog.Whirl>`
+- Parametrized matroid constructors (``matroids.<tab>``)
+    - :func:`matroids.Wheel <sage.matroids.database.OxleyMatroids.Wheel>`
+    - :func:`matroids.Whirl <sage.matroids.OxleyMatroids.Whirl>`
+    - :func:`matroids.Uniform <sage.matroids.OxleyMatroids.Uniform>`
+    - :func:`matroids.PG <sage.matroids.OxleyMatroids.PG>`
+    - :func:`matroids.AG <sage.matroids.OxleyMatroids.AG>`
+    - :func:`matroids.CompleteGraphic <sage.matroids.VariousMatroids.CompleteGraphic>`
 
-- Named matroids (``matroids.named_matroids.<tab>``)
-    - :func:`matroids.named_matroids.AllNamedMatroids <sage.matroids.catalog.AllNamedMatroids>`
+- All matroids (``matroids.<tab>``)
+    - :func:`matroids.AllMatroids <sage.matroids.catalog.AllMatroids>`
+    - :func:`matroids.BrettellMatroids <sage.matroids.catalog.BrettellMatroids>`
+    - :func:`matroids.OxleyMatroids <sage.matroids.catalog.OxleyMatroids>`
+    - :func:`matroids.VariousMatroids <sage.matroids.catalog.VariousMatroids>`
 
 - List of Named matroids (``matroids.named_matroids.<tab>``)
     - :func:`matroids.named_matroids.AG23minus <sage.matroids.catalog.AG23minus>`
@@ -72,5 +75,8 @@ To create a custom matroid using a variety of inputs, see the function
 # Workaround for help in the notebook (needs parentheses in this file)
 
 # user-accessible:
-from sage.matroids.catalog import AG, CompleteGraphic, PG, Uniform, Wheel, Whirl
-from sage.matroids import named_matroids
+from sage.misc.lazy_import import lazy_import
+lazy_import('sage.matroids.database.driver_functions', ('AllMatroids', 'BrettellMatroids', 'OxleyMatroids', 'VariousMatroids'))
+lazy_import('sage.matroids.database.OxleyMatroids', ('Wheel', 'Whirl', 'Uniform', 'PG', 'AG'))
+lazy_import('sage.matroids.database.VariousMatroids', 'CompleteGraphic')
+lazy_import('sage.matroids', 'named_matroids')
