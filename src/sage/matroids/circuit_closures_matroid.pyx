@@ -250,7 +250,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             False
 
         """
-        for r in sorted(self._circuit_closures):
+        for r in sorted(self._circuit_closures, key=str):
             if len(F) <= r:
                 break
             for C in self._circuit_closures[r]:
@@ -320,7 +320,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             ...
             ValueError: no circuit in independent set
         """
-        for r in sorted(self._circuit_closures):
+        for r in sorted(self._circuit_closures, key=str):
             for C in self._circuit_closures[r]:
                 S = set(F & C)
                 if len(S) > r:

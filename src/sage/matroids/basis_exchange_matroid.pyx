@@ -1931,8 +1931,8 @@ cdef class BasisExchangeMatroid(Matroid):
             else:
                 k = min(self.full_rank() - 1, 2)
                 fie, f_vec = self._flat_element_inv(k)
-                self._weak_invariant_var = hash(tuple([tuple([(f, len(fie[f])) for f in sorted(fie)]), f_vec]))
-                self._weak_partition_var = SetSystem(self._E, [fie[f] for f in sorted(fie)])
+                self._weak_invariant_var = hash(tuple([tuple([(f, len(fie[f])) for f in sorted(fie, key=str)]), f_vec]))
+                self._weak_partition_var = SetSystem(self._E, [fie[f] for f in sorted(fie, key=str)])
         return self._weak_invariant_var
 
     cpdef _weak_partition(self) noexcept:
