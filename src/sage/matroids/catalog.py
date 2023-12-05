@@ -49,6 +49,26 @@ lazy_import('sage.rings.finite_rings.finite_field_constructor', 'GF')
 lazy_import('sage.schemes.projective.projective_space', 'ProjectiveSpace')
 
 
+def AllNamedMatroids():
+    """
+    Return an iterator of all named matroids.
+
+    EXAMPLES::
+
+        sage: for M in matroids.named_matroids.AllNamedMatroids():
+        ....:     M.is_valid()
+        True
+        True
+        True
+        ...
+    """
+    all = set()
+    lst = [R10, R12, Fano, NonFano, P6, R6, Q6, P7, Vamos, NonVamos, Pappus, NonPappus, R8, J, T8, S8, TicTacToe, Q10, N1, N2, BetsyRoss, Block_9_4, Block_10_5, ExtendedBinaryGolayCode, ExtendedTernaryGolayCode, AG23minus, NotP8, P8, P8pp, D16, Terrahawk, R9A, R9B, T12, P9, O7, AG32prime, F8, Q8, L8, K33dual, TernaryDowling3]
+    for M in lst:
+        all.add(M())
+    return iter(all)
+
+
 # The order is the same as in Oxley.
 
 
@@ -73,6 +93,9 @@ def Q6(groundset='abcdef'):
         sage: M.nonspanning_circuits() == M.noncospanning_cocircuits()                  # needs sage.rings.finite_rings
         False
     """
+    if len(groundset) != 6:
+        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+
     F = GF(4, 'x')
     x = F.gens()[0]
     A = Matrix(F, [
@@ -80,7 +103,7 @@ def Q6(groundset='abcdef'):
         [0, 1, 0, 1, 1, x],
         [0, 0, 1, 0, 1, 1]
     ])
-    M = QuaternaryMatroid(A, 'abcdef')
+    M = QuaternaryMatroid(A, groundset)
     M.rename('Q6: ' + repr(M))
     return M
 
@@ -109,6 +132,9 @@ def P6(groundset='abcdef'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 6:
+        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+
     E = 'abcdef'
     CC = {
         2: ['abc'],
@@ -140,12 +166,15 @@ def R6(groundset='abcdef'):
         sage: M.is_3connected()                                                         # needs sage.graphs
         False
     """
+    if len(groundset) != 6:
+        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 1, 1, 1],
         [0, 1, 0, 1, 2, 1],
         [0, 0, 1, 1, 0, 2]
     ])
-    M = TernaryMatroid(A, 'abcdef')
+    M = TernaryMatroid(A, groundset)
     M.rename('R6: ' + repr(M))
     return M
 
@@ -175,6 +204,7 @@ def Fano(groundset='abcdefg'):
     """
     if len(groundset) != 7:
         raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 1, 0, 1, 1],
@@ -207,12 +237,15 @@ def NonFano(groundset='abcdefg'):
         sage: M.delete('g').is_isomorphic(matroids.CompleteGraphic(4))                  # needs sage.graphs
         False
     """
+    if len(groundset) != 7:
+        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 1, 0, 1, 1],
         [0, 0, 1, 1, 1, 0, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefg')
+    M = TernaryMatroid(A, groundset)
     M.rename('NonFano: ' + repr(M))
     return M
 
@@ -236,12 +269,15 @@ def O7(groundset='abcdefg'):
         sage: M.tutte_polynomial()
         y^4 + x^3 + x*y^2 + 3*y^3 + 4*x^2 + 5*x*y + 5*y^2 + 4*x + 4*y
     """
+    if len(groundset) != 7:
+        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 1, 1, 1, 1],
         [0, 1, 0, 0, 1, 2, 2],
         [0, 0, 1, 1, 0, 1, 0]
     ])
-    M = TernaryMatroid(A, 'abcdefg')
+    M = TernaryMatroid(A, groundset)
     M.rename('O7: ' + repr(M))
     return M
 
@@ -267,12 +303,15 @@ def P7(groundset='abcdefg'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 7:
+        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 2, 1, 1, 0],
         [0, 1, 0, 1, 1, 0, 1],
         [0, 0, 1, 1, 0, 1, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefg')
+    M = TernaryMatroid(A, groundset)
     M.rename('P7: ' + repr(M))
     return M
 
@@ -309,6 +348,9 @@ def AG32prime(groundset='abcdefgh'):
         sage: M.is_valid()                      # long time, needs sage.rings.finite_rings
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {
         3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'abed',
@@ -341,13 +383,16 @@ def R8(groundset='abcdefgh'):
         sage: M.has_minor(matroids.named_matroids.Fano())
         False
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 2, 1, 1, 1],
         [0, 1, 0, 0, 1, 2, 1, 1],
         [0, 0, 1, 0, 1, 1, 2, 1],
         [0, 0, 0, 1, 1, 1, 1, 2]
     ])
-    M = TernaryMatroid(A, 'abcdefgh')
+    M = TernaryMatroid(A, groundset)
     M.rename('R8: ' + repr(M))
     return M
 
@@ -380,6 +425,9 @@ def F8(groundset='abcdefgh'):
         sage: M.is_valid()                      # long time, needs sage.rings.finite_rings
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {
         3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'abed',
@@ -420,6 +468,9 @@ def Q8(groundset='abcdefgh'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {
         3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'abed',
@@ -453,6 +504,9 @@ def L8(groundset='abcdefgh'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {
         3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'aceg', 'bdfh'],
@@ -496,6 +550,7 @@ def S8(groundset='abcdefgh'):
     """
     if len(groundset) != 8:
         raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 0, 1, 0, 1, 1],
@@ -533,6 +588,9 @@ def Vamos(groundset='abcdefgh'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {
         3: ['abcd', 'abef', 'cdef', 'abgh', 'efgh'],
@@ -564,13 +622,16 @@ def T8(groundset='abcdefgh'):
         False
 
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 0, 1, 0, 1, 1],
         [0, 0, 1, 0, 1, 1, 0, 1],
         [0, 0, 0, 1, 1, 1, 1, 0]
     ])
-    M = TernaryMatroid(A, 'abcdefgh')
+    M = TernaryMatroid(A, groundset)
     M.rename('T8: ' + repr(M))
     return M
 
@@ -597,13 +658,16 @@ def J(groundset='abcdefgh'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 1, 1, 1],
         [0, 1, 0, 0, 1, 1, 0, 0],
         [0, 0, 1, 0, 1, 0, 1, 0],
         [0, 0, 0, 1, 1, 0, 0, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefgh')
+    M = TernaryMatroid(A, groundset)
     M.rename('J: ' + repr(M))
     return M
 
@@ -631,13 +695,16 @@ def P8(groundset='abcdefgh'):
         2
 
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 2, 1, 1, 0],
         [0, 1, 0, 0, 1, 1, 0, 1],
         [0, 0, 1, 0, 1, 0, 1, 1],
         [0, 0, 0, 1, 0, 1, 1, 2]
     ])
-    M = TernaryMatroid(A, 'abcdefgh')
+    M = TernaryMatroid(A, groundset)
     M.rename('P8: ' + repr(M))
     return M
 
@@ -671,6 +738,9 @@ def P8pp(groundset='abcdefgh'):
         True
 
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {3: ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh'],
           4: [E]}
@@ -699,11 +769,14 @@ def K33dual(groundset='abcdefghi'):
         sage: M.is_valid()                      # long time, needs sage.graphs
         True
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     from sage.graphs.graph_generators import graphs
 
     E = 'abcdefghi'
     G = graphs.CompleteBipartiteGraph(3, 3)
-    M = Matroid(groundset=E, graph=G, regular=True)
+    M = Matroid(groundset=E, graph=G, regular=True).relabel(dict(zip(E,groundset)))
     M = M.dual()
     M.rename('M*(K3, 3): ' + repr(M))
     return M
@@ -730,12 +803,15 @@ def TernaryDowling3(groundset='abcdefghi'):
         {'a': 2, 'b': 1, 'd': 1}
 
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 1, 1, 0, 0, 1, 1],
         [0, 1, 0, 2, 1, 1, 1, 0, 0],
         [0, 0, 1, 0, 0, 2, 1, 2, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefghi')
+    M = TernaryMatroid(A, groundset)
     M.rename('Q3(GF(3)x): ' + repr(M))
     return M
 
@@ -1063,6 +1139,7 @@ def R10(groundset='abcdefghij'):
     """
     if len(groundset) != 10:
         raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+
     A = Matrix(ZZ, [
         [1, 0, 0, 0, 0, -1, 1, 0, 0, 1],
         [0, 1, 0, 0, 0, 1, -1, 1, 0, 0],
@@ -1098,6 +1175,7 @@ def R12(groundset='abcdefghijkl'):
     """
     if len(groundset) != 12:
         raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+
     A = Matrix(ZZ, [
         [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
         [0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
@@ -1135,6 +1213,9 @@ def NonVamos(groundset='abcdefgh'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {
         3: ['abcd', 'abef', 'cdef', 'abgh', 'cdgh', 'efgh'],
@@ -1173,6 +1254,9 @@ def Pappus(groundset='abcdefghi'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     E = 'abcdefghi'
     CC = {
         2: ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
@@ -1208,6 +1292,9 @@ def NonPappus(groundset='abcdefghi'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     E = 'abcdefghi'
     CC = {
         2: ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
@@ -1232,6 +1319,9 @@ def TicTacToe(groundset='abcdefghi'):
         True
 
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     E = 'abcdefghi'
     CC = {
         4: ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi',
@@ -1269,6 +1359,9 @@ def Q10(groundset='abcdefghij'):
         sage: [M for M in S if not M.has_line_minor(5)]         # long time, needs sage.rings.finite_rings
         []
     """
+    if len(groundset) != 10:
+        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+
     F = GF(4, 'x')
     x = F.gens()[0]
     A = Matrix(F, [
@@ -1278,7 +1371,7 @@ def Q10(groundset='abcdefghij'):
         [0, 0, 0, 1, 0, 0, 0, x + 1, 1, x],
         [0, 0, 0, 0, 1, x, 0, 0, x + 1, 1]
     ])
-    M = QuaternaryMatroid(A, 'abcdefghij')
+    M = QuaternaryMatroid(A, groundset)
     M.rename('Q10: ' + repr(M))
     return M
 
@@ -1298,6 +1391,9 @@ def N1(groundset='abcdefghij'):
         True
 
     """
+    if len(groundset) != 10:
+        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 2, 0, 0, 1, 1],
         [0, 1, 0, 0, 0, 1, 2, 0, 0, 1],
@@ -1325,6 +1421,9 @@ def N2(groundset='abcdefghijkl'):
         True
 
     """
+    if len(groundset) != 12:
+        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1],
         [0, 1, 0, 0, 0, 0, 1, 2, 0, 0, 0, 1],
@@ -1333,7 +1432,7 @@ def N2(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1],
         [0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 0, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefghijkl')
+    M = TernaryMatroid(A, groundset)
     M.rename('N2: ' + repr(M))
     return M
 
@@ -1355,6 +1454,9 @@ def BetsyRoss(groundset='abcdefghijk'):
         sage: M.is_valid() # long time
         True
     """
+    if len(groundset) != 11:
+        raise ValueError("The groundset should be of size 11 (%s given)" % len(groundset))
+
     E = 'abcdefghijk'
     CC = {
         2: ['acfg', 'bdgh', 'cehi', 'befj', 'adij', 'dfk',
@@ -1380,6 +1482,9 @@ def Block_9_4(groundset='abcdefghi'):
         sage: BD.is_t_design(return_parameters=True)                                    # needs sage.graphs
         (True, (2, 9, 4, 3))
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     E = 'abcdefghi'
     CC = {
         3: ['abcd', 'acef', 'bdef', 'cdeg', 'abfg', 'adeh', 'bcfh', 'acgh',
@@ -1406,6 +1511,8 @@ def Block_10_5(groundset='abcdefghij'):
         sage: BD.is_t_design(return_parameters=True)                                    # needs sage.graphs
         (True, (3, 10, 5, 3))
     """
+    if len(groundset) != 10:
+        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
 
     E = 'abcdefghij'
     CC = {
@@ -1441,6 +1548,7 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
     """
     if len(groundset) != 24:
         raise ValueError("The groundset should be of size 24 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
         [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],
@@ -1476,6 +1584,9 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 12:
+        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 0],
         [0, 1, 0, 0, 0, 0, 1, 1, 2, 1, 0, 2],
@@ -1484,7 +1595,7 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 1, 0, 1, 0, 2, 2, 1, 1],
         [0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefghijkl')
+    M = TernaryMatroid(A, groundset)
     M.rename('Extended Ternary Golay Code: ' + repr(M))
     return M
 
@@ -1504,6 +1615,9 @@ def AG23minus(groundset='abcdefgh'):
         True
 
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     E = 'abcdefgh'
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
           3: [E]}
@@ -1528,13 +1642,16 @@ def NotP8(groundset='abcdefgh'):
         sage: M.is_valid()
         True
     """
+    if len(groundset) != 8:
+        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 1, 1, -1],
         [0, 1, 0, 0, 1, 0, 1, 1],
         [0, 0, 1, 0, 1, 1, 0, 1],
         [0, 0, 0, 1, -1, 1, 1, 1]
     ])
-    M = TernaryMatroid(A, 'abcdefgh')
+    M = TernaryMatroid(A, groundset)
     M.rename('NotP8: ' + repr(M))
     return M
 
@@ -1559,6 +1676,7 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
     """
     if len(groundset) != 16:
         raise ValueError("The groundset should be of size 16 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
         [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
@@ -1592,6 +1710,7 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
     """
     if len(groundset) != 16:
         raise ValueError("The groundset should be of size 16 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -1623,6 +1742,9 @@ def R9A(groundset='abcdefghi'):
         True
 
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     E = 'abcdefghi'
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'aefh', 'adgh', 'acdi', 'abfi',
               'defi', 'begi', 'bdhi', 'cehi', 'fghi'],
@@ -1648,6 +1770,9 @@ def R9B(groundset='abcdefghi'):
         True
 
     """
+    if len(groundset) != 9:
+        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     E = 'abcdefghi'
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
               'abgi', 'degi', 'bdhi', 'aehi', 'fghi'],
@@ -1677,6 +1802,7 @@ def T12(groundset='abcdefghijkl'):
     """
     if len(groundset) != 12:
         raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
         [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
@@ -1707,6 +1833,7 @@ def P9(groundset='abcdefghi'):
     """
     if len(groundset) != 9:
         raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 0, 0, 1, 1],
         [0, 1, 0, 0, 1, 1, 0, 0, 1],

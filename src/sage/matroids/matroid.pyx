@@ -8131,7 +8131,7 @@ cdef class Matroid(SageObject):
         matroids.insert(0, self)
         return union_matroid.MatroidSum(iter(matroids))
 
-    def _relabel_map(self, l):
+    cpdef _relabel_map(self, l) noexcept:
         E = set()
         d = {}
         for x in self.groundset():
@@ -8147,3 +8147,41 @@ cdef class Matroid(SageObject):
         if len(E) != len(self.groundset()):
             raise ValueError("Given map doesn't relabel the groundset properly")
         return d
+
+    cpdef relabel(self, l) noexcept:
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        """
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        CC = {}
+        for i in self.circuit_closures():
+            CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]
+        from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
+        M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC) # potentially inefficient
+        if not self.is_isomorphic(M):
+            raise ValueError("Relabeled matroid is not isomorphic to original")
+        return M

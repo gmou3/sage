@@ -2061,18 +2061,15 @@ class GraphicMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
-            sage: sorted(M.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
+            sage: M = matroids.CompleteGraphic(4)
+            sage: M.groundset()
+            frozenset({0, 1, 2, 3, 4, 5})
+            sage: N = M.relabel({0:6, 5:'e'})
             sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
-
+            frozenset({1, 2, 3, 4, 6, 'e'})
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        from sage.matroids.graphic_matroid import GraphicMatroid
         M = GraphicMatroid(self.graph(), groundset=E)
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")

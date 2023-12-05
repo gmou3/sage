@@ -2982,7 +2982,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         data = (A, gs, reduced, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_linear_matroid, (version, data)
 
-    cpdef relabel(self, l):
+    cpdef relabel(self, l) noexcept:
         """
         Return an isomorphic matroid with relabeled groundset.
 
@@ -3011,7 +3011,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        from sage.matroids.linear_matroid import LinearMatroid
         M = LinearMatroid(groundset=E, matrix=self._matrix_())
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
@@ -4085,7 +4084,7 @@ cdef class BinaryMatroid(LinearMatroid):
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_binary_matroid, (version, data)
 
-    cpdef relabel(self, l):
+    cpdef relabel(self, l) noexcept:
         """
         Return an isomorphic matroid with relabeled groundset.
 
@@ -4114,7 +4113,6 @@ cdef class BinaryMatroid(LinearMatroid):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        from sage.matroids.linear_matroid import BinaryMatroid
         M = BinaryMatroid(groundset=E, matrix=self._matrix_())
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
@@ -5018,7 +5016,7 @@ cdef class TernaryMatroid(LinearMatroid):
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_ternary_matroid, (version, data)
 
-    cpdef relabel(self, l):
+    cpdef relabel(self, l) noexcept:
         """
         Return an isomorphic matroid with relabeled groundset.
 
@@ -5047,7 +5045,6 @@ cdef class TernaryMatroid(LinearMatroid):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        from sage.matroids.linear_matroid import TernaryMatroid
         M = TernaryMatroid(groundset=E, matrix=self._matrix_())
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
@@ -5780,7 +5777,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_quaternary_matroid, (version, data)
 
-    cpdef relabel(self, l):
+    cpdef relabel(self, l) noexcept:
         """
         Return an isomorphic matroid with relabeled groundset.
 
@@ -5809,7 +5806,6 @@ cdef class QuaternaryMatroid(LinearMatroid):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        from sage.matroids.linear_matroid import QuaternaryMatroid
         M = QuaternaryMatroid(groundset=E, matrix=self._matrix_())
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
@@ -6736,7 +6732,7 @@ cdef class RegularMatroid(LinearMatroid):
         data = (A, gs, reduced, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_regular_matroid, (version, data)
 
-    cpdef relabel(self, l):
+    cpdef relabel(self, l) noexcept:
         """
         Return an isomorphic matroid with relabeled groundset.
 
@@ -6765,7 +6761,6 @@ cdef class RegularMatroid(LinearMatroid):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
-        from sage.matroids.linear_matroid import RegularMatroid
         M = RegularMatroid(groundset=E, matrix=self._matrix_())
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
