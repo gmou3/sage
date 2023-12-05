@@ -521,7 +521,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         cdef frozenset se = frozenset([e])
         return BasisMatroid(groundset=self._E + (e,), bases=[B | se for B in self.bases()])
 
-    cpdef relabel(self, l):
+    cpdef relabel(self, l) noexcept:
         """
         Return an isomorphic matroid with relabeled groundset.
 
@@ -559,7 +559,6 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
         B = [[d[y] for y in list(x)] for x in self.bases()]
-        from sage.matroids.basis_matroid import BasisMatroid
         M = BasisMatroid(groundset=E, bases=B)
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")

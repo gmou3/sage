@@ -20,6 +20,9 @@ To create a custom matroid using a variety of inputs, see the function
     - :func:`matroids.Whirl <sage.matroids.catalog.Whirl>`
 
 - Named matroids (``matroids.named_matroids.<tab>``)
+    - :func:`matroids.named_matroids.AllNamedMatroids <sage.matroids.catalog.AllNamedMatroids>`
+
+- List of Named matroids (``matroids.named_matroids.<tab>``)
     - :func:`matroids.named_matroids.AG23minus <sage.matroids.catalog.AG23minus>`
     - :func:`matroids.named_matroids.AG32prime <sage.matroids.catalog.AG32prime>`
     - :func:`matroids.named_matroids.BetsyRoss <sage.matroids.catalog.BetsyRoss>`

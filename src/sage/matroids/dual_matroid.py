@@ -583,14 +583,6 @@ class DualMatroid(Matroid):
         where ``l`` is a given injective map. If ``e not in l`` then the
         identity map is assumed.
 
-        INPUT:
-
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
-
-        OUTPUT:
-
-        A matroid.
-
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *

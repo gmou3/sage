@@ -572,13 +572,38 @@ cdef class CircuitClosuresMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_circuit_closures_matroid, (version, data)
 
-    def relabel(self, l):
+    cpdef relabel(self, l) noexcept:
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = CircuitClosuresMatroid(matroids.named_matroids.Fano())
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
         CC = {}
         for i in self.circuit_closures():
             CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]
-        from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
         M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
         if not self.is_isomorphic(M):
             raise ValueError("Relabeled matroid is not isomorphic to original")
