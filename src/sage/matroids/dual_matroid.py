@@ -585,16 +585,15 @@ class DualMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: M = matroids.named_matroids.FanoDual([0,1,2,3,4,5,6])
             sage: sorted(M.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
+            [0, 1, 2, 3, 4, 5, 6]
+            sage: N = M.dual().relabel({0:7})
             sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            [1, 2, 3, 4, 5, 6, 7]
+            sage: N.is_isomorphic(matroids.named_matroids.Fano())
+            True
 
         """
         M = self._matroid.relabel(l).dual()
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M

@@ -1,3 +1,23 @@
+r"""
+Documentation for the matroids in the catalog
+
+This module contains implementations for many of the functions accessible
+through :mod:`matroids. <sage.matroids.matroids_catalog>` and
+:mod:`matroids.named_matroids. <sage.matroids.matroids_catalog>`
+(type those lines in Sage and hit ``tab`` for a list).
+
+The docstrings include educational information about each named matroid with
+the hopes that this class can be used as a reference. However, for a more
+comprehensive list of properties we refer to the appendix of [Oxl2011]_.
+
+AUTHORS:
+
+- Nick Brettell (?-?-?): initial version
+- Giorgos Mousa (?-?-?): import to SageMath
+
+Functions
+=========
+"""
 from sage.matrix.constructor import Matrix
 from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
 from sage.matroids.linear_matroid import TernaryMatroid, QuaternaryMatroid

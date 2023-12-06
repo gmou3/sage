@@ -21,7 +21,7 @@ comprehensive list of properties we refer to the appendix of [Oxl2011]_.
 AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-- Giorgos Mousa (?-?-?): reorganization
+- Giorgos Mousa (?-?-?): reorganization, optional groundset
 
 Functions
 =========
@@ -73,6 +73,16 @@ def CompleteGraphic(n, groundset=None):
         {0, 1, 2, 4, 5, 7}
         sage: M.is_valid()
         True
+        sage: N = matroids.CompleteGraphic(3, 'abcd')
+        Traceback (most recent call last):
+        ...
+        ValueError: The groundset should be of size 3 (4 given)
+        sage: N = matroids.CompleteGraphic(6, 'abcdefghijklmno')
+        sage: sorted(N.groundset())
+        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o']
+        sage: N.is_isomorphic(matroids.CompleteGraphic(6))
+        True
+
     """
     from sage.graphs.graph_generators import graphs
 

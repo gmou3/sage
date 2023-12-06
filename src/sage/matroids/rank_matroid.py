@@ -335,13 +335,14 @@ class RankMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: M = matroids.named_matroids.Sp8pp()
             sage: sorted(M.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
+            [1, 2, 3, 4, 5, 6, 7, 8]
+            sage: N = M.relabel({8:0})
             sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            [0, 1, 2, 3, 4, 5, 6, 7]
+            sage: M.is_isomorphic(N)
+            True
 
         """
         d = self._relabel_map(l)
@@ -351,6 +352,4 @@ class RankMatroid(Matroid):
             X_inv = [d_inv[x] for x in X]
             return self._rank_function(X_inv)
         M = RankMatroid(groundset=E, rank_function=f_relabel)
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M

@@ -591,12 +591,14 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = CircuitClosuresMatroid(matroids.named_matroids.Fano())
+            sage: M = CircuitClosuresMatroid(matroids.named_matroids.relaxedNonFano())
             sage: sorted(M.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
-            sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            [0, 1, 2, 3, 4, 5, 6]
+            sage: N = M.relabel({'g':'x', 0:'z'}) # 'g':'x' is ignored
+            sage: sorted(N.groundset(), key=str)
+            [1, 2, 3, 4, 5, 6, 'z']
+            sage: M.is_isomorphic(N)
+            True
 
         """
         d = self._relabel_map(l)
@@ -605,8 +607,6 @@ cdef class CircuitClosuresMatroid(Matroid):
         for i in self.circuit_closures():
             CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]
         M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
 
 # todo: customized minor, extend methods.
