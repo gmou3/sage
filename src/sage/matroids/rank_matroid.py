@@ -316,3 +316,40 @@ class RankMatroid(Matroid):
 
         """
         raise TypeError("unfortunately, functions cannot be saved reliably, so this class doesn't have load/save support. Convert to another class, such as BasisMatroid, instead.")
+
+    def relabel(self, l):
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: M = matroids.named_matroids.Sp8pp()
+            sage: sorted(M.groundset())
+            [1, 2, 3, 4, 5, 6, 7, 8]
+            sage: N = M.relabel({8:0})
+            sage: sorted(N.groundset())
+            [0, 1, 2, 3, 4, 5, 6, 7]
+            sage: M.is_isomorphic(N)
+            True
+
+        """
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        def f_relabel(X):
+            d_inv = {d[x]:x for x in self.groundset()}
+            X_inv = [d_inv[x] for x in X]
+            return self._rank_function(X_inv)
+        M = RankMatroid(groundset=E, rank_function=f_relabel)
+        return M

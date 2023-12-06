@@ -189,15 +189,15 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         if M is not None:
             rank = M.full_rank()
             nonbases = M.nonbases()
-            groundset = sorted(M.groundset())
+            groundset = sorted(M.groundset(), key=str)
 
         if groundset is None:
             groundset = frozenset()
         if rank is None:
             if bases is not None:
-                rank = len(min(bases))
+                rank = len(bases[0])
             elif nonbases is not None:
-                rank = len(min(nonbases))
+                rank = len(nonbases[0])
             else:
                 rank = 0
 
@@ -551,13 +551,17 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             sage: M = BasisMatroid(matroids.named_matroids.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
-            sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: N = M.relabel({'a':0, 'g':'x'})
+            sage: sorted(N.groundset(), key=str)
+            [0, 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: N.is_isomorphic(M)
+            True
 
         """
-        M = BasisMatroid(M=self)
-        M._relabel(l)
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        B = [[d[y] for y in list(x)] for x in self.bases()]
+        M = BasisMatroid(groundset=E, bases=B)
         return M
 
     # enumeration
@@ -698,8 +702,8 @@ cdef class BasisMatroid(BasisExchangeMatroid):
                 bi[bc[e]].append(e)
             else:
                 bi[bc[e]] = [e]
-        self._bases_invariant_var = hash(tuple([(c, len(bi[c])) for c in sorted(bi)]))
-        self._bases_partition_var = SetSystem(self._E, [[self._E[e] for e in bi[c]] for c in sorted(bi)])
+        self._bases_invariant_var = hash(tuple([(c, len(bi[c])) for c in sorted(bi, key=str)]))
+        self._bases_partition_var = SetSystem(self._E, [[self._E[e] for e in bi[c]] for c in sorted(bi, key=str)])
         return self._bases_invariant_var
 
     cpdef _bases_partition(self) noexcept:

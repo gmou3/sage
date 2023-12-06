@@ -191,45 +191,6 @@ cdef class BasisExchangeMatroid(Matroid):
         bitset_free(self._output)
         bitset_free(self._temp)
 
-    cdef _relabel(self, l) noexcept:
-        """
-        Relabel each element `e` as `l[e]`, where `l` is a given injective map.
-
-        INPUT:
-
-        - `l`, a python object such that `l[e]` is the new label of e.
-
-        OUTPUT:
-
-        ``None``.
-
-        NOTE:
-        For internal use. Matroids are immutable but this method does modify the matroid. The use this method will only
-        be safe in very limited circumstances, such as perhaps on a fresh copy of a matroid.
-
-        """
-        cdef long i
-        E = []
-        for i in range(self._groundset_size):
-            if self._E[i] in l:
-                E.append(l[self._E[i]])
-            else:
-                E.append(self._E[i])
-        self._E = tuple(E)
-        self._groundset = frozenset(E)
-
-        self._idx = {}
-        for i in range(self._groundset_size):
-            self._idx[self._E[i]] = i
-
-        if self._weak_partition_var:
-            self._weak_partition_var._relabel(l)
-
-        if self._strong_partition_var:
-            self._strong_partition_var._relabel(l)
-        if self._heuristic_partition_var:
-            self._heuristic_partition_var._relabel(l)
-
     # the engine
     cdef _pack(self, bitset_t I, F) noexcept:
         """
@@ -1970,8 +1931,8 @@ cdef class BasisExchangeMatroid(Matroid):
             else:
                 k = min(self.full_rank() - 1, 2)
                 fie, f_vec = self._flat_element_inv(k)
-                self._weak_invariant_var = hash(tuple([tuple([(f, len(fie[f])) for f in sorted(fie)]), f_vec]))
-                self._weak_partition_var = SetSystem(self._E, [fie[f] for f in sorted(fie)])
+                self._weak_invariant_var = hash(tuple([tuple([(f, len(fie[f])) for f in sorted(fie, key=str)]), f_vec]))
+                self._weak_partition_var = SetSystem(self._E, [fie[f] for f in sorted(fie, key=str)])
         return self._weak_invariant_var
 
     cpdef _weak_partition(self) noexcept:

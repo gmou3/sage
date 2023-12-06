@@ -573,3 +573,27 @@ class DualMatroid(Matroid):
         data = (self._matroid, self.get_custom_name())
         version = 0
         return sage.matroids.unpickling.unpickle_dual_matroid, (version, data)
+
+
+    def relabel(self, l):
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        EXAMPLES::
+
+            sage: M = matroids.named_matroids.FanoDual([0,1,2,3,4,5,6])
+            sage: sorted(M.groundset())
+            [0, 1, 2, 3, 4, 5, 6]
+            sage: N = M.dual().relabel({0:7})
+            sage: sorted(N.groundset())
+            [1, 2, 3, 4, 5, 6, 7]
+            sage: N.is_isomorphic(matroids.named_matroids.Fano())
+            True
+
+        """
+        M = self._matroid.relabel(l).dual()
+        return M

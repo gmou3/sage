@@ -250,7 +250,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             False
 
         """
-        for r in sorted(self._circuit_closures):
+        for r in sorted(self._circuit_closures, key=str):
             if len(F) <= r:
                 break
             for C in self._circuit_closures[r]:
@@ -320,7 +320,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             ...
             ValueError: no circuit in independent set
         """
-        for r in sorted(self._circuit_closures):
+        for r in sorted(self._circuit_closures, key=str):
             for C in self._circuit_closures[r]:
                 S = set(F & C)
                 if len(S) > r:
@@ -571,5 +571,42 @@ cdef class CircuitClosuresMatroid(Matroid):
         data = (self._groundset, self._circuit_closures, self.get_custom_name())
         version = 0
         return sage.matroids.unpickling.unpickle_circuit_closures_matroid, (version, data)
+
+    cpdef relabel(self, l) noexcept:
+        """
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``l[e]``,
+        where ``l`` is a given injective map. If ``e not in l`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = CircuitClosuresMatroid(matroids.named_matroids.relaxedNonFano())
+            sage: sorted(M.groundset())
+            [0, 1, 2, 3, 4, 5, 6]
+            sage: N = M.relabel({'g':'x', 0:'z'}) # 'g':'x' is ignored
+            sage: sorted(N.groundset(), key=str)
+            [1, 2, 3, 4, 5, 6, 'z']
+            sage: M.is_isomorphic(N)
+            True
+
+        """
+        d = self._relabel_map(l)
+        E = [d[x] for x in self.groundset()]
+        CC = {}
+        for i in self.circuit_closures():
+            CC[i] = [[d[y] for y in x] for x in list(self.circuit_closures()[i])]
+        M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+        return M
 
 # todo: customized minor, extend methods.
