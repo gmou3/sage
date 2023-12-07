@@ -17,7 +17,7 @@ comprehensive list of properties we refer to the appendix of [Oxl2011]_.
 AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-- Giorgos Mousa, Andreas Triantafyllos (?-?-?): optional groundset, reorganization
+- Giorgos Mousa, Andreas Triantafyllos (?-?-?): reorganization, optional groundset
 
 Functions
 =========

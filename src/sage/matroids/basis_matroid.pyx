@@ -195,9 +195,9 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             groundset = frozenset()
         if rank is None:
             if bases is not None:
-                rank = len(min(bases))
+                rank = len(bases[0])
             elif nonbases is not None:
-                rank = len(min(nonbases))
+                rank = len(nonbases[0])
             else:
                 rank = 0
 
@@ -551,17 +551,17 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             sage: M = BasisMatroid(matroids.named_matroids.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
-            sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: N = M.relabel({'a':0, 'g':'x'})
+            sage: sorted(N.groundset(), key=str)
+            [0, 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: N.is_isomorphic(M)
+            True
 
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
         B = [[d[y] for y in list(x)] for x in self.bases()]
         M = BasisMatroid(groundset=E, bases=B)
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
 
     # enumeration

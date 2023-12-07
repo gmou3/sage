@@ -2062,15 +2062,16 @@ class GraphicMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.CompleteGraphic(4)
-            sage: M.groundset()
-            frozenset({0, 1, 2, 3, 4, 5})
+            sage: sorted(M.groundset())
+            [0, 1, 2, 3, 4, 5]
             sage: N = M.relabel({0:6, 5:'e'})
-            sage: sorted(N.groundset())
-            frozenset({1, 2, 3, 4, 6, 'e'})
+            sage: sorted(N.groundset(), key=str)
+            [1, 2, 3, 4, 6, 'e']
+            sage: N.is_isomorphic(M)
+            True
+
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
         M = GraphicMatroid(self.graph(), groundset=E)
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M

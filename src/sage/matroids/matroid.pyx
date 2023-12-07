@@ -8173,6 +8173,8 @@ cdef class Matroid(SageObject):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: M.is_isomorphic(N)
+            True
 
         """
         d = self._relabel_map(l)
@@ -8180,6 +8182,4 @@ cdef class Matroid(SageObject):
         B = [[d[y] for y in list(x)] for x in self.bases()]
         from sage.matroids.basis_matroid import BasisMatroid
         M = BasisMatroid(groundset=E, bases=B)
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
