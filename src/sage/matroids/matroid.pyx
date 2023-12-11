@@ -8151,7 +8151,7 @@ cdef class Matroid(SageObject):
                 try:
                     E.add(l[x])
                     d[x] = l[x]
-                except:
+                except TypeError:
                     raise TypeError("Invalid map given")
             else:
                 E.add(x)
