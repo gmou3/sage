@@ -591,7 +591,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = CircuitClosuresMatroid(matroids.named_matroids.relaxedNonFano())
+            sage: M = CircuitClosuresMatroid(matroids.named_matroids.RelaxedNonFano())
             sage: sorted(M.groundset())
             [0, 1, 2, 3, 4, 5, 6]
             sage: N = M.relabel({'g':'x', 0:'z'}) # 'g':'x' is ignored
