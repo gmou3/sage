@@ -574,7 +574,6 @@ class DualMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_dual_matroid, (version, data)
 
-
     def relabel(self, l):
         """
         Return an isomorphic matroid with relabeled groundset.
@@ -582,6 +581,14 @@ class DualMatroid(Matroid):
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
         where ``l`` is a given injective map. If ``e not in l`` then the
         identity map is assumed.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A matroid.
 
         EXAMPLES::
 

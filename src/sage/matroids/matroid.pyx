@@ -8132,6 +8132,18 @@ cdef class Matroid(SageObject):
         return union_matroid.MatroidSum(iter(matroids))
 
     cpdef _relabel_map(self, l) noexcept:
+        """
+        Return a map from the groundset to the relabeled groundset
+        and check that the mapping defined by ``l`` is valid.
+
+        INPUT:
+
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+
+        OUTPUT:
+
+        A map.
+        """
         E = set()
         d = {}
         for x in self.groundset():
@@ -8175,7 +8187,6 @@ cdef class Matroid(SageObject):
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
             sage: M.is_isomorphic(N)
             True
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
