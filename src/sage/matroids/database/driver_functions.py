@@ -49,9 +49,9 @@ def AllMatroids(n, r=-1, type='all'):
 
     TESTS::
 
-        # sage: cnts = [1, 2, 5, 8, 17, 38, 98, 306, 1724, 383172]
-        # sage: for i in range(0, 9 + 1):
-        # ....:     assert len(matroids.AllMatroids(i)) == cnts[i]
+        sage: cnts = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
+        sage: for i in range(0, 8 + 1):
+        ....:     assert len(list(matroids.AllMatroids(i))) == cnts[i]
     """
     Matroids = []
     if r == -1:
