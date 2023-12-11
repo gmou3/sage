@@ -29,12 +29,12 @@ def AllMatroids(n, r=-1, type='all'):
     INPUT:
 
     - ``n`` -- an integer (1 <= n <= 9).
-    The number of elements of the matroids.
+      The number of elements of the matroids.
     - ``r`` -- (optional) an integer (1 <= r <= n).
-    The rank of the matroids.
+      The rank of the matroids.
     - ``type`` -- (default: ``all``) a string.
-    The type of the matroids, either ``all``, ``simple``,
-    or ``unorientable``.
+      The type of the matroids, either ``all``, ``simple``,
+      or ``unorientable``.
 
     OUTPUT:
 
