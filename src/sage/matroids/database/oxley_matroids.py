@@ -17,7 +17,8 @@ comprehensive list of properties we refer to the appendix of [Oxl2011]_.
 AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-- Giorgos Mousa, Andreas Triantafyllos (?-?-?): reorganization, optional groundset
+- Giorgos Mousa, Andreas Triantafyllos (2023-12-08): reorganization,
+                                                     optional groundset
 
 Functions
 =========
@@ -35,67 +36,81 @@ Functions
 from sage.matrix.constructor import Matrix
 from sage.matroids.constructor import Matroid
 from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
-from sage.matroids.linear_matroid import RegularMatroid, BinaryMatroid, TernaryMatroid, QuaternaryMatroid
-from sage.matroids.database.VariousMatroids import CompleteGraphic
-from sage.misc.lazy_import import lazy_import
+from sage.matroids.linear_matroid import (
+    RegularMatroid,
+    BinaryMatroid,
+    TernaryMatroid,
+    QuaternaryMatroid,
+)
+from sage.matroids.database.various_matroids import CompleteGraphic
 from sage.rings.integer_ring import ZZ
-
-lazy_import('sage.rings.finite_rings.finite_field_constructor', 'GF')
-lazy_import('sage.schemes.projective.projective_space', 'ProjectiveSpace')
+from sage.rings.finite_rings.finite_field_constructor import GF
+from sage.schemes.projective.projective_space import ProjectiveSpace
 
 
 # The order is the same as in Oxley.
 
-def U24(groundset='abcd'):
+
+def U24(groundset="abcd"):
     if len(groundset) != 4:
-        raise ValueError("The groundset should be of size 4 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 4 (%s given)" % len(groundset)
+        )
 
-    E = 'abcd'
-    M = Uniform(2,4).relabel(dict(zip(E,groundset)))
-    M.rename('U(2,4): ' + repr(M))
+    E = "abcd"
+    M = Uniform(2, 4).relabel(dict(zip(E, groundset)))
+    M.rename("U(2, 4): " + repr(M))
     return M
 
 
-def U25(groundset='abcde'):
+def U25(groundset="abcde"):
     if len(groundset) != 5:
-        raise ValueError("The groundset should be of size 5 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 5 (%s given)" % len(groundset)
+        )
 
-    E = 'abcde'
-    M = Uniform(2,5).relabel(dict(zip(E,groundset)))
-    M.rename('U(2,5): ' + repr(M))
+    E = "abcde"
+    M = Uniform(2, 5).relabel(dict(zip(E, groundset)))
+    M.rename("U(2, 5): " + repr(M))
     return M
 
 
-def U35(groundset='abcde'):
+def U35(groundset="abcde"):
     if len(groundset) != 5:
-        raise ValueError("The groundset should be of size 5 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 5 (%s given)" % len(groundset)
+        )
 
-    E = 'abcde'
-    M = Uniform(3,5).relabel(dict(zip(E,groundset)))
-    M.rename('U(3,5): ' + repr(M))
+    E = "abcde"
+    M = Uniform(3, 5).relabel(dict(zip(E, groundset)))
+    M.rename("U(3, 5): " + repr(M))
     return M
 
 
-def K4(groundset='abcdef'):
+def K4(groundset="abcdef"):
     if len(groundset) != 6:
-        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 6 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdef'
-    M = CompleteGraphic(4, groundset)
+    E = "abcdef"
+    M = CompleteGraphic(4).relabel(dict(zip(E, groundset)))
     return M
 
 
-def Whirl3(groundset='abcdef'):
+def Whirl3(groundset="abcdef"):
     if len(groundset) != 6:
-        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 6 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdef'
-    M = Whirl(3).relabel(dict(zip(E,groundset)))
-    M.rename('Whirl(3): ' + repr(M))
+    E = "abcdef"
+    M = Whirl(3).relabel(dict(zip(E, groundset)))
+    M.rename("Whirl(3): " + repr(M))
     return M
 
 
-def Q6(groundset='abcdef'):
+def Q6(groundset="abcdef"):
     """
     Return the matroid `Q_6`, represented over `GF(4)`.
 
@@ -117,21 +132,19 @@ def Q6(groundset='abcdef'):
         False
     """
     if len(groundset) != 6:
-        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 6 (%s given)" % len(groundset)
+        )
 
-    F = GF(4, 'x')
+    F = GF(4, "x")
     x = F.gens()[0]
-    A = Matrix(F, [
-        [1, 0, 0, 1, 0, 1],
-        [0, 1, 0, 1, 1, x],
-        [0, 0, 1, 0, 1, 1]
-    ])
+    A = Matrix(F, [[1, 0, 0, 1, 0, 1], [0, 1, 0, 1, 1, x], [0, 0, 1, 0, 1, 1]])
     M = QuaternaryMatroid(A, groundset)
-    M.rename('Q6: ' + repr(M))
+    M.rename("Q6: " + repr(M))
     return M
 
 
-def P6(groundset='abcdef'):
+def P6(groundset="abcdef"):
     """
     Return the matroid `P_6`, represented as circuit closures.
 
@@ -156,29 +169,32 @@ def P6(groundset='abcdef'):
         True
     """
     if len(groundset) != 6:
-        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 6 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdef'
-    CC = {
-        2: ['abc'],
-        3: [E]
-    }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('P6: ' + repr(M))
+    E = "abcdef"
+    CC = {2: ["abc"], 3: [E]}
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("P6: " + repr(M))
     return M
 
 
-def U36(groundset='abcdef'):
+def U36(groundset="abcdef"):
     if len(groundset) != 6:
-        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 6 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdef'
-    M = Uniform(3,6).relabel(dict(zip(E,groundset)))
-    M.rename('U(3,6): ' + repr(M))
+    E = "abcdef"
+    M = Uniform(3, 6).relabel(dict(zip(E, groundset)))
+    M.rename("U(3, 6): " + repr(M))
     return M
 
 
-def R6(groundset='abcdef'):
+def R6(groundset="abcdef"):
     """
     Return the matroid `R_6`, represented over `GF(3)`.
 
@@ -200,19 +216,17 @@ def R6(groundset='abcdef'):
         False
     """
     if len(groundset) != 6:
-        raise ValueError("The groundset should be of size 6 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 6 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 1, 1, 1],
-        [0, 1, 0, 1, 2, 1],
-        [0, 0, 1, 1, 0, 2]
-    ])
+    A = Matrix(GF(3), [[1, 0, 0, 1, 1, 1], [0, 1, 0, 1, 2, 1], [0, 0, 1, 1, 0, 2]])
     M = TernaryMatroid(A, groundset)
-    M.rename('R6: ' + repr(M))
+    M.rename("R6: " + repr(M))
     return M
 
 
-def Fano(groundset='abcdefg'):
+def Fano(groundset="abcdefg"):
     r"""
     Return the Fano matroid, represented over `GF(2)`.
 
@@ -236,29 +250,32 @@ def Fano(groundset='abcdefg'):
         True
     """
     if len(groundset) != 7:
-        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 7 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(2), [
-        [1, 0, 0, 0, 1, 1, 1],
-        [0, 1, 0, 1, 0, 1, 1],
-        [0, 0, 1, 1, 1, 0, 1]
-    ])
+    A = Matrix(
+        GF(2),
+        [[1, 0, 0, 0, 1, 1, 1], [0, 1, 0, 1, 0, 1, 1], [0, 0, 1, 1, 1, 0, 1]]
+    )
     M = BinaryMatroid(A, groundset)
-    M.rename('Fano: ' + repr(M))
+    M.rename("Fano: " + repr(M))
     return M
 
 
-def FanoDual(groundset='abcdefg'):
+def FanoDual(groundset="abcdefg"):
     if len(groundset) != 7:
-        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 7 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefg'
-    M = Fano().dual().relabel(dict(zip(E,groundset)))
-    M.rename('FanoDual: ' + repr(M))
+    E = "abcdefg"
+    M = Fano().dual().relabel(dict(zip(E, groundset)))
+    M.rename("FanoDual: " + repr(M))
     return M
 
 
-def NonFano(groundset='abcdefg'):
+def NonFano(groundset="abcdefg"):
     """
     Return the non-Fano matroid, represented over `GF(3)`
 
@@ -281,29 +298,32 @@ def NonFano(groundset='abcdefg'):
         False
     """
     if len(groundset) != 7:
-        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 7 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 0, 1, 1, 1],
-        [0, 1, 0, 1, 0, 1, 1],
-        [0, 0, 1, 1, 1, 0, 1]
-    ])
+    A = Matrix(
+        GF(3),
+        [[1, 0, 0, 0, 1, 1, 1], [0, 1, 0, 1, 0, 1, 1], [0, 0, 1, 1, 1, 0, 1]]
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('NonFano: ' + repr(M))
+    M.rename("NonFano: " + repr(M))
     return M
 
 
-def NonFanoDual(groundset='abcdefg'):
+def NonFanoDual(groundset="abcdefg"):
     if len(groundset) != 7:
-        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 7 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefg'
-    M = NonFano().dual().relabel(dict(zip(E,groundset)))
-    M.rename('NonFanoDual: ' + repr(M))
+    E = "abcdefg"
+    M = NonFano().dual().relabel(dict(zip(E, groundset)))
+    M.rename("NonFanoDual: " + repr(M))
     return M
 
 
-def O7(groundset='abcdefg'):
+def O7(groundset="abcdefg"):
     """
     Return the matroid `O_7`, represented over `GF(3)`.
 
@@ -323,19 +343,20 @@ def O7(groundset='abcdefg'):
         y^4 + x^3 + x*y^2 + 3*y^3 + 4*x^2 + 5*x*y + 5*y^2 + 4*x + 4*y
     """
     if len(groundset) != 7:
-        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 7 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 1, 1, 1, 1],
-        [0, 1, 0, 0, 1, 2, 2],
-        [0, 0, 1, 1, 0, 1, 0]
-    ])
+    A = Matrix(
+        GF(3),
+        [[1, 0, 0, 1, 1, 1, 1], [0, 1, 0, 0, 1, 2, 2], [0, 0, 1, 1, 0, 1, 0]]
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('O7: ' + repr(M))
+    M.rename("O7: " + repr(M))
     return M
 
 
-def P7(groundset='abcdefg'):
+def P7(groundset="abcdefg"):
     """
     Return the matroid `P_7`, represented over `GF(3)`.
 
@@ -357,29 +378,32 @@ def P7(groundset='abcdefg'):
         True
     """
     if len(groundset) != 7:
-        raise ValueError("The groundset should be of size 7 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 7 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 2, 1, 1, 0],
-        [0, 1, 0, 1, 1, 0, 1],
-        [0, 0, 1, 1, 0, 1, 1]
-    ])
+    A = Matrix(
+        GF(3),
+        [[1, 0, 0, 2, 1, 1, 0], [0, 1, 0, 1, 1, 0, 1], [0, 0, 1, 1, 0, 1, 1]]
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('P7: ' + repr(M))
+    M.rename("P7: " + repr(M))
     return M
 
 
-def AG32(groundset='abcdefgh'):
+def AG32(groundset="abcdefgh"):
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    M = AG(3,2).relabel(dict(zip(E,groundset)))
-    M.rename('AG(3, 2): ' + repr(M))
+    E = "abcdefgh"
+    M = AG(3, 2).relabel(dict(zip(E, groundset)))
+    M.rename("AG(3, 2): " + repr(M))
     return M
 
 
-def AG32prime(groundset='abcdefgh'):
+def AG32prime(groundset="abcdefgh"):
     """
     Return the matroid `AG(3, 2)'`, represented as circuit closures.
 
@@ -410,20 +434,26 @@ def AG32prime(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
+    E = "abcdefgh"
     CC = {
-        3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'abed',
-            'cfgh', 'bcef', 'adgh', 'acdf', 'begh', 'aceg'],
-        4: [E]
+        3: [
+            "abfg", "bcdg", "defg", "cdeh", "aefh", "abch", "abed",
+            "cfgh", "bcef", "adgh", "acdf", "begh", "aceg",
+        ],
+        4: [E],
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('AG(3, 2)\': ' + repr(M))
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("AG(3, 2)': " + repr(M))
     return M
 
 
-def R8(groundset='abcdefgh'):
+def R8(groundset="abcdefgh"):
     """
     Return the matroid `R_8`, represented over `GF(3)`.
 
@@ -445,20 +475,25 @@ def R8(groundset='abcdefgh'):
         False
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 0, 2, 1, 1, 1],
-        [0, 1, 0, 0, 1, 2, 1, 1],
-        [0, 0, 1, 0, 1, 1, 2, 1],
-        [0, 0, 0, 1, 1, 1, 1, 2]
-    ])
+    A = Matrix(
+        GF(3),
+        [
+            [1, 0, 0, 0, 2, 1, 1, 1],
+            [0, 1, 0, 0, 1, 2, 1, 1],
+            [0, 0, 1, 0, 1, 1, 2, 1],
+            [0, 0, 0, 1, 1, 1, 1, 2],
+        ],
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('R8: ' + repr(M))
+    M.rename("R8: " + repr(M))
     return M
 
 
-def F8(groundset='abcdefgh'):
+def F8(groundset="abcdefgh"):
     """
     Return the matroid `F_8`, represented as circuit closures.
 
@@ -487,20 +522,27 @@ def F8(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
+    E = "abcdefgh"
     CC = {
-        3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'abed',
-            'cfgh', 'bcef', 'adgh', 'acdf', 'aceg'],
-        4: [E]
+        3: [
+            "abfg", "bcdg", "defg", "cdeh",
+            "aefh", "abch", "abed", "cfgh",
+            "bcef", "adgh", "acdf", "aceg",
+        ],
+        4: [E],
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('F8: ' + repr(M))
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("F8: " + repr(M))
     return M
 
 
-def Q8(groundset='abcdefgh'):
+def Q8(groundset="abcdefgh"):
     """
     Return the matroid `Q_8`, represented as circuit closures.
 
@@ -530,20 +572,26 @@ def Q8(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
+    E = "abcdefgh"
     CC = {
-        3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'abed',
-            'cfgh', 'bcef', 'adgh', 'acdf'],
-        4: [E]
+        3: [
+            "abfg", "bcdg", "defg", "cdeh", "aefh", "abch",
+            "abed", "cfgh", "bcef", "adgh", "acdf",
+        ],
+        4: [E],
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('Q8: ' + repr(M))
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("Q8: " + repr(M))
     return M
 
 
-def L8(groundset='abcdefgh'):
+def L8(groundset="abcdefgh"):
     """
     Return the matroid `L_8`, represented as circuit closures.
 
@@ -566,19 +614,21 @@ def L8(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    CC = {
-        3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'aceg', 'bdfh'],
-        4: [E]
-    }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('L8: ' + repr(M))
+    E = "abcdefgh"
+    CC = {3: ["abfg", "bcdg", "defg", "cdeh", "aefh", "abch", "aceg", "bdfh"],
+          4: [E]}
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("L8: " + repr(M))
     return M
 
 
-def S8(groundset='abcdefgh'):
+def S8(groundset="abcdefgh"):
     """
     Return the matroid `S_8`, represented over `GF(2)`.
 
@@ -610,20 +660,25 @@ def S8(groundset='abcdefgh'):
 
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(2), [
-        [1, 0, 0, 0, 0, 1, 1, 1],
-        [0, 1, 0, 0, 1, 0, 1, 1],
-        [0, 0, 1, 0, 1, 1, 0, 1],
-        [0, 0, 0, 1, 1, 1, 1, 1]
-    ])
+    A = Matrix(
+        GF(2),
+        [
+            [1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 0, 1, 0, 1, 1],
+            [0, 0, 1, 0, 1, 1, 0, 1],
+            [0, 0, 0, 1, 1, 1, 1, 1],
+        ],
+    )
     M = BinaryMatroid(A, groundset)
-    M.rename('S8: ' + repr(M))
+    M.rename("S8: " + repr(M))
     return M
 
 
-def Vamos(groundset='abcdefgh'):
+def Vamos(groundset="abcdefgh"):
     """
     Return the Vamos matroid, represented as circuit closures.
 
@@ -650,19 +705,20 @@ def Vamos(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    CC = {
-        3: ['abcd', 'abef', 'cdef', 'abgh', 'efgh'],
-        4: [E]
-    }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('Vamos: ' + repr(M))
+    E = "abcdefgh"
+    CC = {3: ["abcd", "abef", "cdef", "abgh", "efgh"], 4: [E]}
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("Vamos: " + repr(M))
     return M
 
 
-def T8(groundset='abcdefgh'):
+def T8(groundset="abcdefgh"):
     """
     Return the matroid `T_8`, represented over `GF(3)`.
 
@@ -684,20 +740,25 @@ def T8(groundset='abcdefgh'):
 
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 0, 0, 1, 1, 1],
-        [0, 1, 0, 0, 1, 0, 1, 1],
-        [0, 0, 1, 0, 1, 1, 0, 1],
-        [0, 0, 0, 1, 1, 1, 1, 0]
-    ])
+    A = Matrix(
+        GF(3),
+        [
+            [1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 0, 1, 0, 1, 1],
+            [0, 0, 1, 0, 1, 1, 0, 1],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+        ],
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('T8: ' + repr(M))
+    M.rename("T8: " + repr(M))
     return M
 
 
-def J(groundset='abcdefgh'):
+def J(groundset="abcdefgh"):
     """
     Return the matroid `J`, represented over `GF(3)`.
 
@@ -720,20 +781,25 @@ def J(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 0, 0, 1, 1, 1],
-        [0, 1, 0, 0, 1, 1, 0, 0],
-        [0, 0, 1, 0, 1, 0, 1, 0],
-        [0, 0, 0, 1, 1, 0, 0, 1]
-    ])
+    A = Matrix(
+        GF(3),
+        [
+            [1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 0, 1, 1, 0, 0],
+            [0, 0, 1, 0, 1, 0, 1, 0],
+            [0, 0, 0, 1, 1, 0, 0, 1],
+        ],
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('J: ' + repr(M))
+    M.rename("J: " + repr(M))
     return M
 
 
-def P8(groundset='abcdefgh'):
+def P8(groundset="abcdefgh"):
     """
     Return the matroid `P_8`, represented over `GF(3)`.
 
@@ -757,20 +823,25 @@ def P8(groundset='abcdefgh'):
 
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 0, 2, 1, 1, 0],
-        [0, 1, 0, 0, 1, 1, 0, 1],
-        [0, 0, 1, 0, 1, 0, 1, 1],
-        [0, 0, 0, 1, 0, 1, 1, 2]
-    ])
+    A = Matrix(
+        GF(3),
+        [
+            [1, 0, 0, 0, 2, 1, 1, 0],
+            [0, 1, 0, 0, 1, 1, 0, 1],
+            [0, 0, 1, 0, 1, 0, 1, 1],
+            [0, 0, 0, 1, 0, 1, 1, 2],
+        ],
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('P8: ' + repr(M))
+    M.rename("P8: " + repr(M))
     return M
 
 
-def P8pp(groundset='abcdefgh'):
+def P8pp(groundset="abcdefgh"):
     """
     Return the matroid `P_8^=`, represented as circuit closures.
 
@@ -800,35 +871,45 @@ def P8pp(groundset='abcdefgh'):
 
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    CC = {3: ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh'],
+    E = "abcdefgh"
+    CC = {3: ["abfh", "bceg", "cdfh", "adeg", "acef", "bdfg", "acgh", "bdeh"],
           4: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('P8\'\': ' + repr(M))
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("P8'': " + repr(M))
     return M
 
 
-def Wheel4(groundset='abcdefgh'):
+def Wheel4(groundset="abcdefgh"):
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    M = Wheel(4).relabel(dict(zip(E,groundset)))
-    M.rename('Wheel(4): ' + repr(M))
+    E = "abcdefgh"
+    M = Wheel(4).relabel(dict(zip(E, groundset)))
+    M.rename("Wheel(4): " + repr(M))
     return M
 
-def Whirl4(groundset='abcdefgh'):
+
+def Whirl4(groundset="abcdefgh"):
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    M = Wheel(4).relabel(dict(zip(E,groundset)))
-    M.rename('Whirl(4): ' + repr(M))
+    E = "abcdefgh"
+    M = Wheel(4).relabel(dict(zip(E, groundset)))
+    M.rename("Whirl(4): " + repr(M))
     return M
 
-def K33dual(groundset='abcdefghi'):
+
+def K33dual(groundset="abcdefghi"):
     """
     Return the matroid `M*(K_{3, 3})`, represented over the regular partial
     field.
@@ -849,42 +930,52 @@ def K33dual(groundset='abcdefghi'):
         True
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     from sage.graphs.graph_generators import graphs
 
-    E = 'abcdefghi'
+    E = "abcdefghi"
     G = graphs.CompleteBipartiteGraph(3, 3)
-    M = Matroid(groundset=E, graph=G, regular=True).relabel(dict(zip(E,groundset)))
+    M = Matroid(groundset=E, graph=G, regular=True).relabel(
+        dict(zip(E, groundset))
+    )
     M = M.dual()
-    M.rename('M*(K3, 3): ' + repr(M))
+    M.rename("M*(K3, 3): " + repr(M))
     return M
 
 
-def K33(groundset='abcdefghi'):
+def K33(groundset="abcdefghi"):
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     from sage.graphs.graph_generators import graphs
 
-    E = 'abcdefghi'
+    E = "abcdefghi"
     G = graphs.CompleteBipartiteGraph(3, 3)
-    M = Matroid(groundset=E, graph=G, regular=True).relabel(dict(zip(E,groundset)))
-    M.rename('M(K3, 3): ' + repr(M))
+    M = Matroid(groundset=E, graph=G, regular=True).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("M(K3, 3): " + repr(M))
     return M
 
 
-def AG23(groundset='abcdefghi'):
+def AG23(groundset="abcdefghi"):
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefgh'
-    M = AG(2,3).relabel(dict(zip(E,groundset)))
-    M.rename('AG(2, 3): ' + repr(M))
+    E = "abcdefgh"
+    M = AG(2, 3).relabel(dict(zip(E, groundset)))
+    M.rename("AG(2, 3): " + repr(M))
     return M
 
 
-def TernaryDowling3(groundset='abcdefghi'):
+def TernaryDowling3(groundset="abcdefghi"):
     """
     Return the matroid `Q_3(GF(3)^\times)`, represented over `GF(3)`.
 
@@ -904,18 +995,24 @@ def TernaryDowling3(groundset='abcdefghi'):
 
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(3), [
-        [1, 0, 0, 1, 1, 0, 0, 1, 1],
-        [0, 1, 0, 2, 1, 1, 1, 0, 0],
-        [0, 0, 1, 0, 0, 2, 1, 2, 1]
-    ])
+    A = Matrix(
+        GF(3),
+        [
+            [1, 0, 0, 1, 1, 0, 0, 1, 1],
+            [0, 1, 0, 2, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0, 2, 1, 2, 1],
+        ],
+    )
     M = TernaryMatroid(A, groundset)
-    M.rename('Q3(GF(3)x): ' + repr(M))
+    M.rename("Q3(GF(3)x): " + repr(M))
     return M
 
-def Pappus(groundset='abcdefghi'):
+
+def Pappus(groundset="abcdefghi"):
     """
     Return the Pappus matroid.
 
@@ -944,19 +1041,21 @@ def Pappus(groundset='abcdefghi'):
         True
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefghi'
-    CC = {
-        2: ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
-        3: [E]
-    }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('Pappus: ' + repr(M))
+    E = "abcdefghi"
+    CC = {2: ["abc", "def", "ceg", "bfg", "cdh", "afh", "bdi", "aei", "ghi"],
+          3: [E]}
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("Pappus: " + repr(M))
     return M
 
 
-def NonPappus(groundset='abcdefghi'):
+def NonPappus(groundset="abcdefghi"):
     """
     Return the non-Pappus matroid.
 
@@ -982,35 +1081,44 @@ def NonPappus(groundset='abcdefghi'):
         True
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
-    E = 'abcdefghi'
-    CC = {
-        2: ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
-        3: [E]
-    }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
-    M.rename('NonPappus: ' + repr(M))
+    E = "abcdefghi"
+    CC = {2: ["abc", "ceg", "bfg", "cdh", "afh", "bdi", "aei", "ghi"],
+          3: [E]}
+    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(
+        dict(zip(E, groundset))
+    )
+    M.rename("NonPappus: " + repr(M))
     return M
 
 
-def K5(groundset='abcdefghij'):
+def K5(groundset="abcdefghij"):
     if len(groundset) != 10:
-        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 10 (%s given)" % len(groundset)
+        )
 
-    M = CompleteGraphic(5, groundset)
+    E = "abcdefghij"
+    M = CompleteGraphic(5).relabel(dict(zip(E, groundset)))
     return M
 
-def K5dual(groundset='abcdefghij'):
+
+def K5dual(groundset="abcdefghij"):
     if len(groundset) != 10:
-        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 10 (%s given)" % len(groundset)
+        )
 
-    M = CompleteGraphic(5, groundset).dual()
-    M.rename('M*(K5): ' + repr(M))
+    E = "abcdefghij"
+    M = CompleteGraphic(5).relabel(dict(zip(E, groundset))).dual()
+    M.rename("M*(K5): " + repr(M))
     return M
 
 
-def R10(groundset='abcdefghij'):
+def R10(groundset="abcdefghij"):
     """
     Return the matroid `R_{10}`, represented over the regular partial field.
 
@@ -1041,22 +1149,29 @@ def R10(groundset='abcdefghij'):
         []
     """
     if len(groundset) != 10:
-        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 10 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(ZZ, [
-        [1, 0, 0, 0, 0, -1, 1, 0, 0, 1],
-        [0, 1, 0, 0, 0, 1, -1, 1, 0, 0],
-        [0, 0, 1, 0, 0, 0, 1, -1, 1, 0],
-        [0, 0, 0, 1, 0, 0, 0, 1, -1, 1],
-        [0, 0, 0, 0, 1, 1, 0, 0, 1, -1]
-    ])
+    A = Matrix(
+        ZZ,
+        [
+            [1, 0, 0, 0, 0, -1, 1, 0, 0, 1],
+            [0, 1, 0, 0, 0, 1, -1, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, -1, 1, 0],
+            [0, 0, 0, 1, 0, 0, 0, 1, -1, 1],
+            [0, 0, 0, 0, 1, 1, 0, 0, 1, -1],
+        ],
+    )
     M = RegularMatroid(A, groundset)
-    M.rename('R10: ' + repr(M))
+    M.rename("R10: " + repr(M))
     return M
+
 
 # NonDesargues
 
-def R12(groundset='abcdefghijkl'):
+
+def R12(groundset="abcdefghijkl"):
     """
     Return the matroid `R_{12}`, represented over the regular partial field.
 
@@ -1078,25 +1193,30 @@ def R12(groundset='abcdefghijkl'):
         True
     """
     if len(groundset) != 12:
-        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 12 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(ZZ, [
-        [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-        [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1],
-        [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1]
-    ])
+    A = Matrix(
+        ZZ,
+        [
+            [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1],
+        ],
+    )
     M = RegularMatroid(A, groundset)
-    M.rename('R12: ' + repr(M))
+    M.rename("R12: " + repr(M))
     return M
 
 
 # S_5_6_12
 
 
-def T12(groundset='abcdefghijkl'):
+def T12(groundset="abcdefghijkl"):
     """
     Return the matroid `T_{12}`.
 
@@ -1115,28 +1235,35 @@ def T12(groundset='abcdefghijkl'):
         True
     """
     if len(groundset) != 12:
-        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 12 (%s given)" % len(groundset)
+        )
 
-    A = Matrix(GF(2), [
-        [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-        [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-        [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-        [0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0],
-        [0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0],
-        [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1]
-    ])
+    A = Matrix(
+        GF(2),
+        [
+            [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+            [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+            [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1],
+        ],
+    )
     M = BinaryMatroid(A, groundset)
-    M.rename('T12: ' + repr(M))
+    M.rename("T12: " + repr(M))
     return M
 
 
-def PG23(groundset=[0,1,2,3,4,5,6,7,8,9,10,11]):
+def PG23(groundset=range(12)):
     if len(groundset) != 12:
-        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 12 (%s given)" % len(groundset)
+        )
 
-    E = [0,1,2,3,4,5,6,7,8,9,10,11]
-    M = PG(2,3).relabel(dict(zip(E,groundset)))
-    M.rename('PG(2, 3): ' + repr(M))
+    E = range(12)
+    M = PG(2, 3).relabel(dict(zip(E, groundset)))
+    M.rename("PG(2, 3): " + repr(M))
     return M
 
 
@@ -1199,7 +1326,7 @@ def Wheel(n, field=None, ring=None):
         M = RegularMatroid(A)
     else:
         M = Matroid(A)
-    M.rename('Wheel(' + str(n) + '): ' + repr(M))
+    M.rename("Wheel(" + str(n) + "): " + repr(M))
     return M
 
 
@@ -1249,7 +1376,7 @@ def Whirl(n):
         else:
             A[i, 2 * n - 1] = 1
     M = TernaryMatroid(A)
-    M.rename('Whirl(' + str(n) + '): ' + repr(M))
+    M.rename("Whirl(" + str(n) + "): " + repr(M))
     return M
 
 
@@ -1299,7 +1426,7 @@ def Uniform(r, n):
     else:
         CC = {}
     M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
-    M.rename('U(' + str(r) + ', ' + str(n) + '): ' + repr(M))
+    M.rename("U(" + str(r) + ", " + str(n) + "): " + repr(M))
     return M
 
 
@@ -1334,12 +1461,12 @@ def PG(n, q, x=None):
         the Finite Field of size 7
     """
     if x is None:
-        x = 'x'
+        x = "x"
     F = GF(q, x)
     P = ProjectiveSpace(n, F)
-    A = Matrix(F, [list(p) for p in P]).transpose()
+    A = Matrix(F, [list(p) for p in list(P)]).transpose()
     M = Matroid(A)
-    M.rename('PG(' + str(n) + ', ' + str(q) + '): ' + repr(M))
+    M.rename("PG(" + str(n) + ", " + str(q) + "): " + repr(M))
     return M
 
 
@@ -1378,12 +1505,14 @@ def AG(n, q, x=None):
 
     """
     if x is None:
-        x = 'x'
+        x = "x"
     F = GF(q, x)
     P = ProjectiveSpace(n, F)
-    A = Matrix(F, [list(p) for p in P if not list(p)[0] == 0]).transpose()
+    A = Matrix(
+        F, [list(p) for p in list(P) if not list(p)[0] == 0]
+    ).transpose()
     M = Matroid(A)
-    M.rename('AG(' + str(n) + ', ' + str(q) + '): ' + repr(M))
+    M.rename("AG(" + str(n) + ", " + str(q) + "): " + repr(M))
     return M
 
 
