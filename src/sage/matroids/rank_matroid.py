@@ -347,9 +347,11 @@ class RankMatroid(Matroid):
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
+
         def f_relabel(X):
             d_inv = {d[x]:x for x in self.groundset()}
             X_inv = [d_inv[x] for x in X]
             return self._rank_function(X_inv)
+
         M = RankMatroid(groundset=E, rank_function=f_relabel)
         return M
