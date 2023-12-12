@@ -19,7 +19,7 @@ Functions
 # **********************************************************************
 
 
-def AllMatroids(n, r=-1, type='all'):
+def AllMatroids(n, r=-1, type="all"):
     """
     Return an iterator of all matroids of certain number of elements
     (and, optionally, of specific rank and type).
@@ -38,34 +38,95 @@ def AllMatroids(n, r=-1, type='all'):
 
     OUTPUT:
 
-    an iterator of matroids
+    an iterator over matroids
 
     EXAMPLES::
 
-        sage: for M in matroids.AllMatroids(4):
-        ....:     assert M.is_valid()
-        sage: for M in matroids.AllMatroids(5, 3):
-        ....:     assert M.is_valid()
+        sage: for M in matroids.AllMatroids(2):
+        ....:     M
+        allr0n02#0: Matroid of rank 0 on 2 elements with 1 bases
+        allr1n02#0: Matroid of rank 1 on 2 elements with 2 bases
+        allr1n02#1: Matroid of rank 1 on 2 elements with 1 bases
+        allr2n02#0: Matroid of rank 2 on 2 elements with 1 bases
+        sage: for M in matroids.AllMatroids(5, 3, "simple"):
+        ....:     M
+        simpler3n05#0: Matroid of rank 3 on 5 elements with 10 bases
+        simpler3n05#1: Matroid of rank 3 on 5 elements with 9 bases
+        simpler3n05#2: Matroid of rank 3 on 5 elements with 8 bases
+        simpler3n05#3: Matroid of rank 3 on 5 elements with 6 bases
 
     TESTS::
 
-        sage: cnts = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
+        sage: all_n = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
         sage: for i in range(0, 8 + 1):
-        ....:     assert len(list(matroids.AllMatroids(i))) == cnts[i]
+        ....:     assert len(matroids.AllMatroids(i)) == all_n[i]
+        ....:     for M in matroids.AllMatroids(i):
+        ....:         assert M.is_valid()
+        sage: all = [
+        ....:     [   1,    1,    1,    1,    1,    1,    1,    1,     1,      1,     1,      1,    1],
+        ....:     [None,    1,    2,    3,    4,    5,    6,    7,     8,      9,    10,     11,   12],
+        ....:     [None, None,    1,    3,    7,   13,   23,   37,    58,     87,   128,    183,  259],
+        ....:     [None, None, None,    1,    4,   13,   38,  108,   325,   1275, 10037, 298491, None],
+        ....:     [None, None, None, None,    1,    5,   23,  108,   940, 190214,  None,   None, None],
+        ....:     [None, None, None, None, None,    1,    6,   37,   325, 190214,  None,   None, None],
+        ....:     [None, None, None, None, None, None,    1,    7,    58,   1275,  None,   None, None],
+        ....:     [None, None, None, None, None, None, None,    1,     8,     87, 10037,   None, None],
+        ....:     [None, None, None, None, None, None, None, None,     1,      9,   128, 298491, None],
+        ....:     [None, None, None, None, None, None, None, None,  None,      1,    10,    183, None],
+        ....:     [None, None, None, None, None, None, None, None,  None,   None,     1,     11,  259],
+        ....:     [None, None, None, None, None, None, None, None,  None,   None,  None,      1,   12],
+        ....:     [None, None, None, None, None, None, None, None,  None,   None,  None,   None,    1]
+        ....: ]
+        sage: for r in range(0, 12 + 1): # long time
+        ....:     for n in range(r, 12 + 1):
+        ....:         if all[r][n] and all[r][n] < 100000:
+        ....:             assert len(matroids.AllMatroids(n, r)) == all[r][n]
+        ....:             for M in matroids.AllMatroids(n, r):
+        ....:                 assert M.is_valid()
+        sage: simple = [
+        ....:     [   1, None, None, None, None, None, None, None,  None,   None, None,   None, None],
+        ....:     [None,    1, None, None, None, None, None, None,  None,   None, None,   None, None],
+        ....:     [None, None,    1,    1,    1,    1,    1,    1,     1,      1,    1,      1,    1],
+        ....:     [None, None, None,    1,    2,    4,    9,   23,    68,    383, 5249, 232928, None],
+        ....:     [None, None, None, None,    1,    3,   11,   49,   617, 185981, None,   None, None]
+        ....: ]
+        sage: for r in range(0, 4 + 1): # long time
+        ....:     for n in range(r, 12 + 1):
+        ....:         if simple[r][n] and simple[r][n] < 100000:
+        ....:             assert len(matroids.AllMatroids(n, r, "simple")) == simple[r][n]
+        ....:             for M in matroids.AllMatroids(n, r, "simple"):
+        ....:                 assert M.is_valid() and M.is_simple()
+        sage: unorientable = [
+        ....:     [1,  3,    18,  201, 9413],
+        ....:     [1, 34, 12284, None, None]
+        ....: ]
+        sage: for r in range(0, 1 + 1): # long time
+        ....:     for n in range(0, 4 + 1):
+        ....:         if unorientable[r][n]:
+        ....:             assert len(matroids.AllMatroids(n + 7, r + 3, "unorientable")) == unorientable[r][n]
+        ....:             for M in matroids.AllMatroids(n + 7, r + 3, "unorientable"):
+        ....:                 assert M.is_valid()
     """
+    from sage.matroids.basis_matroid import BasisMatroid
+    from sage.env import SAGE_SRC
+    import os
+
     Matroids = []
     if r == -1:
         for rnk in range(0, n + 1):
-            Matroids += list(AllMatroids(n, rnk, type))
-        return iter(Matroids)
+            Matroids += AllMatroids(n, rnk, type)
+        return Matroids
 
-    from sage.matroids.basis_matroid import BasisMatroid
     if r == 0 or r == n:
-        return iter([BasisMatroid(groundset=range(n), bases=[range(r)])])
+        M = BasisMatroid(groundset=range(n), bases=[range(r)])
+        M.rename(
+            type + "r" + str(r) + "n" + str(n).zfill(2) + "#" + '0'
+            + ": " + repr(M)
+        )
+        Matroids += [M]
+        return Matroids
 
-    from sage.env import SAGE_SRC
-    import os
-    rp = min(r, n - r)
+    rp = min(r, n - r) if (type == "all") else r
     filename = os.path.join(
         SAGE_SRC, "sage", "matroids", "database", "yoshitake_matsumoto",
         type + "_matroids",
@@ -89,17 +150,17 @@ def AllMatroids(n, r=-1, type='all'):
             i += 1
 
         M = BasisMatroid(groundset=range(n), bases=B)
-        if n - r < r:
+        if type == "all" and n - r < r:
             M = M.dual()
         M.rename(
             type + "r" + str(r) + "n" + str(n).zfill(2) + "#" + str(cnt)
             + ": " + repr(M)
         )
+        Matroids += [M]
         cnt += 1
-        Matroids.append(M)
 
     fin.close()
-    return iter(Matroids)
+    return Matroids
 
 
 def OxleyMatroids():
@@ -112,7 +173,7 @@ def OxleyMatroids():
         sage: for M in matroids.OxleyMatroids(): # long time
         ....:     assert M.is_valid()
     """
-    all = []
+    Matroids = []
     from sage.matroids.database.oxley_matroids import (
         U24, U25, U35, K4, Whirl3, Q6, P6, U36, R6,
         Fano, FanoDual, NonFano, NonFanoDual, O7, P7,
@@ -143,20 +204,20 @@ def OxleyMatroids():
     }
     for i in lst:
         for M in lst[i]:
-            all.append(M())
-    return iter(all)
+            Matroids.append(M())
+    return Matroids
 
 
 def BrettellMatroids():
     """
     Return an iterator of interesting matroids as listed in [].
 
-        EXAMPLES::
+    EXAMPLES::
 
-            sage: for M in matroids.OxleyMatroids(): # long time
-            ....:     assert M.is_valid()
+        sage: for M in matroids.BrettellMatroids(): # long time
+        ....:     assert M.is_valid()
     """
-    all = []
+    Matroids = []
     from sage.matroids.database.brettell_matroids import (
         RelaxedNonFano, TippedFree3spike,
         AG23minusDY, TQ8, P8p, KP8, Sp8, Sp8pp, LP8, WQ8,
@@ -192,8 +253,8 @@ def BrettellMatroids():
     }
     for i in lst:
         for M in lst[i]:
-            all.append(M())
-    return iter(all)
+            Matroids.append(M())
+    return Matroids
 
 
 def VariousMatroids():
@@ -205,7 +266,7 @@ def VariousMatroids():
         sage: for M in matroids.VariousMatroids(): # long time
         ....:     assert M.is_valid()
     """
-    all = []
+    Matroids = []
     from sage.matroids.database.various_matroids import (
         NonVamos, NotP8, AG23minus,
         P9, R9A, R9B, Block_9_4, TicTacToe,
@@ -227,5 +288,5 @@ def VariousMatroids():
     }
     for i in lst:
         for M in lst[i]:
-            all.append(M())
-    return iter(all)
+            Matroids.append(M())
+    return Matroids

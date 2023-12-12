@@ -2,13 +2,9 @@ r"""
 Documentation for the matroids in the catalog
 
 This module contains implementations for many of the functions accessible
-through :mod:`matroids. <sage.matroids.matroids_catalog>` and
-:mod:`matroids.named_matroids. <sage.matroids.matroids_catalog>`
+through :mod:`matroids. <sage.matroids>` and
+:mod:`matroids.catalog. <sage.matroids.catalog>`
 (type those lines in Sage and hit ``tab`` for a list).
-
-The docstrings include educational information about each named matroid with
-the hopes that this class can be used as a reference. However, for a more
-comprehensive list of properties we refer to the appendix of [Oxl2011]_.
 
 AUTHORS:
 

@@ -2,8 +2,8 @@ r"""
 Documentation for the matroids in the catalog
 
 This module contains implementations for many of the functions accessible
-through :mod:`matroids. <sage.matroids.matroids_catalog>` and
-:mod:`matroids.named_matroids. <sage.matroids.matroids_catalog>`
+through :mod:`matroids. <sage.matroids.>` and
+:mod:`matroids.catalog. <sage.matroids.catalog>`
 (type those lines in Sage and hit ``tab`` for a list).
 
 The docstrings include educational information about each named matroid with
@@ -122,7 +122,7 @@ def Q6(groundset="abcdef"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.Q6(); M                                       # needs sage.rings.finite_rings
+        sage: M = matroids.catalog.Q6(); M                                       # needs sage.rings.finite_rings
         Q6: Quaternary matroid of rank 3 on 6 elements
         sage: setprint(M.hyperplanes())                                                 # needs sage.rings.finite_rings
         [{'a', 'b', 'd'}, {'a', 'c'}, {'a', 'e'}, {'a', 'f'}, {'b', 'c', 'e'},
@@ -157,7 +157,7 @@ def P6(groundset="abcdef"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.P6(); M
+        sage: M = matroids.catalog.P6(); M
         P6: Matroid of rank 3 on 6 elements with circuit-closures
         {2: {{'a', 'b', 'c'}}, 3: {{'a', 'b', 'c', 'd', 'e', 'f'}}}
         sage: len(set(M.nonspanning_circuits()).difference(M.nonbases())) == 0
@@ -206,7 +206,7 @@ def R6(groundset="abcdef"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.R6(); M
+        sage: M = matroids.catalog.R6(); M
         R6: Ternary matroid of rank 3 on 6 elements, type 2+
         sage: M.equals(M.dual())
         True
@@ -240,7 +240,7 @@ def Fano(groundset="abcdefg"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.Fano(); M
+        sage: M = matroids.catalog.Fano(); M
         Fano: Binary matroid of rank 3 on 7 elements, type (3, 0)
         sage: setprint(sorted(M.nonspanning_circuits()))
         [{'a', 'b', 'f'}, {'a', 'c', 'e'}, {'a', 'd', 'g'}, {'b', 'c', 'd'},
@@ -287,7 +287,7 @@ def NonFano(groundset="abcdefg"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.NonFano(); M
+        sage: M = matroids.catalog.NonFano(); M
         NonFano: Ternary matroid of rank 3 on 7 elements, type 0-
         sage: setprint(M.nonbases())
         [{'a', 'b', 'f'}, {'a', 'c', 'e'}, {'a', 'd', 'g'}, {'b', 'c', 'd'},
@@ -335,7 +335,7 @@ def O7(groundset="abcdefg"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.O7(); M
+        sage: M = matroids.catalog.O7(); M
         O7: Ternary matroid of rank 3 on 7 elements, type 0+
         sage: M.delete('e').is_isomorphic(matroids.CompleteGraphic(4))                  # needs sage.graphs
         True
@@ -368,7 +368,7 @@ def P7(groundset="abcdefg"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.P7(); M
+        sage: M = matroids.catalog.P7(); M
         P7: Ternary matroid of rank 3 on 7 elements, type 1+
         sage: M.f_vector()
         [1, 7, 11, 1]
@@ -414,7 +414,7 @@ def AG32prime(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.AG32prime(); M
+        sage: M = matroids.catalog.AG32prime(); M
         AG(3, 2)': Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'h'}, {'a', 'b', 'd', 'e'}, {'a', 'b', 'f', 'g'},
              {'a', 'c', 'd', 'f'}, {'a', 'c', 'e', 'g'}, {'a', 'd', 'g', 'h'},
@@ -422,7 +422,7 @@ def AG32prime(groundset="abcdefgh"):
              {'b', 'e', 'g', 'h'}, {'c', 'd', 'e', 'h'}, {'c', 'f', 'g', 'h'},
              {'d', 'e', 'f', 'g'}},
          4: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}
-        sage: M.contract('c').is_isomorphic(matroids.named_matroids.Fano())
+        sage: M.contract('c').is_isomorphic(matroids.catalog.Fano())
         True
         sage: setprint(M.noncospanning_cocircuits())
         [{'a', 'b', 'c', 'h'}, {'a', 'b', 'd', 'e'}, {'a', 'b', 'f', 'g'},
@@ -464,14 +464,14 @@ def R8(groundset="abcdefgh"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.R8(); M
+        sage: M = matroids.catalog.R8(); M
         R8: Ternary matroid of rank 4 on 8 elements, type 0+
         sage: M.contract(M.groundset_list()[randrange(0,
-        ....:            8)]).is_isomorphic(matroids.named_matroids.NonFano())
+        ....:            8)]).is_isomorphic(matroids.catalog.NonFano())
         True
         sage: M.equals(M.dual())
         True
-        sage: M.has_minor(matroids.named_matroids.Fano())
+        sage: M.has_minor(matroids.catalog.Fano())
         False
     """
     if len(groundset) != 8:
@@ -503,7 +503,7 @@ def F8(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import *
-        sage: M = matroids.named_matroids.F8(); M
+        sage: M = matroids.catalog.F8(); M
         F8: Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'h'}, {'a', 'b', 'd', 'e'}, {'a', 'b', 'f', 'g'},
              {'a', 'c', 'd', 'f'}, {'a', 'c', 'e', 'g'}, {'a', 'd', 'g', 'h'},
@@ -514,9 +514,9 @@ def F8(groundset="abcdefgh"):
         ....:                                         for i in M.groundset()])
         sage: len(D)
         3
-        sage: [N.is_isomorphic(matroids.named_matroids.Fano()) for N in D]
+        sage: [N.is_isomorphic(matroids.catalog.Fano()) for N in D]
         [...True...]
-        sage: [N.is_isomorphic(matroids.named_matroids.NonFano()) for N in D]
+        sage: [N.is_isomorphic(matroids.catalog.NonFano()) for N in D]
         [...True...]
         sage: M.is_valid()                      # long time, needs sage.rings.finite_rings
         True
@@ -552,7 +552,7 @@ def Q8(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.Q8(); M
+        sage: M = matroids.catalog.Q8(); M
         Q8: Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'h'}, {'a', 'b', 'd', 'e'}, {'a', 'b', 'f', 'g'},
              {'a', 'c', 'd', 'f'}, {'a', 'd', 'g', 'h'}, {'a', 'e', 'f', 'h'},
@@ -602,7 +602,7 @@ def L8(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.L8(); M
+        sage: M = matroids.catalog.L8(); M
         L8: Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'h'}, {'a', 'b', 'f', 'g'}, {'a', 'c', 'e', 'g'},
              {'a', 'e', 'f', 'h'}, {'b', 'c', 'd', 'g'}, {'b', 'd', 'f', 'h'},
@@ -641,17 +641,17 @@ def S8(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import *
-        sage: M = matroids.named_matroids.S8(); M
+        sage: M = matroids.catalog.S8(); M
         S8: Binary matroid of rank 4 on 8 elements, type (2, 0)
-        sage: M.contract('d').is_isomorphic(matroids.named_matroids.Fano())
+        sage: M.contract('d').is_isomorphic(matroids.catalog.Fano())
         True
         sage: M.delete('d').is_isomorphic(
-        ....:                           matroids.named_matroids.Fano().dual())
+        ....:                           matroids.catalog.Fano().dual())
         False
         sage: M.is_graphic()
         False
         sage: D = get_nonisomorphic_matroids(
-        ....:       list(matroids.named_matroids.Fano().linear_coextensions(
+        ....:       list(matroids.catalog.Fano().linear_coextensions(
         ....:                                                 cosimple=True)))
         sage: len(D)
         2
@@ -691,7 +691,7 @@ def Vamos(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.Vamos(); M
+        sage: M = matroids.catalog.Vamos(); M
         Vamos: Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'd'}, {'a', 'b', 'e', 'f'}, {'a', 'b', 'g', 'h'},
              {'c', 'd', 'e', 'f'}, {'e', 'f', 'g', 'h'}},
@@ -729,11 +729,11 @@ def T8(groundset="abcdefgh"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.T8(); M
+        sage: M = matroids.catalog.T8(); M
         T8: Ternary matroid of rank 4 on 8 elements, type 0-
         sage: M.truncation().is_isomorphic(matroids.Uniform(3, 8))
         True
-        sage: M.contract('e').is_isomorphic(matroids.named_matroids.P7())
+        sage: M.contract('e').is_isomorphic(matroids.catalog.P7())
         True
         sage: M.has_minor(matroids.Uniform(3, 8))
         False
@@ -769,7 +769,7 @@ def J(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.J(); M
+        sage: M = matroids.catalog.J(); M
         J: Ternary matroid of rank 4 on 8 elements, type 0-
         sage: setprint(M.truncation().nonbases())
         [{'a', 'b', 'f'}, {'a', 'c', 'g'}, {'a', 'd', 'h'}]
@@ -811,7 +811,7 @@ def P8(groundset="abcdefgh"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.P8(); M
+        sage: M = matroids.catalog.P8(); M
         P8: Ternary matroid of rank 4 on 8 elements, type 2+
         sage: M.is_isomorphic(M.dual())
         True
@@ -855,7 +855,7 @@ def P8pp(groundset="abcdefgh"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import *
-        sage: M = matroids.named_matroids.P8pp(); M
+        sage: M = matroids.catalog.P8pp(); M
         P8'': Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'f', 'h'}, {'a', 'c', 'e', 'f'}, {'a', 'c', 'g', 'h'},
              {'a', 'd', 'e', 'g'}, {'b', 'c', 'e', 'g'}, {'b', 'd', 'e', 'h'},
@@ -921,7 +921,7 @@ def K33dual(groundset="abcdefghi"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.K33dual(); M                                  # needs sage.graphs
+        sage: M = matroids.catalog.K33dual(); M                                  # needs sage.graphs
         M*(K3, 3): Regular matroid of rank 4 on 9 elements with 81 bases
         sage: any(N.is_3connected()                                                     # needs sage.graphs
         ....:     for N in M.linear_extensions(simple=True))
@@ -986,7 +986,7 @@ def TernaryDowling3(groundset="abcdefghi"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.TernaryDowling3(); M
+        sage: M = matroids.catalog.TernaryDowling3(); M
         Q3(GF(3)x): Ternary matroid of rank 3 on 9 elements, type 0-
         sage: len(list(M.linear_subclasses()))
         72
@@ -1025,7 +1025,7 @@ def Pappus(groundset="abcdefghi"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.Pappus(); M
+        sage: M = matroids.catalog.Pappus(); M
         Pappus: Matroid of rank 3 on 9 elements with circuit-closures
         {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
              {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
@@ -1066,7 +1066,7 @@ def NonPappus(groundset="abcdefghi"):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.NonPappus(); M
+        sage: M = matroids.catalog.NonPappus(); M
         NonPappus: Matroid of rank 3 on 9 elements with circuit-closures
         {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
              {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
@@ -1129,7 +1129,7 @@ def R10(groundset="abcdefghij"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.R10(); M
+        sage: M = matroids.catalog.R10(); M
         R10: Regular matroid of rank 5 on 10 elements with 162 bases
         sage: cct = []
         sage: for i in M.circuits():
@@ -1145,7 +1145,7 @@ def R10(groundset="abcdefghij"):
 
     Check the splitter property::
 
-        sage: matroids.named_matroids.R10().linear_extensions(simple=True)
+        sage: matroids.catalog.R10().linear_extensions(simple=True)
         []
     """
     if len(groundset) != 10:
@@ -1183,7 +1183,7 @@ def R12(groundset="abcdefghijkl"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.R12(); M
+        sage: M = matroids.catalog.R12(); M
         R12: Regular matroid of rank 6 on 12 elements with 441 bases
         sage: M.equals(M.dual())
         False
@@ -1228,7 +1228,7 @@ def T12(groundset="abcdefghijkl"):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.T12()
+        sage: M = matroids.catalog.T12()
         sage: M
         T12: Binary matroid of rank 6 on 12 elements, type (2, None)
         sage: M.is_valid()
@@ -1452,7 +1452,7 @@ def PG(n, q, x=None):
     EXAMPLES::
 
         sage: M = matroids.PG(2, 2)
-        sage: M.is_isomorphic(matroids.named_matroids.Fano())
+        sage: M.is_isomorphic(matroids.catalog.Fano())
         True
         sage: matroids.PG(5, 4, 'z').size() == (4^6 - 1) / (4 - 1)                      # needs sage.rings.finite_rings
         True
@@ -1495,7 +1495,7 @@ def AG(n, q, x=None):
     EXAMPLES::
 
         sage: M = matroids.AG(2, 3).delete(8)
-        sage: M.is_isomorphic(matroids.named_matroids.AG23minus())
+        sage: M.is_isomorphic(matroids.catalog.AG23minus())
         True
         sage: matroids.AG(5, 4, 'z').size() == ((4 ^ 6 - 1) / (4 - 1) -                 # needs sage.rings.finite_rings
         ....:                                             (4 ^ 5 - 1)/(4 - 1))

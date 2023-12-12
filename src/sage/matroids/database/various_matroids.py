@@ -2,8 +2,8 @@ r"""
 Documentation for the matroids in the catalog
 
 This module contains implementations for many of the functions accessible
-through :mod:`matroids. <sage.matroids.matroids_catalog>` and
-:mod:`matroids.named_matroids. <sage.matroids.matroids_catalog>`
+through :mod:`matroids. <sage.matroids>` and
+:mod:`matroids.catalog. <sage.matroids.catalog>`
 (type those lines in Sage and hit ``tab`` for a list).
 
 The docstrings include educational information about each named matroid with
@@ -59,7 +59,7 @@ def NonVamos(groundset='abcdefgh'):
     EXAMPLES::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.NonVamos(); M
+        sage: M = matroids.catalog.NonVamos(); M
         NonVamos: Matroid of rank 4 on 8 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'd'}, {'a', 'b', 'e', 'f'}, {'a', 'b', 'g', 'h'},
              {'c', 'd', 'e', 'f'}, {'c', 'd', 'g', 'h'}, {'e', 'f', 'g', 'h'}},
@@ -94,8 +94,8 @@ def NotP8(groundset='abcdefgh'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.P8()
-        sage: N = matroids.named_matroids.NotP8()
+        sage: M = matroids.catalog.P8()
+        sage: N = matroids.catalog.NotP8()
         sage: M.is_isomorphic(N)
         False
         sage: M.is_valid()
@@ -125,7 +125,7 @@ def AG23minus(groundset='abcdefgh'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.AG23minus()
+        sage: M = matroids.catalog.AG23minus()
         sage: M.is_valid()
         True
 
@@ -150,7 +150,7 @@ def P9(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.P9()
+        sage: M = matroids.catalog.P9()
         sage: M
         P9: Binary matroid of rank 4 on 9 elements, type (1, 1)
         sage: M.is_valid()
@@ -181,7 +181,7 @@ def R9A(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.R9A()
+        sage: M = matroids.catalog.R9A()
         sage: M.is_valid() # long time
         True
 
@@ -209,7 +209,7 @@ def R9B(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.R9B()
+        sage: M = matroids.catalog.R9B()
         sage: M.is_valid() # long time
         True
 
@@ -233,7 +233,7 @@ def Block_9_4(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.Block_9_4()
+        sage: M = matroids.catalog.Block_9_4()
         sage: M.is_valid() # long time
         True
         sage: BD = BlockDesign(M.groundset(), M.nonspanning_circuits())                 # needs sage.graphs
@@ -264,7 +264,7 @@ def TicTacToe(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.TicTacToe()
+        sage: M = matroids.catalog.TicTacToe()
         sage: M.is_valid() # long time
         True
 
@@ -291,7 +291,7 @@ def N1(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.N1()
+        sage: M = matroids.catalog.N1()
         sage: M.is_field_isomorphic(M.dual())
         True
         sage: M.is_valid()
@@ -320,7 +320,7 @@ def Block_10_5(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.Block_10_5()
+        sage: M = matroids.catalog.Block_10_5()
         sage: M.is_valid() # long time
         True
         sage: BD = BlockDesign(M.groundset(), M.nonspanning_circuits())                 # needs sage.graphs
@@ -355,7 +355,7 @@ def Q10(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.Q10()                                         # needs sage.rings.finite_rings
+        sage: M = matroids.catalog.Q10()                                         # needs sage.rings.finite_rings
         sage: M.is_isomorphic(M.dual())                                                 # needs sage.rings.finite_rings
         True
         sage: M.is_valid()                                                              # needs sage.rings.finite_rings
@@ -367,7 +367,7 @@ def Q10(groundset='abcdefghij'):
     are quaternary are `U_{2, 5}, U_{3, 5}, F_7, F_7^*`. As it happens, it
     suffices to check for `U_{2, 5}`:
 
-        sage: S = matroids.named_matroids.Q10().linear_extensions(simple=True)          # needs sage.rings.finite_rings
+        sage: S = matroids.catalog.Q10().linear_extensions(simple=True)          # needs sage.rings.finite_rings
         sage: [M for M in S if not M.has_line_minor(5)]         # long time, needs sage.rings.finite_rings
         []
     """
@@ -399,7 +399,7 @@ def BetsyRoss(groundset='abcdefghijk'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.BetsyRoss()
+        sage: M = matroids.catalog.BetsyRoss()
         sage: len(M.circuit_closures()[2])
         10
         sage: M.is_valid() # long time
@@ -427,7 +427,7 @@ def N2(groundset='abcdefghijkl'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.N2()
+        sage: M = matroids.catalog.N2()
         sage: M.is_field_isomorphic(M.dual())
         True
         sage: M.is_valid()
@@ -459,7 +459,7 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.ExtendedTernaryGolayCode()
+        sage: M = matroids.catalog.ExtendedTernaryGolayCode()
         sage: C = LinearCode(M.representation())
         sage: C.is_permutation_equivalent(codes.GolayCode(GF(3)))       # long time, needs sage.rings.finite_rings
         True
@@ -493,7 +493,7 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.D16()
+        sage: M = matroids.catalog.D16()
         sage: M
         D16: Binary matroid of rank 8 on 16 elements, type (0, 0)
         sage: M.is_valid()
@@ -527,7 +527,7 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.Terrahawk()
+        sage: M = matroids.catalog.Terrahawk()
         sage: M
         Terrahawk: Binary matroid of rank 8 on 16 elements, type (0, 4)
         sage: M.is_valid()
@@ -562,7 +562,7 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
 
     EXAMPLES::
 
-        sage: M = matroids.named_matroids.ExtendedBinaryGolayCode()
+        sage: M = matroids.catalog.ExtendedBinaryGolayCode()
         sage: C = LinearCode(M.representation())
         sage: C.is_permutation_equivalent(codes.GolayCode(GF(2)))       # long time, needs sage.rings.finite_rings
         True
