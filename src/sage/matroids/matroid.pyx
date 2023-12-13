@@ -8138,7 +8138,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
@@ -8161,7 +8161,7 @@ cdef class Matroid(SageObject):
         return d
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -8170,11 +8170,11 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 

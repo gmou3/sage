@@ -1,19 +1,28 @@
 r"""
-Documentation for the matroids in the catalog
+Collection of Brettell's matroids
 
-This module contains implementations for many of the functions accessible
-through :mod:`matroids. <sage.matroids>` and
-:mod:`matroids.catalog. <sage.matroids.catalog>`
-(type those lines in Sage and hit ``tab`` for a list).
+This module contains implementations for Brettell's interesting matroids,
+accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
+and hit ``tab`` for a list).
 
 AUTHORS:
 
-- Nick Brettell (2023-02-25, date of associated publication): initial version
-                (retrieved online on 2023-12-06)
-- Giorgos Mousa (2023-12-08): import to SageMath and add examples
+- Nick Brettell (2023-02-25): initial version
+- Giorgos Mousa (2023-12-08): import to sage and add examples
+
+REFERENCES:
+
+For more information, see `Nick Brettell's research page
+<https://homepages.ecs.vuw.ac.nz/~bretteni/research.html>`_,
+or one of the following references:
+
+- [Bre2023]_
+
+- [BP2023]_
 
 Functions
 =========
+
 """
 from sage.matrix.constructor import Matrix
 from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
@@ -37,6 +46,7 @@ def FreeSpike(r):
         sage: M = matroids.FreeSpike(8)
         sage: M.is_3connected()
         True
+
     """
     if r == 3:
         return Uniform(3, 6)
@@ -102,6 +112,7 @@ def TippedFree3spike():
         sage: M = matroids.catalog.TippedFree3spike()
         sage: M.has_minor(matroids.Uniform(3,6))
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -136,6 +147,7 @@ def TQ8():
         sage: M = matroids.catalog.TQ8()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -158,6 +170,7 @@ def P8p():
         sage: M = matroids.catalog.P8p()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -181,6 +194,7 @@ def KP8():
         sage: M = matroids.catalog.KP8()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -204,6 +218,7 @@ def Sp8():
         sage: M = matroids.catalog.Sp8()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -227,6 +242,7 @@ def Sp8pp():
         sage: M = matroids.catalog.Sp8pp()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -248,6 +264,7 @@ def LP8():
         sage: M = matroids.catalog.LP8()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -272,6 +289,7 @@ def WQ8():
         sage: M = matroids.catalog.WQ8()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -304,6 +322,7 @@ def BB9():
         ....:             print(True)
         True
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -334,6 +353,7 @@ def TQ9():
         ....:         print(True)
         ....:         break
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -365,6 +385,7 @@ def TQ9p():
         ....:         print(True)
         ....:         break
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -421,6 +442,7 @@ def PP9():
         sage: M = PP9.delete('z')
         sage: M.is_isomorphic(P8p)
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -544,6 +566,7 @@ def KR9():
         sage: KP8 = matroids.catalog.KP8()
         sage: KP8.is_isomorphic(KR9.delete(8))
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -577,6 +600,7 @@ def KQ9():
         sage: KP8 = matroids.catalog.KP8()
         sage: KP8.is_isomorphic(KQ9.delete(8))
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -611,6 +635,7 @@ def UG10():
         sage: M = matroids.catalog.UG10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -638,6 +663,7 @@ def FF10():
         sage: M = matroids.catalog.FF10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -667,6 +693,7 @@ def GP10():
         sage: M = matroids.catalog.GP10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -695,6 +722,7 @@ def FZ10():
         sage: M = matroids.catalog.FZ10()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -723,6 +751,7 @@ def UQ10():
         sage: M = matroids.catalog.UQ10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -751,6 +780,7 @@ def FP10():
         sage: M = matroids.catalog.FP10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -781,6 +811,7 @@ def TQ10():
         sage: N = M.delete('d').contract('c')
         sage: N.is_isomorphic(matroids.catalog.TQ8())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -809,6 +840,7 @@ def FY10():
         sage: M = matroids.catalog.FY10()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -841,6 +873,7 @@ def PP10():
         sage: M = PP10.contract('x')
         sage: M.is_isomorphic(matroids.catalog.PP9())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -870,6 +903,7 @@ def FU10():
         sage: M = matroids.catalog.FU10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -898,6 +932,7 @@ def D10():
         sage: M = matroids.catalog.D10()
         sage: M.has_minor(matroids.catalog.TQ8())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -925,6 +960,7 @@ def UK10():
         sage: M = matroids.catalog.UK10()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -953,6 +989,7 @@ def PK10():
         sage: M = matroids.catalog.PK10()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -981,6 +1018,7 @@ def GK10():
         sage: M = matroids.catalog.GK10()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1009,6 +1047,7 @@ def FT10():
         sage: M = matroids.catalog.FT10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1037,6 +1076,7 @@ def TK10():
         sage: M = matroids.catalog.TK10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1065,6 +1105,7 @@ def KT10():
         sage: M = matroids.catalog.KT10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1093,6 +1134,7 @@ def TU10():
         sage: M = matroids.catalog.TU10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1121,6 +1163,7 @@ def UT10():
         sage: M = matroids.catalog.UT10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1149,6 +1192,7 @@ def FK10():
         sage: M = matroids.catalog.FK10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1177,6 +1221,7 @@ def KF10():
         sage: M = matroids.catalog.KF10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1209,6 +1254,7 @@ def FA11():
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(FA11.delete(10))
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1241,6 +1287,7 @@ def FR12():
         sage: M = matroids.catalog.FR12()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1269,6 +1316,7 @@ def GP12():
         sage: M = matroids.catalog.GP12()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1302,6 +1350,7 @@ def FQ12():
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(FQ12.contract('c').delete('d'))
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1336,6 +1385,7 @@ def FF12():
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(M.contract('c').delete('d'))
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1367,6 +1417,7 @@ def FZ12():
         sage: M = matroids.catalog.FZ12()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1396,6 +1447,7 @@ def UQ12():
         sage: M = matroids.catalog.UQ12()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1425,6 +1477,7 @@ def FP12():
         sage: M = matroids.catalog.FP12()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1454,6 +1507,7 @@ def FS12():
         sage: M = matroids.catalog.FS12()
         sage: M.rank()
         5
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1482,6 +1536,7 @@ def UK12():
         sage: M = matroids.catalog.UK12()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1511,6 +1566,7 @@ def UA12():
         sage: M = matroids.catalog.UA12()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1540,6 +1596,7 @@ def AK12():
         sage: M = matroids.catalog.AK12()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1569,6 +1626,7 @@ def FK12():
         sage: M = matroids.catalog.UT10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1598,6 +1656,7 @@ def KB12():
         sage: M = matroids.catalog.UT10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1627,6 +1686,7 @@ def AF12():
         sage: M = matroids.catalog.UT10()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1744,6 +1804,7 @@ def N3():
         True
         sage: N3.is_kconnected(5)
         False
+
     """
     A = Matrix(
         GF(3),
@@ -1773,6 +1834,7 @@ def N3pp():
         sage: M = matroids.catalog.N3pp()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1803,6 +1865,7 @@ def UP14():
         sage: M = matroids.catalog.UP14()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1833,6 +1896,7 @@ def VP14():
         sage: M = matroids.catalog.VP14()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1862,6 +1926,7 @@ def FV14():
         sage: M = matroids.catalog.FV14()
         sage: M.is_isomorphic(M.dual())
         False
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1891,6 +1956,7 @@ def OW14():
         sage: M = matroids.catalog.OW14()
         sage: M.is_isomorphic(M.dual())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1920,8 +1986,8 @@ def FM14():
         sage: M = matroids.catalog.FM14()
         sage: M.is_isomorphic(M.dual())
         True
-    """
 
+    """
     gf4 = GF(4, "w")
     w = gf4("w")
     A = Matrix(
@@ -1953,6 +2019,7 @@ def FA15():
         sage: M = matroids.catalog.FA15()
         sage: M.has_minor(matroids.catalog.N3pp())
         True
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -1989,6 +2056,7 @@ def N4():
         True
         sage: N4.is_kconnected(5)
         False
+
     """
     A = Matrix(
         GF(3),

@@ -1,31 +1,23 @@
 r"""
-Documentation for the matroids in the catalog
+A collection of various matroids
 
-This module contains implementations for many of the functions accessible
-through :mod:`matroids. <sage.matroids>` and
-:mod:`matroids.catalog. <sage.matroids.catalog>`
-(type those lines in Sage and hit ``tab`` for a list).
-
-The docstrings include educational information about each named matroid with
-the hopes that this class can be used as a reference. However, for a more
-comprehensive list of properties we refer to the appendix of [Oxl2011]_.
+This module contains implementations for various interesting matroids,
+accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
+those lines in Sage and hit ``tab`` for a list).
 
 .. TODO::
-
-    Add optional argument ``groundset`` to each method so users can customize
-    the groundset of the matroid. We probably want some means of relabeling to
-    accomplish that.
 
     Add option to specify the field for represented matroids.
 
 AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-- Giorgos Mousa, Andreas Triantafyllos (2023-12-08): reorganization,
-                                                     optional groundset
+- Giorgos Mousa, Andreas Triantafyllos (2023-12-08):
+  reorganization, optional groundset
 
 Functions
 =========
+
 """
 # ****************************************************************************
 #       Copyright (C) 2013 Michael Welsh <michael@welsh.co.nz >
@@ -73,14 +65,18 @@ def NonVamos(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefgh'
     CC = {
         3: ['abcd', 'abef', 'cdef', 'abgh', 'cdgh', 'efgh'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('NonVamos: ' + repr(M))
     return M
 
@@ -102,7 +98,9 @@ def NotP8(groundset='abcdefgh'):
         True
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 1, 1, -1],
@@ -131,12 +129,16 @@ def AG23minus(groundset='abcdefgh'):
 
     """
     if len(groundset) != 8:
-        raise ValueError("The groundset should be of size 8 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 8 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefgh'
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
           3: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('AG23minus: ' + repr(M))
     return M
 
@@ -157,7 +159,9 @@ def P9(groundset='abcdefghi'):
         True
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 0, 0, 1, 1],
@@ -187,13 +191,17 @@ def R9A(groundset='abcdefghi'):
 
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefghi'
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'aefh', 'adgh', 'acdi', 'abfi',
               'defi', 'begi', 'bdhi', 'cehi', 'fghi'],
           4: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('R9A: ' + repr(M))
     return M
 
@@ -215,13 +223,17 @@ def R9B(groundset='abcdefghi'):
 
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefghi'
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
               'abgi', 'degi', 'bdhi', 'aehi', 'fghi'],
           4: [E]}
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('R9B: ' + repr(M))
     return M
 
@@ -241,7 +253,9 @@ def Block_9_4(groundset='abcdefghi'):
         (True, (2, 9, 4, 3))
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefghi'
     CC = {
@@ -250,7 +264,9 @@ def Block_9_4(groundset='abcdefghi'):
             'cehi', 'afhi'],
         4: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('Block(9, 4): ' + repr(M))
     return M
 
@@ -270,7 +286,9 @@ def TicTacToe(groundset='abcdefghi'):
 
     """
     if len(groundset) != 9:
-        raise ValueError("The groundset should be of size 9 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 9 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefghi'
     CC = {
@@ -278,7 +296,9 @@ def TicTacToe(groundset='abcdefghi'):
             'beghi', 'cfghi'],
         5: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('TicTacToe: ' + repr(M))
     return M
 
@@ -299,7 +319,9 @@ def N1(groundset='abcdefghij'):
 
     """
     if len(groundset) != 10:
-        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 10 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 2, 0, 0, 1, 1],
@@ -328,7 +350,9 @@ def Block_10_5(groundset='abcdefghij'):
         (True, (3, 10, 5, 3))
     """
     if len(groundset) != 10:
-        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 10 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefghij'
     CC = {
@@ -340,7 +364,9 @@ def Block_10_5(groundset='abcdefghij'):
             'cghij'],
         5: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('Block(10, 5): ' + repr(M))
     return M
 
@@ -372,7 +398,9 @@ def Q10(groundset='abcdefghij'):
         []
     """
     if len(groundset) != 10:
-        raise ValueError("The groundset should be of size 10 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 10 (%s given)" % len(groundset)
+        )
 
     F = GF(4, 'x')
     x = F.gens()[0]
@@ -406,7 +434,9 @@ def BetsyRoss(groundset='abcdefghijk'):
         True
     """
     if len(groundset) != 11:
-        raise ValueError("The groundset should be of size 11 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 11 (%s given)" % len(groundset)
+        )
 
     E = 'abcdefghijk'
     CC = {
@@ -414,7 +444,9 @@ def BetsyRoss(groundset='abcdefghijk'):
             'egk', 'ahk', 'bik', 'cjk'],
         3: [E]
     }
-    M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC).relabel(dict(zip(E,groundset)))
+    M = CircuitClosuresMatroid(
+        groundset=E, circuit_closures=CC
+    ).relabel(dict(zip(E, groundset)))
     M.rename('BetsyRoss: ' + repr(M))
     return M
 
@@ -435,7 +467,9 @@ def N2(groundset='abcdefghijkl'):
 
     """
     if len(groundset) != 12:
-        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 12 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1],
@@ -467,7 +501,9 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
         True
     """
     if len(groundset) != 12:
-        raise ValueError("The groundset should be of size 12 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 12 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 0],
@@ -501,7 +537,9 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
 
     """
     if len(groundset) != 16:
-        raise ValueError("The groundset should be of size 16 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 16 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
@@ -535,7 +573,9 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
 
     """
     if len(groundset) != 16:
-        raise ValueError("The groundset should be of size 16 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 16 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(2), [
         [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -570,7 +610,9 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
         True
     """
     if len(groundset) != 24:
-        raise ValueError("The groundset should be of size 24 (%s given)" % len(groundset))
+        raise ValueError(
+            "The groundset should be of size 24 (%s given)" % len(groundset)
+        )
 
     A = Matrix(GF(2), [
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
