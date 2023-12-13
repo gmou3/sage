@@ -2983,7 +2983,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         return sage.matroids.unpickling.unpickle_linear_matroid, (version, data)
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -2992,11 +2992,11 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 
@@ -4084,7 +4084,7 @@ cdef class BinaryMatroid(LinearMatroid):
         return sage.matroids.unpickling.unpickle_binary_matroid, (version, data)
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -4093,11 +4093,11 @@ cdef class BinaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 
@@ -5016,7 +5016,7 @@ cdef class TernaryMatroid(LinearMatroid):
         return sage.matroids.unpickling.unpickle_ternary_matroid, (version, data)
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -5025,11 +5025,11 @@ cdef class TernaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 
@@ -5777,7 +5777,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         return sage.matroids.unpickling.unpickle_quaternary_matroid, (version, data)
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -5786,11 +5786,11 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 
@@ -6732,7 +6732,7 @@ cdef class RegularMatroid(LinearMatroid):
         return sage.matroids.unpickling.unpickle_regular_matroid, (version, data)
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -6741,11 +6741,11 @@ cdef class RegularMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 

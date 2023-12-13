@@ -573,7 +573,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         return sage.matroids.unpickling.unpickle_circuit_closures_matroid, (version, data)
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -582,11 +582,11 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
+        a matroid
 
         EXAMPLES::
 

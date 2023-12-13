@@ -1,10 +1,9 @@
 r"""
-Documentation for the matroids in the catalog
+Collection of Oxley's matroids
 
-This module contains implementations for many of the functions accessible
-through :mod:`matroids. <sage.matroids.matroids_catalog>` and
-:mod:`matroids.named_matroids. <sage.matroids.matroids_catalog>`
-(type those lines in Sage and hit ``tab`` for a list).
+This module contains implementations for Brettell's interesting matroids,
+accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
+those lines in Sage and hit ``tab`` for a list).
 
 The docstrings include educational information about each named matroid with
 the hopes that this class can be used as a reference. However, for a more
@@ -17,11 +16,12 @@ comprehensive list of properties we refer to the appendix of [Oxl2011]_.
 AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-- Giorgos Mousa, Andreas Triantafyllos (2023-12-08): reorganization,
-                                                     optional groundset
+- Giorgos Mousa, Andreas Triantafyllos (2023-12-08):
+  reorganization, optional groundset
 
 Functions
 =========
+
 """
 # ****************************************************************************
 #       Copyright (C) 2013 Michael Welsh <michael@welsh.co.nz >

@@ -522,7 +522,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         return BasisMatroid(groundset=self._E + (e,), bases=[B | se for B in self.bases()])
 
     cpdef relabel(self, l) noexcept:
-        """
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
         The output is obtained by relabeling each element ``e`` by ``l[e]``,
@@ -531,19 +531,11 @@ cdef class BasisMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`
 
         OUTPUT:
 
-        A matroid.
-
-        .. TODO::
-
-            Write abstract ``RelabeledMatroid`` class, and add ``relabel()``
-            method to the main ``Matroid`` class, together with ``_relabel()``
-            method that can be replaced by subclasses. Use the code from
-            ``is_isomorphism()`` in ``relabel()`` to deal with a variety of
-            input methods for the relabeling.
+        a matroid
 
         EXAMPLES::
 

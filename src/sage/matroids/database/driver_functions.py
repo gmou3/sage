@@ -1,13 +1,19 @@
 r"""
+Functions that access the collections of matroids
+
 This module contains driver functions to easily access the collections of
-matroids in the database. These functions can be viewed by typing ``matroids.``
-and hitting the ``tab`` button.
+matroids in the database. Each of these functions returns a complete list
+of matroids from the corresponding collection. These functions can be viewed
+by typing ``matroids.`` and hitting the ``tab`` button.
 
 AUTHORS:
 - Giorgos Mousa (2023-12-08): initial version
 
+REFERENCES:
+
 Functions
 =========
+
 """
 # **********************************************************************
 #       Copyright (C) 2023 Giorgos Mousa <gmousa@proton.me>
@@ -21,20 +27,18 @@ Functions
 
 def AllMatroids(n, r=-1, type='all'):
     """
-    Return an iterator of all matroids of certain number of elements
-    (and, optionally, of specific rank and type).
-    This collection is retrieved from
-    Yoshitake Matsumoto's ``Database of Matroids``.
+    Return an iterator of all matroids of certain number of elements (and,
+    optionally, of specific rank and type). This collection is retrieved from
+    `Yoshitake Matsumoto's ``Database of Matroids``
+    <https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html>`.
 
     INPUT:
 
-    - ``n`` -- an integer (1 <= n <= 9).
-      The number of elements of the matroids.
-    - ``r`` -- (optional) an integer (1 <= r <= n).
-      The rank of the matroids.
-    - ``type`` -- (default: ``all``) a string.
-      The type of the matroids, either ``all``, ``simple``,
-      or ``unorientable``.
+    - ``n`` -- an integer; the number of elements of the matroids
+    - ``r`` -- an integer (optional, 0 <= r <= n); the rank of the matroids
+    - ``type`` -- a string (default: ``all``); the type of the matroids.
+      Either ``all``, ``simple``, or ``unorientable``. If the type is set to
+      ``simple``, or ``unorientable``, then the rank must be specified.
 
     OUTPUT:
 
@@ -42,10 +46,18 @@ def AllMatroids(n, r=-1, type='all'):
 
     EXAMPLES::
 
-        sage: for M in matroids.AllMatroids(4):
-        ....:     assert M.is_valid()
-        sage: for M in matroids.AllMatroids(5, 3):
-        ....:     assert M.is_valid()
+        sage: for M in matroids.AllMatroids(2):
+        ....:     M
+        all_n02_r00_#0: Matroid of rank 0 on 2 elements with 1 bases
+        all_n02_r01_#0: Matroid of rank 1 on 2 elements with 2 bases
+        all_n02_r01_#1: Matroid of rank 1 on 2 elements with 1 bases
+        all_n02_r02_#0: Matroid of rank 2 on 2 elements with 1 bases
+        sage: for M in matroids.AllMatroids(5, 3, "simple"):
+        ....:     M
+        simple_n05_r03_#0: Matroid of rank 3 on 5 elements with 10 bases
+        simple_n05_r03_#1: Matroid of rank 3 on 5 elements with 9 bases
+        simple_n05_r03_#2: Matroid of rank 3 on 5 elements with 8 bases
+        simple_n05_r03_#3: Matroid of rank 3 on 5 elements with 6 bases
 
     TESTS::
 
@@ -61,13 +73,19 @@ def AllMatroids(n, r=-1, type='all'):
 
     from sage.matroids.basis_matroid import BasisMatroid
     if r == 0 or r == n:
-        return iter([BasisMatroid(groundset=range(n), bases=[range(r)])])
+        M = BasisMatroid(groundset=range(n), bases=[range(r)])
+        M.rename(
+            type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#"
+            + "0" + ": " + repr(M)
+        )
+        Matroids += [M]
+        return Matroids
 
     from sage.env import SAGE_SRC
     import os
     rp = min(r, n - r)
     filename = os.path.join(
-        SAGE_SRC, "sage", "matroids", "database", "yoshitake_matsumoto",
+        str(SAGE_SRC), "sage", "matroids", "database", "yoshitake_matsumoto",
         type + "_matroids",
         type + "r" + str(rp) + "n" + str(n).zfill(2) + ".txt"
     )  # type: ignore
@@ -92,8 +110,8 @@ def AllMatroids(n, r=-1, type='all'):
         if n - r < r:
             M = M.dual()
         M.rename(
-            type + "r" + str(r) + "n" + str(n).zfill(2) + "#" + str(cnt)
-            + ": " + repr(M)
+            type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#"
+            + str(cnt) + ": " + repr(M)
         )
         cnt += 1
         Matroids.append(M)
