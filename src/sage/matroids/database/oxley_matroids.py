@@ -1,7 +1,7 @@
 r"""
 Collection of Oxley's matroids
 
-This module contains implementations for Brettell's interesting matroids,
+This module contains implementations for Oxley's interesting matroids,
 accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
 those lines in Sage and hit ``tab`` for a list).
 
@@ -17,7 +17,7 @@ AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
 - Giorgos Mousa, Andreas Triantafyllos (2023-12-08):
-  reorganization, optional groundset
+  more matroids, optional groundset
 
 Functions
 =========
@@ -52,6 +52,35 @@ from sage.schemes.projective.projective_space import ProjectiveSpace
 
 
 def U24(groundset="abcd"):
+    """
+    The uniform matroid of rank `2` on `4` elements
+
+    The `4`-point line; isomorphic to `\\mathcal{W}^2` , the rank-`2` whirl.
+    The unique excluded minor for the class of binary matroids.
+
+    See [Oxl2011]_, p. 639.
+
+    EXAMPLES::
+
+        sage: M = matroids.Uniform(2, 4)
+        sage: N = matroids.catalog.U24(range(4))
+        sage: M.is_isomorphic(N)
+        True
+        sage: W2 = matroids.Whirl(2)
+        sage: W2.is_isomorphic(N)
+        True
+        sage: N.is_3connected()
+        True
+
+    TESTS::
+
+        sage: M = matroids.catalog.U24(range(4))
+        sage: sorted(M.groundset())
+        [0, 1, 2, 3]
+        sage: M.is_isomorphic(matroids.catalog.U24())
+        True
+
+    """
     if len(groundset) != 4:
         raise ValueError(
             "The groundset should be of size 4 (%s given)" % len(groundset)
@@ -64,6 +93,27 @@ def U24(groundset="abcd"):
 
 
 def U25(groundset="abcde"):
+    """
+    The uniform matroid of rank `2` on `5` elements
+
+    `U_{2,5}` is the `5`-point line. Dual to `U_{3,5}`.
+
+    See [Oxl2011]_, p. 640.
+
+    EXAMPLES::
+
+        sage: U25 = matroids.catalog.U25()
+        sage: U35 = matroids.catalog.U35()
+        sage: U25.is_isomorphic(U35.dual())
+        True
+
+    TESTS::
+
+        sage: M = matroids.catalog.U25(range(5))
+        sage: sorted(M.groundset())
+        [0, 1, 2, 3, 4]
+
+    """
     if len(groundset) != 5:
         raise ValueError(
             "The groundset should be of size 5 (%s given)" % len(groundset)
@@ -76,6 +126,27 @@ def U25(groundset="abcde"):
 
 
 def U35(groundset="abcde"):
+    """
+    The uniform matroid of rank `3` on `5` elements
+
+    `U_{3,5}` is five points freely placed in the plane. Dual to `U_{2,5}`.
+
+    See [Oxl2011]_, p. 640.
+
+    EXAMPLES::
+
+        sage: U35 = matroids.catalog.U35()
+        sage: U25 = matroids.catalog.U25()
+        sage: U35.is_isomorphic(U25.dual())
+        True
+
+    TESTS::
+
+        sage: M = matroids.catalog.U35(range(5))
+        sage: sorted(M.groundset())
+        [0, 1, 2, 3, 4]
+
+    """
     if len(groundset) != 5:
         raise ValueError(
             "The groundset should be of size 5 (%s given)" % len(groundset)
@@ -88,6 +159,31 @@ def U35(groundset="abcde"):
 
 
 def K4(groundset="abcdef"):
+    """
+    The graphic matroid of the complete graph `K_4`
+
+    Isomorphic to `M(W_3)`, the rank-`3` wheel, and to the tipless binary
+    `3`-spike.
+
+    See [Oxl2011]_, p. 640.
+
+    EXAMPLES::
+
+        sage: M = matroids.catalog.K4()
+        sage: W3 = matroids.Wheel(3)
+        sage: M.is_isomorphic(W3)
+        True
+        sage: Z = matroids.Z(3, False)
+        sage: M.is_isomorphic(Z)
+        True
+
+    TESTS::
+
+        sage: M = matroids.catalog.K4(range(6))
+        sage: sorted(M.groundset())
+        [0, 1, 2, 3, 4, 5]
+
+    """
     if len(groundset) != 6:
         raise ValueError(
             "The groundset should be of size 6 (%s given)" % len(groundset)
@@ -99,6 +195,28 @@ def K4(groundset="abcdef"):
 
 
 def Whirl3(groundset="abcdef"):
+    """
+    The rank-`3` whirl
+
+    The unique relaxation of `M(K_4)`. Self-dual but not identically self-dual.
+
+    See [Oxl2011]_, p. 641.
+
+    EXAMPLES::
+
+        sage: W = matroids.catalog.Whirl3()
+        sage: W.equals(W.dual())
+        False
+        sage: W.is_isomorphic(W.dual())
+        True
+
+    TESTS::
+
+        sage: W = matroids.catalog.Whirl3(range(6))
+        sage: sorted(W.groundset())
+        [0, 1, 2, 3, 4, 5]
+
+    """
     if len(groundset) != 6:
         raise ValueError(
             "The groundset should be of size 6 (%s given)" % len(groundset)
@@ -183,6 +301,30 @@ def P6(groundset="abcdef"):
 
 
 def U36(groundset="abcdef"):
+    """
+    The uniform matroid of rank `3` on `6` elements
+
+    Six points freely placed in the plane; the tipless free 3-spike.
+    Identically self-dual.
+
+    See [Oxl2011]_, p. 642.
+
+    EXAMPLES::
+
+        sage: U36 = matroids.catalog.U36()
+        sage: Z = matroids.FreeSpike(3, False)
+        sage: U36.is_isomorphic(Z)
+        True
+        sage: U36.equals(U36.dual())
+        True
+
+    TESTS::
+
+        sage: M = matroids.catalog.U36(range(6))
+        sage: sorted(M.groundset())
+        [0, 1, 2, 3, 4, 5]
+
+    """
     if len(groundset) != 6:
         raise ValueError(
             "The groundset should be of size 6 (%s given)" % len(groundset)
@@ -235,6 +377,9 @@ def Fano(groundset="abcdefg"):
     It is representable over a field if and only if that field has
     characteristic two.
     It is also the projective plane of order two, i.e. `\mathrm{PG}(2, 2)`.
+    `F_7` is isomorphic to the unique `S(2, 3, 7)` and to the unique binary
+    3-spike.
+
     See [Oxl2011]_, p. 643.
 
     EXAMPLES::
@@ -248,6 +393,9 @@ def Fano(groundset="abcdefg"):
         sage: M.delete(M.groundset_list()[randrange(0,                                  # needs sage.graphs
         ....:                  7)]).is_isomorphic(matroids.CompleteGraphic(4))
         True
+        sage: M.is_isomorphic(matroids.Z(3))
+        True
+
     """
     if len(groundset) != 7:
         raise ValueError(
@@ -264,6 +412,27 @@ def Fano(groundset="abcdefg"):
 
 
 def FanoDual(groundset="abcdefg"):
+    """
+    Return the dual of the Fano matroid
+
+    `F_7^*` is a `7`-element matroid of rank-`3`.
+
+    See [Oxl2011]_, p. 643.
+
+    EXAMPLES::
+
+        sage: F7 = matroids.catalog.Fano()
+        sage: F7D = matroids.catalog.FanoDual()
+        sage: F7.is_isomorphic(F7D.dual())
+        True
+
+    TESTS::
+
+        sage: F7D = matroids.catalog.FanoDual(range(7))
+        sage: sorted(F7D.groundset())
+        [0, 1, 2, 3, 4, 5, 6]
+
+    """
     if len(groundset) != 7:
         raise ValueError(
             "The groundset should be of size 7 (%s given)" % len(groundset)
@@ -282,7 +451,7 @@ def NonFano(groundset="abcdefg"):
     The non-Fano matroid, or `F_7^-`, is a 7-element matroid of rank-3.
     It is representable over a field if and only if that field has
     characteristic other than two.
-    It is the unique relaxation of `F_7`. See [Oxl2011]_, p. 643.
+    It is the unique relaxation of `F_7`. See [Oxl2011]_, p. 643-4.
 
     EXAMPLES::
 
@@ -296,6 +465,7 @@ def NonFano(groundset="abcdefg"):
         True
         sage: M.delete('g').is_isomorphic(matroids.CompleteGraphic(4))                  # needs sage.graphs
         False
+
     """
     if len(groundset) != 7:
         raise ValueError(
@@ -312,6 +482,29 @@ def NonFano(groundset="abcdefg"):
 
 
 def NonFanoDual(groundset="abcdefg"):
+    """
+    Return the dual of the non-Fano matroid
+
+    `(F_7^-)*` is a 7-element matroid of rank-3. Every single-element
+    contraction of `(F_7^-)*` is isomorphic to `M(K_4)` or `\\mathcal{W}^3`.
+
+    See [Oxl2011]_, p. 643-4.
+
+    EXAMPLES::
+
+        sage: M = matroids.catalog.NonFanoDual()
+        sage: sorted(M.groundset())
+        ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+        sage: M.contract('f').is_isomorphic(matroids.catalog.K4())
+        True
+
+    TESTS::
+
+        sage: M = matroids.catalog.NonFanoDual(range(7))
+        sage: sorted(M.groundset())
+        [0, 1, 2, 3, 4, 5, 6]
+
+    """
     if len(groundset) != 7:
         raise ValueError(
             "The groundset should be of size 7 (%s given)" % len(groundset)
@@ -341,6 +534,7 @@ def O7(groundset="abcdefg"):
         True
         sage: M.tutte_polynomial()
         y^4 + x^3 + x*y^2 + 3*y^3 + 4*x^2 + 5*x*y + 5*y^2 + 4*x + 4*y
+
     """
     if len(groundset) != 7:
         raise ValueError(
@@ -376,6 +570,7 @@ def P7(groundset="abcdefg"):
         False
         sage: M.is_valid()
         True
+
     """
     if len(groundset) != 7:
         raise ValueError(
@@ -1516,4 +1711,122 @@ def AG(n, q, x=None):
     return M
 
 
-# Z_r, r-spike, Q_r(A), Theta_n, Psi_r
+def Z(r, t=True):
+    r"""
+    Return the unique rank-`r` binary spike
+
+    Defined for all `r \\geq 3`; `Z_3\\e ~= M(K4)`, for all e; Z_3 ~= F_7;
+    Z_4 \\t ~= AG(3, 2); Z_4\\e ~= S_8, for all `e \\neq t`.
+
+    For more information, see p. 661-2 of [Oxl2011]_.
+
+    INPUT:
+
+    - ``r`` -- an integer (`r \\geq 3`); the rank of the spike
+    - ``t`` -- a boolean (default: ``True``); whether the spike is tipped
+
+    OUTPUT:
+
+    a matroid; the unique rank-`r` binary spike (tipped or tipless)
+
+    EXAMPLES::
+
+        sage: Z3 = matroids.Z(3)
+        sage: sorted(Z3.groundset())
+        [0, 1, 2, 3, 4, 5, 6]
+        sage: K4 = matroids.catalog.K4()
+        sage: Z3.delete(0).is_isomorphic(K4)
+        True
+        sage: F7 = matroids.catalog.Fano()
+        sage: Z3.is_isomorphic(F7)
+        True
+        sage: Z4 = matroids.Z(4)
+        sage: S8 = matroids.catalog.S8()
+        sage: Z4.delete(3).is_isomorphic(S8)
+        True
+        sage: for r in range(3, 10): # long time
+        ....:     Z = matroids.Z(r, False)
+        ....:     Z.is_isomorphic(Z.dual())
+        True
+        ...
+
+    """
+    from sage.matrix.special import identity_matrix, ones_matrix
+    Id = Matrix(GF(2), identity_matrix(r))
+    J = Matrix(GF(2), ones_matrix(r))
+    tip = Matrix(GF(2), ones_matrix(r, 1))
+    A = Id.augment(J-Id).augment(tip)
+
+    M = Matroid(A)
+    if t:
+        M.rename("Z_" + str(r) + ": " + repr(M))
+    else:
+        M = M.delete(2*r)
+        M.rename("Z_" + str(r) + "\\t: " + repr(M))
+    return M
+
+
+def Spike(r, t=True, C3=[]):
+    r"""
+    Return the rank-r spike
+
+    Defined for all `r \\geq 3`; a rank-r spike with tip `t` and legs `L1, L2,
+    \\dots, Lr`. Deleting `t` gives a tipless rank-r spike.
+
+    The groundset is `E = \{t, x_1, x_2, \\dots, x_r, y_1, y_2, \\dots, y_r\}`
+    with `r(E) = r`. The set `L_i = {t, x_i , y_i}` is a circuit for all `i`.
+    For `1 \\le k \\le r-1`, the union of any `k` of `{L_i}_i` has rank `k+1`.
+
+    Each of `F_7`, `F_7^-`, and `P_7`, is a 3-spike.
+
+    Deleting any element gives a self-dual matroid. The tipless free spike is
+    identically self-dual. For `r \\geq 4`, deleting the tip and contracting
+    any other element gives an `(r-1)`-spike.
+
+    For more information, see p. 662 of [Oxl2011]_.
+
+    INPUT:
+
+    - ``r`` -- an integer (`r \\geq 3`); the rank of the spike
+    - ``t`` -- a boolean (default: ``True``); whether the spike is tipped
+
+    OUTPUT:
+
+    a matroid; the rank-`r` spike (tipped or tipless)
+
+    """
+    E = ["t"]
+    X, Y = [], []
+    for i in range(1, r + 1):
+        X.append(str(i) + "x")
+        Y.append(str(i) + "y")
+    E += X
+    E += Y
+
+    for S in C3:
+        for xy in S:
+            if xy not in list(set(X).union(set(Y))):
+                raise ValueError(
+                    "The sets in C3 must contain elements x_i and y_i only"
+                )
+        for T in C3:
+            if S != T and len(set(S).intersection(set(T))) > r - 2:
+                raise ValueError(
+                    "Every pair of sets in C3 must not have more than r - 2 "
+                    + "common elements"
+                )
+
+    circuits = [E]+C3
+    for i in range(1, len(X)+1):
+        circuits += [["t", str(i)+"x", str(i)+"y"]]
+        for j in range(i+1, len(Y)+1):
+            circuits += [[str(i)+"x", str(i)+"y", str(j)+"x", str(j)+"y"]]
+
+    M = Matroid(groundset=E, circuits=circuits)
+    if not t:
+        M = M.delete("t")
+    assert M.is_valid()
+    return M
+
+
+# Q_r(A), Theta_n, Psi_r

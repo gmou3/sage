@@ -1138,7 +1138,7 @@ REFERENCES:
             Theory and its Applications, 1 (2015),
             83–96. :arxiv:`1406.5337`
 
-.. [BP2023] \N. Brettell and R. Pendavingh, *"*Computing excluded minors for
+.. [BP2023] \N. Brettell and R. Pendavingh, *Computing excluded minors for
             classes of matroids representable over partial fields*, arXiv
             preprint :arxiv:`2302.13175` (2023).
 

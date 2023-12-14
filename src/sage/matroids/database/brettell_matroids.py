@@ -16,9 +16,12 @@ For more information, see `Nick Brettell's research page
 <https://homepages.ecs.vuw.ac.nz/~bretteni/research.html>`_,
 or one of the following references:
 
-- [Bre2023]_
+- [Bre2023]_ \N. Brettell, *The excluded minors for GF (5)-representable
+  matroids on ten elements*, arXiv preprint :arxiv:`2307.14614` (2023).
 
-- [BP2023]_
+- [BP2023]_ \N. Brettell and R. Pendavingh, *Computing excluded minors for
+  classes of matroids representable over partial fields*, arXiv preprint
+  :arxiv:`2302.13175` (2023).
 
 Functions
 =========
@@ -29,64 +32,6 @@ from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
 from sage.matroids.linear_matroid import TernaryMatroid, QuaternaryMatroid
 from sage.matroids.database.oxley_matroids import Uniform
 from sage.rings.finite_rings.finite_field_constructor import GF
-
-# 2r elements:
-
-
-def FreeSpike(r):
-    """
-    Return the tipless rank-r free spike.
-
-    When `r=3`, it is isomorphic to `U_{3,6}`; when `r=4`, it is the unique
-    tightening of the Vamos matroid.
-
-    EXAMPLES::
-        sage: M = matroids.FreeSpike(3)
-        sage: M.is_isomorphic(matroids.Uniform(3,6))
-        True
-        sage: M = matroids.FreeSpike(8)
-        sage: M.is_3connected()
-        True
-
-    """
-    if r == 3:
-        return Uniform(3, 6)
-    elif r < 3:
-        raise AttributeError("Tipless free spike must have rank at least 3.")
-
-    E = range(1, 2 * r + 1)
-    circs = [
-        [2 * i + 1, 2 * i + 2, 2 * j + 1, 2 * j + 2]
-        for i in range(r)
-        for j in range(i + 1, r)
-    ]
-    CC = {3: circs, r: [E]}
-    spike = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
-    spike.rename("(Tipless) rank-" + str(r) + " free spike: " + repr(spike))
-    return spike
-
-
-def TippedFreeSpike(r):
-    """
-    Return the tipped rank-r free spike.
-
-    """
-    if r == 3:
-        return TippedFree3spike()
-    elif r < 3:
-        raise AttributeError("Tipped free spike must have rank at least 3.")
-
-    E = range(2 * r + 1)
-    tris = [[0, 2 * i + 1, 2 * i + 2] for i in range(r)]
-    planes = [
-        [2 * i + 1, 2 * i + 2, 2 * j + 1, 2 * j + 2]
-        for i in range(r)
-        for j in range(i + 1, r)
-    ]
-    CC = {2: tris, 3: planes, r: [E]}
-    spike = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
-    spike.rename("Tipped rank-" + str(r) + " free spike: " + repr(spike))
-    return spike
 
 
 # 7 elements:
@@ -2079,3 +2024,57 @@ def N4():
     n4 = TernaryMatroid(reduced_matrix=A)
     n4.rename("N4: " + repr(n4))
     return n4
+
+
+# 2r elements:
+
+
+def FreeSpike(r, t=True):
+    r"""
+    Return the rank-r free spike
+
+    For the tipless free spike (`t =` ``False``), when `r = 3`, it is isomorphic
+    to `U_{3,6}`; when `r = 4`, it is the unique tightening of the Vamos matroid.
+
+    EXAMPLES::
+        sage: M = matroids.FreeSpike(3, False)
+        sage: M.is_isomorphic(matroids.Uniform(3, 6))
+        True
+        sage: M = matroids.FreeSpike(8)
+        sage: M.is_3connected()
+        True
+
+    """
+    if t:  # tipped free spike
+        if r == 3:
+            return TippedFree3spike()
+        elif r < 3:
+            raise ValueError("Tipped free spike must have rank at least 3.")
+
+        E = range(2 * r + 1)
+        tris = [[0, 2 * i + 1, 2 * i + 2] for i in range(r)]
+        planes = [
+            [2 * i + 1, 2 * i + 2, 2 * j + 1, 2 * j + 2]
+            for i in range(r)
+            for j in range(i + 1, r)
+        ]
+        CC = {2: tris, 3: planes, r: [E]}
+        spike = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+        spike.rename("Tipped rank-" + str(r) + " free spike: " + repr(spike))
+        return spike
+    else:  # tipless free spike
+        if r == 3:
+            return Uniform(3, 6)
+        elif r < 3:
+            raise ValueError("Tipless free spike must have rank at least 3.")
+
+        E = range(1, 2 * r + 1)
+        circs = [
+            [2 * i + 1, 2 * i + 2, 2 * j + 1, 2 * j + 2]
+            for i in range(r)
+            for j in range(i + 1, r)
+        ]
+        CC = {3: circs, r: [E]}
+        spike = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+        spike.rename("(Tipless) rank-" + str(r) + " free spike: " + repr(spike))
+        return spike

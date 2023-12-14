@@ -170,7 +170,7 @@ lazy_import(
 )
 lazy_import(
     "sage.matroids.database.oxley_matroids",
-    ("Wheel", "Whirl", "Uniform", "PG", "AG")
+    ("Wheel", "Whirl", "Uniform", "PG", "AG", "Z", "Spike")
 )
 lazy_import("sage.matroids.database.brettell_matroids", "FreeSpike")
 lazy_import("sage.matroids.database.various_matroids", "CompleteGraphic")
