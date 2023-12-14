@@ -35,9 +35,10 @@ from sage.rings.finite_rings.finite_field_constructor import GF
 
 def FreeSpike(r):
     """
-    Tipless rank-r free spike.
-    When r=3, is isomorphic to U_{3,6};
-    when r=4, is the unique tightening of the Vamos matroid.
+    Return the tipless rank-r free spike.
+
+    When `r=3`, it is isomorphic to `U_{3,6}`; when `r=4`, it is the unique
+    tightening of the Vamos matroid.
 
     EXAMPLES::
         sage: M = matroids.FreeSpike(3)
@@ -67,7 +68,8 @@ def FreeSpike(r):
 
 def TippedFreeSpike(r):
     """
-    Tipped rank-r free spike.
+    Return the tipped rank-r free spike.
+
     """
     if r == 3:
         return TippedFree3spike()
@@ -92,8 +94,10 @@ def TippedFreeSpike(r):
 
 def RelaxedNonFano():
     """
-    An excluded minor for 2-regular matroids.
-    UPF is K_2.
+    Return the relaxed NonFano matroid.
+
+    An excluded minor for 2-regular matroids. UPF is `K_2`.
+
     """
     gf4 = GF(4, "w")
     w = gf4("w")
@@ -105,8 +109,8 @@ def RelaxedNonFano():
 
 def TippedFree3spike():
     """
-    Unique 3-connected extension of U_{3,6}.
-    Stabilizer for K_2.
+    Unique 3-connected extension of `U_{3,6}`.
+    Stabilizer for `K_2`.
 
     EXAMPLES::
         sage: M = matroids.catalog.TippedFree3spike()
@@ -129,8 +133,9 @@ def TippedFree3spike():
 
 def AG23minusDY():
     """
-    The matroid obtained from a AG(2,3)\\e by a single delta-Y exchange
-    on a triangle. An excluded minor for near-regular matroids. UPF is S.
+    The matroid obtained from a `AG(2,3)\\e` by a single delta-Y exchange on a
+    triangle. An excluded minor for near-regular matroids. UPF is S.
+
     """
     A = Matrix(GF(3), [[1, 1, 1, 1], [1, 0, 1, 2], [2, 0, 1, 2], [2, 1, 1, 0]])
     dy = TernaryMatroid(reduced_matrix=A)
@@ -141,7 +146,7 @@ def AG23minusDY():
 def TQ8():
     """
     An excluded minor for 2-regular matroids.
-    UPF is K_2. Self-dual.
+    UPF is `K_2`. Self-dual.
 
     EXAMPLES::
         sage: M = matroids.catalog.TQ8()
@@ -163,8 +168,8 @@ def TQ8():
 
 def P8p():
     """
-    P8-: obtained by relaxing one of the disjoint circuit-hyperplanes of P8.
-    An excluded minor for 2-regular matroids. UPF is K_2. Self-dual.
+    `P8^-`: obtained by relaxing one of the disjoint circuit-hyperplanes of
+    `P_8`. An excluded minor for 2-regular matroids. UPF is `K_2`. Self-dual.
 
     EXAMPLES::
         sage: M = matroids.catalog.P8p()
