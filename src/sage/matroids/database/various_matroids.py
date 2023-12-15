@@ -1,7 +1,7 @@
 r"""
 A collection of various matroids
 
-This module contains implementations for various interesting matroids,
+This module contains implementations of various interesting matroids,
 accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
 those lines in Sage and hit ``tab`` for a list).
 
@@ -12,8 +12,8 @@ those lines in Sage and hit ``tab`` for a list).
 AUTHORS:
 
 - Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-- Giorgos Mousa, Andreas Triantafyllos (2023-12-08):
-  reorganization, optional groundset
+- Giorgos Mousa, Andreas Triantafyllos (2023-12-08): reorganization, optional
+  groundset
 
 Functions
 =========
@@ -63,6 +63,7 @@ def NonVamos(groundset='abcdefgh'):
         True
         sage: M.is_valid() # long time
         True
+
     """
     if len(groundset) != 8:
         raise ValueError(
@@ -96,6 +97,7 @@ def NotP8(groundset='abcdefgh'):
         False
         sage: M.is_valid()
         True
+
     """
     if len(groundset) != 8:
         raise ValueError(
@@ -157,6 +159,7 @@ def P9(groundset='abcdefghi'):
         P9: Binary matroid of rank 4 on 9 elements, type (1, 1)
         sage: M.is_valid()
         True
+
     """
     if len(groundset) != 9:
         raise ValueError(
@@ -251,6 +254,7 @@ def Block_9_4(groundset='abcdefghi'):
         sage: BD = BlockDesign(M.groundset(), M.nonspanning_circuits())                 # needs sage.graphs
         sage: BD.is_t_design(return_parameters=True)                                    # needs sage.graphs
         (True, (2, 9, 4, 3))
+
     """
     if len(groundset) != 9:
         raise ValueError(
@@ -348,6 +352,7 @@ def Block_10_5(groundset='abcdefghij'):
         sage: BD = BlockDesign(M.groundset(), M.nonspanning_circuits())                 # needs sage.graphs
         sage: BD.is_t_design(return_parameters=True)                                    # needs sage.graphs
         (True, (3, 10, 5, 3))
+
     """
     if len(groundset) != 10:
         raise ValueError(
@@ -396,6 +401,7 @@ def Q10(groundset='abcdefghij'):
         sage: S = matroids.catalog.Q10().linear_extensions(simple=True)          # needs sage.rings.finite_rings
         sage: [M for M in S if not M.has_line_minor(5)]         # long time, needs sage.rings.finite_rings
         []
+
     """
     if len(groundset) != 10:
         raise ValueError(
@@ -432,6 +438,7 @@ def BetsyRoss(groundset='abcdefghijk'):
         10
         sage: M.is_valid() # long time
         True
+
     """
     if len(groundset) != 11:
         raise ValueError(
@@ -499,6 +506,7 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
         True
         sage: M.is_valid()
         True
+
     """
     if len(groundset) != 12:
         raise ValueError(
@@ -608,6 +616,7 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
         True
         sage: M.is_valid()
         True
+
     """
     if len(groundset) != 24:
         raise ValueError(
@@ -662,6 +671,7 @@ def CompleteGraphic(n):
         {0, 1, 2, 4, 5, 7}
         sage: M.is_valid()
         True
+
     """
     from sage.graphs.graph_generators import graphs
 

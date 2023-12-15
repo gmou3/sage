@@ -1225,7 +1225,7 @@ REFERENCES:
              Journal on Discrete Mathematics, 22 (4): 1277–1296,
              :doi:`10.1137/060664690`.
 
-.. [Bre2023] \N. Brettell, *The excluded minors for GF (5)-representable matroids
+.. [Bre2023] \N. Brettell, *The excluded minors for GF(5)-representable matroids
              on ten elements*, arXiv preprint :arxiv:`2307.14614` (2023).
 
 .. [Bro2011] Francis Brown, *Multiple zeta values and periods: From

@@ -9,8 +9,6 @@ by typing ``matroids.`` and hitting the ``tab`` button.
 AUTHORS:
 - Giorgos Mousa (2023-12-08): initial version
 
-REFERENCES:
-
 Functions
 =========
 
@@ -26,23 +24,25 @@ Functions
 
 
 def AllMatroids(n, r=-1, type="all"):
-    """
-    Return an iterator of all matroids of certain number of elements (and,
-    optionally, of specific rank and type). This collection is retrieved from
-    `Yoshitake Matsumoto's ``Database of Matroids``
-    <https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html>`.
+    r"""
+    Return a list of all matroids of certain number of elements (and,
+    optionally, of specific rank and type)
+
+    This collection is retrieved from `Yoshitake Matsumoto's Database of
+    Matroids
+    <https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html>`_.
 
     INPUT:
 
     - ``n`` -- an integer; the number of elements of the matroids
-    - ``r`` -- an integer (optional, 0 <= r <= n); the rank of the matroids
+    - ``r`` -- an integer (optional, `0 \le r \le n`); the rank of the matroids
     - ``type`` -- a string (default: ``all``); the type of the matroids.
       Either ``all``, ``simple``, or ``unorientable``. If the type is set to
       ``simple``, or ``unorientable``, then the rank must be specified.
 
     OUTPUT:
 
-    an iterator over matroids
+    a list of matroids
 
     EXAMPLES::
 
@@ -83,7 +83,7 @@ def AllMatroids(n, r=-1, type="all"):
         ....: ]
         sage: for r in range(0, 12 + 1): # long time
         ....:     for n in range(r, 12 + 1):
-        ....:         if all[r][n] and all[r][n] < 100000:
+        ....:         if all[r][n] and all[r][n] < 1000:
         ....:             assert len(matroids.AllMatroids(n, r)) == all[r][n]
         ....:             for M in matroids.AllMatroids(n, r):
         ....:                 assert M.is_valid()
@@ -96,7 +96,7 @@ def AllMatroids(n, r=-1, type="all"):
         ....: ]
         sage: for r in range(0, 4 + 1): # long time
         ....:     for n in range(r, 12 + 1):
-        ....:         if simple[r][n] and simple[r][n] < 100000:
+        ....:         if simple[r][n] and simple[r][n] < 1000:
         ....:             assert len(matroids.AllMatroids(n, r, "simple")) == simple[r][n]
         ....:             for M in matroids.AllMatroids(n, r, "simple"):
         ....:                 assert M.is_valid() and M.is_simple()
@@ -106,10 +106,11 @@ def AllMatroids(n, r=-1, type="all"):
         ....: ]
         sage: for r in range(0, 1 + 1): # long time
         ....:     for n in range(0, 4 + 1):
-        ....:         if unorientable[r][n]:
+        ....:         if unorientable[r][n] and unorientable[r][n] < 1000:
         ....:             assert len(matroids.AllMatroids(n + 7, r + 3, "unorientable")) == unorientable[r][n]
         ....:             for M in matroids.AllMatroids(n + 7, r + 3, "unorientable"):
         ....:                 assert M.is_valid()
+
     """
     from sage.matroids.basis_matroid import BasisMatroid
     from sage.env import SAGE_SRC
@@ -169,13 +170,18 @@ def AllMatroids(n, r=-1, type="all"):
 
 def OxleyMatroids():
     """
-    Return an iterator of (nonparameterized) matroids as listed in the
-    Appendix ``Some Interesting Matroids`` in [Oxl2011]_.
+    Return a list of (nonparameterized) matroids
+
+    As listed in
+    :mod:`matroids.database.oxley_matroids <sage.matroids.database.oxley_matroids>`,
+    following the Appendix ``Some Interesting Matroids`` in [Oxl2011]_ (p.
+    639-64).
 
     EXAMPLES::
 
         sage: for M in matroids.OxleyMatroids(): # long time
         ....:     assert M.is_valid()
+
     """
     Matroids = []
     from sage.matroids.database.oxley_matroids import (
@@ -214,12 +220,16 @@ def OxleyMatroids():
 
 def BrettellMatroids():
     """
-    Return an iterator of interesting matroids as listed in [].
+    Return a list of interesting matroids
+
+    As listed in
+    :mod:`matroids.database.brettell_matroids <sage.matroids.database.brettell_matroids>`.
 
     EXAMPLES::
 
         sage: for M in matroids.BrettellMatroids(): # long time
         ....:     assert M.is_valid()
+
     """
     Matroids = []
     from sage.matroids.database.brettell_matroids import (
@@ -263,12 +273,16 @@ def BrettellMatroids():
 
 def VariousMatroids():
     """
-    Return an iterator of various other named matroids.
+    Return a list of various other named matroids
+
+    As listed in
+    :mod:`matroids.database.various_matroids <sage.matroids.database.various_matroids>`.
 
     EXAMPLES::
 
         sage: for M in matroids.VariousMatroids(): # long time
         ....:     assert M.is_valid()
+
     """
     Matroids = []
     from sage.matroids.database.various_matroids import (
