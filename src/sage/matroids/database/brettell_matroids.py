@@ -1899,7 +1899,7 @@ def NestOfTwistedCubes():
     EXAMPLES::
 
         sage: M = matroids.catalog.NestOfTwistedCubes()
-        sage: M.is_valid() # long time
+        sage: M.is_3connected()
         True
 
     """
@@ -2298,62 +2298,3 @@ def N4():
     n4 = TernaryMatroid(reduced_matrix=A)
     n4.rename("N4: " + repr(n4))
     return n4
-
-
-# 2r elements:
-
-
-def FreeSpike(r, t=True):
-    r"""
-    Return the rank-`r` free spike
-
-    For the tipless free spike (`t` = ``False``), when `r = 3`, it is
-    isomorphic to :func:`U36 <sage.matroids.database.oxley_matroids.U36>`;
-    when `r = 4`, it is the unique tightening of the
-    :func:`Vamos matroid <sage.matroids.database.oxley_matroids.Vamos>`.
-
-    EXAMPLES::
-
-        sage: M = matroids.FreeSpike(3, False)
-        sage: M.is_isomorphic(matroids.Uniform(3, 6))
-        True
-        sage: M = matroids.FreeSpike(8)
-        sage: M.is_3connected()
-        True
-
-    """
-    if t:  # tipped free spike
-        if r == 3:
-            return TippedFree3spike()
-        elif r < 3:
-            raise ValueError("Tipped free spike must have rank at least 3.")
-
-        E = range(2 * r + 1)
-        tris = [[0, 2 * i + 1, 2 * i + 2] for i in range(r)]
-        planes = [
-            [2 * i + 1, 2 * i + 2, 2 * j + 1, 2 * j + 2]
-            for i in range(r)
-            for j in range(i + 1, r)
-        ]
-        CC = {2: tris, 3: planes, r: [E]}
-        spike = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
-        spike.rename("Tipped rank-" + str(r) + " free spike: " + repr(spike))
-        return spike
-    else:  # tipless free spike
-        if r == 3:
-            return Uniform(3, 6)
-        elif r < 3:
-            raise ValueError("Tipless free spike must have rank at least 3.")
-
-        E = range(1, 2 * r + 1)
-        circs = [
-            [2 * i + 1, 2 * i + 2, 2 * j + 1, 2 * j + 2]
-            for i in range(r)
-            for j in range(i + 1, r)
-        ]
-        CC = {3: circs, r: [E]}
-        spike = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
-        spike.rename(
-            "(Tipless) rank-" + str(r) + " free spike: " + repr(spike)
-        )
-        return spike

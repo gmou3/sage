@@ -14,13 +14,14 @@ To create a custom matroid using a variety of inputs, see the function
 - Parametrized matroid constructors (``matroids.<tab>``)
     - :func:`matroids.AG <sage.matroids.database.oxley_matroids.AG>`
     - :func:`matroids.CompleteGraphic <sage.matroids.database.various_matroids.CompleteGraphic>`
-    - :func:`matroids.FreeSpike <sage.matroids.database.brettell_matroids.FreeSpike>`
     - :func:`matroids.CompleteGraphic <sage.matroids.database.various_matroids.CompleteGraphic>`
     - :func:`matroids.PG <sage.matroids.database.oxley_matroids.PG>`
     - :func:`matroids.Spike <sage.matroids.database.oxley_matroids.Spike>`
+    - :func:`matroids.Theta <sage.matroids.database.oxley_matroids.Theta>`
     - :func:`matroids.Uniform <sage.matroids.database.oxley_matroids.Uniform>`
     - :func:`matroids.Wheel <sage.matroids.database.oxley_matroids.Wheel>`
     - :func:`matroids.Whirl <sage.matroids.database.oxley_matroids.Whirl>`
+    - :func:`matroids.Z <sage.matroids.database.oxley_matroids.Z>`
 
 - List of collections of matroids (``matroids.<tab>``)
     - :func:`matroids.oxley_matroids <sage.matroids.database.oxley_matroids>`
@@ -169,9 +170,8 @@ lazy_import(
 )
 lazy_import(
     "sage.matroids.database.oxley_matroids",
-    ("Wheel", "Whirl", "Uniform", "PG", "AG", "Z", "Spike")
+    ("Wheel", "Whirl", "Uniform", "PG", "AG", "Z", "Spike", "Theta")
 )
-lazy_import("sage.matroids.database.brettell_matroids", "FreeSpike")
 lazy_import("sage.matroids.database.various_matroids", "CompleteGraphic")
 lazy_import("sage.matroids", "catalog")
 lazy_import("sage.matroids", "named_matroids")

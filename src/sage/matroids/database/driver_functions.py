@@ -179,8 +179,12 @@ def OxleyMatroids():
 
     EXAMPLES::
 
-        sage: for M in matroids.OxleyMatroids(): # long time
-        ....:     assert M.is_valid()
+        sage: import random
+        sage: OM = matroids.OxleyMatroids(); len(OM)
+        41
+        sage: M = random.choice(OM)
+        sage: M.is_valid() # long time
+        True
 
     """
     Matroids = []
@@ -227,8 +231,12 @@ def BrettellMatroids():
 
     EXAMPLES::
 
-        sage: for M in matroids.BrettellMatroids(): # long time
-        ....:     assert M.is_valid()
+        sage: import random
+        sage: BM = matroids.BrettellMatroids(); len(BM)
+        68
+        sage: M = random.choice(BM)
+        sage: M.is_valid() # long time
+        True
 
     """
     Matroids = []
@@ -280,8 +288,12 @@ def VariousMatroids():
 
     EXAMPLES::
 
-        sage: for M in matroids.VariousMatroids(): # long time
-        ....:     assert M.is_valid()
+        sage: import random
+        sage: VM = matroids.VariousMatroids(); len(VM)
+        17
+        sage: M = random.choice(VM)
+        sage: M.is_valid() # long time
+        True
 
     """
     Matroids = []

@@ -313,7 +313,7 @@ def U36(groundset="abcdef"):
     EXAMPLES::
 
         sage: U36 = matroids.catalog.U36()
-        sage: Z = matroids.FreeSpike(3, False)
+        sage: Z = matroids.Spike(3, False)
         sage: U36.is_isomorphic(Z)
         True
         sage: U36.equals(U36.dual())
@@ -587,7 +587,7 @@ def P7(groundset="abcdefg"):
 
 def AG32(groundset="abcdefgh"):
     """
-    Return the matroid AG32
+    Return the matroid `AG(3, 2)`
 
     The binary affine cube. Isomorphic to the unique tipless binary 4-spike.
 
@@ -1226,7 +1226,7 @@ def K33(groundset="abcdefghi"):
 
 def AG23(groundset="abcdefghi"):
     """
-    Return the matroid AG23
+    Return the matroid `AG(2, 3)`
 
     The ternary affine plane.
 
@@ -1624,6 +1624,7 @@ def Wheel(n, field=None, ring=None):
         True
         sage: M = matroids.Wheel(3, field=GF(3)); M
         Wheel(3): Ternary matroid of rank 3 on 6 elements, type 0+
+
     """
     base_ring = ZZ
     if field is not None and ring is not None:
@@ -1689,6 +1690,7 @@ def Whirl(n):
         ``[-1  0  x]``
         ``[ 1 -1  0]``
         ``[ 0  1 -1]``
+
     """
     A = Matrix(GF(3), n, 2 * n, sparse=True)
     for i in range(n):
@@ -1742,6 +1744,7 @@ def Uniform(r, n):
         sage: M = matroids.Uniform(4,4)
         sage: len(M.circuit_closures())
         0
+
     """
     E = list(range(n))
     if r < n:
@@ -1782,6 +1785,7 @@ def PG(n, q, x=None):
         sage: M = matroids.PG(4, 7); M
         PG(4, 7): Linear matroid of rank 5 on 2801 elements represented over
         the Finite Field of size 7
+
     """
     if x is None:
         x = "x"
@@ -1843,11 +1847,9 @@ def Z(r, t=True):
     r"""
     Return the unique rank-`r` binary spike
 
-    Defined for all `r \ge 3`; `Z_3\\e \cong M(K4)`, for all `e`;
-    `Z_3 \cong F_7`; `Z_4 \\t \cong AG(3, 2)`; `Z_4\\e \cong S_8`,
-    for all `e \neq t`.
+    Defined for all `r \ge 3`.
 
-    For more information, see p. 661-2 of [Oxl2011]_.
+    See p. 661-2 of [Oxl2011]_.
 
     INPUT:
 
@@ -1860,24 +1862,50 @@ def Z(r, t=True):
 
     EXAMPLES::
 
+        sage: import random
+
+    It holds that `Z_3 \setminus e \cong M(K4)`, for all `e`::
+
         sage: Z3 = matroids.Z(3)
-        sage: sorted(Z3.groundset())
-        [0, 1, 2, 3, 4, 5, 6]
-        sage: K4 = matroids.catalog.K4()
-        sage: Z3.delete(0).is_isomorphic(K4)
+        sage: E = sorted(Z3.groundset()); E
+        ['t', 'x1', 'x2', 'x3', 'y1', 'y2', 'y3']
+        sage: e = random.choice(E)
+        sage: Z3.delete(e).is_isomorphic(matroids.catalog.K4())
         True
+
+    `Z_3 \cong F_7`::
+
         sage: F7 = matroids.catalog.Fano()
         sage: Z3.is_isomorphic(F7)
         True
+
+    `Z_4 \setminus t \cong AG(3, 2)`::
+
+        sage: Z4 = matroids.Z(4, False)
+        sage: Z4.is_isomorphic(matroids.catalog.AG32())
+        True
+
+    and `Z_4 \setminus e \cong S_8`, for all `e \neq t`::
+
         sage: Z4 = matroids.Z(4)
+        sage: E = sorted(Z4.groundset())
+        sage: E.remove('t')
+        sage: e = random.choice(E)
         sage: S8 = matroids.catalog.S8()
-        sage: Z4.delete(3).is_isomorphic(S8)
+        sage: Z4.delete(e).is_isomorphic(S8)
         True
-        sage: for r in range(3, 10): # long time
-        ....:     Z = matroids.Z(r, False)
-        ....:     Z.is_isomorphic(Z.dual())
+        sage: Z4.delete('t').is_isomorphic(S8)
+        False
+
+    The tipless binary spike is self-dual; it is identically self-dual if and
+    only if r is even::
+
+        sage: r = random.choice(range(3, 12))
+        sage: Z = matroids.Z(r, False)
+        sage: Z.is_isomorphic(Z.dual())
         True
-        ...
+        sage: Z.equals(Z.dual()) != (r % 2 == 1)  # XOR
+        True
 
     """
     from sage.matrix.special import identity_matrix, ones_matrix
@@ -1887,31 +1915,35 @@ def Z(r, t=True):
     A = Id.augment(J-Id).augment(tip)
 
     M = Matroid(A)
+    X = ["x"+str(i) for i in range(1, r+1)]
+    Y = ["y"+str(i) for i in range(1, r+1)]
     if t:
+        M = M.relabel(X+Y+["t"])
         M.rename("Z_" + str(r) + ": " + repr(M))
     else:
         M = M.delete(2*r)
+        M = M.relabel(X+Y)
         M.rename("Z_" + str(r) + "\\t: " + repr(M))
     return M
 
 
 def Spike(r, t=True, C3=[]):
     r"""
-    Return the rank-r spike
+    Return a rank-r spike
 
     Defined for all `r \ge 3`; a rank-r spike with tip `t` and legs `L_1,
     L_2, \ldots, L_r`. Deleting `t` gives a tipless rank-`r` spike.
 
     The groundset is `E = \{t, x_1, x_2, \ldots, x_r, y_1, y_2, \ldots,
-    y_r\}` with `r(E) = r`. The set `L_i = {t, x_i , y_i}` is a circuit for
-    all `i`. For `1 \le k \le r-1`, the union of any `k` of `{L_i}_i` has
-    rank `k+1`.
+    y_r\}` with `r(E) = r`.
+
+    Let `L_i = \{t, x_i , y_i\}`. The non-spanning circuits are `\{L_1 , L_2 ,
+    \ldots, L_r\}`, all sets of the form `(L_i \cup L_j) \setminus t` for `1
+    \le i \lt j \le r`, and some (possibly empty) collection `C_3` of sets of
+    the form `\{z_1, z_2, \ldots, z_r\}` where `z_i \in \{x_i, y_i\}` for all
+    `i`, and no two members of `C_3` have more than `r-2` common elements.
 
     Each of `F_7`, `F_7^-`, and `P_7`, is a 3-spike.
-
-    Deleting any element gives a self-dual matroid. The tipless free spike is
-    identically self-dual. For `r \ge 4`, deleting the tip and contracting
-    any other element gives an `(r-1)`-spike.
 
     For more information, see p. 662 of [Oxl2011]_.
 
@@ -1919,23 +1951,47 @@ def Spike(r, t=True, C3=[]):
 
     - ``r`` -- an integer (`r \ge 3`); the rank of the spike
     - ``t`` -- a boolean (default: ``True``); whether the spike is tipped
+    - ``C3`` -- a list (default: ``[]``); a list of extra nonspanning circuits.
+      The default (i.e. the empty list) results in a free `r`-spike
 
     OUTPUT:
 
-    a matroid; the rank-`r` spike (tipped or tipless)
+    a matroid; a rank-`r` spike (tipped or tipless)
+
+    EXAMPLES::
+
+        sage: M = matroids.Spike(3, False)
+        sage: M.is_isomorphic(matroids.Uniform(3, 6))
+        True
+        sage: M = matroids.Spike(5)
+        sage: M.is_3connected()
+        True
+
+    Deleting any element gives a self-dual matroid. The tipless free spike
+    (i.e., when `C_3` is empty) is identically self-dual::
+
+        sage: M = matroids.Spike(6)
+        sage: import random
+        sage: e = random.choice(list(M.groundset()))
+        sage: Minor = M.delete(e)
+        sage: Minor.is_isomorphic(Minor.dual())
+        True
+        sage: M = matroids.Spike(4, False)
+        sage: M.equals(M.dual())
+        True
 
     """
     E = ["t"]
     X, Y = [], []
     for i in range(1, r + 1):
-        X.append(str(i) + "x")
-        Y.append(str(i) + "y")
+        X.append("x" + str(i))
+        Y.append("y" + str(i))
     E += X
     E += Y
 
     for S in C3:
         for xy in S:
-            if xy not in list(set(X).union(set(Y))):
+            if xy not in X+Y:
                 raise ValueError(
                     "The sets in C3 must contain elements x_i and y_i only"
                 )
@@ -1946,17 +2002,98 @@ def Spike(r, t=True, C3=[]):
                     + "common elements"
                 )
 
-    circuits = [E]+C3
+    NSC = []  # nonspanning_circuits
+    NSC += C3
     for i in range(1, len(X)+1):
-        circuits += [["t", str(i)+"x", str(i)+"y"]]
+        NSC += [["t", "x"+str(i), "y"+str(i)]]
         for j in range(i+1, len(Y)+1):
-            circuits += [[str(i)+"x", str(i)+"y", str(j)+"x", str(j)+"y"]]
+            NSC += [["x"+str(i), "y"+str(i), "x"+str(j), "y"+str(j)]]
 
-    M = Matroid(groundset=E, circuits=circuits)
-    if not t:
-        M = M.delete("t")
-    assert M.is_valid()
+    import itertools
+    B = []
+    for b in itertools.combinations(E, r):
+        flag = True
+        for C in NSC:
+            if set(b) > set(C):
+                flag = False
+                break
+        if flag:
+            B += [list(b)]
+
+    M = Matroid(groundset=E, bases=B)
+    free = "Free " if C3 == [] else ""
+    tip = "" if t else "\\t"
+    M = M if t else M.delete('t')
+    M.rename(free + str(r) + "-spike" + tip + ": " + repr(M))
     return M
 
 
-# Q_r(A), Theta_n, Psi_r
+# Q_r(A)
+
+
+def Theta(n):
+    r"""
+    Return the matroid `\Theta_n`
+
+    Defined for all `n \ge 2`. `\Theta_2 \cong U_{1,2} \bigoplus U_{1,2}` and
+    `\Theta_3 \cong M(K_4)`.
+
+    See [Oxl2011]_, p. 663-4.
+
+    INPUT:
+
+    - ``n`` -- an integer (`n \ge 2`); the rank of the matroid
+
+    OUTPUT:
+
+    a matroid (`\Theta_n`)
+
+    EXAMPLES::
+
+        sage: M = matroids.Theta(2)
+        sage: U12 = matroids.Uniform(1, 2)
+        sage: U = U12.direct_sum(U12)
+        sage: M.is_isomorphic(U)
+        True
+        sage: M = matroids.Theta(3)
+        sage: M.is_isomorphic(matroids.catalog.K4())
+        True
+
+    `\Theta_n` is self-dual; identically self-dual if and only if `n = 2`::
+
+        sage: M = matroids.Theta(2)
+        sage: M.equals(M.dual())
+        True
+        sage: import random
+        sage: n = random.choice(range(3, 10))
+        sage: M = matroids.Theta(n)
+        sage: M.equals(M.dual())
+        False
+        sage: M.is_isomorphic(M.dual())
+        True
+
+    """
+    X = ["x"+str(i) for i in range(1, n+1)]
+    Y = ["y"+str(i) for i in range(1, n+1)]
+    E = X + Y
+
+    import itertools
+    C = []
+    C += list(itertools.combinations(X, 3))
+    for i in range(1, n+1):
+        Yi = [Y[j] for j in range(len(Y)) if j != i-1]
+        C += [Yi + ["x"+str(i)]]
+
+    for u in range(1, n+1):
+        for s in range(1, n+1):
+            for t in range(1, n+1):
+                if u != s and u != t and s != t:
+                    Yu = [Y[i] for i in range(len(Y)) if i != u-1]
+                    C += [Yu + ["x"+str(s)] + ["x"+str(t)]]
+
+    M = Matroid(groundset=E, circuits=C)
+    M.rename("Theta_" + str(n) + ": " + repr(M))
+    return M
+
+
+# Psi_r

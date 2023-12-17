@@ -8147,13 +8147,10 @@ cdef class Matroid(SageObject):
         E = set()
         d = {}
         for x in self.groundset():
-            if x in l:
-                try:
-                    E.add(l[x])
-                    d[x] = l[x]
-                except TypeError:
-                    raise TypeError("Invalid map given")
-            else:
+            try:
+                E.add(l[x])
+                d[x] = l[x]
+            except Exception:
                 E.add(x)
                 d[x] = x
         if len(E) != len(self.groundset()):
