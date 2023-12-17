@@ -491,41 +491,6 @@ def N2(groundset='abcdefghijkl'):
     return M
 
 
-def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
-    """
-    Return the matroid of the extended ternary Golay code.
-
-    See
-    :class:`GolayCode <sage.coding.golay_code.GolayCode>`
-
-    EXAMPLES::
-
-        sage: M = matroids.catalog.ExtendedTernaryGolayCode()
-        sage: C = LinearCode(M.representation())
-        sage: C.is_permutation_equivalent(codes.GolayCode(GF(3)))       # long time, needs sage.rings.finite_rings
-        True
-        sage: M.is_valid()
-        True
-
-    """
-    if len(groundset) != 12:
-        raise ValueError(
-            "The groundset should be of size 12 (%s given)" % len(groundset)
-        )
-
-    A = Matrix(GF(3), [
-        [1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 0],
-        [0, 1, 0, 0, 0, 0, 1, 1, 2, 1, 0, 2],
-        [0, 0, 1, 0, 0, 0, 1, 2, 1, 0, 1, 2],
-        [0, 0, 0, 1, 0, 0, 1, 2, 0, 1, 2, 1],
-        [0, 0, 0, 0, 1, 0, 1, 0, 2, 2, 1, 1],
-        [0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1]
-    ])
-    M = TernaryMatroid(A, groundset)
-    M.rename('Extended Ternary Golay Code: ' + repr(M))
-    return M
-
-
 def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
     """
     Return the matroid `D_{16}`.

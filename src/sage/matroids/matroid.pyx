@@ -8150,7 +8150,7 @@ cdef class Matroid(SageObject):
             try:
                 E.add(l[x])
                 d[x] = l[x]
-            except Exception:
+            except LookupError:
                 E.add(x)
                 d[x] = x
         if len(E) != len(self.groundset()):

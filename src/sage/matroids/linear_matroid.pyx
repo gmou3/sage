@@ -3009,10 +3009,8 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         """
         d = self._relabel_map(l)
-        E = [d[x] for x in self.groundset()]
+        E = [d[x] for x in self.groundset_list()]
         M = LinearMatroid(groundset=E, matrix=self._matrix_())
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
 
 # Binary matroid
@@ -4111,10 +4109,8 @@ cdef class BinaryMatroid(LinearMatroid):
 
         """
         d = self._relabel_map(l)
-        E = [d[x] for x in self.groundset()]
+        E = [d[x] for x in self.groundset_list()]
         M = BinaryMatroid(groundset=E, matrix=self._matrix_())
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
 
 cdef class TernaryMatroid(LinearMatroid):
@@ -5043,10 +5039,8 @@ cdef class TernaryMatroid(LinearMatroid):
 
         """
         d = self._relabel_map(l)
-        E = [d[x] for x in self.groundset()]
+        E = [d[x] for x in self.groundset_list()]
         M = TernaryMatroid(groundset=E, matrix=self._matrix_())
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
 
 # Quaternary Matroids
@@ -5804,10 +5798,8 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         """
         d = self._relabel_map(l)
-        E = [d[x] for x in self.groundset()]
+        E = [d[x] for x in self.groundset_list()]
         M = QuaternaryMatroid(groundset=E, matrix=self._matrix_())
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
 
 # Regular Matroids
@@ -6759,8 +6751,6 @@ cdef class RegularMatroid(LinearMatroid):
 
         """
         d = self._relabel_map(l)
-        E = [d[x] for x in self.groundset()]
+        E = [d[x] for x in self.groundset_list()]
         M = RegularMatroid(groundset=E, matrix=self._matrix_())
-        if not self.is_isomorphic(M):
-            raise ValueError("Relabeled matroid is not isomorphic to original")
         return M
