@@ -3,7 +3,7 @@ A collection of various matroids
 
 This module contains implementations of various interesting matroids,
 accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
-those lines in Sage and hit ``tab`` for a list).
+those lines in Sage and hit :kbd:`Tab` for a list).
 
 .. TODO::
 
@@ -396,7 +396,7 @@ def Q10(groundset='abcdefghij'):
     we only need to check that all 3-connected single-element extensions have
     an excluded minor for sixth-roots-of-unity. The only excluded minors that
     are quaternary are `U_{2, 5}, U_{3, 5}, F_7, F_7^*`. As it happens, it
-    suffices to check for `U_{2, 5}`:
+    suffices to check for `U_{2, 5}`::
 
         sage: S = matroids.catalog.Q10().linear_extensions(simple=True)          # needs sage.rings.finite_rings
         sage: [M for M in S if not M.has_line_minor(5)]         # long time, needs sage.rings.finite_rings

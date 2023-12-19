@@ -3,7 +3,7 @@ Collection of Brettell's matroids
 
 This module contains implementations of Brettell's interesting matroids,
 accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
-and hit ``tab`` for a list).
+and hit :kbd:`Tab` for a list).
 
 AUTHORS:
 

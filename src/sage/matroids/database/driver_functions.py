@@ -4,7 +4,7 @@ Functions that access the collections of matroids
 This module contains driver functions to easily access the collections of
 matroids in the database. Each of these functions returns a complete list of
 matroids from the corresponding collection. These functions can be viewed by
-typing ``matroids.`` and hitting the ``tab`` button.
+typing ``matroids.`` and hitting :kbd:`Tab`.
 
 AUTHORS:
 - Giorgos Mousa (2023-12-08): initial version
@@ -42,12 +42,6 @@ def AllMatroids(n, r=-1, type="all"):
 
     a list of matroids
 
-    REFERENCES:
-
-    This collection is retrieved from `Yoshitake Matsumoto's Database of
-    Matroids
-    <https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html>`_.
-
     EXAMPLES::
 
         sage: for M in matroids.AllMatroids(2):
@@ -62,6 +56,12 @@ def AllMatroids(n, r=-1, type="all"):
         simple_n05_r03_#1: Matroid of rank 3 on 5 elements with 9 bases
         simple_n05_r03_#2: Matroid of rank 3 on 5 elements with 8 bases
         simple_n05_r03_#3: Matroid of rank 3 on 5 elements with 6 bases
+
+    REFERENCES:
+
+    This collection is retrieved from `Yoshitake Matsumoto's Database of
+    Matroids
+    <https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html>`_.
 
     TESTS::
 
@@ -242,9 +242,9 @@ def BrettellMatroids():
         sage: M.is_valid() # long time
         True
 
-    SEEALSO:
+    .. SEEALSO::
 
-        - :mod:`matroids.database.brettell_matroids <sage.matroids.database.brettell_matroids>`
+        :mod:`matroids.database.brettell_matroids <sage.matroids.database.brettell_matroids>`
 
     """
     Matroids = []
@@ -291,9 +291,6 @@ def VariousMatroids():
     """
     Return a list of various other named matroids.
 
-    As listed in
-    :mod:`matroids.database.various_matroids <sage.matroids.database.various_matroids>`.
-
     EXAMPLES::
 
         sage: import random
@@ -302,6 +299,10 @@ def VariousMatroids():
         sage: M = random.choice(VM)
         sage: M.is_valid() # long time
         True
+
+    .. SEEALSO::
+
+        :mod:`matroids.database.various_matroids <sage.matroids.database.various_matroids>`
 
     """
     Matroids = []

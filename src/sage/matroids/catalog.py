@@ -3,7 +3,7 @@ Documentation for the matroids in the catalog
 
 This module contains implementations for the matroids accessible through
 :mod:`matroids.catalog <sage.matroids.catalog>` (type this in Sage and hit
-``tab`` for a list).
+:kbd:`Tab` for a list).
 
 """
 from sage.matroids.database.oxley_matroids import (

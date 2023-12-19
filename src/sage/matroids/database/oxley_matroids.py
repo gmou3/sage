@@ -3,7 +3,7 @@ Collection of Oxley's matroids
 
 This module contains implementations of Oxley's interesting matroids,
 accessible through :mod:`matroids.catalog. <sage.matroids.catalog>` (type
-those lines in Sage and hit ``tab`` for a list).
+those lines in Sage and hit :kbd:`Tab` for a list).
 
 The docstrings include educational information about each named matroid with
 the hopes that this class can be used as a reference. However, for a more
@@ -39,7 +39,7 @@ from sage.matroids.linear_matroid import (
     RegularMatroid,
     BinaryMatroid,
     TernaryMatroid,
-    QuaternaryMatroid,
+    QuaternaryMatroid
 )
 from sage.matroids.database.various_matroids import CompleteGraphic
 from sage.rings.integer_ring import ZZ

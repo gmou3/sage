@@ -4,7 +4,7 @@ Named matroids
 A module containing several interesting matroids that have names in the
 literature. A list of all matroids in this database is available via tab
 completion. Type ``matroids.named_matroids.`` (include the last dot) and hit
-the ``tab`` key to see which matroids are available.
+:kbd:`Tab` to see which matroids are available.
 """
 from sage.matroids.database.oxley_matroids import (
     U24, U25, U35, K4, Whirl3, Q6, P6, U36, R6,

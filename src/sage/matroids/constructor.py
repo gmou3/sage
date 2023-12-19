@@ -6,17 +6,25 @@ Theory
 
 Matroids are combinatorial structures that capture the abstract properties
 of (linear/algebraic/...) dependence. Formally, a matroid is a pair
-`M = (E, I)` of a finite set `E`, the *groundset*, and a collection of
-subsets `I`, the independent sets, subject to the following axioms:
+`M = (E, \mathcal{I})` of a finite set `E`, the *groundset*, and a collection
+`\mathcal{I}` of subsets of `E`, the *independent sets*, subject to the
+following axioms:
 
-* `I` contains the empty set
-* If `X` is a set in `I`, then each subset of `X` is in `I`
-* If two subsets `X`, `Y` are in `I`, and `|X| > |Y|`, then there exists
-  `x \in X - Y` such that `Y + \{x\}` is in `I`.
+* `\emptyset \in \mathcal{I}`;
+* If `I \in \mathcal{I}`, then each subset of `I` is in `\mathcal{I}`;
+* If `I`, `J \in \mathcal{I}`, and `|I| < |J|`, then there exists an element
+  `e \in J \setminus I`, such that `I \cup \{e\} \in \mathcal{I}`.
 
-See the :wikipedia:`Wikipedia article on matroids <Matroid>` for more theory
-and examples. Matroids can be obtained from many types of mathematical
-structures, and Sage supports a number of them.
+.. NOTE::
+
+    See the :wikipedia:`Wikipedia article on matroids <Matroid>` for more
+    theory and examples. The first two axioms alone define an
+    :wikipedia:`abstract simplicial complex <Abstract_simplicial_complex>`.
+    See also :mod:`sage.categories.simplicial_complexes`. The third axiom is
+    called the augmentation axiom.
+
+Matroids can be obtained from many types of mathematical structures, and Sage
+supports a number of them.
 
 There are two main entry points to Sage's matroid functionality. The object
 :class:`matroids. <sage.matroids.matroids_catalog>` contains a number of
@@ -50,10 +58,10 @@ or::
    sage: U36.equals(U36.dual())
    True
 
-A number of special matroids are collected under a ``named_matroids`` submenu.
-To see which, type ``matroids.named_matroids.<tab>`` as above::
+A number of special matroids are collected under the ``catalog`` submenu.
+To see which, type ``matroids.catalog.<tab>`` as above::
 
-    sage: F7 = matroids.named_matroids.Fano()
+    sage: F7 = matroids.catalog.Fano()
     sage: len(F7.nonspanning_circuits())
     7
 
@@ -72,7 +80,7 @@ EXAMPLES::
    ....:                    [0, 1, 0, 1, 0, 1, 1],
    ....:                    [0, 0, 1, 1, 1, 0, 1]])
    sage: M = Matroid(A)
-   sage: M.is_isomorphic(matroids.named_matroids.Fano())
+   sage: M.is_isomorphic(matroids.catalog.Fano())
    True
 
    sage: M = Matroid(graphs.PetersenGraph())                                            # needs sage.graphs
@@ -114,7 +122,13 @@ import sage.matroids.basis_exchange_matroid
 from .rank_matroid import RankMatroid
 from .circuit_closures_matroid import CircuitClosuresMatroid
 from .basis_matroid import BasisMatroid
-from .linear_matroid import LinearMatroid, RegularMatroid, BinaryMatroid, TernaryMatroid, QuaternaryMatroid
+from .linear_matroid import (
+    LinearMatroid,
+    RegularMatroid,
+    BinaryMatroid,
+    TernaryMatroid,
+    QuaternaryMatroid
+)
 from .graphic_matroid import GraphicMatroid
 import sage.matroids.utilities
 
@@ -125,29 +139,34 @@ def Matroid(groundset=None, data=None, **kwds):
 
     Matroids are combinatorial structures that capture the abstract properties
     of (linear/algebraic/...) dependence. Formally, a matroid is a pair
-    `M = (E, I)` of a finite set `E`, the *groundset*, and a collection of
-    subsets `I`, the independent sets, subject to the following axioms:
+    `M = (E, \mathcal{I})` of a finite set `E`, the *groundset*, and a
+    collection `\mathcal{I}` of subsets of `E`, the *independent sets*,
+    subject to the following axioms:
 
-    * `I` contains the empty set
-    * If `X` is a set in `I`, then each subset of `X` is in `I`
-    * If two subsets `X`, `Y` are in `I`, and `|X| > |Y|`, then there exists
-      `x \in X - Y` such that `Y + \{x\}` is in `I`.
+    * `\emptyset \in \mathcal{I}`;
+    * If `I \in \mathcal{I}`, then each subset of `I` is in `\mathcal{I}`;
+    * If `I`, `J \in \mathcal{I}`, and `|I| < |J|`, then there exists an
+      element `e \in J \setminus I`, such that `I \cup \{e\} \in \mathcal{I}`.
 
-    See the :wikipedia:`Wikipedia article on matroids <Matroid>` for more
-    theory and examples. Matroids can be obtained from many types of
-    mathematical structures, and Sage supports a number of them.
+    .. NOTE::
+
+        See the :wikipedia:`Wikipedia article on matroids <Matroid>` for more
+        theory and examples. The first two axioms alone define an
+        :wikipedia:`abstract simplicial complex <Abstract_simplicial_complex>`.
+        See also :mod:`sage.categories.simplicial_complexes`. The third axiom
+        is called the augmentation axiom.
 
     There are two main entry points to Sage's matroid functionality. For
     built-in matroids, do the following:
 
-    * Within a Sage session, type "matroids." (Do not press :kbd:`Enter`, and do
-      not forget the final period ".")
+    * Within a Sage session, type "matroids." (Do not press :kbd:`Enter`, and
+      do not forget the final period ".")
     * Hit :kbd:`Tab`.
 
     You will see a list of methods which will construct matroids. For
     example::
 
-        sage: F7 = matroids.named_matroids.Fano()
+        sage: F7 = matroids.catalog.Fano()
         sage: len(F7.nonspanning_circuits())
         7
 
@@ -243,7 +262,7 @@ def Matroid(groundset=None, data=None, **kwds):
 
     #.  List of bases:
 
-        All of the following inputs are allowed, and equivalent::
+        All of the following inputs are allowed, and are equivalent::
 
             sage: M1 = Matroid(groundset='abcd', bases=['ab', 'ac', 'ad',
             ....:                                       'bc', 'bd', 'cd'])
@@ -538,7 +557,7 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: M = Matroid(circuit_closures={3: ['edfg', 'acdg', 'bcfg',
             ....:     'cefh', 'afgh', 'abce', 'abdf', 'begh', 'bcdh', 'adeh'],
             ....:     4: ['abcdefgh']})
-            sage: M.equals(matroids.named_matroids.P8())
+            sage: M.equals(matroids.catalog.P8())
             True
 
         You can also input tuples `(k, X)` where `X` is the closure of a
@@ -546,7 +565,7 @@ def Matroid(groundset=None, data=None, **kwds):
 
             sage: M = Matroid(circuit_closures=[(2, 'abd'), (3, 'abcdef'),
             ....:                               (2, 'bce')])
-            sage: M.equals(matroids.named_matroids.Q6())                                # needs sage.rings.finite_rings
+            sage: M.equals(matroids.catalog.Q6())                                # needs sage.rings.finite_rings
             True
 
     #.  RevLex-Index:
@@ -557,20 +576,21 @@ def Matroid(groundset=None, data=None, **kwds):
 
             sage: M = Matroid("abcdef", "000000******0**", rank=4); M
             Matroid of rank 4 on 6 elements with 8 bases
-            sage: list(M.bases())
+            sage: sorted(M.bases(), key=sorted)
             [frozenset({'a', 'b', 'd', 'f'}),
-             frozenset({'a', 'c', 'd', 'f'}),
-             frozenset({'b', 'c', 'd', 'f'}),
-             frozenset({'a', 'b', 'e', 'f'}),
-             frozenset({'a', 'c', 'e', 'f'}),
-             frozenset({'b', 'c', 'e', 'f'}),
-             frozenset({'b', 'd', 'e', 'f'}),
-             frozenset({'c', 'd', 'e', 'f'})]
+            frozenset({'a', 'b', 'e', 'f'}),
+            frozenset({'a', 'c', 'd', 'f'}),
+            frozenset({'a', 'c', 'e', 'f'}),
+            frozenset({'b', 'c', 'd', 'f'}),
+            frozenset({'b', 'c', 'e', 'f'}),
+            frozenset({'b', 'd', 'e', 'f'}),
+            frozenset({'c', 'd', 'e', 'f'})]
 
-        Only the ``0`` symbols really matter, any symbol can be used
-        instead of ``*``:
 
-            sage: Matroid("abcdefg", revlex="0++++++++0++++0+++++0+--++----+--++", rank=4)
+        Only the ``0`` symbols really matter; any other symbol can be used
+        instead of ``*``::
+
+            sage: Matroid("abcdefg", revlex="0use the 0char0acter0of your choice", rank=4)
             Matroid of rank 4 on 7 elements with 31 bases
 
         It is checked that the input makes sense (but not that it
@@ -593,7 +613,7 @@ def Matroid(groundset=None, data=None, **kwds):
 
         Most of the time, the matroid itself is returned::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: N = Matroid(M)
             sage: N is M
             True
@@ -626,7 +646,7 @@ def Matroid(groundset=None, data=None, **kwds):
     By default we check if the resulting matroid is actually regular. To
     increase speed, this check can be skipped::
 
-        sage: M = matroids.named_matroids.Fano()
+        sage: M = matroids.catalog.Fano()
         sage: N = Matroid(M, regular=True)                                              # needs sage.graphs
         Traceback (most recent call last):
         ...
