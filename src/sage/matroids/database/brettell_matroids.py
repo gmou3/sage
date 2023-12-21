@@ -23,14 +23,10 @@ or one of the following references:
   classes of matroids representable over partial fields*, arXiv preprint
   :arxiv:`2302.13175` (2023).
 
-Functions
-=========
-
 """
 from sage.matrix.constructor import Matrix
 from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
 from sage.matroids.linear_matroid import TernaryMatroid, QuaternaryMatroid
-from sage.matroids.database.oxley_matroids import Uniform
 from sage.rings.finite_rings.finite_field_constructor import GF
 
 
@@ -50,12 +46,12 @@ def RelaxedNonFano():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
-    A = Matrix(gf4, [[1, 1, 0, 1], [1, 0, 1, 1], [0, 1, w, 1]])
-    RelaxedNonFano = QuaternaryMatroid(reduced_matrix=A)
-    RelaxedNonFano.rename("F7=: " + repr(RelaxedNonFano))
-    return RelaxedNonFano
+    GF4 = GF(4, 'w')
+    w = GF4('w')
+    A = Matrix(GF4, [[1, 1, 0, 1], [1, 0, 1, 1], [0, 1, w, 1]])
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("F7=: " + repr(M))
+    return M
 
 
 def TippedFree3spike():
@@ -73,14 +69,14 @@ def TippedFree3spike():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
-    A = Matrix(gf4, [[1, 1, 1, 1], [1, w + 1, 0, w], [1, 0, w + 1, w]])
-    spike = QuaternaryMatroid(
+    GF4 = GF(4, 'w')
+    w = GF4('w')
+    A = Matrix(GF4, [[1, 1, 1, 1], [1, w + 1, 0, w], [1, 0, w + 1, w]])
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 3, 5, 1, 4, 6, 2]
     )
-    spike.rename("Tipped rank-3 free spike: " + repr(spike))
-    return spike
+    M.rename("Tipped rank-3 free spike: " + repr(M))
+    return M
 
 
 # 8 elements:
@@ -102,9 +98,9 @@ def AG23minusDY():
 
     """
     A = Matrix(GF(3), [[1, 1, 1, 1], [1, 0, 1, 2], [2, 0, 1, 2], [2, 1, 1, 0]])
-    dy = TernaryMatroid(reduced_matrix=A)
-    dy.rename("Delta-Y of AG(2,3)\\e: " + repr(dy))
-    return dy
+    M = TernaryMatroid(reduced_matrix=A)
+    M.rename("Delta-Y of AG(2,3)\\e: " + repr(M))
+    return M
 
 
 def TQ8():
@@ -121,16 +117,16 @@ def TQ8():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[0, w, 1, 1], [1, 0, w, w + 1], [1, w, 0, w], [1, w + 1, 1, 0]]
+        GF4, [[0, w, 1, 1], [1, 0, w, w + 1], [1, w, 0, w], [1, w + 1, 1, 0]]
     )
-    tp8 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 7, 5, 3, 8, 6, 4, 2]
     )
-    tp8.rename("TQ8: " + repr(tp8))
-    return tp8
+    M.rename("TQ8: " + repr(M))
+    return M
 
 
 def P8p():
@@ -148,16 +144,16 @@ def P8p():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 1, 1, w], [1, w + 1, 1, 0], [1, 0, w, w], [0, 1, 1, 1]]
+        GF4, [[1, 1, 1, w], [1, w + 1, 1, 0], [1, 0, w, w], [0, 1, 1, 1]]
     )
-    p8p = QuaternaryMatroid(
-        reduced_matrix=A, groundset=["a", "c", "b", "f", "d", "e", "g", "h"]
+    M = QuaternaryMatroid(
+        reduced_matrix=A, groundset=['a', 'c', 'b', 'f', 'd', 'e', 'g', 'h']
     )
-    p8p.rename("P8-: " + repr(p8p))
-    return p8p
+    M.rename("P8-: " + repr(M))
+    return M
 
 
 def KP8():
@@ -175,16 +171,16 @@ def KP8():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[0, 1, 1, 1], [1, 0, w, w], [1, 1, 1, 1 + w], [1, 1, 1 + w, 0]]
+        GF4, [[0, 1, 1, 1], [1, 0, w, w], [1, 1, 1, 1 + w], [1, 1, 1 + w, 0]]
     )
-    kp8 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 3, 5, 6, 7, 0, 2]
     )
-    kp8.rename("KP8: " + repr(kp8))
-    return kp8
+    M.rename("KP8: " + repr(M))
+    return M
 
 
 def Sp8():
@@ -202,16 +198,16 @@ def Sp8():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 1, w + 1, 0], [1, 1, 0, w + 1], [1, 0, w, w], [0, 1, 1, 1]]
+        GF4, [[1, 1, w + 1, 0], [1, 1, 0, w + 1], [1, 0, w, w], [0, 1, 1, 1]]
     )
-    sp = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 2, 3, 5, 4, 6, 7, 8]
     )
-    sp.rename("Sp8: " + repr(sp))
-    return sp
+    M.rename("Sp8: " + repr(M))
+    return M
 
 
 def Sp8pp():
@@ -229,14 +225,14 @@ def Sp8pp():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
-    A = Matrix(gf4, [[1, w, 1, 0], [1, 1, 1, 1], [w, 0, 1, w], [0, w, 1, 1]])
-    sp = QuaternaryMatroid(
+    GF4 = GF(4, 'w')
+    w = GF4('w')
+    A = Matrix(GF4, [[1, w, 1, 0], [1, 1, 1, 1], [w, 0, 1, w], [0, w, 1, 1]])
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 5, 6, 7, 2, 3, 4, 8]
     )
-    sp.rename("Sp8=: " + repr(sp))
-    return sp
+    M.rename("Sp8=: " + repr(M))
+    return M
 
 
 def LP8():
@@ -254,16 +250,16 @@ def LP8():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 1, 1, 1], [w + 1, w, 0, 1], [1, 0, w + 1, 1], [0, w, w, 1]]
+        GF4, [[1, 1, 1, 1], [w + 1, w, 0, 1], [1, 0, w + 1, 1], [0, w, w, 1]]
     )
-    lp8 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=["a", "b", "d", "e", "c", "f", "g", "h"]
+    M = QuaternaryMatroid(
+        reduced_matrix=A, groundset=['a', 'b', 'd', 'e', 'c', 'f', 'g', 'h']
     )
-    lp8.rename("LP8: " + repr(lp8))
-    return lp8
+    M.rename("LP8: " + repr(M))
+    return M
 
 
 def WQ8():
@@ -281,16 +277,16 @@ def WQ8():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 0, 1, w + 1], [1, 1, 1, 1], [w, 1, 1, 0], [0, w, 1, 1]]
+        GF4, [[1, 0, 1, w + 1], [1, 1, 1, 1], [w, 1, 1, 0], [0, w, 1, 1]]
     )
-    wq8 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 1, 3, 4, 2, 5, 6, 7]
     )
-    wq8.rename("WQ8: " + repr(wq8))
-    return wq8
+    M.rename("WQ8: " + repr(M))
+    return M
 
 
 # 9 elements:
@@ -316,18 +312,19 @@ def BB9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
-        [[1, 0, 1, 1, 1, 1], [0, 1, w, 1, 0, w], [w + 1, 1, w + 1, 1, w, 0]]
+        GF4, [[1, 0, 1, 1, 1, 1],
+              [0, 1, w, 1, 0, w],
+              [w + 1, 1, w + 1, 1, w, 0]]
     )
-    bb9 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A,
-        groundset=["i", "b", "d", "j", "h", "f", "c", "a", "k"]
+        groundset=['i', 'b', 'd', 'j', 'h', 'f', 'c', 'a', 'k']
     )
-    bb9.rename("BB9: " + repr(bb9))
-    return bb9
+    M.rename("BB9: " + repr(M))
+    return M
 
 
 def TQ9():
@@ -351,19 +348,19 @@ def TQ9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 0, w, 1, 1],
+        GF4, [[1, 0, w, 1, 1],
               [w + 1, 0, 0, w, 1],
               [1, w, 0, 0, w + 1],
               [1, 1, 1, 1, 0]],
     )
-    tq9 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 6, 0, 2, 5, 3, 7, 8]
     )
-    tq9.rename("TQ9: " + repr(tq9))
-    return tq9
+    M.rename("TQ9: " + repr(M))
+    return M
 
 
 def TQ9p():
@@ -387,10 +384,10 @@ def TQ9p():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 1, w + 1, 1],
             [w + 1, w, w + 1, w + 1, w + 1],
@@ -398,11 +395,11 @@ def TQ9p():
             [0, 1, w + 1, w + 1, 0],
         ],
     )
-    tq9p = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 7, 8, 0, 6, 5, 2, 3]
     )
-    tq9p.rename("TQ9': " + repr(tq9p))
-    return tq9p
+    M.rename("TQ9': " + repr(M))
+    return M
 
 
 def M8591():
@@ -420,17 +417,17 @@ def M8591():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 1, 0, w, 1],
+        GF4, [[1, 1, 0, w, 1],
               [0, 1, 1, w, w + 1],
               [1, 0, w, w, 1],
               [0, 0, 1, 1, 0]]
     )
-    m8591 = QuaternaryMatroid(reduced_matrix=A)
-    m8591.rename("M8591: " + repr(m8591))
-    return m8591
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("M8591: " + repr(M))
+    return M
 
 
 def PP9():
@@ -457,20 +454,20 @@ def PP9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[1, 1, 1, w, w],
+        GF4, [[1, 1, 1, w, w],
               [1, 1 + w, 1, 0, w],
               [1, 0, w, w, w],
               [0, 1, 1, 1, 1]]
     )
-    pp9 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A,
-        groundset=["a", "c", "b", "f", "d", "e", "g", "h", "z"]
+        groundset=['a', 'c', 'b', 'f', 'd', 'e', 'g', 'h', 'z']
     )
-    pp9.rename("PP9: " + repr(pp9))
-    return pp9
+    M.rename("PP9: " + repr(M))
+    return M
 
 
 def BB9gDY():
@@ -491,10 +488,10 @@ def BB9gDY():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w, w, w + 1, 1],
             [w, 1, 0, 0],
@@ -503,12 +500,13 @@ def BB9gDY():
             [w, 0, 1, 1],
         ],
     )
-    m9573 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=["c", "d", "i", "f", "h",
-                                     "a", "j", "k", "b"]
+    # M9573
+    M = QuaternaryMatroid(
+        reduced_matrix=A,
+        groundset=['c', 'd', 'i', 'f', 'h', 'a', 'j', 'k', 'b']
     )
-    m9573.rename("Segment cosegment exchange on BB9: " + repr(m9573))
-    return m9573
+    M.rename("Segment cosegment exchange on BB9: " + repr(M))
+    return M
 
 
 def A9():
@@ -526,18 +524,18 @@ def A9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4, [[w + 1, 1, w, w, w, w],
+        GF4, [[w + 1, 1, w, w, w, w],
               [0, 1, 1, w + 1, 0, w],
               [w, 0, 1, w + 1, w, 1]]
     )
-    a9 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[6, 5, 4, 1, 2, 3, 7, 8, 0]
     )
-    a9.rename("A9: " + repr(a9))
-    return a9
+    M.rename("A9: " + repr(M))
+    return M
 
 
 def FN9():
@@ -555,22 +553,23 @@ def FN9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, w, w + 1, w, 1, 0],
             [1, w + 1, 0, 1, w + 1, 1],
             [w + 1, w + 1, w, w + 1, 1, 1],
         ],
     )
-    m3209 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=["b0", "a", "y", "z", "x",
-                                     "c0", "b", "c", "a0"]
+    # M3209
+    M = QuaternaryMatroid(
+        reduced_matrix=A,
+        groundset=['b0', 'a', 'y', 'z', 'x', "c0", 'b', 'c', 'a0']
     )
-    m3209.rename("FN9: " + repr(m3209))
-    return m3209
+    M.rename("FN9: " + repr(M))
+    return M
 
 
 def FX9():
@@ -588,10 +587,10 @@ def FX9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, w + 1, 0, w, 1],
             [1, w, 1, w + 1, 1],
@@ -599,9 +598,10 @@ def FX9():
             [w, w, w + 1, w + 1, 1],
         ],
     )
-    m48806 = QuaternaryMatroid(reduced_matrix=A)
-    m48806.rename("FX9: " + repr(m48806))
-    return m48806
+    # M48806
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FX9: " + repr(M))
+    return M
 
 
 def KR9():
@@ -622,10 +622,10 @@ def KR9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, w, w + 1, w, 1],
             [0, 1, w + 1, w, 1],
@@ -633,11 +633,11 @@ def KR9():
             [w + 1, w + 1, w, w + 1, 0],
         ],
     )
-    kr9 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[2, 4, 0, 6, 1, 5, 3, 7, 8]
     )
-    kr9.rename("KR9: " + repr(kr9))
-    return kr9
+    M.rename("KR9: " + repr(M))
+    return M
 
 
 def KQ9():
@@ -662,10 +662,10 @@ def KQ9():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, w, w + 1, 1, w + 1],
             [1, 0, w + 1, w + 1, 1],
@@ -673,11 +673,11 @@ def KQ9():
             [1, 1, w + 1, 0, w + 1],
         ],
     )
-    kq9 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[5, 0, 4, 3, 2, 6, 8, 7, 1]
     )
-    kq9.rename("KQ9: " + repr(kq9))
-    return kq9
+    M.rename("KQ9: " + repr(M))
+    return M
 
 
 # 10 elements:
@@ -700,10 +700,10 @@ def UG10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 0, 1, w, w + 1],
             [1, 1, 1, 1, 1],
@@ -712,9 +712,9 @@ def UG10():
             [1, 1, 1, 0, 0],
         ],
     )
-    ug10 = QuaternaryMatroid(reduced_matrix=A)
-    ug10.rename("UG10: " + repr(ug10))
-    return ug10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UG10: " + repr(M))
+    return M
 
 
 def FF10():
@@ -731,10 +731,10 @@ def FF10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 0, 1, 1, 1],
             [1, 0, 0, 1, 1],
@@ -743,11 +743,11 @@ def FF10():
             [1 + w, 1 + w, w, w, 1 + w],
         ],
     )
-    ff10 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     )
-    ff10.rename("FF10: " + repr(ff10))
-    return ff10
+    M.rename("FF10: " + repr(M))
+    return M
 
 
 def GP10():
@@ -764,10 +764,10 @@ def GP10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, w, 0, 1, 1],
             [w, w, 0, 0, 1],
@@ -776,9 +776,9 @@ def GP10():
             [1, 1, 1, 1, 0],
         ],
     )
-    gp10 = QuaternaryMatroid(reduced_matrix=A)
-    gp10.rename("GP10: " + repr(gp10))
-    return gp10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("GP10: " + repr(M))
+    return M
 
 
 def FZ10():
@@ -796,10 +796,10 @@ def FZ10():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 0, 1, w, 1],
             [1, 0, w, w + 1, w + 1],
@@ -808,9 +808,9 @@ def FZ10():
             [1, 1, w + 1, 1, w],
         ],
     )
-    fz10 = QuaternaryMatroid(reduced_matrix=A)
-    fz10.rename("FZ10: " + repr(fz10))
-    return fz10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FZ10: " + repr(M))
+    return M
 
 
 def UQ10():
@@ -828,10 +828,10 @@ def UQ10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 0, 1, w, 1],
             [1, 1, 1, 1, 0],
@@ -840,9 +840,9 @@ def UQ10():
             [1, 1, 1, w + 1, 1],
         ],
     )
-    uq10 = QuaternaryMatroid(reduced_matrix=A)
-    uq10.rename("UQ10: " + repr(uq10))
-    return uq10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UQ10: " + repr(M))
+    return M
 
 
 def FP10():
@@ -860,10 +860,10 @@ def FP10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 1, 1, 1],
             [0, 1, 1, 1, 0],
@@ -872,9 +872,9 @@ def FP10():
             [1, w, 1, w, 1],
         ],
     )
-    fp10 = QuaternaryMatroid(reduced_matrix=A)
-    fp10.rename("FP10: " + repr(fp10))
-    return fp10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FP10: " + repr(M))
+    return M
 
 
 def TQ10():
@@ -895,10 +895,10 @@ def TQ10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, w, 0, w + 1, 1],
             [w + 1, w + 1, w + 1, w, 1],
@@ -907,11 +907,11 @@ def TQ10():
             [w + 1, 0, w, w + 1, 0],
         ],
     )
-    tp10 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=[1, 6, 8, "c", 3, 7, "d", 2, 5, 4]
+    M = QuaternaryMatroid(
+        reduced_matrix=A, groundset=[1, 6, 8, 'c', 3, 7, 'd', 2, 5, 4]
     )
-    tp10.rename("TQ10: " + repr(tp10))
-    return tp10
+    M.rename("TQ10: " + repr(M))
+    return M
 
 
 def FY10():
@@ -928,10 +928,10 @@ def FY10():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 1, 0, 0],
             [0, 1, w + 1, 1, 0],
@@ -940,9 +940,9 @@ def FY10():
             [1, w + 1, 1, 1, w],
         ],
     )
-    fy10 = QuaternaryMatroid(reduced_matrix=A)
-    fy10.rename("FY10: " + repr(fy10))
-    return fy10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FY10: " + repr(M))
+    return M
 
 
 def PP10():
@@ -967,10 +967,10 @@ def PP10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, 0, w + 1, 0, w],
             [w, w, 1, w, 1],
@@ -979,12 +979,12 @@ def PP10():
             [w, 1, w + 1, w, w + 1],
         ],
     )
-    pp10 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=["z", "f", "c", "g", "e",
-                                     "b", "a", "h", "d", "x"]
+    M = QuaternaryMatroid(
+        reduced_matrix=A,
+        groundset=['z', 'f', 'c', 'g', 'e', 'b', 'a', 'h', 'd', 'x']
     )
-    pp10.rename("PP10: " + repr(pp10))
-    return pp10
+    M.rename("PP10: " + repr(M))
+    return M
 
 
 def FU10():
@@ -1000,10 +1000,10 @@ def FU10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 1, w, 1, 1],
             [w, w + 1, 1, 1, w],
@@ -1012,9 +1012,9 @@ def FU10():
             [w + 1, w, w + 1, w, 0],
         ],
     )
-    fu10 = QuaternaryMatroid(reduced_matrix=A)
-    fu10.rename("FU10: " + repr(fu10))
-    return fu10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FU10: " + repr(M))
+    return M
 
 
 def D10():
@@ -1033,10 +1033,10 @@ def D10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w, 1, w, 1, w + 1, w],
             [w, 0, w + 1, w + 1, w, w],
@@ -1044,9 +1044,9 @@ def D10():
             [w + 1, 1, 0, 1, w, 0],
         ],
     )
-    d10 = QuaternaryMatroid(reduced_matrix=A)
-    d10.rename("D10: " + repr(d10))
-    return d10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("D10: " + repr(M))
+    return M
 
 
 def UK10():
@@ -1064,10 +1064,10 @@ def UK10():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, w, w + 1, w, w + 1],
             [1, w, w, w + 1, w],
@@ -1076,9 +1076,9 @@ def UK10():
             [w + 1, 0, 0, 1, w],
         ],
     )
-    uk10 = QuaternaryMatroid(reduced_matrix=A)
-    uk10.rename("UK10: " + repr(uk10))
-    return uk10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UK10: " + repr(M))
+    return M
 
 
 def PK10():
@@ -1096,10 +1096,10 @@ def PK10():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, w, 0, w + 1],
             [0, 1, 1, 1, 1],
@@ -1108,9 +1108,9 @@ def PK10():
             [w + 1, w + 1, 0, 0, 1],
         ],
     )
-    pk10 = QuaternaryMatroid(reduced_matrix=A)
-    pk10.rename("PK10: " + repr(pk10))
-    return pk10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("PK10: " + repr(M))
+    return M
 
 
 def GK10():
@@ -1128,10 +1128,10 @@ def GK10():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 0, 1, 1],
             [1, 0, 0, w, w],
@@ -1160,10 +1160,10 @@ def FT10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w, 0, w, w + 1, w + 1],
             [0, 1, w + 1, w, 1],
@@ -1172,9 +1172,9 @@ def FT10():
             [0, 1, w, 0, 1],
         ],
     )
-    ft10 = QuaternaryMatroid(reduced_matrix=A)
-    ft10.rename("FT10: " + repr(ft10))
-    return ft10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FT10: " + repr(M))
+    return M
 
 
 def TK10():
@@ -1192,10 +1192,10 @@ def TK10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 0, 0, w],
             [0, w, 0, w + 1, 1],
@@ -1204,9 +1204,9 @@ def TK10():
             [0, w, 1, w, 0],
         ],
     )
-    tk10 = QuaternaryMatroid(reduced_matrix=A)
-    tk10.rename("TK10: " + repr(tk10))
-    return tk10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("TK10: " + repr(M))
+    return M
 
 
 def KT10():
@@ -1224,10 +1224,10 @@ def KT10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 1, 1, w, 0],
             [0, 1, 0, w + 1, 1],
@@ -1236,9 +1236,9 @@ def KT10():
             [w + 1, w + 1, w + 1, 1, 1],
         ],
     )
-    kt10 = QuaternaryMatroid(reduced_matrix=A)
-    kt10.rename("KT10: " + repr(kt10))
-    return kt10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("KT10: " + repr(M))
+    return M
 
 
 def TU10():
@@ -1256,10 +1256,10 @@ def TU10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, w + 1, 1, 0, w],
             [w, 0, 1, w + 1, w + 1],
@@ -1268,9 +1268,9 @@ def TU10():
             [w + 1, w + 1, 1, w, 1],
         ],
     )
-    tu10 = QuaternaryMatroid(reduced_matrix=A)
-    tu10.rename("TU10: " + repr(tu10))
-    return tu10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("TU10: " + repr(M))
+    return M
 
 
 def UT10():
@@ -1288,10 +1288,10 @@ def UT10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w, w + 1, 0, w + 1, 0],
             [w + 1, w + 1, 1, w, 1],
@@ -1300,9 +1300,9 @@ def UT10():
             [1, w + 1, 1, w, w + 1],
         ],
     )
-    ut10 = QuaternaryMatroid(reduced_matrix=A)
-    ut10.rename("UT10: " + repr(ut10))
-    return ut10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UT10: " + repr(M))
+    return M
 
 
 def FK10():
@@ -1320,10 +1320,10 @@ def FK10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 0, 1, 1, w],
             [w, 1, w, 1, 1],
@@ -1332,9 +1332,9 @@ def FK10():
             [w + 1, w + 1, 1, 1, w + 1],
         ],
     )
-    fk10 = QuaternaryMatroid(reduced_matrix=A)
-    fk10.rename("FK10: " + repr(fk10))
-    return fk10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FK10: " + repr(M))
+    return M
 
 
 def KF10():
@@ -1352,10 +1352,10 @@ def KF10():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, w + 1, 1, w, 1],
             [0, w + 1, w, 1, 0],
@@ -1364,9 +1364,9 @@ def KF10():
             [w + 1, 1, 0, w + 1, 0],
         ],
     )
-    kf10 = QuaternaryMatroid(reduced_matrix=A)
-    kf10.rename("KF10: " + repr(kf10))
-    return kf10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("KF10: " + repr(M))
+    return M
 
 
 # 11 elements:
@@ -1389,10 +1389,10 @@ def FA11():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w, 0, w, w, 1, 0],
             [1, w, 0, w, w, 1],
@@ -1401,11 +1401,11 @@ def FA11():
             [w + 1, w + 1, w + 1, 0, w, 0],
         ],
     )
-    fa11 = QuaternaryMatroid(
+    M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 3, 4, 2, 8, 7, 9, 0, 5, 10, 6]
     )
-    fa11.rename("FA11: " + repr(fa11))
-    return fa11
+    M.rename("FA11: " + repr(M))
+    return M
 
 
 # 12 elements:
@@ -1425,10 +1425,10 @@ def FR12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 1, 1, 1, 0, 1],
             [1, 1, 1, 0, 1, 1],
@@ -1438,9 +1438,9 @@ def FR12():
             [1, 1, 1, 1, 1, w + 1],
         ],
     )
-    fr12 = QuaternaryMatroid(reduced_matrix=A)
-    fr12.rename("FR12: " + repr(fr12))
-    return fr12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FR12: " + repr(M))
+    return M
 
 
 def GP12():
@@ -1457,10 +1457,10 @@ def GP12():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1 + w, 1 + w, w, 1 + w, 0, 0],
             [1, 0, w, 1 + w, 0, 0],
@@ -1470,9 +1470,9 @@ def GP12():
             [1, 1, 1, 1, 1, 1 + w],
         ],
     )
-    gp12 = QuaternaryMatroid(reduced_matrix=A)
-    gp12.rename("GP12: " + repr(gp12))
-    return gp12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("GP12: " + repr(M))
+    return M
 
 
 def FQ12():
@@ -1496,10 +1496,10 @@ def FQ12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 0, w, w, 1, 0],
             [0, 0, w + 1, w + 1, 1, 1],
@@ -1509,11 +1509,11 @@ def FQ12():
             [0, 1, 1, w, w + 1, 1],
         ],
     )
-    fq12 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=[7, 4, 5, 9, 2, 1, 0, 6, "d", "c", 8, 3]
+    M = QuaternaryMatroid(
+        reduced_matrix=A, groundset=[7, 4, 5, 9, 2, 1, 0, 6, 'd', 'c', 8, 3]
     )
-    fq12.rename("FQ12: " + repr(fq12))
-    return fq12
+    M.rename("FQ12: " + repr(M))
+    return M
 
 
 def FF12():
@@ -1535,10 +1535,10 @@ def FF12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 0, 1, 0, 0],
             [1, 1, w, 1, 0, 1],
@@ -1548,11 +1548,11 @@ def FF12():
             [1, w + 1, 1, 0, w + 1, w],
         ],
     )
-    ff12 = QuaternaryMatroid(
-        reduced_matrix=A, groundset=[0, 4, "c", 3, 5, "d", 8, 9, 2, 7, 1, 6]
+    M = QuaternaryMatroid(
+        reduced_matrix=A, groundset=[0, 4, 'c', 3, 5, 'd', 8, 9, 2, 7, 1, 6]
     )
-    ff12.rename("FF12: " + repr(ff12))
-    return ff12
+    M.rename("FF12: " + repr(M))
+    return M
 
 
 def FZ12():
@@ -1570,10 +1570,10 @@ def FZ12():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, w + 1, 0, w + 1, 0, w + 1],
             [w + 1, w + 1, w, 0, w, 1],
@@ -1583,9 +1583,9 @@ def FZ12():
             [w + 1, 1, 0, w, 1, w],
         ],
     )
-    fz12 = QuaternaryMatroid(reduced_matrix=A)
-    fz12.rename("FZ12: " + repr(fz12))
-    return fz12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FZ12: " + repr(M))
+    return M
 
 
 def UQ12():
@@ -1603,10 +1603,10 @@ def UQ12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 0, 0, w + 1, 1, 0],
             [w + 1, w, w + 1, 1, 1, 1],
@@ -1616,9 +1616,9 @@ def UQ12():
             [1, 1, 1, w, 1, w + 1],
         ],
     )
-    uq12 = QuaternaryMatroid(reduced_matrix=A)
-    uq12.rename("UQ12: " + repr(uq12))
-    return uq12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UQ12: " + repr(M))
+    return M
 
 
 def FP12():
@@ -1636,10 +1636,10 @@ def FP12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, w + 1, 1, 0, 1, w],
             [0, w + 1, 1, 0, w + 1, 0],
@@ -1649,9 +1649,9 @@ def FP12():
             [w, 0, w + 1, w + 1, w, 0],
         ],
     )
-    fp12 = QuaternaryMatroid(reduced_matrix=A)
-    fp12.rename("FP12: " + repr(fp12))
-    return fp12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FP12: " + repr(M))
+    return M
 
 
 def FS12():
@@ -1669,10 +1669,10 @@ def FS12():
         5
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 1, 1, 1, 0, 1],
             [0, 1, w + 1, w, w + 1, 1, 1],
@@ -1681,9 +1681,9 @@ def FS12():
             [1, 0, w, w, w, 1, 0],
         ],
     )
-    fs12 = QuaternaryMatroid(reduced_matrix=A)
-    fs12.rename("FS12: " + repr(fs12))
-    return fs12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FS12: " + repr(M))
+    return M
 
 
 def UK12():
@@ -1701,10 +1701,10 @@ def UK12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, w + 1, 1, 0, 0, w],
             [w, 1, w, w + 1, w, w + 1],
@@ -1714,9 +1714,9 @@ def UK12():
             [w, w, w + 1, w, w, 1],
         ],
     )
-    uk12 = QuaternaryMatroid(reduced_matrix=A)
-    uk12.rename("UK12: " + repr(uk12))
-    return uk12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UK12: " + repr(M))
+    return M
 
 
 def UA12():
@@ -1734,10 +1734,10 @@ def UA12():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, w + 1, w, w + 1, w + 1, 0],
             [1, 1, 1, w + 1, w, 1],
@@ -1747,9 +1747,9 @@ def UA12():
             [1, w, w + 1, w + 1, w, 1],
         ],
     )
-    ua12 = QuaternaryMatroid(reduced_matrix=A)
-    ua12.rename("UA12: " + repr(ua12))
-    return ua12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UA12: " + repr(M))
+    return M
 
 
 def AK12():
@@ -1767,10 +1767,10 @@ def AK12():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, w, 0, 0, w + 1, w],
             [w + 1, w, 0, w, w + 1, w + 1],
@@ -1780,9 +1780,9 @@ def AK12():
             [1, 0, 1, 1, 0, 1],
         ],
     )
-    ak12 = QuaternaryMatroid(reduced_matrix=A)
-    ak12.rename("AK12: " + repr(ak12))
-    return ak12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("AK12: " + repr(M))
+    return M
 
 
 def FK12():
@@ -1800,10 +1800,10 @@ def FK12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w + 1, w, w, 0, w, w + 1],
             [w, 1, 1, w + 1, w + 1, w],
@@ -1813,9 +1813,9 @@ def FK12():
             [1, w, w, w, 1, 1],
         ],
     )
-    fk12 = QuaternaryMatroid(reduced_matrix=A)
-    fk12.rename("FK12: " + repr(fk12))
-    return fk12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FK12: " + repr(M))
+    return M
 
 
 def KB12():
@@ -1833,10 +1833,10 @@ def KB12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 0, w, 0, 0, 1],
             [1, w, 0, w, 1, w + 1],
@@ -1846,9 +1846,9 @@ def KB12():
             [w, w, 1, w, 1, 1],
         ],
     )
-    kb12 = QuaternaryMatroid(reduced_matrix=A)
-    kb12.rename("KB12: " + repr(kb12))
-    return kb12
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("KB12: " + repr(M))
+    return M
 
 
 def AF12():
@@ -1866,10 +1866,10 @@ def AF12():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 0, 0, 0, 1, 1],
             [0, 1, 0, w, w, w + 1],
@@ -1879,14 +1879,9 @@ def AF12():
             [1, 1, 1, w + 1, w + 1, w],
         ],
     )
-    af12 = QuaternaryMatroid(reduced_matrix=A)
-    af12.rename("AF12: " + repr(af12))
-    return af12
-
-
-# utility function
-def complement(groundset, subset):
-    return list(set(groundset).difference(subset))
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("AF12: " + repr(M))
+    return M
 
 
 def NestOfTwistedCubes():
@@ -1903,9 +1898,13 @@ def NestOfTwistedCubes():
         True
 
     """
+    # utility function
+    def complement(groundset, subset):
+        return list(set(groundset).difference(subset))
+
     gs = ["e1", "e2", "e3", "e4", "e5", "e6",
           "f1", "f2", "f3", "f4", "f5", "f6"]
-    ntc = CircuitClosuresMatroid(
+    M = CircuitClosuresMatroid(
         groundset=gs,
         circuit_closures={
             3: [
@@ -1945,7 +1944,7 @@ def NestOfTwistedCubes():
             6: [gs],
         },
     )
-    return ntc
+    return M
 
 
 # 13 elements:
@@ -1965,10 +1964,10 @@ def XY13():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 0, 1, 1, 0, 1, 1],
             [w, 1, w, w + 1, 1, 1, w + 1],
@@ -1978,9 +1977,9 @@ def XY13():
             [1, 0, 0, 1, 0, w, 0],
         ],
     )
-    xy13 = QuaternaryMatroid(reduced_matrix=A)
-    xy13.rename("XY13: " + repr(xy13))
-    return xy13
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("XY13: " + repr(M))
+    return M
 
 
 # 14 elements:
@@ -2016,9 +2015,9 @@ def N3():
             [1, 1, 1, 2, 2, 2, 0],
         ],
     )
-    n3 = TernaryMatroid(reduced_matrix=A)
-    n3.rename("N3: " + repr(n3))
-    return n3
+    M = TernaryMatroid(reduced_matrix=A)
+    M.rename("N3: " + repr(M))
+    return M
 
 
 def N3pp():
@@ -2038,10 +2037,10 @@ def N3pp():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 1, 0, 1, 0, w, w],
             [1, w, 1, 0, 1, 0, 1],
@@ -2052,9 +2051,9 @@ def N3pp():
             [1, 1, 0, 1, 0, 0, 0],
         ],
     )
-    sq14 = QuaternaryMatroid(reduced_matrix=A)
-    sq14.rename("N3=: " + repr(sq14))
-    return sq14
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("N3=: " + repr(M))
+    return M
 
 
 def UP14():
@@ -2072,10 +2071,10 @@ def UP14():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, w, w, 1, w, 0, 0],
             [w, w, w, 1, w, w, 0],
@@ -2086,9 +2085,9 @@ def UP14():
             [1, 1, 1, 1, 1, 1, 1],
         ],
     )
-    up14 = QuaternaryMatroid(reduced_matrix=A)
-    up14.rename("UP14: " + repr(up14))
-    return up14
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("UP14: " + repr(M))
+    return M
 
 
 def VP14():
@@ -2106,10 +2105,10 @@ def VP14():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [w, 0, 1, 1, w, 1, 1],
             [w, w, 1, 1, w, 1, w],
@@ -2120,9 +2119,9 @@ def VP14():
             [1, 1, 1, 1, w, 1, 0],
         ],
     )
-    vp14 = QuaternaryMatroid(reduced_matrix=A)
-    vp14.rename("VP14: " + repr(vp14))
-    return vp14
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("VP14: " + repr(M))
+    return M
 
 
 def FV14():
@@ -2139,10 +2138,10 @@ def FV14():
         False
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 1, 0, 1, 1, 1, 1],
             [0, 1, 0, 1, 0, 1, 0],
@@ -2153,9 +2152,9 @@ def FV14():
             [1, 0, 0, 1, 0, 0, 1],
         ],
     )
-    fv14 = QuaternaryMatroid(reduced_matrix=A)
-    fv14.rename("FV14: " + repr(fv14))
-    return fv14
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FV14: " + repr(M))
+    return M
 
 
 def OW14():
@@ -2172,10 +2171,10 @@ def OW14():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [0, 1, 1, w, 1, 0, w],
             [0, w + 1, 1, w, w + 1, 0, w + 1],
@@ -2186,9 +2185,9 @@ def OW14():
             [0, 1, 0, w, 0, 1, 0],
         ],
     )
-    ow14 = QuaternaryMatroid(reduced_matrix=A)
-    ow14.rename("OW14: " + repr(ow14))
-    return ow14
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("OW14: " + repr(M))
+    return M
 
 
 def FM14():
@@ -2205,10 +2204,10 @@ def FM14():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 0, w, 1, 1, w, 0],
             [0, 1, 0, 0, 1, 1, 1],
@@ -2219,9 +2218,9 @@ def FM14():
             [0, w, 0, 1, 0, w, 0],
         ],
     )
-    fm14 = QuaternaryMatroid(reduced_matrix=A)
-    fm14.rename("FM14: " + repr(fm14))
-    return fm14
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FM14: " + repr(M))
+    return M
 
 
 # 15 elements:
@@ -2242,10 +2241,10 @@ def FA15():
         True
 
     """
-    gf4 = GF(4, "w")
-    w = gf4("w")
+    GF4 = GF(4, 'w')
+    w = GF4('w')
     A = Matrix(
-        gf4,
+        GF4,
         [
             [1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 1, 1, 1, 1, 0, 1],
@@ -2256,9 +2255,9 @@ def FA15():
             [w, w, 1, 1, 0, 0, 0, 0],
         ],
     )
-    fa15 = QuaternaryMatroid(reduced_matrix=A)
-    fa15.rename("FA15: " + repr(fa15))
-    return fa15
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M.rename("FA15: " + repr(M))
+    return M
 
 
 # 16 elements:
@@ -2295,6 +2294,6 @@ def N4():
             [1, 0, 1, 2, 1, 2, 1, 1],
         ],
     )
-    n4 = TernaryMatroid(reduced_matrix=A)
-    n4.rename("N4: " + repr(n4))
-    return n4
+    M = TernaryMatroid(reduced_matrix=A)
+    M.rename("N4: " + repr(M))
+    return M

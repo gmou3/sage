@@ -805,3 +805,35 @@ def split_vertex(G, u, v=None, edges=None):
 
     # This modifies the graph without needing to return anything
     return
+
+
+def rename_and_relabel(M, name=None, groundset=None):
+    """
+    Return a renamed and relabeled matroid.
+
+    This is a helper function for easily renaming and relabeling matroids upon
+    definition in the context of the database of matroids.
+
+    INPUT:
+
+    - ``M`` -- a matroid
+    - ``name`` -- a string (optional)
+    - ``groundset`` -- a string (optional)
+
+    OUTPUT:
+
+    a matroid
+
+    """
+    if groundset is not None:
+        if len(groundset) != len(M.groundset()):
+            raise ValueError(
+                "The groundset should be of size %s (%s given)." %
+                (len(M.groundset()), len(groundset))
+            )
+        M = M.relabel(dict(zip(M.groundset(), groundset)))
+
+    if name is not None:
+        M.rename(name+": " + repr(M))
+
+    return M

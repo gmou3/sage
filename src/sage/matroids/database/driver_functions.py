@@ -7,10 +7,8 @@ matroids from the corresponding collection. These functions can be viewed by
 typing ``matroids.`` and hitting :kbd:`Tab`.
 
 AUTHORS:
-- Giorgos Mousa (2023-12-08): initial version
 
-Functions
-=========
+- Giorgos Mousa (2023-12-08): initial version
 
 """
 
@@ -116,8 +114,8 @@ def AllMatroids(n, r=-1, type="all"):
         ....:                 assert M.is_valid()
 
     """
-    from sage.matroids.basis_matroid import BasisMatroid
-    from sage.env import SAGE_SRC
+    from sage.matroids.constructor import Matroid
+    from sage.env import SAGE_EXTCODE
     import os
 
     Matroids = []
@@ -127,7 +125,7 @@ def AllMatroids(n, r=-1, type="all"):
         return Matroids
 
     if r == 0 or r == n:
-        M = BasisMatroid(groundset=range(n), bases=[range(r)])
+        M = Matroid(groundset=range(n), bases=[range(r)])
         M.rename(
             type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#"
             + "0" + ": " + repr(M)
@@ -136,29 +134,22 @@ def AllMatroids(n, r=-1, type="all"):
         return Matroids
 
     rp = min(r, n - r) if (type == "all") else r
-    filename = os.path.join(
-        str(SAGE_SRC), "sage", "matroids", "database", "yoshitake_matsumoto",
+    file = os.path.join(
+        str(SAGE_EXTCODE), "matroids", "database",
         type + "_matroids",
         type + "r" + str(rp) + "n" + str(n).zfill(2) + ".txt"
     )  # type: ignore
-    fin = open(filename, "r")
+    fin = open(file, "r")
 
-    import itertools
-    perms = list(itertools.combinations(range(n), rp))
-    perms.reverse()
     cnt = 0
     while True:
         line = fin.readline()
         if not line:
             break
 
-        B, i = [], 0
-        for b in perms[::1]:
-            if line[i] == '*':
-                B.append(list(b))
-            i += 1
+        M = Matroid(groundset=range(n), rank=rp, revlex=line[:-1])
+        # The standard lexicographic order gives the same result
 
-        M = BasisMatroid(groundset=range(n), bases=B)
         if type == "all" and n - r < r:
             M = M.dual()
         M.rename(

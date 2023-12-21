@@ -59,7 +59,7 @@ or::
    True
 
 A number of special matroids are collected under the ``catalog`` submenu.
-To see which, type ``matroids.catalog.<tab>`` as above::
+To see which, type ``matroids.catalog.`` and :kbd:`Tab` as above::
 
     sage: F7 = matroids.catalog.Fano()
     sage: len(F7.nonspanning_circuits())
@@ -570,27 +570,27 @@ def Matroid(groundset=None, data=None, **kwds):
 
     #.  RevLex-Index:
 
-        This requires the ``groundset`` to be given and also needs a
+        This requires the ``groundset`` to be given and also needs an
         additional keyword argument ``rank`` to specify the rank of the
         matroid::
 
             sage: M = Matroid("abcdef", "000000******0**", rank=4); M
             Matroid of rank 4 on 6 elements with 8 bases
-            sage: sorted(M.bases(), key=sorted)
+            sage: list(M.bases())
             [frozenset({'a', 'b', 'd', 'f'}),
-            frozenset({'a', 'b', 'e', 'f'}),
-            frozenset({'a', 'c', 'd', 'f'}),
-            frozenset({'a', 'c', 'e', 'f'}),
-            frozenset({'b', 'c', 'd', 'f'}),
-            frozenset({'b', 'c', 'e', 'f'}),
-            frozenset({'b', 'd', 'e', 'f'}),
-            frozenset({'c', 'd', 'e', 'f'})]
+             frozenset({'a', 'c', 'd', 'f'}),
+             frozenset({'b', 'c', 'd', 'f'}),
+             frozenset({'a', 'b', 'e', 'f'}),
+             frozenset({'a', 'c', 'e', 'f'}),
+             frozenset({'b', 'c', 'e', 'f'}),
+             frozenset({'b', 'd', 'e', 'f'}),
+             frozenset({'c', 'd', 'e', 'f'})]
 
 
         Only the ``0`` symbols really matter; any other symbol can be used
         instead of ``*``::
 
-            sage: Matroid("abcdefg", revlex="0use the 0char0acter0of your choice", rank=4)
+            sage: Matroid("abcdefg", revlex="0++++++++0++++0+++++0+--++----+--++", rank=4)
             Matroid of rank 4 on 7 elements with 31 bases
 
         It is checked that the input makes sense (but not that it

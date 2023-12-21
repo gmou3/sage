@@ -115,6 +115,7 @@ additional functionality (e.g. linear extensions).
     - :meth:`is_binary() <sage.matroids.matroid.Matroid.is_binary>`
     - :meth:`ternary_matroid() <sage.matroids.matroid.Matroid.ternary_matroid>`
     - :meth:`is_ternary() <sage.matroids.matroid.Matroid.is_ternary>`
+    - :meth:`relabel() <sage.matroids.matroid.Matroid.relabel>`
 
 - Optimization
     - :meth:`max_weight_independent() <sage.matroids.matroid.Matroid.max_weight_independent>`
@@ -133,7 +134,7 @@ additional functionality (e.g. linear extensions).
 
 - Construction
     - :meth:`union() <sage.matroids.matroid.Matroid.union>`
-    - :math:`direct_sum() <sage.matroids.matroid.Matroid.direct_sum>`
+    - :meth:`direct_sum() <sage.matroids.matroid.Matroid.direct_sum>`
 
 - Misc
     - :meth:`broken_circuit_complex() <sage.matroids.matroid.Matroid.broken_circuit_complex>`
@@ -170,9 +171,9 @@ A subclass should always override the underscored method, if available, and as
 a rule leave the regular method alone.
 
 These underscored methods are not documented in the reference manual. To see
-them, within Sage you can create a matroid ``M`` and type ``M._<tab>``. Then
-``M._rank?`` followed by ``<tab>`` will bring up the documentation string of
-the ``_rank()`` method.
+them, within Sage you can create a matroid ``M`` and type ``M._`` followed by
+:kbd:`Tab`. Then ``M._rank?`` followed by :kbd:`Tab` will bring up the
+documentation string of the ``_rank()`` method.
 
 Creating new Matroid subclasses
 ===============================
@@ -8133,16 +8134,18 @@ cdef class Matroid(SageObject):
 
     cpdef _relabel_map(self, l) noexcept:
         """
-        Return a map from the groundset to the relabeled groundset
+        Return a dictionary from the groundset to the relabeled groundset
         and check that the mapping defined by ``l`` is valid.
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`; If
+          ``e not in l`` then the identity map is assumed.
 
         OUTPUT:
 
-        A map.
+        a dictionary
+
         """
         E = set()
         d = {}
@@ -8167,7 +8170,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`
+        - ``l`` -- a python object such that `l[e]` is the new label of `e`; If
+          ``e not in l`` then the identity map is assumed.
 
         OUTPUT:
 
@@ -8184,6 +8188,7 @@ cdef class Matroid(SageObject):
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
             sage: M.is_isomorphic(N)
             True
+
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]

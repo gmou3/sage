@@ -15,9 +15,6 @@ AUTHORS:
 - Giorgos Mousa, Andreas Triantafyllos (2023-12-08): reorganization, optional
   groundset
 
-Functions
-=========
-
 """
 # ****************************************************************************
 #       Copyright (C) 2013 Michael Welsh <michael@welsh.co.nz >
@@ -37,6 +34,7 @@ from sage.matroids.linear_matroid import (
     TernaryMatroid,
     QuaternaryMatroid,
 )
+from sage.matroids.utilities import rename_and_relabel
 from sage.rings.finite_rings.finite_field_constructor import GF
 
 
@@ -65,20 +63,14 @@ def NonVamos(groundset='abcdefgh'):
         True
 
     """
-    if len(groundset) != 8:
-        raise ValueError(
-            "The groundset should be of size 8 (%s given)" % len(groundset)
-        )
-
-    E = 'abcdefgh'
     CC = {
         3: ['abcd', 'abef', 'cdef', 'abgh', 'cdgh', 'efgh'],
-        4: [E]
+        4: ['abcdefgh']
     }
-    M = CircuitClosuresMatroid(
-        groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
-    M.rename('NonVamos: ' + repr(M))
+    M = CircuitClosuresMatroid(groundset='abcdefgh', circuit_closures=CC)
+    M = rename_and_relabel(
+        M, "NonVamos", None if groundset == 'abcdefgh' else groundset
+    )
     return M
 
 
@@ -99,11 +91,6 @@ def NotP8(groundset='abcdefgh'):
         True
 
     """
-    if len(groundset) != 8:
-        raise ValueError(
-            "The groundset should be of size 8 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 1, 1, -1],
         [0, 1, 0, 0, 1, 0, 1, 1],
@@ -111,7 +98,7 @@ def NotP8(groundset='abcdefgh'):
         [0, 0, 0, 1, -1, 1, 1, 1]
     ])
     M = TernaryMatroid(A, groundset)
-    M.rename('NotP8: ' + repr(M))
+    M = rename_and_relabel(M, "NotP8")
     return M
 
 
@@ -130,18 +117,12 @@ def AG23minus(groundset='abcdefgh'):
         True
 
     """
-    if len(groundset) != 8:
-        raise ValueError(
-            "The groundset should be of size 8 (%s given)" % len(groundset)
-        )
-
-    E = 'abcdefgh'
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
-          3: [E]}
-    M = CircuitClosuresMatroid(
-        groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
-    M.rename('AG23minus: ' + repr(M))
+          3: ['abcdefgh']}
+    M = CircuitClosuresMatroid(groundset='abcdefgh', circuit_closures=CC)
+    M = rename_and_relabel(
+        M, "AG23minus", None if groundset == 'abcdefgh' else groundset
+    )
     return M
 
 
@@ -161,11 +142,6 @@ def P9(groundset='abcdefghi'):
         True
 
     """
-    if len(groundset) != 9:
-        raise ValueError(
-            "The groundset should be of size 9 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 0, 0, 1, 1],
         [0, 1, 0, 0, 1, 1, 0, 0, 1],
@@ -173,7 +149,7 @@ def P9(groundset='abcdefghi'):
         [0, 0, 0, 1, 0, 0, 1, 1, 0]
     ])
     M = BinaryMatroid(A, groundset)
-    M.rename('P9: ' + repr(M))
+    M = rename_and_relabel(M, "P9")
     return M
 
 
@@ -193,18 +169,13 @@ def R9A(groundset='abcdefghi'):
         True
 
     """
-    if len(groundset) != 9:
-        raise ValueError(
-            "The groundset should be of size 9 (%s given)" % len(groundset)
-        )
-
     E = 'abcdefghi'
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'aefh', 'adgh', 'acdi', 'abfi',
               'defi', 'begi', 'bdhi', 'cehi', 'fghi'],
           4: [E]}
     M = CircuitClosuresMatroid(
         groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
+    )
     M.rename('R9A: ' + repr(M))
     return M
 
@@ -225,23 +196,18 @@ def R9B(groundset='abcdefghi'):
         True
 
     """
-    if len(groundset) != 9:
-        raise ValueError(
-            "The groundset should be of size 9 (%s given)" % len(groundset)
-        )
-
     E = 'abcdefghi'
     CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
               'abgi', 'degi', 'bdhi', 'aehi', 'fghi'],
           4: [E]}
     M = CircuitClosuresMatroid(
         groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
+    )
     M.rename('R9B: ' + repr(M))
     return M
 
 
-def Block_9_4(groundset='abcdefghi'):
+def Block_9_4(groundset=None):
     """
     Return the paving matroid whose non-spanning circuits form the blocks of a
     `2-(9, 4, 3)` design.
@@ -256,26 +222,18 @@ def Block_9_4(groundset='abcdefghi'):
         (True, (2, 9, 4, 3))
 
     """
-    if len(groundset) != 9:
-        raise ValueError(
-            "The groundset should be of size 9 (%s given)" % len(groundset)
-        )
-
-    E = 'abcdefghi'
     CC = {
         3: ['abcd', 'acef', 'bdef', 'cdeg', 'abfg', 'adeh', 'bcfh', 'acgh',
             'begh', 'dfgh', 'abei', 'cdfi', 'bcgi', 'adgi', 'efgi', 'bdhi',
             'cehi', 'afhi'],
-        4: [E]
+        4: ['abcdefghi']
     }
-    M = CircuitClosuresMatroid(
-        groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
-    M.rename('Block(9, 4): ' + repr(M))
+    M = CircuitClosuresMatroid(groundset='abcdefghi', circuit_closures=CC)
+    M = rename_and_relabel(M, "Block(9, 4)", groundset)
     return M
 
 
-def TicTacToe(groundset='abcdefghi'):
+def TicTacToe(groundset=None):
     """
     Return the TicTacToe matroid.
 
@@ -289,21 +247,13 @@ def TicTacToe(groundset='abcdefghi'):
         True
 
     """
-    if len(groundset) != 9:
-        raise ValueError(
-            "The groundset should be of size 9 (%s given)" % len(groundset)
-        )
-
-    E = 'abcdefghi'
     CC = {
         4: ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi',
             'beghi', 'cfghi'],
-        5: [E]
+        5: ['abcdefghi']
     }
-    M = CircuitClosuresMatroid(
-        groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
-    M.rename('TicTacToe: ' + repr(M))
+    M = CircuitClosuresMatroid(groundset='abcdefghi', circuit_closures=CC)
+    M = rename_and_relabel(M, "TicTacToe", groundset)
     return M
 
 
@@ -322,11 +272,6 @@ def N1(groundset='abcdefghij'):
         True
 
     """
-    if len(groundset) != 10:
-        raise ValueError(
-            "The groundset should be of size 10 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 2, 0, 0, 1, 1],
         [0, 1, 0, 0, 0, 1, 2, 0, 0, 1],
@@ -334,12 +279,12 @@ def N1(groundset='abcdefghij'):
         [0, 0, 0, 1, 0, 0, 0, 1, 2, 2],
         [0, 0, 0, 0, 1, 1, 1, 1, 2, 0]
     ])
-    M = TernaryMatroid(A, 'abcdefghij')
-    M.rename('N1: ' + repr(M))
+    M = TernaryMatroid(A, groundset)
+    M = rename_and_relabel(M, "N1")
     return M
 
 
-def Block_10_5(groundset='abcdefghij'):
+def Block_10_5(groundset=None):
     """
     Return the paving matroid whose non-spanning circuits form the blocks of a
     `3-(10, 5, 3)` design.
@@ -354,12 +299,6 @@ def Block_10_5(groundset='abcdefghij'):
         (True, (3, 10, 5, 3))
 
     """
-    if len(groundset) != 10:
-        raise ValueError(
-            "The groundset should be of size 10 (%s given)" % len(groundset)
-        )
-
-    E = 'abcdefghij'
     CC = {
         4: ['abcde', 'acdfg', 'bdefg', 'bcdfh', 'abefh', 'abcgh', 'adegh',
             'cefgh', 'bcefi', 'adefi', 'bcdgi', 'acegi', 'abfgi', 'abdhi',
@@ -367,12 +306,10 @@ def Block_10_5(groundset='abcdefghij'):
             'cdegj', 'bcfgj', 'acdhj', 'bcehj', 'defhj', 'bdghj', 'afghj',
             'abcij', 'bdeij', 'cdfij', 'adgij', 'efgij', 'aehij', 'bfhij',
             'cghij'],
-        5: [E]
+        5: ['abcdefghij']
     }
-    M = CircuitClosuresMatroid(
-        groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
-    M.rename('Block(10, 5): ' + repr(M))
+    M = CircuitClosuresMatroid(groundset='abcdefghij', circuit_closures=CC)
+    M = rename_and_relabel(M, "Block(10, 5)", groundset)
     return M
 
 
@@ -403,11 +340,6 @@ def Q10(groundset='abcdefghij'):
         []
 
     """
-    if len(groundset) != 10:
-        raise ValueError(
-            "The groundset should be of size 10 (%s given)" % len(groundset)
-        )
-
     F = GF(4, 'x')
     x = F.gens()[0]
     A = Matrix(F, [
@@ -418,11 +350,11 @@ def Q10(groundset='abcdefghij'):
         [0, 0, 0, 0, 1, x, 0, 0, x + 1, 1]
     ])
     M = QuaternaryMatroid(A, groundset)
-    M.rename('Q10: ' + repr(M))
+    M = rename_and_relabel(M, "Q10")
     return M
 
 
-def BetsyRoss(groundset='abcdefghijk'):
+def BetsyRoss(groundset=None):
     """
     Return the Betsy Ross matroid, represented by circuit closures.
 
@@ -440,21 +372,13 @@ def BetsyRoss(groundset='abcdefghijk'):
         True
 
     """
-    if len(groundset) != 11:
-        raise ValueError(
-            "The groundset should be of size 11 (%s given)" % len(groundset)
-        )
-
-    E = 'abcdefghijk'
     CC = {
         2: ['acfg', 'bdgh', 'cehi', 'befj', 'adij', 'dfk',
             'egk', 'ahk', 'bik', 'cjk'],
-        3: [E]
+        3: ['abcdefghijk']
     }
-    M = CircuitClosuresMatroid(
-        groundset=E, circuit_closures=CC
-    ).relabel(dict(zip(E, groundset)))
-    M.rename('BetsyRoss: ' + repr(M))
+    M = CircuitClosuresMatroid(groundset='abcdefghijk', circuit_closures=CC)
+    M = rename_and_relabel(M, "BetsyRoss", groundset)
     return M
 
 
@@ -473,11 +397,6 @@ def N2(groundset='abcdefghijkl'):
         True
 
     """
-    if len(groundset) != 12:
-        raise ValueError(
-            "The groundset should be of size 12 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1],
         [0, 1, 0, 0, 0, 0, 1, 2, 0, 0, 0, 1],
@@ -487,7 +406,7 @@ def N2(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 0, 1]
     ])
     M = TernaryMatroid(A, groundset)
-    M.rename('N2: ' + repr(M))
+    M = rename_and_relabel(M, "N2")
     return M
 
 
@@ -509,11 +428,6 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
         True
 
     """
-    if len(groundset) != 16:
-        raise ValueError(
-            "The groundset should be of size 16 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
         [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
@@ -525,11 +439,11 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
         [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0]
     ])
     M = BinaryMatroid(A, groundset)
-    M.rename('D16: ' + repr(M))
+    M = rename_and_relabel(M, "D16")
     return M
 
 
-def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
+def Terrahawk(groundset='abcdefghijklmnop'):  # aka the Dillon Mayhew Matroid
     """
     Return the Terrahawk matroid.
 
@@ -545,11 +459,6 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
         True
 
     """
-    if len(groundset) != 16:
-        raise ValueError(
-            "The groundset should be of size 16 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(2), [
         [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -561,7 +470,7 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # A.K.A. the Dillon Mayhew Matroid
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0]
     ])
     M = BinaryMatroid(A, groundset)
-    M.rename('Terrahawk: ' + repr(M))
+    M = rename_and_relabel(M, "Terrahawk")
     return M
 
 
@@ -583,11 +492,6 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
         True
 
     """
-    if len(groundset) != 24:
-        raise ValueError(
-            "The groundset should be of size 24 (%s given)" % len(groundset)
-        )
-
     A = Matrix(GF(2), [
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
         [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],
@@ -603,11 +507,11 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ])
     M = BinaryMatroid(A, groundset)
-    M.rename('Extended Binary Golay Code: ' + repr(M))
+    M = rename_and_relabel(M, "Extended Binary Golay Code")
     return M
 
 
-def CompleteGraphic(n):
+def CompleteGraphic(n, groundset=None):
     """
     Return the cycle matroid of the complete graph on `n` vertices.
 
@@ -644,5 +548,5 @@ def CompleteGraphic(n):
         groundset=list(range((n * (n - 1)) // 2)),
         graph=graphs.CompleteGraph(n)
     )
-    M.rename("M(K" + str(n) + "): " + repr(M))
+    M = rename_and_relabel(M, "M(K" + str(n) + ")", groundset)
     return M
