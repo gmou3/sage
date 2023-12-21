@@ -69,7 +69,7 @@ def setprint(X):
     Note that for iterables, the effect can be undesirable::
 
         sage: from sage.matroids.advanced import setprint
-        sage: M = matroids.named_matroids.Fano().delete('efg')
+        sage: M = matroids.catalog.Fano().delete('efg')
         sage: M.bases()
         Iterator over a system of subsets
         sage: setprint(M.bases())
@@ -210,7 +210,7 @@ def sanitize_contractions_deletions(matroid, contractions, deletions):
 
         sage: from sage.matroids.utilities import setprint
         sage: from sage.matroids.utilities import sanitize_contractions_deletions
-        sage: M = matroids.named_matroids.Fano()
+        sage: M = matroids.catalog.Fano()
         sage: setprint(sanitize_contractions_deletions(M, 'abc', 'defg'))
         [{'a', 'b', 'c'}, {'d', 'e', 'f', 'g'}]
         sage: setprint(sanitize_contractions_deletions(M, 'defg', 'abc'))
@@ -805,35 +805,3 @@ def split_vertex(G, u, v=None, edges=None):
 
     # This modifies the graph without needing to return anything
     return
-
-
-def rename_and_relabel(M, name=None, groundset=None):
-    """
-    Return a renamed and relabeled matroid.
-
-    This is a helper function for easily renaming and relabeling matroids upon
-    definition in the context of the database of matroids.
-
-    INPUT:
-
-    - ``M`` -- a matroid
-    - ``name`` -- a string (optional)
-    - ``groundset`` -- a string (optional)
-
-    OUTPUT:
-
-    a matroid
-
-    """
-    if groundset is not None:
-        if len(groundset) != len(M.groundset()):
-            raise ValueError(
-                "The groundset should be of size %s (%s given)." %
-                (len(M.groundset()), len(groundset))
-            )
-        M = M.relabel(dict(zip(M.groundset(), groundset)))
-
-    if name is not None:
-        M.rename(name+": " + repr(M))
-
-    return M

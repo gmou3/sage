@@ -335,7 +335,7 @@ class RankMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Sp8pp()
+            sage: M = matroids.catalog.Sp8pp()
             sage: sorted(M.groundset())
             [1, 2, 3, 4, 5, 6, 7, 8]
             sage: N = M.relabel({8:0})

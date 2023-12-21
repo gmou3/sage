@@ -538,7 +538,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M.representation()
             [1 0 0 0 1 1 1]
             [0 1 0 1 0 1 1]
@@ -667,7 +667,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: A = M._reduced_representation('efg')
             sage: R, C = M._current_rows_cols()
             sage: (sorted(R), sorted(C))
@@ -748,7 +748,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: E = M.groundset_list()
             sage: [M.representation_vectors()[e] for e in E]
             [(1, 0, 0), (0, 1, 0), (0, 0, 1), (0, 1, 1), (1, 0, 1), (1, 1, 0),
@@ -819,7 +819,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = matroids.named_matroids.Fano().delete(['g'])
+            sage: M = matroids.catalog.Fano().delete(['g'])
             sage: N = BinaryMatroid(Matrix(matroids.Wheel(3)))
             sage: morphism = {'a':0, 'b':1, 'c': 2, 'd':4, 'e':5, 'f':3}
             sage: M._is_field_isomorphism(N, morphism)
@@ -911,7 +911,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         yields ``False``, even if the matroids are equal::
 
             sage: from sage.matroids.advanced import *
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M1 = LinearMatroid(Matrix(M), groundset=M.groundset_list())
             sage: M2 = Matroid(groundset='abcdefg',
             ....:              reduced_matrix=[[0, 1, 1, 1],
@@ -998,13 +998,13 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
-            sage: N = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.Fano()
+            sage: N = matroids.catalog.NonFano()
             sage: N.is_field_isomorphism(M, {e:e for e in M.groundset()})
             False
 
             sage: from sage.matroids.advanced import *
-            sage: M = matroids.named_matroids.Fano().delete(['g'])
+            sage: M = matroids.catalog.Fano().delete(['g'])
             sage: N = LinearMatroid(reduced_matrix=Matrix(GF(2),
             ....:                       [[-1, 0, 1], [1, -1, 0], [0, 1, -1]]))
             sage: morphism = {'a':0, 'b':1, 'c': 2, 'd':4, 'e':5, 'f':3}
@@ -1381,7 +1381,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.N1()
+            sage: M = matroids.catalog.N1()
             sage: M.has_line_minor(4)
             True
             sage: M.has_line_minor(5)
@@ -1434,9 +1434,9 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         EXAMPLES::
 
             sage: M = matroids.Whirl(3)
-            sage: matroids.named_matroids.Fano().has_field_minor(M)
+            sage: matroids.catalog.Fano().has_field_minor(M)
             False
-            sage: matroids.named_matroids.NonFano().has_field_minor(M)
+            sage: matroids.catalog.NonFano().has_field_minor(M)
             True
         """
         if self is N:
@@ -2026,7 +2026,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         Coextending commutes with dualizing::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: chain = {'a': 1, 'b': -1, 'f': 1}
             sage: M1 = M.linear_coextension('x', chain)
             sage: M2 = M.dual().linear_extension('x', chain)
@@ -2496,7 +2496,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             8
             sage: S = M.linear_extensions(simple=True); S
             [Binary matroid of rank 3 on 7 elements, type (3, 0)]
-            sage: S[0].is_field_isomorphic(matroids.named_matroids.Fano())
+            sage: S[0].is_field_isomorphic(matroids.catalog.Fano())
             True
             sage: M = Matroid(ring=QQ,
             ....:             reduced_matrix=[[1, 0, 1], [1, 1, 0], [0, 1, 1]])
@@ -2504,7 +2504,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             ....:                         fundamentals=[1, -1, 1/2, 2])
             sage: len(S)
             7
-            sage: any(N.is_isomorphic(matroids.named_matroids.NonFano())
+            sage: any(N.is_isomorphic(matroids.catalog.NonFano())
             ....:     for N in S)
             True
             sage: len(M.linear_extensions(simple=True,
@@ -2565,7 +2565,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: S = M.linear_coextensions(cosimple=True)
             sage: S
             [Binary matroid of rank 4 on 7 elements, type (3, 7)]
-            sage: F7 = matroids.named_matroids.Fano()
+            sage: F7 = matroids.catalog.Fano()
             sage: S[0].is_field_isomorphic(F7.dual())
             True
             sage: M = Matroid(ring=QQ,
@@ -2574,7 +2574,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             ....:                           fundamentals=[1, -1, 1/2, 2])
             sage: len(S)
             7
-            sage: NF7 = matroids.named_matroids.NonFano()
+            sage: NF7 = matroids.catalog.NonFano()
             sage: any(N.is_isomorphic(NF7.dual()) for N in S)
             True
             sage: len(M.linear_coextensions(cosimple=True,
@@ -2675,9 +2675,9 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             ....:             groundset='abcdef')
             sage: N._is_3connected_shifting()
             False
-            sage: matroids.named_matroids.BetsyRoss()._is_3connected_shifting()
+            sage: matroids.catalog.BetsyRoss()._is_3connected_shifting()
             True
-            sage: M = matroids.named_matroids.R6()
+            sage: M = matroids.catalog.R6()
             sage: M._is_3connected_shifting()                                           # needs sage.rings.finite_rings
             False
             sage: B, X = M._is_3connected_shifting(True)                                # needs sage.rings.finite_rings
@@ -3000,7 +3000,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -3163,7 +3163,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M.base_ring()
             Finite Field of size 2
         """
@@ -3177,7 +3177,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M.characteristic()
             2
         """
@@ -3245,7 +3245,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M.rename()
             sage: repr(M)  # indirect doctest
             'Binary matroid of rank 3 on 7 elements, type (3, 0)'
@@ -3271,7 +3271,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: A = M._reduced_representation('efg')
             sage: R, C = M._current_rows_cols()
             sage: (sorted(R), sorted(C))
@@ -3319,7 +3319,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M._basic_representation()
             3 x 7 BinaryMatrix
             [1000111]
@@ -3358,7 +3358,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M._reduced_representation()
             3 x 4 BinaryMatrix
             [0111]
@@ -3398,7 +3398,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M1 = matroids.named_matroids.Fano()
+            sage: M1 = matroids.catalog.Fano()
             sage: M2 = Matroid(ring=GF(2),
             ....:   reduced_matrix=[[1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 0, 1]])
             sage: M1._is_isomorphic(M2)
@@ -3406,7 +3406,7 @@ cdef class BinaryMatroid(LinearMatroid):
             sage: M1._is_isomorphic(M2, certificate=True)
             (True, {'a': 0, 'b': 1, 'c': 2, 'd': 4, 'e': 3, 'f': 5, 'g': 6})
 
-            sage: M1 = matroids.named_matroids.Fano().delete('a')
+            sage: M1 = matroids.catalog.Fano().delete('a')
             sage: M2 = matroids.Whirl(3)
             sage: M1._is_isomorphic(M2)
             False
@@ -3444,8 +3444,8 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano().delete(['a'])
-            sage: N = matroids.named_matroids.Fano().delete(['b'])
+            sage: M = matroids.catalog.Fano().delete(['a'])
+            sage: N = matroids.catalog.Fano().delete(['b'])
             sage: morphism = {'b':'a', 'c':'c', 'd':'e', 'e':'d', 'f':'f', 'g':'g'}
             sage: M._is_isomorphism(N, morphism)
             True
@@ -3464,7 +3464,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M._invariant()  # indirect doctest
             (3, 0, 7, 0, 0, 0, 0, 0)
         """
@@ -3590,7 +3590,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M.bicycle_dimension()
             3
         """
@@ -3622,7 +3622,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: M.brown_invariant()
             0
             sage: M = Matroid(Matrix(GF(2), 3, 8, [[1, 0, 0, 1, 1, 1, 1, 1],
@@ -3654,7 +3654,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.S8()
+            sage: M = matroids.catalog.S8()
             sage: for F in M._principal_tripartition(): print(sorted(F))
             ['a', 'b', 'c', 'e', 'f', 'g']
             ['d']
@@ -3694,7 +3694,7 @@ cdef class BinaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = BinaryMatroid(matrix(matroids.named_matroids.R12()))
+            sage: M = BinaryMatroid(matrix(matroids.catalog.R12()))
             sage: M._projection()
             12 x 12 BinaryMatrix
             [001110111000]
@@ -3731,7 +3731,7 @@ cdef class BinaryMatroid(LinearMatroid):
         An ordered partition.
 
         sage: from sage.matroids.advanced import *
-        sage: M = matroids.named_matroids.R12()
+        sage: M = matroids.catalog.R12()
         sage: N = BinaryMatroid(reduced_matrix=M.representation(reduced=True,
         ....:                         labels=False), groundset='abcdefghijkl')
         sage: Npp = N._projection_partition(); Npp  # random
@@ -3766,8 +3766,8 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-           sage: M = matroids.named_matroids.S8()
-           sage: N = matroids.named_matroids.S8()
+           sage: M = matroids.catalog.S8()
+           sage: N = matroids.catalog.S8()
            sage: M._fast_isom_test(N) is None
            True
         """
@@ -3807,7 +3807,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Fano()
+            sage: M = matroids.catalog.Fano()
             sage: N = M._minor(contractions=set(['a']), deletions=set([]))
             sage: N._minor(contractions=set([]), deletions=set(['b', 'c']))
             Binary matroid of rank 2 on 4 elements, type (0, 6)
@@ -3839,7 +3839,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: R10 = matroids.named_matroids.R10()
+            sage: R10 = matroids.catalog.R10()
             sage: M = Matroid(ring=GF(2), reduced_matrix=R10.representation(
             ....:                                 reduced=True, labels=False))
             sage: M.is_graphic()
@@ -3940,7 +3940,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.Fano()
+            sage: N = matroids.catalog.Fano()
             sage: N.binary_matroid() is N
             True
         """
@@ -3968,7 +3968,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.Fano()
+            sage: N = matroids.catalog.Fano()
             sage: N.is_binary()
             True
         """
@@ -4059,7 +4059,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         Check that :trac:`23437` is fixed::
 
-            sage: M = matroids.named_matroids.Fano().dual()
+            sage: M = matroids.catalog.Fano().dual()
             sage: B = list(M.bases())
             sage: N = loads(dumps(M))
             sage: N.closure(frozenset({'d'}))
@@ -4100,7 +4100,7 @@ cdef class BinaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: M = BasisMatroid(matroids.catalog.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -4263,7 +4263,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M.base_ring()
             Finite Field of size 3
         """
@@ -4277,7 +4277,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M.characteristic()
             3
         """
@@ -4347,7 +4347,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M.rename()
             sage: repr(M)  # indirect doctest
             'Ternary matroid of rank 3 on 7 elements, type 0-'
@@ -4377,7 +4377,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: A = M._reduced_representation('efg')
             sage: R, C = M._current_rows_cols()
             sage: (sorted(R), sorted(C))
@@ -4425,7 +4425,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M._basic_representation()
             3 x 7 TernaryMatrix
             [+000+++]
@@ -4464,7 +4464,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M._reduced_representation()
             3 x 4 TernaryMatrix
             [0+++]
@@ -4503,7 +4503,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M1 = matroids.named_matroids.NonFano().delete('a')
+            sage: M1 = matroids.catalog.NonFano().delete('a')
             sage: M2 = matroids.Whirl(3)
             sage: M1._is_isomorphic(M2)
             True
@@ -4529,7 +4529,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M._invariant()  # indirect doctest
             (0, 2, 0, 4, 3, 0, 12, 12, 3, 0, 0, 0)
         """
@@ -4614,7 +4614,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-           sage: M = matroids.named_matroids.NonFano()
+           sage: M = matroids.catalog.NonFano()
            sage: M._invariant()
            (0, 2, 0, 4, 3, 0, 12, 12, 3, 0, 0, 0)
         """
@@ -4637,7 +4637,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M.bicycle_dimension()
             0
         """
@@ -4663,7 +4663,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.NonFano()
+            sage: M = matroids.catalog.NonFano()
             sage: M.character()
             2
         """
@@ -4681,7 +4681,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.N1()
+            sage: M = matroids.catalog.N1()
             sage: print(M)
             N1: Ternary matroid of rank 5 on 10 elements, type 0+
             sage: P = M._principal_quadripartition()
@@ -4727,7 +4727,7 @@ cdef class TernaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = TernaryMatroid(matrix(matroids.named_matroids.R12()))
+            sage: M = TernaryMatroid(matrix(matroids.catalog.R12()))
             sage: M._projection()
             12 x 12 TernaryMatrix
             [++00-0--0+++]
@@ -4768,8 +4768,8 @@ cdef class TernaryMatroid(LinearMatroid):
 
            EXAMPLES::
 
-               sage: M = matroids.named_matroids.T8()
-               sage: N = matroids.named_matroids.P8()
+               sage: M = matroids.catalog.T8()
+               sage: N = matroids.catalog.P8()
                sage: M._fast_isom_test(N)
                False
            """
@@ -4805,7 +4805,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.P8()
+            sage: M = matroids.catalog.P8()
             sage: N = M._minor(contractions=set(['a']), deletions=set([]))
             sage: N._minor(contractions=set([]), deletions=set(['b', 'c']))
             Ternary matroid of rank 3 on 5 elements, type 0-
@@ -4866,7 +4866,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.NonFano()
+            sage: N = matroids.catalog.NonFano()
             sage: N.ternary_matroid() is N
             True
         """
@@ -4894,7 +4894,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.NonFano()
+            sage: N = matroids.catalog.NonFano()
             sage: N.is_ternary()
             True
         """
@@ -4987,7 +4987,7 @@ cdef class TernaryMatroid(LinearMatroid):
         Check that :trac:`23437` is fixed::
 
             sage: from sage.matroids.advanced import *
-            sage: X_bin = matroids.named_matroids.Fano().representation()
+            sage: X_bin = matroids.catalog.Fano().representation()
             sage: X = Matrix(GF(3), X_bin)                                              # needs sage.rings.finite_rings
             sage: M = TernaryMatroid(matrix=X).dual()                                   # needs sage.rings.finite_rings
             sage: B = list(M.bases())
@@ -5030,7 +5030,7 @@ cdef class TernaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: M = BasisMatroid(matroids.catalog.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -5300,7 +5300,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: # needs sage.rings.finite_rings
-            sage: M = matroids.named_matroids.Q10()
+            sage: M = matroids.catalog.Q10()
             sage: A = M._reduced_representation('efghi')
             sage: R, C = M._current_rows_cols()
             sage: (sorted(R), sorted(C))
@@ -5348,7 +5348,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Q10()                                     # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: M._basic_representation()                                             # needs sage.rings.finite_rings
             5 x 10 QuaternaryMatrix
             [100001x00y]
@@ -5391,7 +5391,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Q10()                                     # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: M._reduced_representation()                                           # needs sage.rings.finite_rings
             5 x 5 QuaternaryMatrix
             [1x00y]
@@ -5419,7 +5419,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Q10()                                     # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: M._invariant()  # indirect doctest                                    # needs sage.rings.finite_rings
             (0, 0, 5, 5, 20, 10, 25)
         """
@@ -5498,7 +5498,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Q10()                                     # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: M._invariant()                                                        # needs sage.rings.finite_rings
             (0, 0, 5, 5, 20, 10, 25)
 
@@ -5526,7 +5526,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Q10()                                     # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: M.bicycle_dimension()                                                 # needs sage.rings.finite_rings
             0
         """
@@ -5554,7 +5554,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: # needs sage.rings.finite_rings
-            sage: M = matroids.named_matroids.Q10().delete('a')
+            sage: M = matroids.catalog.Q10().delete('a')
             sage: for F in M._principal_tripartition(): print(sorted(F))
             ['b', 'c', 'd', 'e', 'h', 'i']
             ['f', 'g', 'j']
@@ -5592,8 +5592,8 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-           sage: M = matroids.named_matroids.Q10().delete('a')                          # needs sage.rings.finite_rings
-           sage: N = matroids.named_matroids.Q10().delete('b')                          # needs sage.rings.finite_rings
+           sage: M = matroids.catalog.Q10().delete('a')                          # needs sage.rings.finite_rings
+           sage: N = matroids.catalog.Q10().delete('b')                          # needs sage.rings.finite_rings
            sage: M._fast_isom_test(N) is None                                           # needs sage.rings.finite_rings
            True
         """
@@ -5628,7 +5628,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.Q10()                                     # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: N = M._minor(contractions=set(['a']), deletions=set([]))              # needs sage.rings.finite_rings
             sage: N._minor(contractions=set([]), deletions=set(['b', 'c']))             # needs sage.rings.finite_rings
             Quaternary matroid of rank 4 on 7 elements
@@ -5746,7 +5746,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         Check that :trac:`23437` is fixed::
 
             sage: from sage.matroids.advanced import QuaternaryMatroid
-            sage: X_bin = matroids.named_matroids.Fano().representation()
+            sage: X_bin = matroids.catalog.Fano().representation()
             sage: X = Matrix(GF(4), X_bin)                                              # needs sage.rings.finite_rings
             sage: M = QuaternaryMatroid(matrix=X).dual()                                # needs sage.rings.finite_rings
             sage: B = list(M.bases())                                                   # needs sage.rings.finite_rings
@@ -5789,7 +5789,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: M = BasisMatroid(matroids.catalog.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -5946,7 +5946,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: M.base_ring()
             Integer Ring
         """
@@ -5959,7 +5959,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: M.characteristic()
             0
         """
@@ -6015,7 +6015,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: M.rename()
             sage: repr(M)  # indirect doctest
             'Regular matroid of rank 5 on 10 elements with 162 bases'
@@ -6097,9 +6097,9 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
-            sage: N = matroids.named_matroids.R10().dual()
-            sage: O = matroids.named_matroids.R12()
+            sage: M = matroids.catalog.R10()
+            sage: N = matroids.catalog.R10().dual()
+            sage: O = matroids.catalog.R12()
             sage: M._invariant() == N._invariant()
             True
             sage: M._invariant() == O._invariant()
@@ -6156,7 +6156,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: PV, tups, G = M._hypergraph()                                         # needs sage.graphs
             sage: G                                                                     # needs sage.graphs
             Digraph on 55 vertices
@@ -6247,7 +6247,7 @@ cdef class RegularMatroid(LinearMatroid):
             (True, {0: 0, 1: 1, 2: 2, 3: 3, 4: 5, 5: 4})
 
             sage: M1 = matroids.Wheel(3)
-            sage: M2 = matroids.named_matroids.Fano()
+            sage: M2 = matroids.catalog.Fano()
             sage: M1._is_isomorphic(M2)
             False
             sage: M1._is_isomorphic(M2.delete('a'))
@@ -6309,8 +6309,8 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-           sage: M = matroids.named_matroids.R10().delete('a')
-           sage: N = matroids.named_matroids.R10().delete('b')
+           sage: M = matroids.catalog.R10().delete('a')
+           sage: N = matroids.catalog.R10().delete('b')
            sage: M._fast_isom_test(N)                                                   # needs sage.graphs
            True
         """
@@ -6389,7 +6389,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: M.has_line_minor(4)
             False
             sage: M.has_line_minor(4, certificate=True)
@@ -6463,7 +6463,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: M.is_graphic()
             False
             sage: M = Matroid(graphs.CompleteGraph(5), regular=True)                    # needs sage.graphs
@@ -6536,7 +6536,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.R10()
+            sage: N = matroids.catalog.R10()
             sage: N.binary_matroid()
             Binary matroid of rank 5 on 10 elements, type (1, None)
 
@@ -6566,7 +6566,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.R10()
+            sage: N = matroids.catalog.R10()
             sage: N.is_binary()
             True
         """
@@ -6596,7 +6596,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.R10()
+            sage: N = matroids.catalog.R10()
             sage: N.ternary_matroid()
             Ternary matroid of rank 5 on 10 elements, type 4+
 
@@ -6626,7 +6626,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: N = matroids.named_matroids.R10()
+            sage: N = matroids.catalog.R10()
             sage: N.is_ternary()
             True
         """
@@ -6640,7 +6640,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: N = copy(M)  # indirect doctest
             sage: M == N
             True
@@ -6660,7 +6660,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         EXAMPLES::
 
-            sage: M = matroids.named_matroids.R10()
+            sage: M = matroids.catalog.R10()
             sage: N = deepcopy(M)  # indirect doctest
             sage: M == N
             True
@@ -6696,7 +6696,7 @@ cdef class RegularMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = matroids.named_matroids.R12()
+            sage: M = matroids.catalog.R12()
             sage: M == loads(dumps(M))  # indirect doctest
             True
             sage: M.rename("R_{12}")
@@ -6742,7 +6742,7 @@ cdef class RegularMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.named_matroids.Fano())
+            sage: M = BasisMatroid(matroids.catalog.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
