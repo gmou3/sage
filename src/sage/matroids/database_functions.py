@@ -57,9 +57,8 @@ def AllMatroids(n, r=-1, type="all"):
 
     REFERENCES:
 
-    This collection is retrieved from `Yoshitake Matsumoto's Database of
-    Matroids
-    <https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html>`_.
+    This collection was retrieved from Yoshitake Matsumoto's Database of
+    Matroids, see [Mat2012]_.
 
     TESTS::
 
@@ -148,7 +147,6 @@ def AllMatroids(n, r=-1, type="all"):
             break
 
         M = Matroid(groundset=range(n), rank=rp, revlex=line[:-1])
-        # The standard lexicographic order gives the same result
 
         if type == "all" and n - r < r:
             M = M.dual()
@@ -170,10 +168,10 @@ def OxleyMatroids():
     EXAMPLES::
 
         sage: OM = matroids.OxleyMatroids(); len(OM)
-        42
+        44
         sage: import random
         sage: M = random.choice(OM)
-        sage: M.is_valid() # long time
+        sage: M.is_valid()
         True
 
     .. SEEALSO::
@@ -186,6 +184,11 @@ def OxleyMatroids():
     These matroids are the nonparametrized matroids that appear in the
     Appendix ``Some Interesting Matroids`` in [Oxl2011]_ (p. 639-64).
 
+    TESTS::
+
+        sage: for M in matroids.OxleyMatroids():
+        ....:     assert M.is_valid()
+
     """
     Matroids = []
     from sage.matroids.database_matroids import (
@@ -193,9 +196,8 @@ def OxleyMatroids():
         Fano, FanoDual, NonFano, NonFanoDual, O7, P7,
         AG32, AG32prime, R8, F8, Q8, L8, S8, Vamos, T8, J, P8, P8pp,
         Wheel4, Whirl4,
-        K33dual, K33, AG23, TernaryDowling3,  # R9
-        Pappus, NonPappus,
-        K5, K5dual, R10,  # NonDesargues,
+        K33dual, K33, AG23, TernaryDowling3, R9, Pappus, NonPappus,
+        K5, K5dual, R10, NonDesargues,
         R12, ExtendedTernaryGolayCode, T12,
         PG23
     )
@@ -211,8 +213,8 @@ def OxleyMatroids():
             Vamos, T8, J, P8, P8pp,
             Wheel4, Whirl4
         ],
-        9: [K33dual, K33, AG23, TernaryDowling3, Pappus, NonPappus],
-        10: [K5, K5dual, R10],
+        9: [K33dual, K33, AG23, TernaryDowling3, R9, Pappus, NonPappus],
+        10: [K5, K5dual, R10, NonDesargues],
         12: [R12, ExtendedTernaryGolayCode, T12],
         13: [PG23],
     }
@@ -232,13 +234,18 @@ def BrettellMatroids():
         68
         sage: import random
         sage: M = random.choice(BM)
-        sage: M.is_valid() # long time
+        sage: M.is_valid()
         True
 
     .. SEEALSO::
 
         :mod:`Matroid catalog <sage.matroids.matroids_catalog>`, under
         ``Brettell's matroid collection``.
+
+    TESTS::
+
+        sage: for M in matroids.BrettellMatroids():
+        ....:     assert M.is_valid()
 
     """
     Matroids = []
@@ -291,13 +298,18 @@ def VariousMatroids():
         16
         sage: import random
         sage: M = random.choice(VM)
-        sage: M.is_valid() # long time
+        sage: M.is_valid()
         True
 
     .. SEEALSO::
 
         :mod:`Matroid catalog <sage.matroids.matroids_catalog>`, under
         ``Collection of various matroids``.
+
+    TESTS::
+
+        sage: for M in matroids.VariousMatroids():
+        ....:     assert M.is_valid()
 
     """
     Matroids = []

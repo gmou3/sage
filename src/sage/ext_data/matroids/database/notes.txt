@@ -16,3 +16,11 @@ Update History
 2012/01/24: Publication lists updated by Hiraishi.
 2012/01/24: Matroids r3n12 updated by Hiraishi.
 #####################################################################
+
+Due to the large size of the corresponding files, the matroids for
+
+(n=12, r=3, "all")
+(n=12, r=3, "simple")
+(n=12, r=3, "unorientable")
+
+have not been included in this sage database.
