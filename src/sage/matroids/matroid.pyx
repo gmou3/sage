@@ -2395,11 +2395,14 @@ cdef class Matroid(SageObject):
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
         """
-        C = set()
-        for B in self.bases():
-            C.update([self._circuit(B.union(set([e])))
-                      for e in self.groundset().difference(B)])
-        return list(C)
+        if not self._C:
+            C = set()
+            for B in self.bases():
+                C.update([self._circuit(B.union(set([e])))
+                        for e in self.groundset().difference(B)])
+            self._C = SetSystem(list(self.groundset()), frozenset([frozenset(c)
+                                                                  for c in C]))
+        return self._C
 
     cpdef nonspanning_circuits(self) noexcept:
         """
@@ -2644,11 +2647,13 @@ cdef class Matroid(SageObject):
 
         """
         cdef SetSystem res
-        res = SetSystem(list(self.groundset()))
-        for X in combinations(self.groundset(), self.full_rank()):
-            if self._rank(frozenset(X)) == len(X):
-                res.append(X)
-        return res
+        if not self._B:
+            res = SetSystem(list(self.groundset()))
+            for X in combinations(self.groundset(), self.full_rank()):
+                if self._rank(frozenset(X)) == len(X):
+                    res.append(X)
+            self._B = res
+        return self._B
 
     cpdef independent_sets(self) noexcept:
         r"""
@@ -2958,7 +2963,7 @@ cdef class Matroid(SageObject):
         for C in self.circuits():
             for k in ordering:
                 if k in C:
-                    ret.add(C.difference([k]))
+                    ret.add(frozenset(C).difference([k]))
                     break
         return frozenset(ret)
 
