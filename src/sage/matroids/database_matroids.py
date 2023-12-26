@@ -73,6 +73,8 @@ def U24(groundset='abcd'):
         sage: N = matroids.Uniform(2, 4)
         sage: M.is_isomorphic(N)
         True
+        sage: M.automorphism_group().structure_description()
+        'S4'
 
     `U_{2,4}` is isomorphic to `\mathcal{W}^2`::
 
@@ -186,6 +188,11 @@ def K4(groundset='abcdef'):
         sage: M.is_isomorphic(Z)
         True
 
+    It has a transitive automorphism group::
+
+        sage: M.automorphism_group().is_transitive()
+        True
+
     REFERENCES:
 
     [Oxl2011]_, p. 640.
@@ -215,6 +222,8 @@ def Whirl3(groundset='abcdef'):
         False
         sage: W.is_isomorphic(W.dual())
         True
+        sage: W.automorphism_group().is_transitive()
+        False
 
     For all elements `e`, neither `\mathcal{W}_3 \setminus \{e\}` nor
     `\mathcal{W}_3 / \{e\}` is `3`-connected::
@@ -261,6 +270,8 @@ def Q6(groundset='abcdef'):
          {'e', 'f'}]
         sage: M.nonspanning_circuits() == M.noncospanning_cocircuits()
         False
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -275,7 +286,7 @@ def Q6(groundset='abcdef'):
     return M
 
 
-def P6(groundset='abcdef'):
+def P6(groundset=None):
     """
     Return the matroid `P_6`, represented as circuit closures.
 
@@ -296,6 +307,8 @@ def P6(groundset='abcdef'):
         False
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -304,9 +317,7 @@ def P6(groundset='abcdef'):
     """
     CC = {2: ['abc'], 3: ['abcdef']}
     M = Matroid(groundset='abcdef', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "P6", None if groundset == 'abcdef' else groundset
-    )
+    M = rename_and_relabel(M, "P6", groundset)
     return M
 
 
@@ -325,6 +336,8 @@ def U36(groundset='abcdef'):
         True
         sage: U36.equals(U36.dual())
         True
+        sage: U36.automorphism_group().structure_description()
+        'S6'
 
     REFERENCES:
 
@@ -362,6 +375,8 @@ def R6(groundset='abcdef'):
         True
         sage: M.is_3connected()
         False
+        sage: M.automorphism_group().is_transitive()
+        True
 
     REFERENCES:
 
@@ -389,6 +404,10 @@ def Fano(groundset='abcdefg'):
         sage: from sage.matroids.advanced import setprint
         sage: M = matroids.catalog.Fano(); M
         Fano: Binary matroid of rank 3 on 7 elements, type (3, 0)
+        sage: M.automorphism_group().is_transitive()
+        True
+        sage: M.automorphism_group().structure_description()
+        'PSL(3,2)'
 
     Every single-element deletion of `F_7` is isomorphic to `M(K_4)`::
 
@@ -435,6 +454,10 @@ def FanoDual(groundset='abcdefg'):
         sage: F7D = matroids.catalog.FanoDual()
         sage: F7.is_isomorphic(F7D.dual())
         True
+        sage: F7D.automorphism_group().is_transitive()
+        True
+        sage: F7D.automorphism_group().structure_description()
+        'PSL(3,2)'
 
     Every single-element deletion of `F_7^*` is isomorphic to `M(K_{2, 3})`::
 
@@ -646,7 +669,7 @@ def AG32(groundset='abcdefgh'):
     return M
 
 
-def AG32prime(groundset='abcdefgh'):
+def AG32prime(groundset=None):
     """
     Return the matroid `AG(3, 2)'`, represented as circuit closures.
 
@@ -673,6 +696,8 @@ def AG32prime(groundset='abcdefgh'):
          {'d', 'e', 'f', 'g'}]
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     Self-dual but not identically self-dual::
 
@@ -707,9 +732,7 @@ def AG32prime(groundset='abcdefgh'):
         4: ['abcdefgh'],
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "AG(3, 2)'", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "AG(3, 2)'", groundset)
     return M
 
 
@@ -732,6 +755,8 @@ def R8(groundset='abcdefgh'):
         True
         sage: M.has_minor(matroids.catalog.Fano())
         False
+        sage: M.automorphism_group().is_transitive()
+        True
 
     Every single-element deletion is isomorphic to (F_7^-)^* and every
     single-element contraction is isomorphic to F_7^-::
@@ -764,7 +789,7 @@ def R8(groundset='abcdefgh'):
     return M
 
 
-def F8(groundset='abcdefgh'):
+def F8(groundset=None):
     """
     Return the matroid `F_8`, represented as circuit closures.
 
@@ -793,6 +818,8 @@ def F8(groundset='abcdefgh'):
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -808,13 +835,11 @@ def F8(groundset='abcdefgh'):
         4: ['abcdefgh'],
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "F8", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "F8", groundset)
     return M
 
 
-def Q8(groundset='abcdefgh'):
+def Q8(groundset=None):
     """
     Return the matroid `Q_8`, represented as circuit closures.
 
@@ -844,6 +869,8 @@ def Q8(groundset='abcdefgh'):
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -858,13 +885,11 @@ def Q8(groundset='abcdefgh'):
         4: ['abcdefgh'],
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "Q8", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "Q8", groundset)
     return M
 
 
-def L8(groundset='abcdefgh'):
+def L8(groundset=None):
     """
     Return the matroid `L_8`, represented as circuit closures.
 
@@ -884,6 +909,8 @@ def L8(groundset='abcdefgh'):
         sage: M.equals(M.dual())
         True
         sage: M.is_valid()
+        True
+        sage: M.automorphism_group().is_transitive()
         True
 
     Every single-element contraction is isomorphic to the free extension of
@@ -906,9 +933,7 @@ def L8(groundset='abcdefgh'):
     CC = {3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'aceg', 'bdfh'],
           4: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "L8", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "L8", groundset)
     return M
 
 
@@ -943,6 +968,8 @@ def S8(groundset='abcdefgh'):
         [...True...]
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -963,7 +990,7 @@ def S8(groundset='abcdefgh'):
     return M
 
 
-def Vamos(groundset='abcdefgh'):
+def Vamos(groundset=None):
     r"""
     Return the `V\acute{a}mos` matroid, represented as circuit closures.
 
@@ -988,6 +1015,10 @@ def Vamos(groundset='abcdefgh'):
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
+        sage: M.is_paving()
+        True
 
     REFERENCES:
 
@@ -996,9 +1027,7 @@ def Vamos(groundset='abcdefgh'):
     """
     CC = {3: ['abcd', 'abef', 'cdef', 'abgh', 'efgh'], 4: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "Vamos", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "Vamos", groundset)
     return M
 
 
@@ -1022,6 +1051,8 @@ def T8(groundset='abcdefgh'):
         False
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1062,6 +1093,8 @@ def J(groundset='abcdefgh'):
         False
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1122,7 +1155,7 @@ def P8(groundset='abcdefgh'):
     return M
 
 
-def P8pp(groundset='abcdefgh'):
+def P8pp(groundset=None):
     """
     Return the matroid `P_8^=`, represented as circuit closures.
 
@@ -1156,9 +1189,7 @@ def P8pp(groundset='abcdefgh'):
     CC = {3: ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh'],
           4: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "P8''", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "P8''", groundset)
     return M
 
 
@@ -1176,6 +1207,8 @@ def Wheel4(groundset='abcdefgh'):
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1201,6 +1234,8 @@ def Whirl4(groundset='abcdefgh'):
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1230,6 +1265,8 @@ def K33dual(groundset='abcdefghi'):
         False
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        True
 
     REFERENCES:
 
@@ -1255,6 +1292,10 @@ def K33(groundset='abcdefghi'):
 
         sage: M = matroids.catalog.K33()
         sage: M.is_valid()
+        True
+        sage: G1 = M.automorphism_group()
+        sage: G2 = matroids.catalog.K33dual().automorphism_group()
+        sage: G1.is_isomorphic(G2)
         True
 
     REFERENCES:
@@ -1288,6 +1329,8 @@ def AG23(groundset='abcdefghi'):
         sage: e = random.choice(list(M.groundset()))
         sage: M.delete(e).is_isomorphic(matroids.catalog.AG23minus())
         True
+        sage: M.automorphism_group().is_transitive()
+        True
 
     REFERENCES:
 
@@ -1315,6 +1358,8 @@ def TernaryDowling3(groundset='abcdefghi'):
         72
         sage: M.fundamental_cycle('abc', 'd')
         {'a': 2, 'b': 1, 'd': 1}
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1352,6 +1397,8 @@ def R9(groundset=None):
         15
         sage: M.is_simple() and M.is_ternary()
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1365,7 +1412,7 @@ def R9(groundset=None):
     return M
 
 
-def Pappus(groundset='abcdefghi'):
+def Pappus(groundset=None):
     """
     Return the Pappus matroid.
 
@@ -1391,6 +1438,8 @@ def Pappus(groundset='abcdefghi'):
         True
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        True
 
     REFERENCES:
 
@@ -1400,13 +1449,11 @@ def Pappus(groundset='abcdefghi'):
     CC = {2: ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
           3: ['abcdefghi']}
     M = Matroid(groundset='abcdefghi', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "Pappus", None if groundset == 'abcdefghi' else groundset
-    )
+    M = rename_and_relabel(M, "Pappus", groundset)
     return M
 
 
-def NonPappus(groundset='abcdefghi'):
+def NonPappus(groundset=None):
     """
     Return the non-Pappus matroid.
 
@@ -1430,6 +1477,8 @@ def NonPappus(groundset='abcdefghi'):
         False
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1439,9 +1488,7 @@ def NonPappus(groundset='abcdefghi'):
     CC = {2: ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
           3: ['abcdefghi']}
     M = Matroid(groundset='abcdefghi', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "NonPappus", None if groundset == 'abcdefghi' else groundset
-    )
+    M = rename_and_relabel(M, "NonPappus", groundset)
     return M
 
 
@@ -1456,6 +1503,8 @@ def K5(groundset='abcdefghij'):
 
         sage: M = matroids.catalog.K5()
         sage: M.is_valid()
+        True
+        sage: M.automorphism_group().is_transitive()
         True
 
     REFERENCES:
@@ -1478,6 +1527,10 @@ def K5dual(groundset='abcdefghij'):
 
         sage: M = matroids.catalog.K5dual()
         sage: M.is_3connected()
+        True
+        sage: G1 = M.automorphism_group()
+        sage: G2 = matroids.catalog.K5().automorphism_group()
+        sage: G1.is_isomorphic(G2)
         True
 
     REFERENCES:
@@ -1510,6 +1563,8 @@ def R10(groundset='abcdefghij'):
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
         sage: M.is_valid()
+        True
+        sage: M.automorphism_group().is_transitive()
         True
 
     Every single-element deletion is isomorphic to `M(K_{3, 3})`, and every
@@ -1565,6 +1620,8 @@ def NonDesargues(groundset=None):
         True
         sage: len(M.nonspanning_circuits())
         9
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1594,6 +1651,8 @@ def R12(groundset='abcdefghijkl'):
         True
         sage: M.is_valid()
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1630,6 +1689,14 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
         True
         sage: M.is_valid()
         True
+
+    The automorphism group is the `5`-transitive Mathieu group `M12`:
+
+        sage: G = M.automorphism_group()
+        sage: G.is_transitive()
+        True
+        sage: G.structure_description()
+        'M12'
 
     `S(5, 6, 12)` is an identically self-dual matroid::
 
@@ -1694,6 +1761,8 @@ def T12(groundset='abcdefghijkl'):
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        True
 
     REFERENCES:
 
@@ -1727,6 +1796,8 @@ def PG23(groundset=None):
 
         sage: M = matroids.catalog.PG23()
         sage: M.is_3connected()
+        True
+        sage: M.automorphism_group().is_transitive()
         True
 
     REFERENCES:
@@ -1773,13 +1844,16 @@ def Wheel(r, field=None, ring=None, groundset=None):
         sage: M = matroids.Wheel(3, field=GF(3)); M
         Wheel(3): Ternary matroid of rank 3 on 6 elements, type 0+
 
-    For `r \ge 2`, the wheel is self-dual but not identically self-dual::
+    For `r \ge 2`, the wheel is self-dual but not identically self-dual, and
+    for `r \ge 4` it has a non-transitive automorphism group::
 
         sage: import random
-        sage: r = random.choice(range(2, 10))
+        sage: r = random.choice(range(4, 8))
         sage: M = matroids.Wheel(r)
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+        sage: M.automorphism_group().is_transitive()
+        False
 
     REFERENCES:
 
@@ -1851,6 +1925,14 @@ def Whirl(r, groundset=None):
         sage: M = matroids.Whirl(r)
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
+
+    Except for `\mathcal{W}^2`, which is isomorphic to `U_{2, 4}`, these
+    matroids have non-transitive automorphism groups::
+
+        sage: r = random.choice(range(3, 8))
+        sage: M = matroids.Whirl(r)
+        sage: M.automorphism_group().is_transitive()
+        False
 
     .. TODO::
 
@@ -1929,10 +2011,7 @@ def Uniform(r, n, groundset=None):
     else:
         CC = {}
     M = Matroid(groundset=E, circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "U(" + str(r) + ", " + str(n) + ")",
-        None if groundset == range(n) else groundset
-    )
+    M = rename_and_relabel(M, "U(" + str(r) + ", " + str(n) + ")", groundset)
     return M
 
 
@@ -2093,13 +2172,15 @@ def Z(r, t=True, groundset=None):
         False
 
     The tipless binary spike is self-dual; it is identically self-dual if and
-    only if r is even::
+    only if r is even. It also has a transitive automorphism group::
 
         sage: r = random.choice(range(3, 8))
         sage: Z = matroids.Z(r, False)
         sage: Z.is_isomorphic(Z.dual())
         True
         sage: Z.equals(Z.dual()) != (r % 2 == 1)  # XOR
+        True
+        sage: Z.automorphism_group().is_transitive()
         True
 
     REFERENCES:
@@ -2300,6 +2381,17 @@ def Theta(n, groundset=None):
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
 
+    For `n \le 3`, its automorphism group is transitive, while for `n \ge 4`
+    it is not::
+
+        sage: n = random.choice(range(4, 8))
+        sage: M = matroids.Theta(2 + n % 2)
+        sage: M.automorphism_group().is_transitive()
+        True
+        sage: M = matroids.Theta(n)
+        sage: M.automorphism_group().is_transitive()
+        False
+
     REFERENCES:
 
     [Oxl2011]_, p. 663-4.
@@ -2366,11 +2458,12 @@ def Psi(r, groundset=None):
         sage: M.is_isomorphic(matroids.catalog.U36())
         True
 
-    It is identically self-dual::
+    It is identically self-dual with a transitive automorphism group::
 
-        sage: r = random.choice(range(3, 9))
         sage: M = matroids.Psi(r)
         sage: M.equals(M.dual())
+        True
+        sage: M.automorphism_group().is_transitive()
         True
 
     REFERENCES:
@@ -4665,7 +4758,7 @@ def N4():
 # ******************************** #
 
 
-def NonVamos(groundset='abcdefgh'):
+def NonVamos(groundset=None):
     r"""
     Return the non-`V\acute{a}mos` matroid.
 
@@ -4699,9 +4792,7 @@ def NonVamos(groundset='abcdefgh'):
         4: ['abcdefgh']
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "NonVamos", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "NonVamos", groundset)
     return M
 
 
@@ -4734,7 +4825,7 @@ def NotP8(groundset='abcdefgh'):
     return M
 
 
-def AG23minus(groundset='abcdefgh'):
+def AG23minus(groundset=None):
     """
     Return the ternary affine plane minus a point.
 
@@ -4755,9 +4846,7 @@ def AG23minus(groundset='abcdefgh'):
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
           3: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(
-        M, "AG23minus", None if groundset == 'abcdefgh' else groundset
-    )
+    M = rename_and_relabel(M, "AG23minus", groundset)
     return M
 
 

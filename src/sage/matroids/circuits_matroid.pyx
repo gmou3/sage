@@ -578,6 +578,68 @@ cdef class CircuitsMatroid(Matroid):
         """
         return self._NSC
 
+    cpdef no_broken_circuits_sets(self, order=None) noexcept:
+        r"""
+        Return the no broken circuits (NBC) sets of ``self``.
+
+        An NBC set is a subset `A` of the ground set under some total
+        ordering `<` such that `A` contains no broken circuit.
+
+        INPUT:
+
+        - ``ordering`` -- a total ordering of the groundset given as a list
+
+        EXAMPLES::
+
+            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
+            sage: SimplicialComplex(M.no_broken_circuits_sets())                        # needs sage.graphs
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
+            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))             # needs sage.graphs
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+
+        ::
+
+            sage: M = Matroid(circuits=[[1,2,3], [1,4,5], [2,3,4,5]])
+            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))             # needs sage.graphs
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (2, 3, 5), (2, 4, 5), (3, 4, 5)}
+
+        .. NOTE::
+
+            Sage uses the convention that a broken circuit is found by
+            removing a minimal element from a circuit. This implementation
+            reverses the provided order so that it returns n.b.c. sets under
+            the minimal-removal convention.
+
+        """
+        if order is None:
+            order = sorted(self.groundset(), key=str)
+        else:
+            if frozenset(order) != self.groundset():
+                raise ValueError("not an ordering of the groundset")
+
+        # compute broken circuits
+        cdef BC = []
+        for C in self._C:
+            for e in order:
+                if e in C:
+                    BC.append(C - set([e]))
+                    break
+
+        # the facets suffice
+        cdef NBC = []
+        for B in self._bases():
+            flag = True
+            for bc in BC:
+                if bc <= B:
+                    flag = False
+                    break
+            if flag:
+                NBC.append(B)
+        return NBC
+
     cpdef _sort_key(self, x) noexcept:
         return (len(x), str(sorted(x, key=str)))
 
