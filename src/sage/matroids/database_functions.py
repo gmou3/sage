@@ -2,9 +2,9 @@ r"""
 Collections of matroids
 
 This module contains functions that access the collections of matroids in the
-database. Each of these functions returns a complete list of the
-nonparametrized matroids from the corresponding collection. These functions
-can be viewed by typing ``matroids.`` + :kbd:`Tab`.
+database. Each of these functions returns an iterator over the nonparametrized
+matroids from the corresponding collection. These functions can be viewed by
+typing ``matroids.`` + :kbd:`Tab`.
 
 AUTHORS:
 
@@ -85,7 +85,7 @@ def AllMatroids(n, r=None, type="all"):
         sage: for r in range(0, 12 + 1): # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if all[r][n] and all[r][n] < 1000:
-        ....:             assert len(matroids.AllMatroids(n, r)) == all[r][n]
+        ....:             assert len(list(matroids.AllMatroids(n, r))) == all[r][n]
         ....:             for M in matroids.AllMatroids(n, r):
         ....:                 assert M.is_valid()
         sage: simple = [
@@ -98,7 +98,7 @@ def AllMatroids(n, r=None, type="all"):
         sage: for r in range(0, 4 + 1): # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if simple[r][n] and simple[r][n] < 1000:
-        ....:             assert len(matroids.AllMatroids(n, r, "simple")) == simple[r][n]
+        ....:             assert len(list(matroids.AllMatroids(n, r, "simple"))) == simple[r][n]
         ....:             for M in matroids.AllMatroids(n, r, "simple"):
         ....:                 assert M.is_valid() and M.is_simple()
         sage: unorientable = [
@@ -108,7 +108,7 @@ def AllMatroids(n, r=None, type="all"):
         sage: for r in range(0, 1 + 1): # long time
         ....:     for n in range(0, 4 + 1):
         ....:         if unorientable[r][n] and unorientable[r][n] < 1000:
-        ....:             assert len(matroids.AllMatroids(n + 7, r + 3, "unorientable")) == unorientable[r][n]
+        ....:             assert len(list(matroids.AllMatroids(n + 7, r + 3, "unorientable"))) == unorientable[r][n]
         ....:             for M in matroids.AllMatroids(n + 7, r + 3, "unorientable"):
         ....:                 assert M.is_valid()
 
@@ -181,7 +181,7 @@ def AllMatroids(n, r=None, type="all"):
 
 def OxleyMatroids():
     """
-    Return an iterator for Oxley's matroid collection.
+    Return an iterator over Oxley's matroid collection.
 
     EXAMPLES::
 
@@ -219,34 +219,29 @@ def OxleyMatroids():
         PG23
     )
 
-    lst = {
-        4: [U24],
-        5: [U25, U35],
-        6: [K4, Whirl3, Q6, P6, U36, R6],
-        7: [Fano, FanoDual, NonFano, NonFanoDual, O7, P7],
-        8: [
-            AG32, AG32prime,
-            R8, F8, Q8, L8, S8,
-            Vamos, T8, J, P8, P8pp,
-            Wheel4, Whirl4
-        ],
-        9: [K33dual, K33, AG23, TernaryDowling3, R9, Pappus, NonPappus],
-        10: [K5, K5dual, R10, NonDesargues],
-        12: [R12, ExtendedTernaryGolayCode, T12],
-        13: [PG23],
-    }
-    for i in lst:
-        for M in lst[i]:
-            yield M
+    lst = [U24,  # 4
+           U25, U35,  # 5
+           K4, Whirl3, Q6, P6, U36, R6,  # 6
+           Fano, FanoDual, NonFano, NonFanoDual, O7, P7,  # 7
+           AG32, AG32prime,
+           R8, F8, Q8, L8, S8,
+           Vamos, T8, J, P8, P8pp,
+           Wheel4, Whirl4,  # 8
+           K33dual, K33, AG23, TernaryDowling3, R9, Pappus, NonPappus,  # 9
+           K5, K5dual, R10, NonDesargues,  # 10
+           R12, ExtendedTernaryGolayCode, T12,  # 12
+           PG23]  # 13
+    for M in lst:
+        yield M()
 
 
 def BrettellMatroids():
     """
-    Return an iterator for Brettell's matroid collection.
+    Return an iterator over Brettell's matroid collection.
 
     EXAMPLES::
 
-        sage: BM = matroids.BrettellMatroids(); len(BM)
+        sage: BM = list(matroids.BrettellMatroids()); len(BM)
         68
         sage: import random
         sage: M = random.choice(BM)
@@ -279,36 +274,29 @@ def BrettellMatroids():
         N4
     )
 
-    lst = {
-        7: [RelaxedNonFano, TippedFree3spike],
-        8: [AG23minusDY, TQ8, P8p, KP8, Sp8, Sp8pp, LP8, WQ8],
-        9: [BB9, TQ9, TQ9p, M8591, PP9, BB9gDY, A9, FN9, FX9, KR9, KQ9],
-        10: [
-            UG10, FF10, GP10, FZ10, UQ10, FP10, TQ10, FY10, PP10, FU10, D10,
-            UK10, PK10, GK10, FT10, TK10, KT10, TU10, UT10, FK10, KF10
-        ],
-        11: [FA11],
-        12: [
-            FR12, GP12, FQ12, FF12, FZ12, UQ12, FP12, FS12, UK12, UA12, AK12,
-            FK12, KB12, AF12, NestOfTwistedCubes
-        ],
-        13: [XY13],
-        14: [N3, N3pp, UP14, VP14, FV14, OW14, FM14],
-        15: [FA15],
-        16: [N4],
-    }
-    for i in lst:
-        for M in lst[i]:
-            yield M
+    lst = [RelaxedNonFano, TippedFree3spike,  # 7
+           AG23minusDY, TQ8, P8p, KP8, Sp8, Sp8pp, LP8, WQ8,  # 8
+           BB9, TQ9, TQ9p, M8591, PP9, BB9gDY, A9, FN9, FX9, KR9, KQ9,  # 9
+           UG10, FF10, GP10, FZ10, UQ10, FP10, TQ10, FY10, PP10, FU10, D10,
+           UK10, PK10, GK10, FT10, TK10, KT10, TU10, UT10, FK10, KF10,  # 10
+           FA11,  # 11
+           FR12, GP12, FQ12, FF12, FZ12, UQ12, FP12, FS12, UK12, UA12, AK12,
+           FK12, KB12, AF12, NestOfTwistedCubes,  # 12
+           XY13,  # 13
+           N3, N3pp, UP14, VP14, FV14, OW14, FM14,  # 14
+           FA15,  # 15
+           N4]  # 16
+    for M in lst:
+        yield M()
 
 
 def VariousMatroids():
     """
-    Return a list of various other named matroids.
+    Return an iterator over various other named matroids.
 
     EXAMPLES::
 
-        sage: VM = matroids.VariousMatroids(); len(VM)
+        sage: VM = list(matroids.VariousMatroids()); len(VM)
         16
         sage: import random
         sage: M = random.choice(VM)
@@ -326,7 +314,6 @@ def VariousMatroids():
         ....:     assert M.is_valid()
 
     """
-    Matroids = []
     from sage.matroids.database_matroids import (
         NonVamos, NotP8, AG23minus,
         P9, R9A, R9B, Block_9_4, TicTacToe,
@@ -337,19 +324,15 @@ def VariousMatroids():
         ExtendedBinaryGolayCode
     )
 
-    lst = {
-        8: [NonVamos, NotP8, AG23minus],
-        9: [P9, R9A, R9B, Block_9_4, TicTacToe],
-        10: [N1, Block_10_5, Q10],
-        11: [BetsyRoss],
-        12: [N2],
-        16: [D16, Terrahawk],
-        24: [ExtendedBinaryGolayCode],
-    }
-    for i in lst:
-        for M in lst[i]:
-            Matroids.append(M())
-    return Matroids
+    lst = [NonVamos, NotP8, AG23minus,  # 8
+           P9, R9A, R9B, Block_9_4, TicTacToe,  # 9
+           N1, Block_10_5, Q10,  # 10
+           BetsyRoss,  # 11
+           N2,  # 12
+           D16, Terrahawk,  # 16
+           ExtendedBinaryGolayCode]  # 24
+    for M in lst:
+        yield M()
 
 
 def rename_and_relabel(M, name=None, groundset=None):

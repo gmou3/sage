@@ -5962,7 +5962,7 @@ cdef class Matroid(SageObject):
 
         OUTPUT:
 
-        a Boolean
+        boolean
 
         EXAMPLES::
 
@@ -5988,7 +5988,7 @@ cdef class Matroid(SageObject):
 
         OUTPUT:
 
-        a Boolean
+        boolean
 
         EXAMPLES::
 
@@ -5998,7 +5998,6 @@ cdef class Matroid(SageObject):
             sage: M = matroids.catalog.Fano()
             sage: M.is_sparse_paving()
             True
-
         """
         if not self.is_paving():
             return False
@@ -8001,8 +8000,7 @@ cdef class Matroid(SageObject):
 
         REFERENCES:
 
-        [Oxl2011], p. 189.
-
+        [Oxl2011]_, p. 189.
         """
         from sage.topology.simplicial_complex import SimplicialComplex
         return SimplicialComplex(self.bases()).automorphism_group()
@@ -8387,4 +8385,3 @@ cdef class Matroid(SageObject):
                 elif str(A[i]) < str(B[i]):
                     return -1
         return 0
-        # return (len(x), str(sorted(x, key=str)))
