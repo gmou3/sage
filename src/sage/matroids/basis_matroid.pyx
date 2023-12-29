@@ -195,9 +195,13 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             groundset = frozenset()
         if rank is None:
             if bases is not None:
-                rank = len(bases[0])
+                for B in bases:
+                    rank = len(B)
+                    break
             elif nonbases is not None:
-                rank = len(nonbases[0])
+                for N in nonbases:
+                    rank = len(N)
+                    break
             else:
                 rank = 0
 
@@ -320,7 +324,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(bases=matroids.catalog.Vamos().bases())
+            sage: M = Matroid(bases=list(matroids.catalog.Vamos().bases()))
             sage: M._is_basis(set(['a', 'b', 'c', 'e']))
             True
             sage: M._is_basis(set(['a', 'b', 'c', 'd']))
@@ -345,7 +349,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(bases=matroids.catalog.Pappus().bases())
+            sage: M = Matroid(bases=list(matroids.catalog.Pappus().bases()))
             sage: M.dual()
             Matroid of rank 6 on 9 elements with 75 bases
 
@@ -597,19 +601,17 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             28
         """
         cdef long r, n
+        r = self.full_rank()
+        n = len(self)
         cdef SetSystem BB
+        BB = SetSystem(self._E, capacity=bitset_len(self._bb))
         cdef long b
-        if not self._B:
-            r = self.full_rank()
-            n = len(self)
-            BB = SetSystem(self._E, capacity=bitset_len(self._bb))
-            b = bitset_first(self._bb)
-            while b >= 0:
-                index_to_set(self._b, b, r, n)
-                BB._append(self._b)
-                b = bitset_next(self._bb, b + 1)
-            self._B = BB
-        return self._B
+        b = bitset_first(self._bb)
+        while b >= 0:
+            index_to_set(self._b, b, r, n)
+            BB._append(self._b)
+            b = bitset_next(self._bb, b + 1)
+        return BB
 
     cpdef nonbases(self) noexcept:
         r"""

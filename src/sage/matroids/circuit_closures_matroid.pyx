@@ -625,7 +625,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.Spike(4)
-            sage: M.is_valid()
+            sage: M.is_valid()  # long time
             True
 
         We next try defining the same spike incorrectly, ommiting the element
@@ -665,15 +665,33 @@ cdef class CircuitClosuresMatroid(Matroid):
             False
 
         """
-        from sage.matroids.circuits_matroid import CircuitsMatroid
-        M = CircuitsMatroid(self)
-        if not M.is_valid():
-            return False
-
         for i in self.circuit_closures():
             for S in self._circuit_closures[i]:
                 if S not in self.flats(i):
                     return False
+
+        for i in range(self.rank()+1):
+            for j in range(self.rank()+1):
+                if i <= j:
+                    for C1 in self.circuits(i):
+                        if len(C1) == 0:
+                            return False
+                        for C2 in self.circuits(j):
+                            if C1 < C2:
+                                return False
+                            if C1 == C2:
+                                break
+                            for e in C1 & C2:
+                                flag = False
+                                S = (set(C1) | set(C2)) - {e}
+                                for k in range(len(S)+1):
+                                    if not flag:
+                                        for C3 in self.circuits(k):
+                                            if C3 <= S:
+                                                flag = True
+                                                break
+                                if not flag:
+                                    return False
 
         return True
 

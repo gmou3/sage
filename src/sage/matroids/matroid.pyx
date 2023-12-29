@@ -2376,7 +2376,7 @@ cdef class Matroid(SageObject):
 
     # enumeration
 
-    cpdef circuits(self) noexcept:
+    def circuits(self, k=None):
         """
         Return the list of circuits of the matroid.
 
@@ -2397,15 +2397,19 @@ cdef class Matroid(SageObject):
             ['a', 'e', 'f', 'g'], ['b', 'c', 'd'], ['b', 'c', 'e', 'f'],
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
+
         """
-        if not self._C:
-            C = set()
-            for B in self.bases():
-                C.update([self._circuit(B.union(set([e])))
-                        for e in self.groundset().difference(B)])
-            self._C = SetSystem(list(self.groundset()), frozenset([frozenset(c)
-                                                                  for c in C]))
-        return self._C
+        if k and k < self.rank() + 2:
+            for X in combinations(self.groundset(), k):
+                X = frozenset(X)
+                if self._is_circuit(X):
+                    yield X
+        elif not k:
+            for k in range(self.rank() + 2):
+                for X in combinations(self.groundset(), k):
+                    X = frozenset(X)
+                    if self._is_circuit(X):
+                        yield X
 
     cpdef nonspanning_circuits(self) noexcept:
         """
@@ -2557,7 +2561,7 @@ cdef class Matroid(SageObject):
             CC[len(C) - 1].add(self.closure(C))
         return {r: CC[r] for r in range(self.rank() + 1) if CC[r]}
 
-    cpdef nonbases(self) noexcept:
+    def nonbases(self):
         r"""
         Return the list of nonbases of the matroid.
 
@@ -2584,12 +2588,9 @@ cdef class Matroid(SageObject):
 
         Test all subsets of the groundset of cardinality ``self.full_rank()``
         """
-        cdef SetSystem res
-        res = SetSystem(list(self.groundset()))
         for X in combinations(self.groundset(), self.full_rank()):
             if self._rank(X) < len(X):
-                res.append(X)
-        return res
+                yield frozenset(X)
 
     cpdef dependent_r_sets(self, long r) noexcept:
         r"""
@@ -2624,7 +2625,7 @@ cdef class Matroid(SageObject):
                 res.append(X)
         return res
 
-    cpdef bases(self) noexcept:
+    def bases(self):
         r"""
         Return the list of bases of the matroid.
 
@@ -2649,14 +2650,9 @@ cdef class Matroid(SageObject):
             :meth:`M.independent_r_sets() <sage.matroids.matroid.Matroid.independent_r_sets>`
 
         """
-        cdef SetSystem res
-        if not self._B:
-            res = SetSystem(list(self.groundset()))
-            for X in combinations(self.groundset(), self.full_rank()):
-                if self._rank(frozenset(X)) == len(X):
-                    res.append(X)
-            self._B = res
-        return self._B
+        for X in combinations(self.groundset(), self.full_rank()):
+            if self._rank(frozenset(X)) == len(X):
+                yield frozenset(X)
 
     cpdef independent_sets(self) noexcept:
         r"""
@@ -3289,7 +3285,7 @@ cdef class Matroid(SageObject):
             return self._is_isomorphic(other), self._isomorphism(other)
         if self is other:
             return True
-        return (self.full_rank() == other.full_rank() and self.nonbases()._isomorphism(other.nonbases()) is not None)
+        return (self.full_rank() == other.full_rank() and SetSystem(list(self.groundset()), list(self.nonbases()))._isomorphism(SetSystem(list(other.groundset()), list(other.nonbases()))) is not None)
 
     cpdef isomorphism(self, other) noexcept:
         r"""
@@ -3359,7 +3355,7 @@ cdef class Matroid(SageObject):
         if self is other:
             return {e:e for e in self.groundset()}
         if self.full_rank() == other.full_rank():
-            return self.nonbases()._isomorphism(other.nonbases())
+            return SetSystem(list(self.groundset()), list(self.nonbases()))._isomorphism(SetSystem(list(other.groundset()), list(other.nonbases())))
         else:
             return None
 
@@ -3639,7 +3635,7 @@ cdef class Matroid(SageObject):
         .. WARNING::
 
             This method is linked to ``__richcmp__`` (in Cython) and
-            ``__cmp__`` or ``__eq__``/``__ne__`` (in Python). If you override
+            ``__subset_cmp__`` or ``__eq__``/``__ne__`` (in Python). If you override
             one, you should (and in Cython: MUST) override the other!
 
         EXAMPLES::
@@ -4011,12 +4007,8 @@ cdef class Matroid(SageObject):
             sage: N.rank()
             6
             sage: N
-            Dual of 'Pappus: Matroid of rank 3 on 9 elements with
-            circuit-closures
-            {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
-                 {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
-                 {'c', 'e', 'g'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}},
-             3: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'}}}'
+            Dual of 'Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning circuits'
+
         """
         from sage.matroids import dual_matroid
         return dual_matroid.DualMatroid(self)
@@ -8205,14 +8197,10 @@ cdef class Matroid(SageObject):
             sage: N = matroids.catalog.Fano().direct_sum(M); N
             Matroid of rank 6 on 16 elements as matroid sum of
             Binary matroid of rank 3 on 7 elements, type (3, 0)
-            Matroid of rank 3 on 9 elements with circuit-closures
-            {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
-                 {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
-                 {'c', 'e', 'g'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}},
-             3: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'}}}
+            Matroid of rank 3 on 9 elements with 9 non-spanning circuits
             sage: len(N.independent_sets())
             6897
-            sage: len(N.bases())
+            sage: len(list(N.bases()))
             2100
         """
         from sage.matroids import union_matroid
@@ -8294,3 +8282,109 @@ cdef class Matroid(SageObject):
         from sage.matroids.basis_matroid import BasisMatroid
         M = BasisMatroid(groundset=E, bases=B)
         return M
+
+
+    # PRINTING
+
+
+    cpdef print_bases(self) noexcept:
+        r"""
+        Return the bases of the matroid.
+
+        OUTPUT:
+
+        a list of lists (ordered)
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: M.print_bases()
+            [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
+
+        """
+        return self._subset_sort(self.bases())
+
+    cpdef print_circuits(self, k=None) noexcept:
+        """
+        Return the list of circuits of the matroid.
+
+        OUTPUT:
+
+        a list of lists (ordered)
+
+        EXAMPLES::
+
+            sage: M = matroids.Theta(4)
+            sage: M.print_circuits()
+            [['x0', 'x1', 'x2'],
+            ['x0', 'x1', 'x3'],
+            ['x0', 'x2', 'x3'],
+            ['x1', 'x2', 'x3'],
+            ['x0', 'y1', 'y2', 'y3'],
+            ['x1', 'y0', 'y2', 'y3'],
+            ['x2', 'y0', 'y1', 'y3'],
+            ['x3', 'y0', 'y1', 'y2'],
+            ['x0', 'x1', 'y0', 'y1', 'y2'],
+            ['x0', 'x1', 'y0', 'y1', 'y3'],
+            ['x0', 'x2', 'y0', 'y1', 'y2'],
+            ['x0', 'x2', 'y0', 'y2', 'y3'],
+            ['x0', 'x3', 'y0', 'y1', 'y3'],
+            ['x0', 'x3', 'y0', 'y2', 'y3'],
+            ['x1', 'x2', 'y0', 'y1', 'y2'],
+            ['x1', 'x2', 'y1', 'y2', 'y3'],
+            ['x1', 'x3', 'y0', 'y1', 'y3'],
+            ['x1', 'x3', 'y1', 'y2', 'y3'],
+            ['x2', 'x3', 'y0', 'y2', 'y3'],
+            ['x2', 'x3', 'y1', 'y2', 'y3']]
+
+        .. SEEALSO::
+
+            :meth:`Matroid.circuit() <sage.matroids.matroid.Matroid.circuit>`,
+            :meth:`Matroid.closure() <sage.matroids.matroid.Matroid.closure>`
+
+        """
+        if k:
+            return self._subset_sort(self.circuits(k))
+        else:
+            return self._subset_sort(self.circuits())
+
+    cpdef print_nonspanning_circuits(self) noexcept:
+        """
+        Return the list of nonspanning circuits of the matroid.
+
+        OUTPUT:
+
+        a list of lists (ordered)
+
+        """
+        return self._subset_sort(self.nonspanning_circuits())
+
+    cpdef _subset_sort(self, subsets):
+        from functools import cmp_to_key
+        SS = []
+        for S in subsets:
+            try:
+                SS += [sorted(S)]
+            except TypeError:
+                SS += [sorted(S, str)]
+        return sorted(SS, key=cmp_to_key(self._subset_cmp))
+
+    cpdef _subset_cmp(self, A, B) noexcept:
+        if len(A) > len(B):
+            return 1
+        elif len(A) < len(B):
+            return -1
+        for i in range(len(A)):
+            try:
+                if A[i] > B[i]:
+                    return 1
+                elif A[i] < B[i]:
+                    return -1
+            except AttributeError:
+                if str(A[i]) > str(B[i]):
+                    return 1
+                elif str(A[i]) < str(B[i]):
+                    return -1
+        return 0
+        # return (len(x), str(sorted(x, key=str)))

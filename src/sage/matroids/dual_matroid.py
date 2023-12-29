@@ -386,11 +386,8 @@ class DualMatroid(Matroid):
             sage: N.rank()
             3
             sage: N
-            Pappus: Matroid of rank 3 on 9 elements with circuit-closures
-            {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
-                 {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
-                 {'c', 'e', 'g'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}},
-             3: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'}}}
+            Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning circuits
+
         """
         return self._matroid
 
@@ -604,63 +601,3 @@ class DualMatroid(Matroid):
         """
         M = self._matroid.relabel(l).dual()
         return M
-
-    def is_valid(self):
-        r"""
-        Test if the data obey the matroid axioms.
-
-        For the matroid defined by circuit closures, we do the default checks
-        of the rank axioms and we also check that the circuit closures
-        correspond to flats. If the flats are not checked a matroid can be
-        deemed valid while having an invalid family of circuit closures.
-
-        OUTPUT:
-
-        Boolean.
-
-        EXAMPLES::
-
-            sage: M = matroids.Spike(4)
-            sage: M.is_valid()
-            True
-
-        We next try defining the same spike incorrectly, ommiting the element
-        't' (the tip) from the circuit closures of rank 3::
-
-            sage: CC = {2: [['t', 'x1', 'y1'], ['t', 'x2', 'y2'],
-            ....:           ['t', 'x3', 'y3'], ['t', 'x4', 'y4']],
-            ....:       3: [['x1', 'x2', 'y1', 'y2'],
-            ....:           ['x1', 'x3', 'y1', 'y3'],
-            ....:           ['x1', 'x4', 'y1', 'y4'],
-            ....:           ['x2', 'x3', 'y2', 'y3'],
-            ....:           ['x2', 'x4', 'y2', 'y4'],
-            ....:           ['x3', 'x4', 'y3', 'y4']],
-            ....:       4: [['t', 'x1', 'x2', 'x3', 'x4',
-            ....:                'y1', 'y2', 'y3', 'y4']],
-            ....: }
-            sage: N = Matroid(circuit_closures=CC)
-
-        Here, somewhat unexpectedly, the rank function of N is correctly
-        computed, but the incorrectly specified circuit closures cause
-        unexpected behaviour. First::
-
-            sage: M.is_isomorphic(N)
-            False
-
-        But, if we cast N as a BasisMatroid::
-
-            sage: N_B = Matroid(N.bases())
-            sage: M.is_isomorphic(N_B)
-            True
-
-        By also checking that the given circuit closures correspond to flats,
-        we designate the matroid with the erroneous circuit closures as
-        invalid::
-
-            sage: N.is_valid()
-            False
-
-        """
-        from sage.matroids.circuits_matroid import CircuitsMatroid
-        M = CircuitsMatroid(self)
-        return M.is_valid()

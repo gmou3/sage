@@ -23,7 +23,7 @@ AUTHORS:
 # ****************************************************************************
 
 
-def AllMatroids(n, r=-1, type="all"):
+def AllMatroids(n, r=None, type="all"):
     r"""
     Return a list of all matroids of certain number of elements (and,
     optionally, of specific rank and type).
@@ -38,7 +38,7 @@ def AllMatroids(n, r=-1, type="all"):
 
     OUTPUT:
 
-    a list of matroids
+    an iterator of matroids
 
     EXAMPLES::
 
@@ -64,7 +64,7 @@ def AllMatroids(n, r=-1, type="all"):
 
         sage: all_n = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
         sage: for i in range(0, 8 + 1):
-        ....:     assert len(matroids.AllMatroids(i)) == all_n[i]
+        ....:     assert len(list(matroids.AllMatroids(i))) == all_n[i]
         ....:     for M in matroids.AllMatroids(i):
         ....:         assert M.is_valid()
         sage: all = [
@@ -117,57 +117,75 @@ def AllMatroids(n, r=-1, type="all"):
     from sage.env import SAGE_EXTCODE
     import os
 
-    Matroids = []
-    if r == -1:
-        for rnk in range(0, n + 1):
-            Matroids += AllMatroids(n, rnk, type)
-        return Matroids
-
-    if r == 0 or r == n:
-        M = Matroid(groundset=range(n), bases=[range(r)])
-        M.rename(
-            type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#"
-            + "0" + ": " + repr(M)
+    types = ["all", "simple", "unorientable"]
+    if type not in types:
+        raise ValueError(
+            "The type given is not available. " +
+            "Available types: \"all\", \"simple\", \"unorientable\"."
         )
-        Matroids += [M]
-        return Matroids
-
-    rp = min(r, n - r) if (type == "all") else r
-    file = os.path.join(
-        str(SAGE_EXTCODE), "matroids", "database",
-        type + "_matroids",
-        type + "r" + str(rp) + "n" + str(n).zfill(2) + ".txt"
-    )  # type: ignore
-    fin = open(file, "r")
-
-    cnt = 0
-    while True:
-        line = fin.readline()
-        if not line:
-            break
-
-        M = Matroid(groundset=range(n), rank=rp, revlex=line[:-1])
-
-        if type == "all" and n - r < r:
-            M = M.dual()
-        M.rename(
-            type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#"
-            + str(cnt) + ": " + repr(M)
+    if r is None and type == "unorientable":
+        raise ValueError(
+            "The rank needs to be specified for type \"%s\"." % type
         )
-        Matroids += [M]
-        cnt += 1
 
-    fin.close()
-    return Matroids
+    if r is None:
+        if type == "all":
+            rng = range(0, n+1)
+        else:  # type == "simple":
+            rng = range(min(2, n), n+1)
+    else:
+        rng = range(r, r+1)
+    for r in rng:
+        if r == 0 or r == n:
+            if type == "all" or (type == "simple" and r == n):
+                M = Matroid(groundset=range(n), bases=[range(r)])
+                M.rename(
+                    type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2)
+                    + "_#" + "0" + ": " + repr(M)
+                )
+                yield M
+        else:
+            rp = min(r, n - r) if (type == "all") else r
+            file = os.path.join(
+                str(SAGE_EXTCODE), "matroids", "database",
+                type + "_matroids",
+                type + "r" + str(rp) + "n" + str(n).zfill(2) + ".txt"
+            )  # type: ignore
+            try:
+                fin = open(file, "r")
+            except FileNotFoundError:
+                raise FileNotFoundError(
+                    "(n=%s, r=%s, type=\"%s\")" % (n, rp, type)
+                    + " is not available in the database"
+                )
+
+            cnt = 0
+            while True:
+                line = fin.readline()
+                if not line:
+                    break
+
+                M = Matroid(groundset=range(n), rank=rp, revlex=line[:-1])
+
+                if type == "all" and n - r < r:
+                    M = M.dual()
+                M.rename(
+                    type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2)
+                    + "_#" + str(cnt) + ": " + repr(M)
+                )
+                yield M
+                cnt += 1
+
+            fin.close()
 
 
 def OxleyMatroids():
     """
-    Return the list of Oxley's matroids.
+    Return an iterator for Oxley's matroid collection.
 
     EXAMPLES::
 
-        sage: OM = matroids.OxleyMatroids(); len(OM)
+        sage: OM = list(matroids.OxleyMatroids()); len(OM)
         44
         sage: import random
         sage: M = random.choice(OM)
@@ -186,11 +204,10 @@ def OxleyMatroids():
 
     TESTS::
 
-        sage: for M in matroids.OxleyMatroids():
+        sage: for M in matroids.OxleyMatroids():  # long time
         ....:     assert M.is_valid()
 
     """
-    Matroids = []
     from sage.matroids.database_matroids import (
         U24, U25, U35, K4, Whirl3, Q6, P6, U36, R6,
         Fano, FanoDual, NonFano, NonFanoDual, O7, P7,
@@ -220,13 +237,12 @@ def OxleyMatroids():
     }
     for i in lst:
         for M in lst[i]:
-            Matroids.append(M())
-    return Matroids
+            yield M
 
 
 def BrettellMatroids():
     """
-    Return the list of Brettell's matroids.
+    Return an iterator for Brettell's matroid collection.
 
     EXAMPLES::
 
@@ -248,7 +264,6 @@ def BrettellMatroids():
         ....:     assert M.is_valid()
 
     """
-    Matroids = []
     from sage.matroids.database_matroids import (
         RelaxedNonFano, TippedFree3spike,
         AG23minusDY, TQ8, P8p, KP8, Sp8, Sp8pp, LP8, WQ8,
@@ -284,8 +299,7 @@ def BrettellMatroids():
     }
     for i in lst:
         for M in lst[i]:
-            Matroids.append(M())
-    return Matroids
+            yield M
 
 
 def VariousMatroids():

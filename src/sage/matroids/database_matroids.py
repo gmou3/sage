@@ -814,7 +814,7 @@ def F8(groundset=None):
         [...True...]
         sage: [N.is_isomorphic(matroids.catalog.NonFano()) for N in D]
         [...True...]
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
@@ -1011,14 +1011,12 @@ def Vamos(groundset=None):
          {'c', 'd', 'e', 'f'}, {'e', 'f', 'g', 'h'}]
         sage: M.is_dependent(['c', 'd', 'g', 'h'])
         False
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
         sage: M.automorphism_group().is_transitive()
         False
-        sage: M.is_paving()
-        True
 
     REFERENCES:
 
@@ -1168,17 +1166,13 @@ def P8pp(groundset=None):
 
         sage: from sage.matroids.advanced import *
         sage: M = matroids.catalog.P8pp(); M
-        P8'': Matroid of rank 4 on 8 elements with circuit-closures
-        {3: {{'a', 'b', 'f', 'h'}, {'a', 'c', 'e', 'f'}, {'a', 'c', 'g', 'h'},
-             {'a', 'd', 'e', 'g'}, {'b', 'c', 'e', 'g'}, {'b', 'd', 'e', 'h'},
-             {'b', 'd', 'f', 'g'}, {'c', 'd', 'f', 'h'}},
-         4: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}
+        P8'': Matroid of rank 4 on 8 elements with 8 non-spanning circuits
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
         sage: len(get_nonisomorphic_matroids([M.contract(i)
         ....:                                        for i in M.groundset()]))
         1
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
 
     REFERENCES:
@@ -1186,9 +1180,8 @@ def P8pp(groundset=None):
     [Oxl2011]_, p. 651.
 
     """
-    CC = {3: ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh'],
-          4: ['abcdefgh']}
-    M = Matroid(groundset='abcdefgh', circuit_closures=CC)
+    NSC = ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh']
+    M = Matroid(groundset='abcdefgh', rank=4, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "P8''", groundset)
     return M
 
@@ -1390,10 +1383,10 @@ def R9(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.R9(); M
-        R9: Matroid of rank 3 on 9 elements with 69 bases
+        R9: Matroid of rank 3 on 9 elements with 15 non-spanning circuits
         sage: M.is_valid()
         True
-        sage: len(M.nonspanning_circuits())
+        sage: len(list(M.nonspanning_circuits()))
         15
         sage: M.is_simple() and M.is_ternary()
         True
@@ -1425,11 +1418,7 @@ def Pappus(groundset=None):
 
         sage: from sage.matroids.advanced import setprint
         sage: M = matroids.catalog.Pappus(); M
-        Pappus: Matroid of rank 3 on 9 elements with circuit-closures
-        {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
-             {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
-             {'c', 'e', 'g'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}},
-         3: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'}}}
+        Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning circuits
         sage: setprint(M.nonspanning_circuits())
         [{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'}, {'b', 'd', 'i'},
          {'b', 'f', 'g'}, {'c', 'd', 'h'}, {'c', 'e', 'g'}, {'d', 'e', 'f'},
@@ -1446,9 +1435,8 @@ def Pappus(groundset=None):
     [Oxl2011]_, p. 655.
 
     """
-    CC = {2: ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
-          3: ['abcdefghi']}
-    M = Matroid(groundset='abcdefghi', circuit_closures=CC)
+    NSC = ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi']
+    M = Matroid(groundset='abcdefghi', rank=3, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "Pappus", groundset)
     return M
 
@@ -1463,19 +1451,14 @@ def NonPappus(groundset=None):
 
     EXAMPLES::
 
-        sage: from sage.matroids.advanced import setprint
         sage: M = matroids.catalog.NonPappus(); M
-        NonPappus: Matroid of rank 3 on 9 elements with circuit-closures
-        {2: {{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'},
-             {'b', 'd', 'i'}, {'b', 'f', 'g'}, {'c', 'd', 'h'},
-             {'c', 'e', 'g'}, {'g', 'h', 'i'}},
-         3: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'}}}
-        sage: setprint(M.nonspanning_circuits())
-        [{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'}, {'b', 'd', 'i'},
-         {'b', 'f', 'g'}, {'c', 'd', 'h'}, {'c', 'e', 'g'}, {'g', 'h', 'i'}]
+        NonPappus: Matroid of rank 3 on 9 elements with 8 non-spanning circuits
+        sage: M.print_nonspanning_circuits()
+        [['a', 'b', 'c'], ['a', 'e', 'i'], ['a', 'f', 'h'], ['b', 'd', 'i'],
+         ['b', 'f', 'g'], ['c', 'd', 'h'], ['c', 'e', 'g'], ['g', 'h', 'i']]
         sage: M.is_dependent(['d', 'e', 'f'])
         False
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
         sage: M.automorphism_group().is_transitive()
         False
@@ -1485,9 +1468,8 @@ def NonPappus(groundset=None):
     [Oxl2011]_, p. 655.
 
     """
-    CC = {2: ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi'],
-          3: ['abcdefghi']}
-    M = Matroid(groundset='abcdefghi', circuit_closures=CC)
+    NSC = ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi']
+    M = Matroid(groundset='abcdefghi', rank=3, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "NonPappus", groundset)
     return M
 
@@ -1539,6 +1521,7 @@ def K5dual(groundset='abcdefghij'):
 
     """
     M = CompleteGraphic(5).dual()
+    M = Matroid(circuits=list(M.circuits()))
     M = rename_and_relabel(M, "M*(K5)", groundset)
     return M
 
@@ -1615,11 +1598,9 @@ def NonDesargues(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.NonDesargues(); M
-        NonDesargues: Matroid of rank 3 on 10 elements with 111 bases
+        NonDesargues: Matroid of rank 3 on 10 elements with 9 non-spanning circuits
         sage: M.is_valid()
         True
-        sage: len(M.nonspanning_circuits())
-        9
         sage: M.automorphism_group().is_transitive()
         False
 
@@ -2240,10 +2221,11 @@ def Spike(r, t=True, C3=[], groundset=None):
     EXAMPLES::
 
         sage: M = matroids.Spike(3, False); M
-        Free 3-spike\t: Matroid of rank 3 on 6 elements with 20 bases
+        Free 3-spike\t: M \ {'t'}, where M is Matroid of rank 3 on 7 elements
+        with 3 non-spanning circuits
         sage: M.is_isomorphic(matroids.Uniform(3, 6))
         True
-        sage: len(matroids.Spike(8).bases())
+        sage: len(list(matroids.Spike(8).bases()))
         4864
         sage: import random
         sage: r = random.choice(range(3, 20))
@@ -2438,7 +2420,7 @@ def Psi(r, groundset=None):
     EXAMPLES::
 
         sage: matroids.Psi(7)
-        Psi_7: Matroid of rank 7 on 14 elements with 2060 bases
+         Psi_7: Matroid of rank 7 on 14 elements with 105 non-spanning circuits
 
     The matroid `\Psi_r` is `3`-connected but, for all `r \ge 4`, not
     `4`-connected::
@@ -4348,7 +4330,8 @@ def NestOfTwistedCubes():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.NestOfTwistedCubes()
+        sage: M = matroids.catalog.NestOfTwistedCubes(); M
+        NestOfTwistedCubes: Matroid of rank 6 on 12 elements with 57 circuits
         sage: M.is_3connected()
         True
 
@@ -4399,6 +4382,7 @@ def NestOfTwistedCubes():
             6: [gs],
         },
     )
+    M = Matroid(circuits=list(M.circuits()))
     M.rename("NestOfTwistedCubes: " + repr(M))
     return M
 
@@ -4895,12 +4879,9 @@ def R9A(groundset=None):
         True
 
     """
-    CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'aefh', 'adgh', 'acdi', 'abfi',
-              'defi', 'begi', 'bdhi', 'cehi', 'fghi'],
-          4: ['abcdefghi']}
-    M = Matroid(
-        groundset='abcdefghi', circuit_closures=CC
-    )
+    NSC = ['abch', 'abde', 'abfi', 'acdi', 'aceg', 'adgh', 'aefh', 'bcdf',
+           'bdhi', 'begi', 'cehi', 'defi', 'fghi']
+    M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "R9A", groundset)
     return M
 
@@ -4917,16 +4898,13 @@ def R9B(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.R9B()
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
 
     """
-    CC = {3: ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
-              'abgi', 'degi', 'bdhi', 'aehi', 'fghi'],
-          4: ['abcdefghi']}
-    M = Matroid(
-        groundset='abcdefghi', circuit_closures=CC
-    )
+    NSC = ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
+           'abgi', 'degi', 'bdhi', 'aehi', 'fghi']
+    M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "R9B", groundset)
     return M
 
@@ -4939,20 +4917,17 @@ def Block_9_4(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.Block_9_4()
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
-        sage: BD = BlockDesign(M.groundset(), M.nonspanning_circuits())
+        sage: BD = BlockDesign(M.groundset(), list(M.nonspanning_circuits()))
         sage: BD.is_t_design(return_parameters=True)
         (True, (2, 9, 4, 3))
 
     """
-    CC = {
-        3: ['abcd', 'acef', 'bdef', 'cdeg', 'abfg', 'adeh', 'bcfh', 'acgh',
-            'begh', 'dfgh', 'abei', 'cdfi', 'bcgi', 'adgi', 'efgi', 'bdhi',
-            'cehi', 'afhi'],
-        4: ['abcdefghi']
-    }
-    M = Matroid(groundset='abcdefghi', circuit_closures=CC)
+    NSC = ['abcd', 'acef', 'bdef', 'cdeg', 'abfg', 'adeh', 'bcfh', 'acgh',
+           'begh', 'dfgh', 'abei', 'cdfi', 'bcgi', 'adgi', 'efgi', 'bdhi',
+           'cehi', 'afhi']
+    M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "Block(9, 4)", groundset)
     return M
 
@@ -4967,7 +4942,7 @@ def TicTacToe(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.TicTacToe()
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
 
     REFERENCES:
@@ -4975,12 +4950,9 @@ def TicTacToe(groundset=None):
     [Hoc]_
 
     """
-    CC = {
-        4: ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi',
-            'beghi', 'cfghi'],
-        5: ['abcdefghi']
-    }
-    M = Matroid(groundset='abcdefghi', circuit_closures=CC)
+    NSC = ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi', 'beghi',
+           'cfghi']
+    M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "TicTacToe", groundset)
     return M
 
@@ -5024,23 +4996,20 @@ def Block_10_5(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.Block_10_5()
-        sage: M.is_valid()
+        sage: M.is_valid() and M.is_paving()
         True
-        sage: BD = BlockDesign(M.groundset(), M.nonspanning_circuits())
+        sage: BD = BlockDesign(M.groundset(), list(M.nonspanning_circuits()))
         sage: BD.is_t_design(return_parameters=True)
         (True, (3, 10, 5, 3))
 
     """
-    CC = {
-        4: ['abcde', 'acdfg', 'bdefg', 'bcdfh', 'abefh', 'abcgh', 'adegh',
-            'cefgh', 'bcefi', 'adefi', 'bcdgi', 'acegi', 'abfgi', 'abdhi',
-            'cdehi', 'acfhi', 'beghi', 'dfghi', 'abdfj', 'acefj', 'abegj',
-            'cdegj', 'bcfgj', 'acdhj', 'bcehj', 'defhj', 'bdghj', 'afghj',
-            'abcij', 'bdeij', 'cdfij', 'adgij', 'efgij', 'aehij', 'bfhij',
-            'cghij'],
-        5: ['abcdefghij']
-    }
-    M = Matroid(groundset='abcdefghij', circuit_closures=CC)
+    NSC = ['abcde', 'acdfg', 'bdefg', 'bcdfh', 'abefh', 'abcgh', 'adegh',
+           'cefgh', 'bcefi', 'adefi', 'bcdgi', 'acegi', 'abfgi', 'abdhi',
+           'cdehi', 'acfhi', 'beghi', 'dfghi', 'abdfj', 'acefj', 'abegj',
+           'cdegj', 'bcfgj', 'acdhj', 'bcehj', 'defhj', 'bdghj', 'afghj',
+           'abcij', 'bdeij', 'cdfij', 'adgij', 'efgij', 'aehij', 'bfhij',
+           'cghij']
+    M = Matroid(groundset='abcdefghij', rank=5, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "Block(10, 5)", groundset)
     return M
 
@@ -5091,7 +5060,7 @@ def BetsyRoss(groundset=None):
     """
     Return the Betsy Ross matroid, represented by circuit closures.
 
-    An extremal golden-mean matroid. That is, if `M` is simple, rank 3, has
+    An extremal golden-mean matroid. That is, if `M` is simple, rank `3`, has
     the Betsy Ross matroid as a restriction and is a Golden Mean matroid, then
     `M` is the Betsy Ross matroid.
 
@@ -5104,12 +5073,15 @@ def BetsyRoss(groundset=None):
         True
 
     """
-    CC = {
-        2: ['acfg', 'bdgh', 'cehi', 'befj', 'adij', 'dfk',
-            'egk', 'ahk', 'bik', 'cjk'],
-        3: ['abcdefghijk']
-    }
-    M = Matroid(groundset='abcdefghijk', circuit_closures=CC)
+    # CC = {
+    #     2: ['acfg', 'bdgh', 'cehi', 'befj', 'adij', 'dfk',
+    #         'egk', 'ahk', 'bik', 'cjk'],
+    #     3: ['abcdefghijk']
+    # }
+    NSC = ['acf', 'acg', 'adi', 'adj', 'afg', 'ahk', 'aij', 'bdg', 'bdh',
+           'bef', 'bej', 'bfj', 'bgh', 'bik', 'ceh', 'cei', 'cfg', 'chi',
+           'cjk', 'dfk', 'dgh', 'dij', 'efj', 'egk', 'ehi']
+    M = Matroid(groundset='abcdefghijk', rank=3, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "BetsyRoss", groundset)
     return M
 
