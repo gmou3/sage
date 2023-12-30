@@ -69,7 +69,9 @@ def U24(groundset='abcd'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.U24()
+        sage: M = matroids.catalog.U24(); M
+        U(2, 4): Matroid of rank 2 on 4 elements with circuit-closures
+        {2: {{'a', 'b', 'c', 'd'}}}
         sage: N = matroids.Uniform(2, 4)
         sage: M.is_isomorphic(N)
         True
@@ -118,7 +120,9 @@ def U25(groundset='abcde'):
 
     EXAMPLES::
 
-        sage: U25 = matroids.catalog.U25()
+        sage: U25 = matroids.catalog.U25(); U25
+        U(2, 5): Matroid of rank 2 on 5 elements with circuit-closures
+        {2: {{'a', 'b', 'c', 'd', 'e'}}}
         sage: U35 = matroids.catalog.U35()
         sage: U25.is_isomorphic(U35.dual())
         True
@@ -147,7 +151,9 @@ def U35(groundset='abcde'):
 
     EXAMPLES::
 
-        sage: U35 = matroids.catalog.U35()
+        sage: U35 = matroids.catalog.U35(); U35
+        U(3, 5): Matroid of rank 3 on 5 elements with circuit-closures
+        {3: {{'a', 'b', 'c', 'd', 'e'}}}
         sage: U25 = matroids.catalog.U25()
         sage: U35.is_isomorphic(U25.dual())
         True
@@ -174,7 +180,8 @@ def K4(groundset='abcdef'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.K4()
+        sage: M = matroids.catalog.K4(); M
+        M(K4): Graphic matroid of rank 3 on 6 elements
 
     `M(K_4)` is isomorphic to `M(\mathcal{W}_3)`, the rank-`3` wheel::
 
@@ -217,7 +224,8 @@ def Whirl3(groundset='abcdef'):
 
     EXAMPLES::
 
-        sage: W = matroids.catalog.Whirl3()
+        sage: W = matroids.catalog.Whirl3(); W
+        Whirl(3): Ternary matroid of rank 3 on 6 elements, type 0-
         sage: W.equals(W.dual())
         False
         sage: W.is_isomorphic(W.dual())
@@ -330,7 +338,9 @@ def U36(groundset='abcdef'):
 
     EXAMPLES::
 
-        sage: U36 = matroids.catalog.U36()
+        sage: U36 = matroids.catalog.U36(); U36
+        U(3, 6): Matroid of rank 3 on 6 elements with circuit-closures
+        {3: {{'a', 'b', 'c', 'd', 'e', 'f'}}}
         sage: Z = matroids.Spike(3, False)
         sage: U36.is_isomorphic(Z)
         True
@@ -451,7 +461,8 @@ def FanoDual(groundset='abcdefg'):
     EXAMPLES::
 
         sage: F7 = matroids.catalog.Fano()
-        sage: F7D = matroids.catalog.FanoDual()
+        sage: F7D = matroids.catalog.FanoDual(); F7D
+        F7*: Binary matroid of rank 4 on 7 elements, type (3, 7)
         sage: F7.is_isomorphic(F7D.dual())
         True
         sage: F7D.automorphism_group().is_transitive()
@@ -527,7 +538,8 @@ def NonFanoDual(groundset='abcdefg'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.NonFanoDual()
+        sage: M = matroids.catalog.NonFanoDual(); M
+        NonFano*: Ternary matroid of rank 4 on 7 elements, type 0-
         sage: sorted(M.groundset())
         ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 
@@ -633,7 +645,8 @@ def AG32(groundset='abcdefgh'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.AG32()
+        sage: M = matroids.catalog.AG32(); M
+        AG(3, 2): Binary matroid of rank 4 on 8 elements, type (4, 0)
         sage: M.is_valid() and M.is_3connected()
         True
 
@@ -1195,7 +1208,8 @@ def Wheel4(groundset='abcdefgh'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Wheel4()
+        sage: M = matroids.catalog.Wheel4(); M
+        Wheel(4): Regular matroid of rank 4 on 8 elements with 45 bases
         sage: M.is_valid() and M.is_graphic() and M.dual().is_graphic()
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
@@ -1222,7 +1236,8 @@ def Whirl4(groundset='abcdefgh'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Whirl4()
+        sage: M = matroids.catalog.Whirl4(); M
+        Whirl(4): Ternary matroid of rank 4 on 8 elements, type 0+
         sage: M.is_valid()
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
@@ -1283,7 +1298,8 @@ def K33(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.K33()
+        sage: M = matroids.catalog.K33(); M
+        M(K3, 3): Regular matroid of rank 5 on 9 elements with 81 bases
         sage: M.is_valid()
         True
         sage: G1 = M.automorphism_group()
@@ -1313,7 +1329,8 @@ def AG23(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.AG23()
+        sage: M = matroids.catalog.AG23(); M
+        AG(2, 3): Ternary matroid of rank 3 on 9 elements, type 3+
         sage: M.is_valid() and M.is_3connected() and M.is_ternary()
         True
         sage: M.has_minor(matroids.catalog.K4())
@@ -1483,7 +1500,8 @@ def K5(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.K5()
+        sage: M = matroids.catalog.K5(); M
+        M(K5): Graphic matroid of rank 4 on 10 elements
         sage: M.is_valid()
         True
         sage: M.automorphism_group().is_transitive()
@@ -1507,7 +1525,8 @@ def K5dual(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.K5dual()
+        sage: M = matroids.catalog.K5dual(); M
+        M*(K5): Matroid of rank 6 on 10 elements with 15 circuits
         sage: M.is_3connected()
         True
         sage: G1 = M.automorphism_group()
@@ -1598,7 +1617,8 @@ def NonDesargues(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.NonDesargues(); M
-        NonDesargues: Matroid of rank 3 on 10 elements with 9 non-spanning circuits
+        NonDesargues: Matroid of rank 3 on 10 elements with 9 non-spanning
+        circuits
         sage: M.is_valid()
         True
         sage: M.automorphism_group().is_transitive()
@@ -1664,7 +1684,9 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.ExtendedTernaryGolayCode()
+        sage: M = matroids.catalog.ExtendedTernaryGolayCode(); M
+        Extended Ternary Golay Code: Ternary matroid of rank 6 on 12 elements,
+        type 6+
         sage: C = LinearCode(M.representation())
         sage: C.is_permutation_equivalent(codes.GolayCode(GF(3)))
         True
@@ -1735,8 +1757,7 @@ def T12(groundset='abcdefghijkl'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.T12()
-        sage: M
+        sage: M = matroids.catalog.T12(); M
         T12: Binary matroid of rank 6 on 12 elements, type (2, None)
         sage: M.is_valid()
         True
@@ -1775,7 +1796,8 @@ def PG23(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.PG23()
+        sage: M = matroids.catalog.PG23(); M
+        PG(2, 3): Ternary matroid of rank 3 on 13 elements, type 3+
         sage: M.is_3connected()
         True
         sage: M.automorphism_group().is_transitive()
@@ -2498,7 +2520,7 @@ def Psi(r, groundset=None):
 # 7 elements:
 
 
-def RelaxedNonFano():
+def RelaxedNonFano(groundset=None):
     """
     Return the relaxed NonFano matroid.
 
@@ -2506,7 +2528,8 @@ def RelaxedNonFano():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.RelaxedNonFano()
+        sage: M = matroids.catalog.RelaxedNonFano(); M
+        F7=: Quaternary matroid of rank 3 on 7 elements
         sage: M.is_valid()
         True
 
@@ -2515,11 +2538,11 @@ def RelaxedNonFano():
     w = GF4('w')
     A = Matrix(GF4, [[1, 1, 0, 1], [1, 0, 1, 1], [0, 1, w, 1]])
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("F7=: " + repr(M))
+    M = rename_and_relabel(M, "F7=", groundset)
     return M
 
 
-def TippedFree3spike():
+def TippedFree3spike(groundset=None):
     """
     Return the tipped free `3`-spike.
 
@@ -2528,7 +2551,8 @@ def TippedFree3spike():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.TippedFree3spike()
+        sage: M = matroids.catalog.TippedFree3spike(); M
+        Tipped rank-3 free spike: Quaternary matroid of rank 3 on 7 elements
         sage: M.has_minor(matroids.Uniform(3,6))
         True
 
@@ -2539,14 +2563,14 @@ def TippedFree3spike():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 3, 5, 1, 4, 6, 2]
     )
-    M.rename("Tipped rank-3 free spike: " + repr(M))
+    M = rename_and_relabel(M, "Tipped rank-3 free spike", groundset)
     return M
 
 
 # 8 elements:
 
 
-def AG23minusDY():
+def AG23minusDY(groundset=None):
     r"""
     Return the matroid `AG23minusDY`.
 
@@ -2556,18 +2580,19 @@ def AG23minusDY():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.AG23minusDY()
+        sage: M = matroids.catalog.AG23minusDY(); M
+        Delta-Y of AG(2,3)\e: Ternary matroid of rank 4 on 8 elements, type 0-
         sage: M.is_valid()
         True
 
     """
     A = Matrix(GF(3), [[1, 1, 1, 1], [1, 0, 1, 2], [2, 0, 1, 2], [2, 1, 1, 0]])
     M = TernaryMatroid(reduced_matrix=A)
-    M.rename("Delta-Y of AG(2,3)\\e: " + repr(M))
+    M = rename_and_relabel(M, "Delta-Y of AG(2,3)\\e", groundset)
     return M
 
 
-def TQ8():
+def TQ8(groundset=None):
     """
     Return the matroid `TQ8`.
 
@@ -2575,7 +2600,8 @@ def TQ8():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.TQ8()
+        sage: M = matroids.catalog.TQ8(); M
+        TQ8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2588,11 +2614,11 @@ def TQ8():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 7, 5, 3, 8, 6, 4, 2]
     )
-    M.rename("TQ8: " + repr(M))
+    M = rename_and_relabel(M, "TQ8", groundset)
     return M
 
 
-def P8p():
+def P8p(groundset=None):
     """
     Return the matroid `P8^-`.
 
@@ -2602,7 +2628,8 @@ def P8p():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.P8p()
+        sage: M = matroids.catalog.P8p(); M
+        P8-: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2615,11 +2642,11 @@ def P8p():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=['a', 'c', 'b', 'f', 'd', 'e', 'g', 'h']
     )
-    M.rename("P8-: " + repr(M))
+    M = rename_and_relabel(M, "P8-", groundset)
     return M
 
 
-def KP8():
+def KP8(groundset=None):
     """
     Return the matroid `KP8`.
 
@@ -2629,7 +2656,8 @@ def KP8():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.KP8()
+        sage: M = matroids.catalog.KP8(); M
+        KP8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2642,11 +2670,11 @@ def KP8():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 3, 5, 6, 7, 0, 2]
     )
-    M.rename("KP8: " + repr(M))
+    M = rename_and_relabel(M, "KP8", groundset)
     return M
 
 
-def Sp8():
+def Sp8(groundset=None):
     """
     Return the matroid `Sp8`.
 
@@ -2656,7 +2684,8 @@ def Sp8():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Sp8()
+        sage: M = matroids.catalog.Sp8(); M
+        Sp8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2669,11 +2698,11 @@ def Sp8():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 2, 3, 5, 4, 6, 7, 8]
     )
-    M.rename("Sp8: " + repr(M))
+    M = rename_and_relabel(M, "Sp8", groundset)
     return M
 
 
-def Sp8pp():
+def Sp8pp(groundset=None):
     """
     Return the matroid `Sp8=`.
 
@@ -2683,7 +2712,8 @@ def Sp8pp():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Sp8pp()
+        sage: M = matroids.catalog.Sp8pp(); M
+        Sp8=: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2694,11 +2724,11 @@ def Sp8pp():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 5, 6, 7, 2, 3, 4, 8]
     )
-    M.rename("Sp8=: " + repr(M))
+    M = rename_and_relabel(M, "Sp8=", groundset)
     return M
 
 
-def LP8():
+def LP8(groundset=None):
     """
     Return the matroid `LP8`.
 
@@ -2708,7 +2738,8 @@ def LP8():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.LP8()
+        sage: M = matroids.catalog.LP8(); M
+        LP8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2721,11 +2752,11 @@ def LP8():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=['a', 'b', 'd', 'e', 'c', 'f', 'g', 'h']
     )
-    M.rename("LP8: " + repr(M))
+    M = rename_and_relabel(M, "LP8", groundset)
     return M
 
 
-def WQ8():
+def WQ8(groundset=None):
     r"""
     Return the matroid `WQ8`.
 
@@ -2735,7 +2766,8 @@ def WQ8():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.WQ8()
+        sage: M = matroids.catalog.WQ8(); M
+        WQ8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -2748,14 +2780,14 @@ def WQ8():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 1, 3, 4, 2, 5, 6, 7]
     )
-    M.rename("WQ8: " + repr(M))
+    M = rename_and_relabel(M, "WQ8", groundset)
     return M
 
 
 # 9 elements:
 
 
-def BB9():
+def BB9(groundset=None):
     """
     Return the matroid `BB9`.
 
@@ -2765,7 +2797,8 @@ def BB9():
 
     EXAMPLES::
 
-        sage: BB = matroids.catalog.BB9()
+        sage: BB = matroids.catalog.BB9(); BB
+        BB9: Quaternary matroid of rank 3 on 9 elements
         sage: BR = matroids.catalog.BetsyRoss()
         sage: from itertools import combinations
         sage: pairs = combinations(sorted(BR.groundset()), 2)
@@ -2790,11 +2823,11 @@ def BB9():
         reduced_matrix=A,
         groundset=['i', 'b', 'd', 'j', 'h', 'f', 'c', 'a', 'k']
     )
-    M.rename("BB9: " + repr(M))
+    M = rename_and_relabel(M, "BB9", groundset)
     return M
 
 
-def TQ9():
+def TQ9(groundset=None):
     """
     Return the matroid `TQ9`.
 
@@ -2806,7 +2839,8 @@ def TQ9():
     EXAMPLES::
 
         sage: TQ8 = matroids.catalog.TQ8()
-        sage: TQ9 = matroids.catalog.TQ9()
+        sage: TQ9 = matroids.catalog.TQ9(); TQ9
+        TQ9: Quaternary matroid of rank 4 on 9 elements
         sage: for M in TQ8.extensions():
         ....:     if M.is_isomorphic(TQ9):
         ....:         print(True)
@@ -2825,11 +2859,11 @@ def TQ9():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 6, 0, 2, 5, 3, 7, 8]
     )
-    M.rename("TQ9: " + repr(M))
+    M = rename_and_relabel(M, "TQ9", groundset)
     return M
 
 
-def TQ9p():
+def TQ9p(groundset=None):
     """
     Return the matroid `TQ9^-`.
 
@@ -2842,7 +2876,8 @@ def TQ9p():
     EXAMPLES::
 
         sage: TQ8 = matroids.catalog.TQ8()
-        sage: TQ9p = matroids.catalog.TQ9p()
+        sage: TQ9p = matroids.catalog.TQ9p(); TQ9p
+        TQ9': Quaternary matroid of rank 4 on 9 elements
         sage: for M in TQ8.extensions():
         ....:     if M.is_isomorphic(TQ9p):
         ....:         print(True)
@@ -2864,11 +2899,11 @@ def TQ9p():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 7, 8, 0, 6, 5, 2, 3]
     )
-    M.rename("TQ9': " + repr(M))
+    M = rename_and_relabel(M, "TQ9'", groundset)
     return M
 
 
-def M8591():
+def M8591(groundset=None):
     r"""
     Return the matroid `M8591`.
 
@@ -2878,7 +2913,8 @@ def M8591():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.M8591()
+        sage: M = matroids.catalog.M8591(); M
+        M8591: Quaternary matroid of rank 4 on 9 elements
         sage: M.is_valid()
         True
 
@@ -2892,11 +2928,11 @@ def M8591():
               [0, 0, 1, 1, 0]]
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("M8591: " + repr(M))
+    M = rename_and_relabel(M, "M8591", groundset)
     return M
 
 
-def PP9():
+def PP9(groundset=None):
     """
     Return the matroid `PP9`.
 
@@ -2909,7 +2945,8 @@ def PP9():
     EXAMPLES::
 
         sage: P8p = matroids.catalog.P8p()
-        sage: PP9 = matroids.catalog.PP9()
+        sage: PP9 = matroids.catalog.PP9(); PP9
+        PP9: Quaternary matroid of rank 4 on 9 elements
         sage: for M in P8p.extensions():
         ....:     if M.is_isomorphic(PP9):
         ....:         print(True)
@@ -2932,11 +2969,11 @@ def PP9():
         reduced_matrix=A,
         groundset=['a', 'c', 'b', 'f', 'd', 'e', 'g', 'h', 'z']
     )
-    M.rename("PP9: " + repr(M))
+    M = rename_and_relabel(M, "PP9", groundset)
     return M
 
 
-def BB9gDY():
+def BB9gDY(groundset=None):
     r"""
     Return the matroid `BB9gDY`.
 
@@ -2948,7 +2985,9 @@ def BB9gDY():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.BB9gDY()
+        sage: M = matroids.catalog.BB9gDY(); M
+        Segment cosegment exchange on BB9: Quaternary matroid of rank 5 on 9
+        elements
         sage: M.is_valid()
         True
 
@@ -2970,11 +3009,11 @@ def BB9gDY():
         reduced_matrix=A,
         groundset=['c', 'd', 'i', 'f', 'h', 'a', 'j', 'k', 'b']
     )
-    M.rename("Segment cosegment exchange on BB9: " + repr(M))
+    M = rename_and_relabel(M, "Segment cosegment exchange on BB9", groundset)
     return M
 
 
-def A9():
+def A9(groundset=None):
     """
     Return the matroid `A9`.
 
@@ -2984,7 +3023,8 @@ def A9():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.A9()
+        sage: M = matroids.catalog.A9(); M
+        A9: Quaternary matroid of rank 3 on 9 elements
         sage: M.is_valid()
         True
 
@@ -2999,11 +3039,11 @@ def A9():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[6, 5, 4, 1, 2, 3, 7, 8, 0]
     )
-    M.rename("A9: " + repr(M))
+    M = rename_and_relabel(M, "A9", groundset)
     return M
 
 
-def FN9():
+def FN9(groundset=None):
     """
     Return the matroid `FN9`.
 
@@ -3013,7 +3053,8 @@ def FN9():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FN9()
+        sage: M = matroids.catalog.FN9(); M
+        FN9: Quaternary matroid of rank 3 on 9 elements
         sage: M.is_valid()
         True
 
@@ -3033,11 +3074,11 @@ def FN9():
         reduced_matrix=A,
         groundset=['b0', 'a', 'y', 'z', 'x', "c0", 'b', 'c', 'a0']
     )
-    M.rename("FN9: " + repr(M))
+    M = rename_and_relabel(M, "FN9", groundset)
     return M
 
 
-def FX9():
+def FX9(groundset=None):
     """
     Return the matroid `FX9`.
 
@@ -3047,7 +3088,8 @@ def FX9():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FX9()
+        sage: M = matroids.catalog.FX9(); M
+        FX9: Quaternary matroid of rank 4 on 9 elements
         sage: M.is_valid()
         True
 
@@ -3065,11 +3107,11 @@ def FX9():
     )
     # M48806
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FX9: " + repr(M))
+    M = rename_and_relabel(M, "FX9", groundset)
     return M
 
 
-def KR9():
+def KR9(groundset=None):
     """
     Return the matroid `KR9`.
 
@@ -3080,7 +3122,8 @@ def KR9():
 
     EXAMPLES::
 
-        sage: KR9 = matroids.catalog.KR9()
+        sage: KR9 = matroids.catalog.KR9(); KR9
+        KR9: Quaternary matroid of rank 4 on 9 elements
         sage: KP8 = matroids.catalog.KP8()
         sage: KP8.is_isomorphic(KR9.delete(8))
         True
@@ -3100,11 +3143,11 @@ def KR9():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[2, 4, 0, 6, 1, 5, 3, 7, 8]
     )
-    M.rename("KR9: " + repr(M))
+    M = rename_and_relabel(M, "KR9", groundset)
     return M
 
 
-def KQ9():
+def KQ9(groundset=None):
     """
     Return the matroid `KQ9`.
 
@@ -3116,7 +3159,8 @@ def KQ9():
 
     EXAMPLES::
 
-        sage: KQ9 = matroids.catalog.KQ9()
+        sage: KQ9 = matroids.catalog.KQ9(); KQ9
+        KQ9: Quaternary matroid of rank 4 on 9 elements
         sage: TQ8 = matroids.catalog.TQ8()
         sage: TQ8.is_isomorphic(KQ9.delete(6))
         True
@@ -3139,14 +3183,14 @@ def KQ9():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[5, 0, 4, 3, 2, 6, 8, 7, 1]
     )
-    M.rename("KQ9: " + repr(M))
+    M = rename_and_relabel(M, "KQ9", groundset)
     return M
 
 
 # 10 elements:
 
 
-def UG10():
+def UG10(groundset=None):
     """
     Return the matroid `UG10`.
 
@@ -3158,7 +3202,8 @@ def UG10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UG10()
+        sage: M = matroids.catalog.UG10(); M
+        UG10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3176,11 +3221,11 @@ def UG10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UG10: " + repr(M))
+    M = rename_and_relabel(M, "UG10", groundset)
     return M
 
 
-def FF10():
+def FF10(groundset=None):
     """
     Return the matroid `FF10`.
 
@@ -3189,7 +3234,8 @@ def FF10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FF10()
+        sage: M = matroids.catalog.FF10(); M
+        FF10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3209,11 +3255,11 @@ def FF10():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     )
-    M.rename("FF10: " + repr(M))
+    M = rename_and_relabel(M, "FF10", groundset)
     return M
 
 
-def GP10():
+def GP10(groundset=None):
     """
     Return the matroid `GP10`.
 
@@ -3221,7 +3267,8 @@ def GP10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.GP10()
+        sage: M = matroids.catalog.GP10(); M
+        GP10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3239,11 +3286,11 @@ def GP10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("GP10: " + repr(M))
+    M = rename_and_relabel(M, "GP10", groundset)
     return M
 
 
-def FZ10():
+def FZ10(groundset=None):
     """
     Return the matroid `FZ10`.
 
@@ -3252,7 +3299,8 @@ def FZ10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FZ10()
+        sage: M = matroids.catalog.FZ10(); M
+        FZ10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -3270,11 +3318,11 @@ def FZ10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FZ10: " + repr(M))
+    M = rename_and_relabel(M, "FZ10", groundset)
     return M
 
 
-def UQ10():
+def UQ10(groundset=None):
     """
     Return the matroid `UQ10`.
 
@@ -3284,7 +3332,8 @@ def UQ10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UQ10()
+        sage: M = matroids.catalog.UQ10(); M
+        UQ10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3302,11 +3351,11 @@ def UQ10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UQ10: " + repr(M))
+    M = rename_and_relabel(M, "UQ10", groundset)
     return M
 
 
-def FP10():
+def FP10(groundset=None):
     """
     Return the matroid `FP10`.
 
@@ -3315,7 +3364,8 @@ def FP10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FP10()
+        sage: M = matroids.catalog.FP10(); M
+        FP10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3333,11 +3383,11 @@ def FP10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FP10: " + repr(M))
+    M = rename_and_relabel(M, "FP10", groundset)
     return M
 
 
-def TQ10():
+def TQ10(groundset=None):
     """
     Return the matroid `TQ10`.
 
@@ -3347,7 +3397,8 @@ def TQ10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.TQ10()
+        sage: M = matroids.catalog.TQ10(); M
+        TQ10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
         sage: N = M.delete('d').contract('c')
@@ -3370,11 +3421,11 @@ def TQ10():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 6, 8, 'c', 3, 7, 'd', 2, 5, 4]
     )
-    M.rename("TQ10: " + repr(M))
+    M = rename_and_relabel(M, "TQ10", groundset)
     return M
 
 
-def FY10():
+def FY10(groundset=None):
     """
     Return the matroid `FY10`.
 
@@ -3383,7 +3434,8 @@ def FY10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FY10()
+        sage: M = matroids.catalog.FY10(); M
+        FY10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -3401,11 +3453,11 @@ def FY10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FY10: " + repr(M))
+    M = rename_and_relabel(M, "FY10", groundset)
     return M
 
 
-def PP10():
+def PP10(groundset=None):
     """
     Return the matroid `PP10`.
 
@@ -3417,7 +3469,8 @@ def PP10():
 
     EXAMPLES::
 
-        sage: PP10 = matroids.catalog.PP10()
+        sage: PP10 = matroids.catalog.PP10(); PP10
+        PP10: Quaternary matroid of rank 5 on 10 elements
         sage: M = PP10.delete('a').contract('e')
         sage: M.is_isomorphic(matroids.catalog.TQ8())
         True
@@ -3442,11 +3495,11 @@ def PP10():
         reduced_matrix=A,
         groundset=['z', 'f', 'c', 'g', 'e', 'b', 'a', 'h', 'd', 'x']
     )
-    M.rename("PP10: " + repr(M))
+    M = rename_and_relabel(M, "PP10", groundset)
     return M
 
 
-def FU10():
+def FU10(groundset=None):
     """
     Return the matroid `FU10`.
 
@@ -3454,7 +3507,8 @@ def FU10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FU10()
+        sage: M = matroids.catalog.FU10(); M
+        FU10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3472,11 +3526,11 @@ def FU10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FU10: " + repr(M))
+    M = rename_and_relabel(M, "FU10", groundset)
     return M
 
 
-def D10():
+def D10(groundset=None):
     """
     Return the matroid `D10`.
 
@@ -3486,7 +3540,8 @@ def D10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.D10()
+        sage: M = matroids.catalog.D10(); M
+        D10: Quaternary matroid of rank 4 on 10 elements
         sage: M.has_minor(matroids.catalog.TQ8())
         True
 
@@ -3503,11 +3558,11 @@ def D10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("D10: " + repr(M))
+    M = rename_and_relabel(M, "D10", groundset)
     return M
 
 
-def UK10():
+def UK10(groundset=None):
     """
     Return the matroid `UK10`.
 
@@ -3516,7 +3571,8 @@ def UK10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UK10()
+        sage: M = matroids.catalog.UK10(); M
+        UK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -3534,11 +3590,11 @@ def UK10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UK10: " + repr(M))
+    M = rename_and_relabel(M, "UK10", groundset)
     return M
 
 
-def PK10():
+def PK10(groundset=None):
     """
     Return the matroid `PK10`.
 
@@ -3547,7 +3603,8 @@ def PK10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.PK10()
+        sage: M = matroids.catalog.PK10(); M
+        PK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -3565,11 +3622,11 @@ def PK10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("PK10: " + repr(M))
+    M = rename_and_relabel(M, "PK10", groundset)
     return M
 
 
-def GK10():
+def GK10(groundset=None):
     """
     Return the matroid `GK10`.
 
@@ -3578,7 +3635,8 @@ def GK10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.GK10()
+        sage: M = matroids.catalog.GK10(); M
+        GK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -3595,12 +3653,12 @@ def GK10():
             [1, w, w, w + 1, 1],
         ],
     )
-    gk10 = QuaternaryMatroid(reduced_matrix=A)
-    gk10.rename("GK10: " + repr(gk10))
-    return gk10
+    M = QuaternaryMatroid(reduced_matrix=A)
+    M = rename_and_relabel(M, "GK10", groundset)
+    return M
 
 
-def FT10():
+def FT10(groundset=None):
     """
     Return the matroid `FT10`.
 
@@ -3609,7 +3667,8 @@ def FT10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FT10()
+        sage: M = matroids.catalog.FT10(); M
+        FT10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3627,11 +3686,11 @@ def FT10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FT10: " + repr(M))
+    M = rename_and_relabel(M, "FT10", groundset)
     return M
 
 
-def TK10():
+def TK10(groundset=None):
     """
     Return the matroid `TK10`.
 
@@ -3640,7 +3699,8 @@ def TK10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.TK10()
+        sage: M = matroids.catalog.TK10(); M
+        TK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3658,11 +3718,11 @@ def TK10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("TK10: " + repr(M))
+    M = rename_and_relabel(M, "TK10", groundset)
     return M
 
 
-def KT10():
+def KT10(groundset=None):
     """
     Return the matroid `KT10`.
 
@@ -3671,7 +3731,8 @@ def KT10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.KT10()
+        sage: M = matroids.catalog.KT10(); M
+        KT10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3689,11 +3750,11 @@ def KT10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("KT10: " + repr(M))
+    M = rename_and_relabel(M, "KT10", groundset)
     return M
 
 
-def TU10():
+def TU10(groundset=None):
     """
     Return the matroid `TU10`.
 
@@ -3702,7 +3763,8 @@ def TU10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.TU10()
+        sage: M = matroids.catalog.TU10(); M
+        TU10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3720,11 +3782,11 @@ def TU10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("TU10: " + repr(M))
+    M = rename_and_relabel(M, "TU10", groundset)
     return M
 
 
-def UT10():
+def UT10(groundset=None):
     """
     Return the matroid `UT10`.
 
@@ -3733,7 +3795,8 @@ def UT10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UT10()
+        sage: M = matroids.catalog.UT10(); M
+        UT10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3751,11 +3814,11 @@ def UT10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UT10: " + repr(M))
+    M = rename_and_relabel(M, "UT10", groundset)
     return M
 
 
-def FK10():
+def FK10(groundset=None):
     """
     Return the matroid `FK10`.
 
@@ -3764,7 +3827,8 @@ def FK10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FK10()
+        sage: M = matroids.catalog.FK10(); M
+        FK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3782,11 +3846,11 @@ def FK10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FK10: " + repr(M))
+    M = rename_and_relabel(M, "FK10", groundset)
     return M
 
 
-def KF10():
+def KF10(groundset=None):
     """
     Return the matroid `KF10`.
 
@@ -3795,7 +3859,8 @@ def KF10():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.KF10()
+        sage: M = matroids.catalog.KF10(); M
+        KF10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3813,14 +3878,14 @@ def KF10():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("KF10: " + repr(M))
+    M = rename_and_relabel(M, "KF10", groundset)
     return M
 
 
 # 11 elements:
 
 
-def FA11():
+def FA11(groundset=None):
     """
     Return the matroid `FA11`.
 
@@ -3830,7 +3895,8 @@ def FA11():
 
     EXAMPLES::
 
-        sage: FA11 = matroids.catalog.FA11()
+        sage: FA11 = matroids.catalog.FA11(); FA11
+        FA11: Quaternary matroid of rank 5 on 11 elements
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(FA11.delete(10))
         True
@@ -3851,14 +3917,14 @@ def FA11():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 3, 4, 2, 8, 7, 9, 0, 5, 10, 6]
     )
-    M.rename("FA11: " + repr(M))
+    M = rename_and_relabel(M, "FA11", groundset)
     return M
 
 
 # 12 elements:
 
 
-def FR12():
+def FR12(groundset=None):
     """
     Return the matroid `FR12`.
 
@@ -3867,7 +3933,8 @@ def FR12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FR12()
+        sage: M = matroids.catalog.FR12(); M
+        FR12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -3886,11 +3953,11 @@ def FR12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FR12: " + repr(M))
+    M = rename_and_relabel(M, "FR12", groundset)
     return M
 
 
-def GP12():
+def GP12(groundset=None):
     """
     Return the matroid `GP12`.
 
@@ -3899,7 +3966,8 @@ def GP12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.GP12()
+        sage: M = matroids.catalog.GP12(); M
+        GP12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -3918,11 +3986,11 @@ def GP12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("GP12: " + repr(M))
+    M = rename_and_relabel(M, "GP12", groundset)
     return M
 
 
-def FQ12():
+def FQ12(groundset=None):
     """
     Return the matroid `FQ12`.
 
@@ -3934,7 +4002,8 @@ def FQ12():
 
     EXAMPLES::
 
-        sage: FQ12 = matroids.catalog.FQ12()
+        sage: FQ12 = matroids.catalog.FQ12(); FQ12
+        FQ12: Quaternary matroid of rank 6 on 12 elements
         sage: PP9 = matroids.catalog.PP9()
         sage: PP9.is_isomorphic(FQ12.contract([4,7]).delete(6))
         True
@@ -3959,11 +4028,11 @@ def FQ12():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[7, 4, 5, 9, 2, 1, 0, 6, 'd', 'c', 8, 3]
     )
-    M.rename("FQ12: " + repr(M))
+    M = rename_and_relabel(M, "FQ12", groundset)
     return M
 
 
-def FF12():
+def FF12(groundset=None):
     """
     Return the matroid `FF12`.
 
@@ -3974,7 +4043,8 @@ def FF12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FF12()
+        sage: M = matroids.catalog.FF12(); M
+        FF12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
         sage: FF10 = matroids.catalog.FF10()
@@ -3998,11 +4068,11 @@ def FF12():
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 4, 'c', 3, 5, 'd', 8, 9, 2, 7, 1, 6]
     )
-    M.rename("FF12: " + repr(M))
+    M = rename_and_relabel(M, "FF12", groundset)
     return M
 
 
-def FZ12():
+def FZ12(groundset=None):
     """
     Return the matroid `FZ12`.
 
@@ -4011,7 +4081,8 @@ def FZ12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FZ12()
+        sage: M = matroids.catalog.FZ12(); M
+        FZ12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -4030,11 +4101,11 @@ def FZ12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FZ12: " + repr(M))
+    M = rename_and_relabel(M, "FZ12", groundset)
     return M
 
 
-def UQ12():
+def UQ12(groundset=None):
     """
     Return the matroid `UQ12`.
 
@@ -4043,7 +4114,8 @@ def UQ12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UQ12()
+        sage: M = matroids.catalog.UQ12(); M
+        UQ12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4062,11 +4134,11 @@ def UQ12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UQ12: " + repr(M))
+    M = rename_and_relabel(M, "UQ12", groundset)
     return M
 
 
-def FP12():
+def FP12(groundset=None):
     """
     Return the matroid `FP12`.
 
@@ -4075,7 +4147,8 @@ def FP12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FP12()
+        sage: M = matroids.catalog.FP12(); M
+        FP12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4094,11 +4167,11 @@ def FP12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FP12: " + repr(M))
+    M = rename_and_relabel(M, "FP12", groundset)
     return M
 
 
-def FS12():
+def FS12(groundset=None):
     """
     Return the matroid `FS12`.
 
@@ -4107,7 +4180,8 @@ def FS12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FS12()
+        sage: M = matroids.catalog.FS12(); M
+        FS12: Quaternary matroid of rank 5 on 12 elements
         sage: M.rank()
         5
 
@@ -4125,11 +4199,11 @@ def FS12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FS12: " + repr(M))
+    M = rename_and_relabel(M, "FS12", groundset)
     return M
 
 
-def UK12():
+def UK12(groundset=None):
     """
     Return the matroid `UK12`.
 
@@ -4138,7 +4212,8 @@ def UK12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UK12()
+        sage: M = matroids.catalog.UK12(); M
+        UK12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4157,11 +4232,11 @@ def UK12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UK12: " + repr(M))
+    M = rename_and_relabel(M, "UK12", groundset)
     return M
 
 
-def UA12():
+def UA12(groundset=None):
     """
     Return the matroid `UA12`.
 
@@ -4170,7 +4245,8 @@ def UA12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UA12()
+        sage: M = matroids.catalog.UA12(); M
+        UA12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -4189,11 +4265,11 @@ def UA12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UA12: " + repr(M))
+    M = rename_and_relabel(M, "UA12", groundset)
     return M
 
 
-def AK12():
+def AK12(groundset=None):
     """
     Return the matroid `AK12`.
 
@@ -4202,7 +4278,8 @@ def AK12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.AK12()
+        sage: M = matroids.catalog.AK12(); M
+        AK12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -4221,11 +4298,11 @@ def AK12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("AK12: " + repr(M))
+    M = rename_and_relabel(M, "AK12", groundset)
     return M
 
 
-def FK12():
+def FK12(groundset=None):
     """
     Return the matroid `FK12`.
 
@@ -4234,7 +4311,8 @@ def FK12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UT10()
+        sage: M = matroids.catalog.FK12(); M
+        FK12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4253,11 +4331,11 @@ def FK12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FK12: " + repr(M))
+    M = rename_and_relabel(M, "FK12", groundset)
     return M
 
 
-def KB12():
+def KB12(groundset=None):
     """
     Return the matroid `KB12`.
 
@@ -4266,7 +4344,8 @@ def KB12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UT10()
+        sage: M = matroids.catalog.KB12(); M
+        KB12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4285,11 +4364,11 @@ def KB12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("KB12: " + repr(M))
+    M = rename_and_relabel(M, "KB12", groundset)
     return M
 
 
-def AF12():
+def AF12(groundset=None):
     """
     Return the matroid `AF12`.
 
@@ -4298,7 +4377,8 @@ def AF12():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UT10()
+        sage: M = matroids.catalog.AF12(); M
+        AF12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4317,11 +4397,11 @@ def AF12():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("AF12: " + repr(M))
+    M = rename_and_relabel(M, "AF12", groundset)
     return M
 
 
-def NestOfTwistedCubes():
+def NestOfTwistedCubes(groundset=None):
     r"""
     Return the NestOfTwistedCubes matroid.
 
@@ -4383,14 +4463,14 @@ def NestOfTwistedCubes():
         },
     )
     M = Matroid(circuits=list(M.circuits()))
-    M.rename("NestOfTwistedCubes: " + repr(M))
+    M = rename_and_relabel(M, "NestOfTwistedCubes", groundset)
     return M
 
 
 # 13 elements:
 
 
-def XY13():
+def XY13(groundset=None):
     """
     Return the matroid `XY13`.
 
@@ -4399,7 +4479,8 @@ def XY13():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.XY13()
+        sage: M = matroids.catalog.XY13(); M
+        XY13: Quaternary matroid of rank 6 on 13 elements
         sage: M.is_3connected()
         True
 
@@ -4418,14 +4499,14 @@ def XY13():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("XY13: " + repr(M))
+    M = rename_and_relabel(M, "XY13", groundset)
     return M
 
 
 # 14 elements:
 
 
-def N3():
+def N3(groundset=None):
     """
     Return the matroid `N3`.
 
@@ -4434,7 +4515,8 @@ def N3():
 
     EXAMPLES::
 
-        sage: N3 = matroids.catalog.N3()
+        sage: N3 = matroids.catalog.N3(); N3
+        N3: Ternary matroid of rank 7 on 14 elements, type 0+
         sage: N3.is_isomorphic(N3.dual())
         True
         sage: N3.is_kconnected(4)
@@ -4456,11 +4538,11 @@ def N3():
         ],
     )
     M = TernaryMatroid(reduced_matrix=A)
-    M.rename("N3: " + repr(M))
+    M = rename_and_relabel(M, "N3", groundset)
     return M
 
 
-def N3pp():
+def N3pp(groundset=None):
     """
     Return the matroid `N3pp`.
 
@@ -4472,7 +4554,8 @@ def N3pp():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.N3pp()
+        sage: M = matroids.catalog.N3pp(); M
+        N3=: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4492,11 +4575,11 @@ def N3pp():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("N3=: " + repr(M))
+    M = rename_and_relabel(M, "N3=", groundset)
     return M
 
 
-def UP14():
+def UP14(groundset=None):
     """
     Return the matroid `UP14`.
 
@@ -4505,7 +4588,8 @@ def UP14():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.UP14()
+        sage: M = matroids.catalog.UP14(); M
+        UP14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -4525,11 +4609,11 @@ def UP14():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("UP14: " + repr(M))
+    M = rename_and_relabel(M, "UP14", groundset)
     return M
 
 
-def VP14():
+def VP14(groundset=None):
     """
     Return the matroid `VP14`.
 
@@ -4538,7 +4622,8 @@ def VP14():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.VP14()
+        sage: M = matroids.catalog.VP14(); M
+        VP14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -4558,11 +4643,11 @@ def VP14():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("VP14: " + repr(M))
+    M = rename_and_relabel(M, "VP14", groundset)
     return M
 
 
-def FV14():
+def FV14(groundset=None):
     """
     Return the matroid `FV14`
 
@@ -4571,7 +4656,8 @@ def FV14():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FV14()
+        sage: M = matroids.catalog.FV14(); M
+        FV14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         False
 
@@ -4591,11 +4677,11 @@ def FV14():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FV14: " + repr(M))
+    M = rename_and_relabel(M, "FV14", groundset)
     return M
 
 
-def OW14():
+def OW14(groundset=None):
     """
     Return the matroid `OW14`.
 
@@ -4604,7 +4690,8 @@ def OW14():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.OW14()
+        sage: M = matroids.catalog.OW14(); M
+        OW14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4624,11 +4711,11 @@ def OW14():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("OW14: " + repr(M))
+    M = rename_and_relabel(M, "OW14", groundset)
     return M
 
 
-def FM14():
+def FM14(groundset=None):
     """
     Return the matroid `FM14`.
 
@@ -4636,7 +4723,8 @@ def FM14():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FM14()
+        sage: M = matroids.catalog.FM14(); M
+        FM14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         True
 
@@ -4656,14 +4744,14 @@ def FM14():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FM14: " + repr(M))
+    M = rename_and_relabel(M, "FM14", groundset)
     return M
 
 
 # 15 elements:
 
 
-def FA15():
+def FA15(groundset=None):
     """
     Return the matroid `FA15`.
 
@@ -4673,7 +4761,8 @@ def FA15():
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.FA15()
+        sage: M = matroids.catalog.FA15(); M
+        FA15: Quaternary matroid of rank 7 on 15 elements
         sage: M.has_minor(matroids.catalog.N3pp())
         True
 
@@ -4693,14 +4782,14 @@ def FA15():
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M.rename("FA15: " + repr(M))
+    M = rename_and_relabel(M, "FA15", groundset)
     return M
 
 
 # 16 elements:
 
 
-def N4():
+def N4(groundset=None):
     """
     Return the matroid `N4`.
 
@@ -4709,7 +4798,8 @@ def N4():
 
     EXAMPLES::
 
-        sage: N4 = matroids.catalog.N4()
+        sage: N4 = matroids.catalog.N4(); N4
+        N4: Ternary matroid of rank 8 on 16 elements, type 0+
         sage: N4.is_isomorphic(N4.dual())
         True
         sage: N4.is_kconnected(4)
@@ -4732,7 +4822,7 @@ def N4():
         ],
     )
     M = TernaryMatroid(reduced_matrix=A)
-    M.rename("N4: " + repr(M))
+    M = rename_and_relabel(M, "N4", groundset)
     return M
 
 
@@ -4787,7 +4877,8 @@ def NotP8(groundset='abcdefgh'):
     EXAMPLES::
 
         sage: M = matroids.catalog.P8()
-        sage: N = matroids.catalog.NotP8()
+        sage: N = matroids.catalog.NotP8(); N
+        NotP8: Ternary matroid of rank 4 on 8 elements, type 0-
         sage: M.is_isomorphic(N)
         False
         sage: M.is_valid()
@@ -4818,7 +4909,12 @@ def AG23minus(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.AG23minus()
+        sage: M = matroids.catalog.AG23minus(); M
+        AG23minus: Matroid of rank 3 on 8 elements with circuit-closures
+        {2: {{'a', 'b', 'c'}, {'a', 'd', 'f'}, {'a', 'e', 'g'},
+        {'b', 'd', 'h'}, {'b', 'e', 'f'}, {'c', 'd', 'g'},
+        {'c', 'e', 'h'}, {'f', 'g', 'h'}},
+        3: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}
         sage: M.is_valid()
         True
 
@@ -4840,8 +4936,7 @@ def P9(groundset='abcdefghi'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.P9()
-        sage: M
+        sage: M = matroids.catalog.P9(); M
         P9: Binary matroid of rank 4 on 9 elements, type (1, 1)
         sage: M.is_valid()
         True
@@ -4874,7 +4969,8 @@ def R9A(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.R9A()
+        sage: M = matroids.catalog.R9A(); M
+        R9A: Matroid of rank 4 on 9 elements with 13 non-spanning circuits
         sage: M.is_valid()
         True
 
@@ -4897,7 +4993,8 @@ def R9B(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.R9B()
+        sage: M = matroids.catalog.R9B(); M
+        R9B: Matroid of rank 4 on 9 elements with 13 non-spanning circuits
         sage: M.is_valid() and M.is_paving()
         True
 
@@ -4916,7 +5013,9 @@ def Block_9_4(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Block_9_4()
+        sage: M = matroids.catalog.Block_9_4(); M
+        Block(9, 4): Matroid of rank 4 on 9 elements with 18 non-spanning
+        circuits
         sage: M.is_valid() and M.is_paving()
         True
         sage: BD = BlockDesign(M.groundset(), list(M.nonspanning_circuits()))
@@ -4941,7 +5040,8 @@ def TicTacToe(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.TicTacToe()
+        sage: M = matroids.catalog.TicTacToe(); M
+        TicTacToe: Matroid of rank 5 on 9 elements with 8 non-spanning circuits
         sage: M.is_valid() and M.is_paving()
         True
 
@@ -4952,7 +5052,7 @@ def TicTacToe(groundset=None):
     """
     NSC = ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi', 'beghi',
            'cfghi']
-    M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
+    M = Matroid(groundset='abcdefghi', rank=5, nonspanning_circuits=NSC)
     M = rename_and_relabel(M, "TicTacToe", groundset)
     return M
 
@@ -4965,7 +5065,8 @@ def N1(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.N1()
+        sage: M = matroids.catalog.N1(); M
+        N1: Ternary matroid of rank 5 on 10 elements, type 0+
         sage: M.is_field_isomorphic(M.dual())
         True
         sage: M.is_valid()
@@ -4995,7 +5096,9 @@ def Block_10_5(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Block_10_5()
+        sage: M = matroids.catalog.Block_10_5(); M
+        Block(10, 5): Matroid of rank 5 on 10 elements with 36 non-spanning
+        circuits
         sage: M.is_valid() and M.is_paving()
         True
         sage: BD = BlockDesign(M.groundset(), list(M.nonspanning_circuits()))
@@ -5025,7 +5128,8 @@ def Q10(groundset='abcdefghij'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Q10()
+        sage: M = matroids.catalog.Q10(); M
+        Q10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
         sage: M.is_valid()
@@ -5066,18 +5170,15 @@ def BetsyRoss(groundset=None):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.BetsyRoss()
+        sage: M = matroids.catalog.BetsyRoss(); M
+        BetsyRoss: Matroid of rank 3 on 11 elements with 25 non-spanning
+        circuits
         sage: len(M.circuit_closures()[2])
         10
         sage: M.is_valid()
         True
 
     """
-    # CC = {
-    #     2: ['acfg', 'bdgh', 'cehi', 'befj', 'adij', 'dfk',
-    #         'egk', 'ahk', 'bik', 'cjk'],
-    #     3: ['abcdefghijk']
-    # }
     NSC = ['acf', 'acg', 'adi', 'adj', 'afg', 'ahk', 'aij', 'bdg', 'bdh',
            'bef', 'bej', 'bfj', 'bgh', 'bik', 'ceh', 'cei', 'cfg', 'chi',
            'cjk', 'dfk', 'dgh', 'dij', 'efj', 'egk', 'ehi']
@@ -5094,7 +5195,8 @@ def N2(groundset='abcdefghijkl'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.N2()
+        sage: M = matroids.catalog.N2(); M
+        N2: Ternary matroid of rank 6 on 12 elements, type 0+
         sage: M.is_field_isomorphic(M.dual())
         True
         sage: M.is_valid()
@@ -5129,8 +5231,7 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.D16()
-        sage: M
+        sage: M = matroids.catalog.D16(); M
         D16: Binary matroid of rank 8 on 16 elements, type (0, 0)
         sage: M.is_valid()
         True
@@ -5164,8 +5265,7 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # aka the Dillon Mayhew Matroid
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.Terrahawk()
-        sage: M
+        sage: M = matroids.catalog.Terrahawk(); M
         Terrahawk: Binary matroid of rank 8 on 16 elements, type (0, 4)
         sage: M.is_valid()
         True
@@ -5196,7 +5296,9 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
 
     EXAMPLES::
 
-        sage: M = matroids.catalog.ExtendedBinaryGolayCode()
+        sage: M = matroids.catalog.ExtendedBinaryGolayCode(); M
+        Extended Binary Golay Code: Binary matroid of rank 12 on 24 elements,
+        type (12, 0)
         sage: C = LinearCode(M.representation())
         sage: C.is_permutation_equivalent(codes.GolayCode(GF(2)))
         True
