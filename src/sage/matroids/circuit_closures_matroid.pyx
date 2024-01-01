@@ -248,7 +248,6 @@ cdef class CircuitClosuresMatroid(Matroid):
             True
             sage: M._is_independent(set(['a', 'b', 'c', 'd']))
             False
-
         """
         for r in sorted(self._circuit_closures, key=str):
             if len(F) <= r:
@@ -398,8 +397,6 @@ cdef class CircuitClosuresMatroid(Matroid):
             False
             sage: M1._is_isomorphic(M2, certificate=True)
             (False, None)
-
-
         """
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)
@@ -507,7 +504,6 @@ cdef class CircuitClosuresMatroid(Matroid):
             True
             sage: M.groundset() is N.groundset()
             True
-
         """
         N = CircuitClosuresMatroid(groundset=[], circuit_closures={})
         N._groundset = self._groundset
@@ -599,7 +595,6 @@ cdef class CircuitClosuresMatroid(Matroid):
             [1, 2, 3, 4, 5, 6, 'z']
             sage: M.is_isomorphic(N)
             True
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset()]
@@ -663,7 +658,6 @@ cdef class CircuitClosuresMatroid(Matroid):
 
             sage: N.is_valid()
             False
-
         """
         for i in self.circuit_closures():
             for S in self._circuit_closures[i]:

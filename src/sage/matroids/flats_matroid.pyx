@@ -72,7 +72,6 @@ cdef class FlatsMatroid(Matroid):
         """
         Initialization of the matroid. See class docstring for full
         documentation.
-
         """
         self._F = {}
         if M is not None:
@@ -110,7 +109,6 @@ cdef class FlatsMatroid(Matroid):
             sage: M = matroids.Theta(2)
             sage: sorted(M.groundset())
             ['x0', 'x1', 'y0', 'y1']
-
         """
         return self._groundset
 
@@ -134,7 +132,6 @@ cdef class FlatsMatroid(Matroid):
             sage: M = matroids.Theta(3)
             sage: M._rank(['x1', 'y0', 'y2'])
             2
-
         """
         min = len(self._groundset)
         for i in self._F:
@@ -165,7 +162,6 @@ cdef class FlatsMatroid(Matroid):
             sage: M = matroids.Theta(20)
             sage: M.full_rank()
             20
-
         """
         return self._matroid_rank
 
@@ -186,7 +182,6 @@ cdef class FlatsMatroid(Matroid):
         .. NOTE::
 
             Internal version that does no input checking.
-
         """
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)
@@ -204,7 +199,6 @@ cdef class FlatsMatroid(Matroid):
     def _repr_(self):
         """
         Return a string representation of the matroid.
-
         """
         return Matroid._repr_(self) + " with " + str(len(self._F)) + " flats"
 
@@ -287,7 +281,6 @@ cdef class FlatsMatroid(Matroid):
             True
             sage: M.groundset() is N.groundset()
             True
-
         """
         N = FlatsMatroid(groundset=[], flats={})
         N._groundset = self._groundset
@@ -313,7 +306,6 @@ cdef class FlatsMatroid(Matroid):
             True
             sage: M.groundset() is N.groundset()
             False
-
         """
         if memo is None:
             memo = {}
@@ -381,7 +373,6 @@ cdef class FlatsMatroid(Matroid):
             [1, 2, 3, 4, 5, 6, 'z']
             sage: M.is_isomorphic(N)
             True
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self._groundset]
@@ -410,7 +401,6 @@ cdef class FlatsMatroid(Matroid):
             sage: M = FlatsMatroid(matroids.Uniform(2, 4))
             sage: M.print_bases()
             [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
-
         """
         if k in self._F:
             return self._F[k]
@@ -424,7 +414,6 @@ cdef class FlatsMatroid(Matroid):
         OUTPUT:
 
         an iterable
-
         """
         for F in self._F:
             yield F
@@ -442,7 +431,6 @@ cdef class FlatsMatroid(Matroid):
         OUTPUT:
 
         a Boolean
-
         """
         E_flat = False
         for i in self._F:

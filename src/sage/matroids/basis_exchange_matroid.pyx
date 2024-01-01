@@ -191,6 +191,44 @@ cdef class BasisExchangeMatroid(Matroid):
         bitset_free(self._output)
         bitset_free(self._temp)
 
+    cdef _relabel(self, l) noexcept:
+        """
+        Relabel each element `e` as `l[e]`, where `l` is a given injective map.
+
+        INPUT:
+
+        - `l`, a python object such that `l[e]` is the new label of e.
+
+        OUTPUT:
+
+        ``None``.
+
+        NOTE:
+        For internal use. Matroids are immutable but this method does modify the matroid. The use this method will only
+        be safe in very limited circumstances, such as perhaps on a fresh copy of a matroid.
+        """
+        cdef long i
+        E = []
+        for i in range(self._groundset_size):
+            if self._E[i] in l:
+                E.append(l[self._E[i]])
+            else:
+                E.append(self._E[i])
+        self._E = tuple(E)
+        self._groundset = frozenset(E)
+
+        self._idx = {}
+        for i in range(self._groundset_size):
+            self._idx[self._E[i]] = i
+
+        if self._weak_partition_var:
+            self._weak_partition_var._relabel(l)
+
+        if self._strong_partition_var:
+            self._strong_partition_var._relabel(l)
+        if self._heuristic_partition_var:
+            self._heuristic_partition_var._relabel(l)
+
     # the engine
     cdef _pack(self, bitset_t I, F) noexcept:
         """
@@ -482,7 +520,6 @@ cdef class BasisExchangeMatroid(Matroid):
             7
             sage: len(M.groundset())
             7
-
         """
         return self._groundset_size
 
@@ -560,7 +597,6 @@ cdef class BasisExchangeMatroid(Matroid):
             2
             sage: sorted(M.basis())
             ['a', 'c', 'd']
-
         """
         return self.__unpack(self._current_basis)
 
@@ -589,7 +625,6 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: M._move_current_basis('ef', 'a')
             sage: sorted(M.basis())
             ['b', 'c', 'e', 'f']
-
         """
         self._pack(self._input, X)
         self._pack(self._input2, Y)
@@ -620,7 +655,6 @@ cdef class BasisExchangeMatroid(Matroid):
             This is an unguarded method. For the version that verifies if
             the input is indeed a subset of the ground set,
             see :meth:`<sage.matroids.matroid.Matroid.max_independent>`.
-
         """
         self._pack(self._input, F)
         self.__max_independent(self._output, self._input)
@@ -651,7 +685,6 @@ cdef class BasisExchangeMatroid(Matroid):
             This is an unguarded method. For the version that verifies if
             the input is indeed a subset of the ground set,
             see :meth:`<sage.matroids.matroid.Matroid.rank>`.
-
         """
         self._pack(self._input, F)
         self.__max_independent(self._output, self._input)
@@ -746,7 +779,6 @@ cdef class BasisExchangeMatroid(Matroid):
             This is an unguarded method. For the version that verifies if the
             input is indeed a subset of the ground set, see
             :meth:`<sage.matroids.matroid.Matroid.closure>`.
-
         """
         self._pack(self._input, F)
         self.__closure(self._output, self._input)
@@ -777,7 +809,6 @@ cdef class BasisExchangeMatroid(Matroid):
             This is an unguarded method. For the version that verifies if the
             input is indeed a subset of the ground set,
             see :meth:`<sage.matroids.matroid.Matroid.max_coindependent>`.
-
         """
         self._pack(self._input, F)
         self.__max_coindependent(self._output, self._input)
@@ -902,7 +933,6 @@ cdef class BasisExchangeMatroid(Matroid):
             This is an unguarded method. For the version that verifies if the
             input is indeed a subset of the ground set,
             see :meth:`<sage.matroids.matroid.Matroid.coclosure>`.
-
         """
         self._pack(self._input, F)
         self._coclosure_internal(self._output, self._input)
@@ -932,7 +962,6 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: M = BasisMatroid(matroids.catalog.Vamos())
             sage: sorted(M._augment(set(['a']), set(['e', 'f', 'g', 'h'])))
             ['e', 'f', 'g']
-
         """
         self._pack(self._input, X)
         self._pack(self._input2, Y)
@@ -1219,7 +1248,6 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: M = matroids.catalog.S8()
             sage: M.f_vector()
             [1, 8, 22, 14, 1]
-
         """
         cdef bitset_t *flats
         cdef bitset_t *todo
@@ -1583,7 +1611,6 @@ cdef class BasisExchangeMatroid(Matroid):
             184
             sage: [len(M.independent_r_sets(r)) for r in range(M.full_rank() + 1)]
             [1, 10, 45, 120, 201, 184]
-
         """
         cdef SetSystem BB
         BB = SetSystem(self._E)
@@ -1637,7 +1664,6 @@ cdef class BasisExchangeMatroid(Matroid):
             68
             sage: [len(M.dependent_r_sets(r)) for r in range(M.full_rank() + 1)]
             [0, 0, 0, 0, 9, 68]
-
         """
         cdef SetSystem NB
         NB = SetSystem(self._E)
@@ -2264,7 +2290,6 @@ cdef class BasisExchangeMatroid(Matroid):
             False
             sage: M1._is_isomorphic(M2, certificate=True)
             (False, None)
-
         """
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)

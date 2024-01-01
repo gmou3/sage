@@ -72,7 +72,6 @@ cdef class CircuitsMatroid(Matroid):
         """
         Initialization of the matroid. See class docstring for full
         documentation.
-
         """
         if M is not None:
             self._groundset = frozenset(M.groundset())
@@ -106,7 +105,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = matroids.Theta(2)
             sage: sorted(M.groundset())
             ['x0', 'x1', 'y0', 'y1']
-
         """
         return self._groundset
 
@@ -130,7 +128,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = matroids.Theta(3)
             sage: M._rank(['x1', 'y0', 'y2'])
             2
-
         """
         return len(self._max_independent(X))
 
@@ -154,7 +151,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = matroids.Theta(20)
             sage: M.full_rank()
             20
-
         """
         return self._matroid_rank
 
@@ -170,7 +166,6 @@ cdef class CircuitsMatroid(Matroid):
         OUTPUT:
 
         a Boolean
-
         """
         I = set(F)
         s = len(F)
@@ -193,7 +188,6 @@ cdef class CircuitsMatroid(Matroid):
         OUTPUT:
 
         a frozenset; a maximal independent subset of ``X``
-
         """
         I = set(F)
         for i in self._k_C:
@@ -219,7 +213,6 @@ cdef class CircuitsMatroid(Matroid):
 
         a frozenset; a circuit contained in ``X``, if it exists. Otherwise an
         error is raised.
-
         """
         I = set(F)
         for C in self.circuits():
@@ -244,7 +237,6 @@ cdef class CircuitsMatroid(Matroid):
         .. NOTE::
 
             Internal version that does no input checking.
-
         """
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)
@@ -258,7 +250,6 @@ cdef class CircuitsMatroid(Matroid):
     def _repr_(self):
         """
         Return a string representation of the matroid.
-
         """
         if self._nsc_defined:
             return Matroid._repr_(self) + " with " + str(len(self.print_nonspanning_circuits())) + " non-spanning circuits"
@@ -344,7 +335,6 @@ cdef class CircuitsMatroid(Matroid):
             True
             sage: M.groundset() is N.groundset()
             True
-
         """
         N = CircuitsMatroid(groundset=[], circuits=[])
         N._groundset = self._groundset
@@ -372,7 +362,6 @@ cdef class CircuitsMatroid(Matroid):
             True
             sage: M.groundset() is N.groundset()
             False
-
         """
         if memo is None:
             memo = {}
@@ -440,7 +429,6 @@ cdef class CircuitsMatroid(Matroid):
             [1, 2, 3, 4, 5, 6, 'z']
             sage: M.is_isomorphic(N)
             True
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self._groundset]
@@ -468,7 +456,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
             sage: M.print_bases()
             [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
-
         """
         cdef SetSystem B
         B = SetSystem(list(self.groundset()))
@@ -497,7 +484,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
             sage: M.print_bases()
             [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
-
         """
         from itertools import combinations
         for B in combinations(self._groundset, self._matroid_rank):
@@ -516,7 +502,6 @@ cdef class CircuitsMatroid(Matroid):
         OUTPUT:
 
         a SetSystem
-
         """
         cdef SetSystem C
         C = SetSystem(list(self.groundset()))
@@ -536,7 +521,6 @@ cdef class CircuitsMatroid(Matroid):
         OUTPUT:
 
         an iterator
-
         """
         if k:
             for C in self._k_C[k]:
@@ -553,7 +537,6 @@ cdef class CircuitsMatroid(Matroid):
         OUTPUT:
 
         a SetSystem
-
         """
         cdef SetSystem NSC
         NSC = SetSystem(list(self.groundset()))
@@ -597,7 +580,6 @@ cdef class CircuitsMatroid(Matroid):
             removing a minimal element from a circuit. This implementation
             reverses the provided order so that it returns n.b.c. sets under
             the minimal-removal convention.
-
         """
         if order is None:
             order = sorted(self.groundset(), key=str)
@@ -663,7 +645,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = Matroid(circuits=C)
             sage: M.is_valid()
             False
-
         """
         for i in self._k_C:
             for j in self._k_C:

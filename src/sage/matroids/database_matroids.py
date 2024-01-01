@@ -23,7 +23,6 @@ collection, see the associated publications, [Bre2023]_ and [BP2023]_.
 
     The grouping of the matroids into collections can be viewed in the
     :mod:`catalog of matroids <sage.matroids.matroids_catalog>`.
-
 """
 
 # ****************************************************************************
@@ -105,7 +104,6 @@ def U24(groundset='abcd'):
         [0, 1, 2, 3]
         sage: M.is_isomorphic(matroids.catalog.U24())
         True
-
     """
     M = Uniform(2, 4)
     M = rename_and_relabel(M, "U(2, 4)", groundset)
@@ -136,7 +134,6 @@ def U25(groundset='abcde'):
         sage: M = matroids.catalog.U25(range(5))
         sage: sorted(M.groundset())
         [0, 1, 2, 3, 4]
-
     """
     M = Uniform(2, 5)
     M = rename_and_relabel(M, "U(2, 5)", groundset)
@@ -167,7 +164,6 @@ def U35(groundset='abcde'):
         sage: M = matroids.catalog.U35(range(5))
         sage: sorted(M.groundset())
         [0, 1, 2, 3, 4]
-
     """
     M = Uniform(3, 5)
     M = rename_and_relabel(M, "U(3, 5)", groundset)
@@ -209,7 +205,6 @@ def K4(groundset='abcdef'):
         sage: M = matroids.catalog.K4(range(6))
         sage: sorted(M.groundset())
         [0, 1, 2, 3, 4, 5]
-
     """
     M = CompleteGraphic(4)
     M = rename_and_relabel(M, "M(K4)", groundset)
@@ -252,7 +247,6 @@ def Whirl3(groundset='abcdef'):
         sage: W = matroids.catalog.Whirl3(range(6))
         sage: sorted(W.groundset())
         [0, 1, 2, 3, 4, 5]
-
     """
     M = Whirl(3)
     M = rename_and_relabel(M, "Whirl(3)", groundset)
@@ -284,7 +278,6 @@ def Q6(groundset='abcdef'):
     REFERENCES:
 
     [Oxl2011]_, p. 641.
-
     """
     F = GF(4, 'x')
     x = F.gens()[0]
@@ -321,7 +314,6 @@ def P6(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 641-2.
-
     """
     CC = {2: ['abc'], 3: ['abcdef']}
     M = Matroid(groundset='abcdef', circuit_closures=CC)
@@ -360,7 +352,6 @@ def U36(groundset='abcdef'):
         [0, 1, 2, 3, 4, 5]
         sage: M.is_isomorphic(matroids.catalog.U36())
         True
-
     """
     M = Uniform(3, 6)
     M = rename_and_relabel(M, "U(3, 6)", groundset)
@@ -391,7 +382,6 @@ def R6(groundset='abcdef'):
     REFERENCES:
 
     [Oxl2011]_, p. 642.
-
     """
     A = Matrix(
         GF(3), [[1, 0, 0, 1, 1, 1], [0, 1, 0, 1, 2, 1], [0, 0, 1, 1, 0, 2]]
@@ -441,7 +431,6 @@ def Fano(groundset='abcdefg'):
     REFERENCES:
 
     [Oxl2011]_, p. 643.
-
     """
     A = Matrix(
         GF(2),
@@ -487,7 +476,6 @@ def FanoDual(groundset='abcdefg'):
         sage: F7D = matroids.catalog.FanoDual(range(7))
         sage: sorted(F7D.groundset())
         [0, 1, 2, 3, 4, 5, 6]
-
     """
     M = Fano().dual()
     M = rename_and_relabel(M, "F7*", groundset)
@@ -518,7 +506,6 @@ def NonFano(groundset='abcdefg'):
     REFERENCES:
 
     [Oxl2011]_, p. 643-4.
-
     """
     A = Matrix(
         GF(3),
@@ -565,7 +552,6 @@ def NonFanoDual(groundset='abcdefg'):
         [0, 1, 2, 3, 4, 5, 6]
         sage: M.is_isomorphic(matroids.catalog.NonFanoDual())
         True
-
     """
     M = NonFano().dual()
     M = rename_and_relabel(M, "NonFano*", groundset)
@@ -592,7 +578,6 @@ def O7(groundset='abcdefg'):
     REFERENCES:
 
     [Oxl2011]_, p. 644.
-
     """
     A = Matrix(
         GF(3),
@@ -626,7 +611,6 @@ def P7(groundset='abcdefg'):
     REFERENCES:
 
     [Oxl2011]_, p. 644-5.
-
     """
     A = Matrix(
         GF(3),
@@ -675,7 +659,6 @@ def AG32(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 645.
-
     """
     M = AG(3, 2)
     M = rename_and_relabel(M, "AG(3, 2)", groundset)
@@ -735,7 +718,6 @@ def AG32prime(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 646.
-
     """
     CC = {
         3: [
@@ -786,7 +768,6 @@ def R8(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 646.
-
     """
     A = Matrix(
         GF(3),
@@ -837,7 +818,6 @@ def F8(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 647.
-
     """
     CC = {
         3: [
@@ -888,7 +868,6 @@ def Q8(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 647.
-
     """
     CC = {
         3: [
@@ -941,7 +920,6 @@ def L8(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 648.
-
     """
     CC = {3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'aceg', 'bdfh'],
           4: ['abcdefgh']}
@@ -987,7 +965,6 @@ def S8(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 648.
-
     """
     A = Matrix(
         GF(2),
@@ -1034,7 +1011,6 @@ def Vamos(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 649.
-
     """
     CC = {3: ['abcd', 'abef', 'cdef', 'abgh', 'efgh'], 4: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
@@ -1068,7 +1044,6 @@ def T8(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 649.
-
     """
     A = Matrix(
         GF(3),
@@ -1110,7 +1085,6 @@ def J(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 650.
-
     """
     A = Matrix(
         GF(3),
@@ -1150,7 +1124,6 @@ def P8(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 650-1.
-
     """
     A = Matrix(
         GF(3),
@@ -1191,7 +1164,6 @@ def P8pp(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 651.
-
     """
     NSC = ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh']
     M = Matroid(groundset='abcdefgh', rank=4, nonspanning_circuits=NSC)
@@ -1220,7 +1192,6 @@ def Wheel4(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 651-2.
-
     """
     M = Wheel(4)
     M = rename_and_relabel(M, "Wheel(4)", groundset)
@@ -1248,7 +1219,6 @@ def Whirl4(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl2011]_, p. 652.
-
     """
     M = Whirl(4)
     M = rename_and_relabel(M, "Whirl(4)", groundset)
@@ -1279,7 +1249,6 @@ def K33dual(groundset='abcdefghi'):
     REFERENCES:
 
     [Oxl2011]_, p. 652-3.
-
     """
     from sage.graphs.graph_generators import graphs
 
@@ -1310,7 +1279,6 @@ def K33(groundset='abcdefghi'):
     REFERENCES:
 
     [Oxl2011]_, p. 652-3.
-
     """
     from sage.graphs.graph_generators import graphs
 
@@ -1345,7 +1313,6 @@ def AG23(groundset='abcdefghi'):
     REFERENCES:
 
     [Oxl2011]_, p. 653.
-
     """
     M = AG(2, 3)
     M = rename_and_relabel(M, "AG(2, 3)", groundset)
@@ -1374,7 +1341,6 @@ def TernaryDowling3(groundset='abcdefghi'):
     REFERENCES:
 
     [Oxl2011]_, p. 654.
-
     """
     A = Matrix(
         GF(3),
@@ -1413,7 +1379,6 @@ def R9(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 654.
-
     """
     NSC = ['abc', 'abd', 'acd', 'aef', 'agh', 'bcd', 'bfh', 'bgi',
            'ceg', 'cfi', 'deh', 'dei', 'dfg', 'dhi', 'ehi']
@@ -1450,7 +1415,6 @@ def Pappus(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 655.
-
     """
     NSC = ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi']
     M = Matroid(groundset='abcdefghi', rank=3, nonspanning_circuits=NSC)
@@ -1483,7 +1447,6 @@ def NonPappus(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 655.
-
     """
     NSC = ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi']
     M = Matroid(groundset='abcdefghi', rank=3, nonspanning_circuits=NSC)
@@ -1510,7 +1473,6 @@ def K5(groundset='abcdefghij'):
     REFERENCES:
 
     [Oxl2011]_, p. 656.
-
     """
     M = CompleteGraphic(5)
     M = rename_and_relabel(M, "M(K5)", groundset)
@@ -1537,7 +1499,6 @@ def K5dual(groundset='abcdefghij'):
     REFERENCES:
 
     [Oxl2011]_, p. 656.
-
     """
     M = CompleteGraphic(5).dual()
     M = Matroid(circuits=list(M.circuits()))
@@ -1589,7 +1550,6 @@ def R10(groundset='abcdefghij'):
     REFERENCES:
 
     [Oxl2011]_, p. 656-7.
-
     """
     A = Matrix(
         ZZ,
@@ -1627,7 +1587,6 @@ def NonDesargues(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 657.
-
     """
     NSC = ['acj', 'aef', 'bce', 'bfj', 'bgi', 'chi', 'dfg', 'dij', 'egh']
     M = Matroid(rank=3, nonspanning_circuits=NSC)
@@ -1658,7 +1617,6 @@ def R12(groundset='abcdefghijkl'):
     REFERENCES:
 
     [Oxl2011]_, p. 657.
-
     """
     A = Matrix(
         ZZ,
@@ -1730,7 +1688,6 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
     REFERENCES:
 
     [Oxl2011]_, p. 658.
-
     """
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 0],
@@ -1769,7 +1726,6 @@ def T12(groundset='abcdefghijkl'):
     REFERENCES:
 
     [Oxl2011]_, p. 658-9.
-
     """
     A = Matrix(
         GF(2),
@@ -1806,7 +1762,6 @@ def PG23(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 659.
-
     """
     M = PG(2, 3)
     M = rename_and_relabel(M, groundset=groundset)
@@ -1861,7 +1816,6 @@ def Wheel(r, field=None, ring=None, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 659-60.
-
     """
     base_ring = ZZ
     if field is not None and ring is not None:
@@ -1948,7 +1902,6 @@ def Whirl(r, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 659-60.
-
     """
     A = Matrix(GF(3), r, 2 * r, sparse=True)
     for i in range(r):
@@ -2006,7 +1959,6 @@ def Uniform(r, n, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 660.
-
     """
     E = range(n)
     if r < n:
@@ -2052,7 +2004,6 @@ def PG(n, q, x=None, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 660.
-
     """
     if x is None:
         x = 'x'
@@ -2101,7 +2052,6 @@ def AG(n, q, x=None, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 661.
-
     """
     if x is None:
         x = 'x'
@@ -2189,7 +2139,6 @@ def Z(r, t=True, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 661-2.
-
     """
     from sage.matrix.special import identity_matrix, ones_matrix
     Id = Matrix(GF(2), identity_matrix(r))
@@ -2292,7 +2241,6 @@ def Spike(r, t=True, C3=[], groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 662.
-
     """
     if not (r >= 3):
         raise ValueError("The r-spike is defined for r >= 3.")
@@ -2399,7 +2347,6 @@ def Theta(n, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 663-4.
-
     """
     X = ['x'+str(i) for i in range(n)]
     Y = ['y'+str(i) for i in range(n)]
@@ -2473,7 +2420,6 @@ def Psi(r, groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 664.
-
     """
     A = ['a'+str(i) for i in range(0, r)]
     B = ['b'+str(i) for i in range(0, r)]
@@ -2532,7 +2478,6 @@ def RelaxedNonFano(groundset=None):
         F7=: Quaternary matroid of rank 3 on 7 elements
         sage: M.is_valid()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2555,7 +2500,6 @@ def TippedFree3spike(groundset=None):
         Tipped rank-3 free spike: Quaternary matroid of rank 3 on 7 elements
         sage: M.has_minor(matroids.Uniform(3,6))
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2584,7 +2528,6 @@ def AG23minusDY(groundset=None):
         Delta-Y of AG(2,3)\e: Ternary matroid of rank 4 on 8 elements, type 0-
         sage: M.is_valid()
         True
-
     """
     A = Matrix(GF(3), [[1, 1, 1, 1], [1, 0, 1, 2], [2, 0, 1, 2], [2, 1, 1, 0]])
     M = TernaryMatroid(reduced_matrix=A)
@@ -2604,7 +2547,6 @@ def TQ8(groundset=None):
         TQ8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2632,7 +2574,6 @@ def P8p(groundset=None):
         P8-: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2660,7 +2601,6 @@ def KP8(groundset=None):
         KP8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2688,7 +2628,6 @@ def Sp8(groundset=None):
         Sp8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2716,7 +2655,6 @@ def Sp8pp(groundset=None):
         Sp8=: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2742,7 +2680,6 @@ def LP8(groundset=None):
         LP8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2770,7 +2707,6 @@ def WQ8(groundset=None):
         WQ8: Quaternary matroid of rank 4 on 8 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2810,7 +2746,6 @@ def BB9(groundset=None):
         ('c', 'j')
         ('d', 'f')
         ('e', 'g')
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2846,7 +2781,6 @@ def TQ9(groundset=None):
         ....:         print(True)
         ....:         break
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2883,7 +2817,6 @@ def TQ9p(groundset=None):
         ....:         print(True)
         ....:         break
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2917,7 +2850,6 @@ def M8591(groundset=None):
         M8591: Quaternary matroid of rank 4 on 9 elements
         sage: M.is_valid()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2955,7 +2887,6 @@ def PP9(groundset=None):
         sage: M = PP9.delete('z')
         sage: M.is_isomorphic(P8p)
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -2990,7 +2921,6 @@ def BB9gDY(groundset=None):
         elements
         sage: M.is_valid()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3027,7 +2957,6 @@ def A9(groundset=None):
         A9: Quaternary matroid of rank 3 on 9 elements
         sage: M.is_valid()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3057,7 +2986,6 @@ def FN9(groundset=None):
         FN9: Quaternary matroid of rank 3 on 9 elements
         sage: M.is_valid()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3092,7 +3020,6 @@ def FX9(groundset=None):
         FX9: Quaternary matroid of rank 4 on 9 elements
         sage: M.is_valid()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3127,7 +3054,6 @@ def KR9(groundset=None):
         sage: KP8 = matroids.catalog.KP8()
         sage: KP8.is_isomorphic(KR9.delete(8))
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3167,7 +3093,6 @@ def KQ9(groundset=None):
         sage: KP8 = matroids.catalog.KP8()
         sage: KP8.is_isomorphic(KQ9.delete(8))
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3206,7 +3131,6 @@ def UG10(groundset=None):
         UG10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3238,7 +3162,6 @@ def FF10(groundset=None):
         FF10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3271,7 +3194,6 @@ def GP10(groundset=None):
         GP10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3303,7 +3225,6 @@ def FZ10(groundset=None):
         FZ10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3336,7 +3257,6 @@ def UQ10(groundset=None):
         UQ10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3368,7 +3288,6 @@ def FP10(groundset=None):
         FP10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3404,7 +3323,6 @@ def TQ10(groundset=None):
         sage: N = M.delete('d').contract('c')
         sage: N.is_isomorphic(matroids.catalog.TQ8())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3438,7 +3356,6 @@ def FY10(groundset=None):
         FY10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3477,7 +3394,6 @@ def PP10(groundset=None):
         sage: M = PP10.contract('x')
         sage: M.is_isomorphic(matroids.catalog.PP9())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3511,7 +3427,6 @@ def FU10(groundset=None):
         FU10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3544,7 +3459,6 @@ def D10(groundset=None):
         D10: Quaternary matroid of rank 4 on 10 elements
         sage: M.has_minor(matroids.catalog.TQ8())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3575,7 +3489,6 @@ def UK10(groundset=None):
         UK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3607,7 +3520,6 @@ def PK10(groundset=None):
         PK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3639,7 +3551,6 @@ def GK10(groundset=None):
         GK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3671,7 +3582,6 @@ def FT10(groundset=None):
         FT10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3703,7 +3613,6 @@ def TK10(groundset=None):
         TK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3735,7 +3644,6 @@ def KT10(groundset=None):
         KT10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3767,7 +3675,6 @@ def TU10(groundset=None):
         TU10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3799,7 +3706,6 @@ def UT10(groundset=None):
         UT10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3831,7 +3737,6 @@ def FK10(groundset=None):
         FK10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3863,7 +3768,6 @@ def KF10(groundset=None):
         KF10: Quaternary matroid of rank 5 on 10 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3900,7 +3804,6 @@ def FA11(groundset=None):
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(FA11.delete(10))
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3937,7 +3840,6 @@ def FR12(groundset=None):
         FR12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -3970,7 +3872,6 @@ def GP12(groundset=None):
         GP12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4010,7 +3911,6 @@ def FQ12(groundset=None):
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(FQ12.contract('c').delete('d'))
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4050,7 +3950,6 @@ def FF12(groundset=None):
         sage: FF10 = matroids.catalog.FF10()
         sage: FF10.is_isomorphic(M.contract('c').delete('d'))
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4085,7 +3984,6 @@ def FZ12(groundset=None):
         FZ12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4118,7 +4016,6 @@ def UQ12(groundset=None):
         UQ12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4151,7 +4048,6 @@ def FP12(groundset=None):
         FP12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4184,7 +4080,6 @@ def FS12(groundset=None):
         FS12: Quaternary matroid of rank 5 on 12 elements
         sage: M.rank()
         5
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4216,7 +4111,6 @@ def UK12(groundset=None):
         UK12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4249,7 +4143,6 @@ def UA12(groundset=None):
         UA12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4282,7 +4175,6 @@ def AK12(groundset=None):
         AK12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4315,7 +4207,6 @@ def FK12(groundset=None):
         FK12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4348,7 +4239,6 @@ def KB12(groundset=None):
         KB12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4381,7 +4271,6 @@ def AF12(groundset=None):
         AF12: Quaternary matroid of rank 6 on 12 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4414,7 +4303,6 @@ def NestOfTwistedCubes(groundset=None):
         NestOfTwistedCubes: Matroid of rank 6 on 12 elements with 57 circuits
         sage: M.is_3connected()
         True
-
     """
     # utility function
     def complement(groundset, subset):
@@ -4483,7 +4371,6 @@ def XY13(groundset=None):
         XY13: Quaternary matroid of rank 6 on 13 elements
         sage: M.is_3connected()
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4523,7 +4410,6 @@ def N3(groundset=None):
         True
         sage: N3.is_kconnected(5)
         False
-
     """
     A = Matrix(
         GF(3),
@@ -4558,7 +4444,6 @@ def N3pp(groundset=None):
         N3=: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4592,7 +4477,6 @@ def UP14(groundset=None):
         UP14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4626,7 +4510,6 @@ def VP14(groundset=None):
         VP14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4660,7 +4543,6 @@ def FV14(groundset=None):
         FV14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         False
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4694,7 +4576,6 @@ def OW14(groundset=None):
         OW14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4727,7 +4608,6 @@ def FM14(groundset=None):
         FM14: Quaternary matroid of rank 7 on 14 elements
         sage: M.is_isomorphic(M.dual())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4765,7 +4645,6 @@ def FA15(groundset=None):
         FA15: Quaternary matroid of rank 7 on 15 elements
         sage: M.has_minor(matroids.catalog.N3pp())
         True
-
     """
     GF4 = GF(4, 'w')
     w = GF4('w')
@@ -4806,7 +4685,6 @@ def N4(groundset=None):
         True
         sage: N4.is_kconnected(5)
         False
-
     """
     A = Matrix(
         GF(3),
@@ -4859,7 +4737,6 @@ def NonVamos(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 72, 84.
-
     """
     CC = {
         3: ['abcd', 'abef', 'cdef', 'abgh', 'cdgh', 'efgh'],
@@ -4887,7 +4764,6 @@ def NotP8(groundset='abcdefgh'):
     REFERENCES:
 
     [Oxl1992]_, p.512 (the first edition).
-
     """
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 1, 1, -1],
@@ -4921,7 +4797,6 @@ def AG23minus(groundset=None):
     REFERENCES:
 
     [Oxl2011]_, p. 653.
-
     """
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
           3: ['abcdefgh']}
@@ -4945,7 +4820,6 @@ def P9(groundset='abcdefghi'):
 
     This is the matroid referred to as `P_9` by Oxley in his paper "The binary
     matroids with no 4-wheel minor", [Oxl1987]_.
-
     """
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 1, 0, 0, 1, 1],
@@ -4973,7 +4847,6 @@ def R9A(groundset=None):
         R9A: Matroid of rank 4 on 9 elements with 13 non-spanning circuits
         sage: M.is_valid()
         True
-
     """
     NSC = ['abch', 'abde', 'abfi', 'acdi', 'aceg', 'adgh', 'aefh', 'bcdf',
            'bdhi', 'begi', 'cehi', 'defi', 'fghi']
@@ -4997,7 +4870,6 @@ def R9B(groundset=None):
         R9B: Matroid of rank 4 on 9 elements with 13 non-spanning circuits
         sage: M.is_valid() and M.is_paving()
         True
-
     """
     NSC = ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
            'abgi', 'degi', 'bdhi', 'aehi', 'fghi']
@@ -5021,7 +4893,6 @@ def Block_9_4(groundset=None):
         sage: BD = BlockDesign(M.groundset(), list(M.nonspanning_circuits()))
         sage: BD.is_t_design(return_parameters=True)
         (True, (2, 9, 4, 3))
-
     """
     NSC = ['abcd', 'acef', 'bdef', 'cdeg', 'abfg', 'adeh', 'bcfh', 'acgh',
            'begh', 'dfgh', 'abei', 'cdfi', 'bcgi', 'adgi', 'efgi', 'bdhi',
@@ -5048,7 +4919,6 @@ def TicTacToe(groundset=None):
     REFERENCES:
 
     [Hoc]_
-
     """
     NSC = ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi', 'beghi',
            'cfghi']
@@ -5075,7 +4945,6 @@ def N1(groundset='abcdefghij'):
     REFERENCES:
 
     [Oxl2011]_, p. 554.
-
     """
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 2, 0, 0, 1, 1],
@@ -5104,7 +4973,6 @@ def Block_10_5(groundset=None):
         sage: BD = BlockDesign(M.groundset(), list(M.nonspanning_circuits()))
         sage: BD.is_t_design(return_parameters=True)
         (True, (3, 10, 5, 3))
-
     """
     NSC = ['abcde', 'acdfg', 'bdefg', 'bcdfh', 'abefh', 'abcgh', 'adegh',
            'cefgh', 'bcefi', 'adefi', 'bcdgi', 'acegi', 'abfgi', 'abdhi',
@@ -5144,7 +5012,6 @@ def Q10(groundset='abcdefghij'):
         sage: S = matroids.catalog.Q10().linear_extensions(simple=True)
         sage: [M for M in S if not M.has_line_minor(5)]
         []
-
     """
     F = GF(4, 'x')
     x = F.gens()[0]
@@ -5177,7 +5044,6 @@ def BetsyRoss(groundset=None):
         10
         sage: M.is_valid()
         True
-
     """
     NSC = ['acf', 'acg', 'adi', 'adj', 'afg', 'ahk', 'aij', 'bdg', 'bdh',
            'bef', 'bej', 'bfj', 'bgh', 'bik', 'ceh', 'cei', 'cfg', 'chi',
@@ -5205,7 +5071,6 @@ def N2(groundset='abcdefghijkl'):
     REFERENCES:
 
     [Oxl2011]_, p. 554.
-
     """
     A = Matrix(GF(3), [
         [1, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1],
@@ -5239,7 +5104,6 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
     REFERENCES:
 
     [CMO2012]_
-
     """
     A = Matrix(GF(2), [
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
@@ -5273,7 +5137,6 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # aka the Dillon Mayhew Matroid
     REFERENCES:
 
     [CMO2011]_
-
     """
     A = Matrix(GF(2), [
         [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -5308,7 +5171,6 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
     .. SEEALSO::
 
         :class:`GolayCode <sage.coding.golay_code.GolayCode>`
-
     """
     A = Matrix(GF(2), [
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -5370,7 +5232,6 @@ def CompleteGraphic(n, groundset=None):
         {0, 1, 2, 4, 5, 7}
         sage: M.is_valid()
         True
-
     """
     from sage.graphs.graph_generators import graphs
 

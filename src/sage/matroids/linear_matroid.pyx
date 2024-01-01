@@ -675,7 +675,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: R, C = M._current_rows_cols(B='abg')
             sage: (sorted(R), sorted(C))
             (['a', 'b', 'g'], ['c', 'd', 'e', 'f'])
-
         """
         if B is not None:
             self._move_current_basis(B, set())
@@ -720,7 +719,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: matrix(M._basic_representation([3, 4]))
             [3 6 2 1 0]
             [5 1 6 0 1]
-
         """
         cdef LeanMatrix A
         cdef long i
@@ -1150,7 +1148,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             True
             sage: M1.is_field_equivalent(M2)
             False
-
         """
         if self is other:
             return True
@@ -1348,7 +1345,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             ....:                             reduced_matrix=B,
             ....:                             groundset=[3, 4, 5, 6, 0, 1, 2])
             True
-
         """
         cdef LeanMatrix R = -self._reduced_representation().transpose()
         rows, cols = self._current_rows_cols()
@@ -1398,7 +1394,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: M.has_line_minor(k=4, hyperlines=[['a', 'b', 'c'],
             ....:                                   ['a', 'b', 'd' ]], certificate=True)
             (True, frozenset({'a', 'b', 'd'}))
-
         """
         try:
             if k > len(self.base_ring()) + 1:
@@ -1765,7 +1760,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             Traceback (most recent call last):
             ...
             ValueError: points a, b, c, d do not form a 4-point line in M/F
-
         """
         F = frozenset(F)
         if not F.issubset(self.groundset()):
@@ -1878,7 +1872,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             False
             sage: M._cross_ratio_test(6, set([1, 2, 1/2, -1]))
             True
-
         """
         if hyperlines is None:
             hyperlines = [F for F in self.flats(self.full_rank() - 2) if self._line_length(F) > 2]
@@ -1933,7 +1926,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             [1 0 1 0 1 0 1]
             [0 1 1 0 0 1 1]
             [0 0 0 1 1 1 1]
-
         """
         cdef LeanMatrix cl
         cdef long i
@@ -2863,7 +2855,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: OTG2 = M.orlik_terao_algebra(QQ, invariant=(action,G))
             sage: OTG1 is OTG2
             True
-
         """
         if R is None:
             R = self.base_ring()
@@ -3006,7 +2997,6 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset_list()]
@@ -3279,7 +3269,6 @@ cdef class BinaryMatroid(LinearMatroid):
             sage: R, C = M._current_rows_cols(B='abg')
             sage: (sorted(R), sorted(C))
             (['a', 'b', 'g'], ['c', 'd', 'e', 'f'])
-
         """
         if B is not None:
             self._move_current_basis(B, set())
@@ -3416,7 +3405,6 @@ cdef class BinaryMatroid(LinearMatroid):
             True
             sage: M1._is_isomorphic(matroids.Wheel(3), certificate=True)
             (True, {'b': 1, 'c': 2, 'd': 4, 'e': 3, 'f': 5, 'g': 0})
-
         """
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)
@@ -3709,7 +3697,6 @@ cdef class BinaryMatroid(LinearMatroid):
             [010001110011]
             [001011101110]
             [000111011101]
-
         """
         if self._b_invariant is None:
             self._make_invariant()
@@ -4106,7 +4093,6 @@ cdef class BinaryMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset_list()]
@@ -4385,7 +4371,6 @@ cdef class TernaryMatroid(LinearMatroid):
             sage: R, C = M._current_rows_cols(B='abg')
             sage: (sorted(R), sorted(C))
             (['a', 'b', 'g'], ['c', 'd', 'e', 'f'])
-
         """
         if B is not None:
             self._move_current_basis(B, set())
@@ -4699,8 +4684,6 @@ cdef class TernaryMatroid(LinearMatroid):
             g Ternary matroid of rank 4 on 9 elements, type 0+
             h Ternary matroid of rank 4 on 9 elements, type 0+
             j Ternary matroid of rank 4 on 9 elements, type 0+
-
-
         """
         if self._t_invariant is None:
             self._make_invariant()
@@ -4742,7 +4725,6 @@ cdef class TernaryMatroid(LinearMatroid):
             [+-+000+0+-+0]
             [++0000--++00]
             [+0+0+0-+-00-]
-
         """
         if self._t_invariant is None:
             self._make_invariant()
@@ -5036,7 +5018,6 @@ cdef class TernaryMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset_list()]
@@ -5308,7 +5289,6 @@ cdef class QuaternaryMatroid(LinearMatroid):
             sage: R, C = M._current_rows_cols(B='abcde')
             sage: (sorted(R), sorted(C))
             (['a', 'b', 'c', 'd', 'e'], ['f', 'g', 'h', 'i', 'j'])
-
         """
         if B is not None:
             self._move_current_basis(B, set())
@@ -5501,7 +5481,6 @@ cdef class QuaternaryMatroid(LinearMatroid):
             sage: M = matroids.catalog.Q10()                                     # needs sage.rings.finite_rings
             sage: M._invariant()                                                        # needs sage.rings.finite_rings
             (0, 0, 5, 5, 20, 10, 25)
-
         """
         if self._q_invariant is None:
             self._make_invariant()
@@ -5795,7 +5774,6 @@ cdef class QuaternaryMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset_list()]
@@ -6539,7 +6517,6 @@ cdef class RegularMatroid(LinearMatroid):
             sage: N = matroids.catalog.R10()
             sage: N.binary_matroid()
             Binary matroid of rank 5 on 10 elements, type (1, None)
-
         """
         A, E = self.representation(B = self.basis(), reduced = False, labels = True)
         return BinaryMatroid(matrix = A, groundset = E)
@@ -6599,7 +6576,6 @@ cdef class RegularMatroid(LinearMatroid):
             sage: N = matroids.catalog.R10()
             sage: N.ternary_matroid()
             Ternary matroid of rank 5 on 10 elements, type 4+
-
         """
         A, E = self.representation(B = self.basis(), reduced = False, labels = True)
         return TernaryMatroid(matrix = A, groundset = E)
@@ -6748,7 +6724,6 @@ cdef class RegularMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
-
         """
         d = self._relabel_map(l)
         E = [d[x] for x in self.groundset_list()]

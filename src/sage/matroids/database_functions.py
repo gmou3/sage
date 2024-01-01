@@ -9,7 +9,6 @@ typing ``matroids.`` + :kbd:`Tab`.
 AUTHORS:
 
 - Giorgos Mousa (2023-12-08): initial version
-
 """
 
 # ****************************************************************************
@@ -111,7 +110,6 @@ def AllMatroids(n, r=None, type="all"):
         ....:             assert len(list(matroids.AllMatroids(n + 7, r + 3, "unorientable"))) == unorientable[r][n]
         ....:             for M in matroids.AllMatroids(n + 7, r + 3, "unorientable"):
         ....:                 assert M.is_valid()
-
     """
     from sage.matroids.constructor import Matroid
     from sage.env import SAGE_EXTCODE
@@ -206,7 +204,6 @@ def OxleyMatroids():
 
         sage: for M in matroids.OxleyMatroids():  # long time
         ....:     assert M.is_valid()
-
     """
     from sage.matroids.database_matroids import (
         U24, U25, U35, K4, Whirl3, Q6, P6, U36, R6,
@@ -257,7 +254,6 @@ def BrettellMatroids():
 
         sage: for M in matroids.BrettellMatroids():
         ....:     assert M.is_valid()
-
     """
     from sage.matroids.database_matroids import (
         RelaxedNonFano, TippedFree3spike,
@@ -312,7 +308,6 @@ def VariousMatroids():
 
         sage: for M in matroids.VariousMatroids():
         ....:     assert M.is_valid()
-
     """
     from sage.matroids.database_matroids import (
         NonVamos, NotP8, AG23minus,
@@ -351,7 +346,6 @@ def rename_and_relabel(M, name=None, groundset=None):
     OUTPUT:
 
     a matroid
-
     """
     if groundset is not None:
         if len(groundset) != len(M.groundset()):
