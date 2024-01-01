@@ -165,7 +165,7 @@ cdef class CircuitsMatroid(Matroid):
 
         OUTPUT:
 
-        a Boolean
+        boolean
         """
         I = set(F)
         s = len(F)
@@ -227,12 +227,12 @@ cdef class CircuitsMatroid(Matroid):
         INPUT:
 
         - ``other`` -- a matroid
-        - ``certificate`` -- a Boolean (optional)
+        - ``certificate`` -- boolean (optional)
 
         OUTPUT:
 
-        a Boolean,
-        and, if certificate = True, a dictionary giving the isomorphism or None
+        boolean, and, if certificate = True, a dictionary giving the
+        isomorphism or None
 
         .. NOTE::
 
@@ -617,7 +617,7 @@ cdef class CircuitsMatroid(Matroid):
 
         OUTPUT:
 
-        a Boolean
+        boolean
 
         EXAMPLES::
 

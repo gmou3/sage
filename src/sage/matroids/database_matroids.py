@@ -2074,7 +2074,7 @@ def Z(r, t=True, groundset=None):
     INPUT:
 
     - ``r`` -- an integer (`r \ge 3`); the rank of the spike
-    - ``t`` -- a Boolean (default: ``True``); whether the spike is tipped
+    - ``t`` -- boolean (default: ``True``); whether the spike is tipped
     - ``groundset`` -- a string (optional); the groundset of the matroid
 
     OUTPUT:
@@ -2180,7 +2180,7 @@ def Spike(r, t=True, C3=[], groundset=None):
     INPUT:
 
     - ``r`` -- an integer (`r \ge 3`); the rank of the spike
-    - ``t`` -- a boolean (default: ``True``); whether the spike is tipped
+    - ``t`` -- boolean (default: ``True``); whether the spike is tipped
     - ``C3`` -- a list (default: ``[]``); a list of extra nonspanning circuits.
       The default (i.e. the empty list) results in a free `r`-spike
     - ``groundset`` -- a string (optional); the groundset of the matroid

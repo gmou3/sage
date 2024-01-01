@@ -656,8 +656,8 @@ def posdict_is_sane(M1, pos_dict):
 
     OUTPUT:
 
-    A boolean that is ``True`` if posdict indeed has all the required elements
-    to plot the geometric elements, otherwise ``False``.
+    boolean; ``True`` if posdict has all the required elements to plot the
+    geometric elements, otherwise ``False``.
 
     EXAMPLES::
 

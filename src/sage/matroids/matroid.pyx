@@ -5324,7 +5324,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``k`` -- a integer greater or equal to 1.
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is k-connected,
           and ``False, X`` otherwise, where ``X`` is a `<k`-separation
 
@@ -5453,7 +5453,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
         - ``algorithm`` -- (default: ``None``); specify which algorithm
@@ -5529,7 +5529,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
         - ``algorithm`` -- (default: ``None``); specify which algorithm
@@ -5580,7 +5580,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -5709,7 +5709,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -5787,7 +5787,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
 
@@ -6043,7 +6043,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -6296,7 +6296,7 @@ cdef class Matroid(SageObject):
         - ``randomized_tests`` -- (default: 1) an integer; the number of
           times a certain necessary condition for being binary is tested,
           using randomization
-        - ``verify`` -- (default: ``True``), a Boolean; if ``True``,
+        - ``verify`` -- (default: ``True``), boolean; if ``True``,
           any output will be a binary matroid representing ``self``; if
           ``False``, any output will represent ``self`` if and only if the
           matroid is binary
@@ -6355,7 +6355,7 @@ cdef class Matroid(SageObject):
 
         OUTPUT:
 
-        A Boolean.
+        boolean.
 
         ALGORITHM:
 
@@ -6481,7 +6481,7 @@ cdef class Matroid(SageObject):
         - ``randomized_tests`` -- (default: 1) an integer; the number of
           times a certain necessary condition for being ternary is tested,
           using randomization
-        - ``verify`` -- (default: ``True``), a Boolean; if ``True``,
+        - ``verify`` -- (default: ``True``), boolean; if ``True``,
           any output will be a ternary matroid representing ``self``; if
           ``False``, any output will represent ``self`` if and only if the
           matroid is ternary
@@ -6540,7 +6540,7 @@ cdef class Matroid(SageObject):
 
         OUTPUT:
 
-        A Boolean.
+        boolean.
 
         ALGORITHM:
 
@@ -6611,7 +6611,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``C`` -- a circuit
-        - ``certificate`` -- (default: ``False``) a boolean, if ``True``
+        - ``certificate`` -- (default: ``False``) boolean, if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
           together with ``x``, if ``False`` return ``False, None``
@@ -6663,7 +6663,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``C`` -- a circuit
-        - ``certificate`` -- (default: ``False``) a boolean, if ``True``
+        - ``certificate`` -- (default: ``False``) boolean, if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
           together with ``x``, if ``False`` return ``False, None``
@@ -8045,7 +8045,7 @@ cdef class Matroid(SageObject):
             - ``2``: Force directed (Not yet implemented).
 
         - ``pos_dict``: A dictionary mapping ground set elements to their (x,y) positions.
-        - ``save_pos``: A boolean indicating that point placements (either internal or user provided) and
+        - ``save_pos``: boolean indicating that point placements (either internal or user provided) and
           line orders (if provided) will be cached in the matroid (``M._cached_info``) and can be used for
           reproducing the geometric representation during the same session
 
@@ -8105,7 +8105,7 @@ cdef class Matroid(SageObject):
             - ``2``: Force directed (Not yet implemented).
 
         - ``pos_dict`` -- A dictionary mapping ground set elements to their (x,y) positions.
-        - ``save_pos`` -- A boolean indicating that point placements (either internal or user provided) and
+        - ``save_pos`` -- boolean indicating that point placements (either internal or user provided) and
           line orders (if provided) will be cached in the matroid (``M._cached_info``) and can be used for
           reproducing the geometric representation during the same session
         - ``lims`` -- A list of 4 elements ``[xmin,xmax,ymin,ymax]``

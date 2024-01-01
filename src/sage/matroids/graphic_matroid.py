@@ -543,7 +543,7 @@ class GraphicMatroid(Matroid):
 
         - ``contractions`` -- frozenset; subset of ``self.groundset()`` to be
           contracted
-        -  ``deletions`` -- frozenset; subset of ``self.groundset()`` to be
+        - ``deletions`` -- frozenset; subset of ``self.groundset()`` to be
           deleted
 
         Assumptions: contractions are independent, deletions are coindependent,
@@ -753,7 +753,7 @@ class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        boolean.
+        boolean
 
         EXAMPLES::
 
@@ -1031,7 +1031,7 @@ class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        boolean.
+        boolean
 
         EXAMPLES::
 

@@ -2299,7 +2299,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         INPUT:
 
         - ``F`` -- (default: ``self.groundset()``) a subset of the groundset.
-        - ``simple`` -- (default: ``False``) a boolean variable.
+        - ``simple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2399,7 +2399,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         INPUT:
 
         - ``F`` -- (default: ``self.groundset()``) a subset of the groundset.
-        - ``cosimple`` -- (default: ``False``) a boolean variable.
+        - ``cosimple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2453,7 +2453,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``element`` -- (default: ``None``) the name of the new element of
           the groundset.
         - ``F`` -- (default: ``None``) a subset of the ground set.
-        - ``simple`` -- (default: ``False``) a boolean variable.
+        - ``simple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2521,7 +2521,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``element`` -- (default: ``None``) the name of the new element of
           the groundset.
         - ``F`` -- (default: ``None``) a subset of the ground set.
-        - ``cosimple`` -- (default: ``False``) a boolean variable.
+        - ``cosimple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2640,7 +2640,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -2719,7 +2719,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
 
@@ -3943,7 +3943,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -4864,7 +4864,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -6531,7 +6531,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -6590,7 +6590,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 

@@ -1,12 +1,12 @@
 r"""
-Circuits matroids
+Flats matroids
 
 Matroids are characterized by a set of flats, which are sets invariant under
 closure. The FlatsMatroid class implements matroids using this information as
 data.
 
-A ``FlatsMatroid`` can be created from another matroid or from a set of flats.
-For a full description of allowed inputs, see
+A ``FlatsMatroid`` can be created from another matroid or from a dictionary of
+flats. For a full description of allowed inputs, see
 :class:`below <sage.matroids.flats_matroid.FlatsMatroid>`. It is
 recommended to use the :func:`Matroid() <sage.matroids.constructor.Matroid>`
 function for a more flexible construction of a ``FlatsMatroid``. For direct
@@ -22,8 +22,7 @@ TESTS::
 
     sage: from sage.matroids.flats_matroid import FlatsMatroid
     sage: M = FlatsMatroid(matroids.catalog.Fano())
-    sage: # TestSuite(M).run()
-
+    sage: TestSuite(M).run()
 """
 
 # ****************************************************************************
@@ -49,20 +48,19 @@ cdef class FlatsMatroid(Matroid):
 
     - ``M`` -- a matroid (default: ``None``)
     - ``groundset`` -- a list (default: ``None``); the groundset of the matroid
-    - ``circuits`` -- a list (default: ``None``); the collection of circuits of
-      the matroid
+    - ``flats`` -- a list (default: ``None``); the collection of flats of the
+      matroid
 
     OUTPUT:
 
     - If the input is a matroid ``M``, return a ``FlatsMatroid`` instance
       representing ``M``.
-    - Otherwise, return a ``FlatsMatroid`` instance based on the
-      ``groundset`` and ``circuits``.
+    - Otherwise, return a ``FlatsMatroid`` instance based on the ``groundset``
+      and ``flats``.
 
     .. NOTE::
 
         For a more flexible means of input, use the ``Matroid()`` function.
-
     """
 
     # NECESSARY (__init__, groundset, _rank)
@@ -172,12 +170,12 @@ cdef class FlatsMatroid(Matroid):
         INPUT:
 
         - ``other`` -- a matroid
-        - ``certificate`` -- a Boolean (optional)
+        - ``certificate`` -- boolean (optional)
 
         OUTPUT:
 
-        a Boolean,
-        and, if certificate = True, a dictionary giving the isomorphism or None
+        boolean, and, if certificate = True, a dictionary giving the
+        isomorphism or None
 
         .. NOTE::
 
@@ -186,8 +184,8 @@ cdef class FlatsMatroid(Matroid):
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)
         N = FlatsMatroid(other)
-        flats_self = [F for i in self._F for F in self._F[i]]
-        flats_other = [F for i in N._F for F in N._F[i]]
+        flats_self = frozenset([F for i in self._F for F in self._F[i]])
+        flats_other = frozenset([F for i in N._F for F in N._F[i]])
         SS = SetSystem(list(self._groundset), flats_self)
         OS = SetSystem(list(N._groundset), flats_other)
         return SS._isomorphism(OS) is not None
@@ -200,7 +198,8 @@ cdef class FlatsMatroid(Matroid):
         """
         Return a string representation of the matroid.
         """
-        return Matroid._repr_(self) + " with " + str(len(self._F)) + " flats"
+        flats_num = len([F for i in self._F for F in self._F[i]])
+        return Matroid._repr_(self) + " with " + str(flats_num) + " flats"
 
 
     # COMPARISON
@@ -222,15 +221,17 @@ cdef class FlatsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Vamos()
-            sage: N = matroids.catalog.Vamos()
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.catalog.Vamos())
+            sage: N = FlatsMatroid(matroids.catalog.Vamos())
             sage: hash(M) == hash(N)
             True
-            sage: O = matroids.catalog.NonVamos()
+            sage: O = FlatsMatroid(matroids.catalog.NonVamos())
             sage: hash(M) == hash(O)
             False
         """
-        return hash(tuple([self.groundset(), frozenset(self._C)]))
+        flats = frozenset([F for i in self._F for F in self._F[i]])
+        return hash(tuple([self._groundset, flats]))
 
     def __richcmp__(left, right, int op):
         r"""
@@ -243,8 +244,9 @@ cdef class FlatsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Pappus()
-            sage: N = matroids.catalog.NonPappus()
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.catalog.Pappus())
+            sage: N = FlatsMatroid(matroids.catalog.NonPappus())
             sage: M == N
             False
             sage: N = Matroid(M.bases())
@@ -330,16 +332,13 @@ cdef class FlatsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Vamos()
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.catalog.Vamos())
             sage: M == loads(dumps(M))  # indirect doctest
             True
             sage: M.reset_name()
             sage: loads(dumps(M))
-            Matroid of rank 4 on 8 elements with circuit-closures
-            {3: {{'a', 'b', 'c', 'd'}, {'a', 'b', 'e', 'f'},
-                 {'a', 'b', 'g', 'h'}, {'c', 'd', 'e', 'f'},
-                 {'e', 'f', 'g', 'h'}},
-             4: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}
+            Matroid of rank 4 on 8 elements with 79 flats
         """
         import sage.matroids.unpickling
         data = (self._groundset, self._F, self.get_custom_name())
@@ -430,13 +429,20 @@ cdef class FlatsMatroid(Matroid):
 
         OUTPUT:
 
-        a Boolean
+        boolean
+
+        EXAMPLES:
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.catalog.NonVamos())
+            sage: M.is_valid()
+            True
         """
         E_flat = False
         for i in self._F:
-            for F1 in self._F[i]:
-                if F1 == self._groundset:
-                    E_flats = True
+            for F in self._F[i]:
+                if F == self._groundset:
+                    E_flat = True
                     break
         if not E_flat:
             return False
@@ -449,7 +455,7 @@ cdef class FlatsMatroid(Matroid):
                             for e in F1 ^ self._groundset:
                                 cnt = 0
                                 for F2 in self._F[j]:
-                                    if F2 >= F1 | e:
+                                    if F2 >= F1 | set([e]):
                                         cnt += 1
                                 if cnt != 1:
                                     return False
@@ -463,4 +469,5 @@ cdef class FlatsMatroid(Matroid):
                                             break
                             if not flag:
                                 return False
+
         return True
