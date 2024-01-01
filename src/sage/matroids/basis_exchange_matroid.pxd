@@ -76,7 +76,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
     cpdef nonspanning_circuits(self) noexcept
     cpdef cocircuits(self) noexcept
-    cpdef circuits(self) noexcept
+    cpdef circuits(self, k=*) noexcept
 
     cpdef _characteristic_setsystem(self) noexcept
     cpdef _weak_invariant(self) noexcept

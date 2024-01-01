@@ -108,16 +108,16 @@ cdef class Matroid(SageObject):
     cpdef is_valid(self) noexcept
 
     # enumeration
-    # def circuits(self) noexcept
+    cpdef circuits(self, k=*) noexcept
     cpdef nonspanning_circuits(self) noexcept
     cpdef cocircuits(self) noexcept
     cpdef noncospanning_cocircuits(self) noexcept
     cpdef circuit_closures(self) noexcept
     cpdef nonspanning_circuit_closures(self) noexcept
-    # cpdef bases(self) noexcept
+    cpdef bases(self) noexcept
     cpdef independent_sets(self) noexcept
     cpdef independent_r_sets(self, long r) noexcept
-    # cpdef nonbases(self) noexcept
+    cpdef nonbases(self) noexcept
     cpdef dependent_r_sets(self, long r) noexcept
     cpdef _extend_flags(self, flags) noexcept
     cpdef _flags(self, r) noexcept
@@ -231,5 +231,5 @@ cdef class Matroid(SageObject):
     cpdef print_bases(self) noexcept
     cpdef print_circuits(self, k=*) noexcept
     cpdef print_nonspanning_circuits(self) noexcept
-    cpdef _subset_sort(self, subsets)
+    cpdef _subset_sort(self, subsets) noexcept
     cpdef _subset_cmp(self, A, B) noexcept

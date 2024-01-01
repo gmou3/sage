@@ -121,6 +121,7 @@ import sage.matroids.matroid
 import sage.matroids.basis_exchange_matroid
 from .rank_matroid import RankMatroid
 from .circuits_matroid import CircuitsMatroid
+from .flats_matroid import FlatsMatroid
 from .circuit_closures_matroid import CircuitClosuresMatroid
 from .basis_matroid import BasisMatroid
 from .linear_matroid import (
@@ -747,9 +748,9 @@ def Matroid(groundset=None, data=None, **kwds):
     key = None
     if data is None:
         for k in ['bases', 'independent_sets', 'circuits',
-                  'nonspanning_circuits', 'graph', 'matrix', 'reduced_matrix',
-                  'rank_function', 'lex', 'revlex', 'circuit_closures',
-                  'matroid']:
+                  'nonspanning_circuits', 'flats', 'graph', 'matrix',
+                  'reduced_matrix', 'rank_function', 'lex', 'revlex',
+                  'circuit_closures', 'matroid']:
             if k in kwds:
                 data = kwds.pop(k)
                 key = k
@@ -840,6 +841,16 @@ def Matroid(groundset=None, data=None, **kwds):
             BasisMatroid(groundset=groundset, bases=B),
             nsc_defined=True
         )
+
+    # Flats
+    elif key == 'flats':
+        # Determine groundset
+        if groundset is None:
+            groundset = set()
+            for i in data:
+                for F in data[i]:
+                    groundset.update(F)
+        M = FlatsMatroid(groundset=groundset, flats=data)
 
     # Graphs:
     elif key == 'graph':

@@ -454,7 +454,36 @@ cdef class CircuitsMatroid(Matroid):
     # ENUMERATION
 
 
-    def bases(self):
+    cpdef bases(self) noexcept:
+        r"""
+        Return the bases of the matroid.
+
+        OUTPUT:
+
+        an iterable
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: M.print_bases()
+            [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
+
+        """
+        cdef SetSystem B
+        B = SetSystem(list(self.groundset()))
+        from itertools import combinations
+        for S in combinations(self._groundset, self._matroid_rank):
+            flag = True
+            for C in self.nonspanning_circuits():
+                if C <= set(S):
+                    flag = False
+                    break
+            if flag:
+                B.append(S)
+        return B
+
+    def bases_iterator(self):
         r"""
         Return the bases of the matroid.
 
@@ -480,13 +509,33 @@ cdef class CircuitsMatroid(Matroid):
             if flag:
                 yield frozenset(B)
 
-    def circuits(self, k=None):
+    cpdef circuits(self, k=None) noexcept:
         """
         Return the list of circuits of the matroid.
 
         OUTPUT:
 
         a SetSystem
+
+        """
+        cdef SetSystem C
+        C = SetSystem(list(self.groundset()))
+        if k:
+            for c in self._k_C[k]:
+                C.append(c)
+        else:
+            for i in self._k_C:
+                for c in self._k_C[i]:
+                    C.append(c)
+        return C
+
+    def circuits_iterator(self, k=None):
+        """
+        Return an iterator over the circuits of the matroid.
+
+        OUTPUT:
+
+        an iterator
 
         """
         if k:
@@ -497,7 +546,7 @@ cdef class CircuitsMatroid(Matroid):
                 for C in self._k_C[i]:
                     yield C
 
-    def nonspanning_circuits(self):
+    cpdef nonspanning_circuits(self) noexcept:
         """
         Return the list of nonspanning circuits of the matroid.
 
@@ -506,10 +555,13 @@ cdef class CircuitsMatroid(Matroid):
         a SetSystem
 
         """
+        cdef SetSystem NSC
+        NSC = SetSystem(list(self.groundset()))
         for i in self._k_C:
             if i <= self.rank():
                 for C in self._k_C[i]:
-                    yield C
+                    NSC.append(C)
+        return NSC
 
     def no_broken_circuits_sets(self, order=None):
         r"""

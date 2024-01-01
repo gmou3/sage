@@ -673,10 +673,10 @@ cdef class CircuitClosuresMatroid(Matroid):
         for i in range(self.rank()+1):
             for j in range(self.rank()+1):
                 if i <= j:
-                    for C1 in self.circuits(i):
+                    for C1 in self.circuits_iterator(i):
                         if len(C1) == 0:
                             return False
-                        for C2 in self.circuits(j):
+                        for C2 in self.circuits_iterator(j):
                             if C1 < C2:
                                 return False
                             if C1 == C2:
@@ -686,7 +686,7 @@ cdef class CircuitClosuresMatroid(Matroid):
                                 S = (set(C1) | set(C2)) - {e}
                                 for k in range(len(S)+1):
                                     if not flag:
-                                        for C3 in self.circuits(k):
+                                        for C3 in self.circuits_iterator(k):
                                             if C3 <= S:
                                                 flag = True
                                                 break

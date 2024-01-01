@@ -1830,7 +1830,7 @@ cdef class BasisExchangeMatroid(Matroid):
         NSC.resize()
         return NSC
 
-    cpdef circuits(self) noexcept:
+    cpdef circuits(self, k=None) noexcept:
         """
         Return the list of circuits of the matroid.
 
@@ -1878,7 +1878,10 @@ cdef class BasisExchangeMatroid(Matroid):
                     f = bitset_next(self._input2, f + 1)
             repeat = nxksrd(self._input, self._groundset_size, self._matroid_rank, True)
         NSC.resize()
-        return NSC
+        if k:
+            return SetSystem(list(self.groundset()), frozenset([C for C in NSC if len(C) == k]))
+        else:
+            return NSC
 
     # isomorphism
 
