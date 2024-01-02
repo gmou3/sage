@@ -519,17 +519,17 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         cdef frozenset se = frozenset([e])
         return BasisMatroid(groundset=self._E + (e,), bases=[B | se for B in self.bases()])
 
-    cpdef relabel(self, l) noexcept:
+    cpdef relabel(self, f) noexcept:
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``l[e]``,
-        where ``l`` is a given injective map. If ``e not in l`` then the
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
         identity map is assumed.
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
         OUTPUT:
 
@@ -547,7 +547,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             sage: N.is_isomorphic(M)
             True
         """
-        d = self._relabel_map(l)
+        d = self._relabel_map(f)
         E = [d[x] for x in self.groundset()]
         B = [[d[y] for y in list(x)] for x in self.bases()]
         M = BasisMatroid(groundset=E, bases=B)

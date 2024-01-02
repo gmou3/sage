@@ -204,7 +204,9 @@ class RankMatroid(Matroid):
         """
         if not isinstance(other, RankMatroid):
             return False
-        return (self.groundset() == other.groundset()) and (self._rank_function == other._rank_function)
+        grnd = self.groundset() == other.groundset()
+        rnk = self._rank_function == other._rank_function
+        return grnd and rnk
 
     def __ne__(self, other):
         """
@@ -287,8 +289,12 @@ class RankMatroid(Matroid):
             False
         """
         from copy import deepcopy
-        # Since matroids are immutable, N cannot reference itself in correct code, so no need to worry about the recursion.
-        N = RankMatroid(groundset=deepcopy(self._groundset), rank_function=deepcopy(self._rank_function))
+        # Since matroids are immutable, N cannot reference itself in correct
+        # code, so no need to worry about the recursion.
+        N = RankMatroid(
+            groundset=deepcopy(self._groundset),
+            rank_function=deepcopy(self._rank_function)
+        )
         N.rename(deepcopy(self.get_custom_name(), memo))
         return N
 
@@ -312,19 +318,23 @@ class RankMatroid(Matroid):
             this class doesn't have load/save support. Convert to another
             class, such as BasisMatroid, instead.
         """
-        raise TypeError("unfortunately, functions cannot be saved reliably, so this class doesn't have load/save support. Convert to another class, such as BasisMatroid, instead.")
+        raise TypeError(
+            "unfortunately, functions cannot be saved reliably, so this class "
+            + "doesn't have load/save support. Convert to another class, such "
+            + " as BasisMatroid, instead."
+        )
 
-    def relabel(self, l):
+    def relabel(self, f):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``l[e]``,
-        where ``l`` is a given injective map. If ``e not in l`` then the
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
         identity map is assumed.
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
         OUTPUT:
 
@@ -341,7 +351,7 @@ class RankMatroid(Matroid):
             sage: M.is_isomorphic(N)
             True
         """
-        d = self._relabel_map(l)
+        d = self._relabel_map(f)
         E = [d[x] for x in self.groundset()]
 
         def f_relabel(X):

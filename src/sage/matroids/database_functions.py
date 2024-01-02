@@ -67,37 +67,59 @@ def AllMatroids(n, r=None, type="all"):
         ....:     for M in matroids.AllMatroids(i):
         ....:         assert M.is_valid()
         sage: all = [
-        ....:     [   1,    1,    1,    1,    1,    1,    1,    1,     1,      1,     1,      1,    1],
-        ....:     [None,    1,    2,    3,    4,    5,    6,    7,     8,      9,    10,     11,   12],
-        ....:     [None, None,    1,    3,    7,   13,   23,   37,    58,     87,   128,    183,  259],
-        ....:     [None, None, None,    1,    4,   13,   38,  108,   325,   1275, 10037, 298491, None],
-        ....:     [None, None, None, None,    1,    5,   23,  108,   940, 190214,  None,   None, None],
-        ....:     [None, None, None, None, None,    1,    6,   37,   325, 190214,  None,   None, None],
-        ....:     [None, None, None, None, None, None,    1,    7,    58,   1275,  None,   None, None],
-        ....:     [None, None, None, None, None, None, None,    1,     8,     87, 10037,   None, None],
-        ....:     [None, None, None, None, None, None, None, None,     1,      9,   128, 298491, None],
-        ....:     [None, None, None, None, None, None, None, None,  None,      1,    10,    183, None],
-        ....:     [None, None, None, None, None, None, None, None,  None,   None,     1,     11,  259],
-        ....:     [None, None, None, None, None, None, None, None,  None,   None,  None,      1,   12],
-        ....:     [None, None, None, None, None, None, None, None,  None,   None,  None,   None,    1]
+        ....:     [     1,     1,      1,    1,    1,    1,    1,    1,     1,
+        ....:           1,     1,      1,    1],
+        ....:     [  None,     1,      2,    3,    4,    5,    6,    7,     8,
+        ....:           9,    10,     11,   12],
+        ....:     [  None,  None,      1,    3,    7,   13,   23,   37,    58,
+        ....:          87,   128,    183,  259],
+        ....:     [  None,  None,   None,    1,    4,   13,   38,  108,   325,
+        ....:        1275, 10037, 298491, None],
+        ....:     [  None,  None,   None, None,    1,    5,   23,  108,   940,
+        ....:      190214,  None,   None, None],
+        ....:     [  None,  None,   None, None, None,    1,    6,   37,   325,
+        ....:      190214,  None,   None, None],
+        ....:     [  None,  None,   None, None, None, None,    1,    7,    58,
+        ....:        1275,  None,   None, None],
+        ....:     [  None,  None,   None, None, None, None, None,    1,     8,
+        ....:          87, 10037,   None, None],
+        ....:     [  None,  None,   None, None, None, None, None, None,     1,
+        ....:           9,   128, 298491, None],
+        ....:     [  None,  None,   None, None, None, None, None, None,  None,
+        ....:           1,    10,    183, None],
+        ....:     [  None,  None,   None, None, None, None, None, None,  None,
+        ....:        None,     1,     11,  259],
+        ....:     [  None,  None,   None, None, None, None, None, None,  None,
+        ....:        None,  None,      1,   12],
+        ....:     [  None,  None,   None, None, None, None, None, None,  None,
+        ....:        None,  None,   None,    1]
         ....: ]
         sage: for r in range(0, 12 + 1): # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if all[r][n] and all[r][n] < 1000:
-        ....:             assert len(list(matroids.AllMatroids(n, r))) == all[r][n]
+        ....:             assert len(list(
+        ....:                 matroids.AllMatroids(n, r)
+        ....:             )) == all[r][n]
         ....:             for M in matroids.AllMatroids(n, r):
         ....:                 assert M.is_valid()
         sage: simple = [
-        ....:     [   1, None, None, None, None, None, None, None,  None,   None, None,   None, None],
-        ....:     [None,    1, None, None, None, None, None, None,  None,   None, None,   None, None],
-        ....:     [None, None,    1,    1,    1,    1,    1,    1,     1,      1,    1,      1,    1],
-        ....:     [None, None, None,    1,    2,    4,    9,   23,    68,    383, 5249, 232928, None],
-        ....:     [None, None, None, None,    1,    3,   11,   49,   617, 185981, None,   None, None]
+        ....:     [    1,  None,   None, None, None, None, None, None,  None,
+        ....:       None,  None,   None, None],
+        ....:     [ None,     1,   None, None, None, None, None, None,  None,
+        ....:       None,  None,   None, None],
+        ....:     [ None,  None,      1,    1,    1,    1,    1,    1,     1,
+        ....:          1,     1,      1,    1],
+        ....:     [ None,  None,   None,    1,    2,    4,    9,   23,    68,
+        ....:        383,  5249, 232928, None],
+        ....:     [ None,  None,   None, None,    1,    3,   11,   49,   617,
+        ....:      185981, None,   None, None]
         ....: ]
         sage: for r in range(0, 4 + 1): # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if simple[r][n] and simple[r][n] < 1000:
-        ....:             assert len(list(matroids.AllMatroids(n, r, "simple"))) == simple[r][n]
+        ....:             assert len(list(
+        ....:                 matroids.AllMatroids(n, r, "simple")
+        ....:             )) == simple[r][n]
         ....:             for M in matroids.AllMatroids(n, r, "simple"):
         ....:                 assert M.is_valid() and M.is_simple()
         sage: unorientable = [
@@ -107,8 +129,11 @@ def AllMatroids(n, r=None, type="all"):
         sage: for r in range(0, 1 + 1): # long time
         ....:     for n in range(0, 4 + 1):
         ....:         if unorientable[r][n] and unorientable[r][n] < 1000:
-        ....:             assert len(list(matroids.AllMatroids(n + 7, r + 3, "unorientable"))) == unorientable[r][n]
-        ....:             for M in matroids.AllMatroids(n + 7, r + 3, "unorientable"):
+        ....:             assert len(list(
+        ....:                 matroids.AllMatroids(n+7, r+3, "unorientable")
+        ....:             )) == unorientable[r][n]
+        ....:             for M in matroids.AllMatroids(
+        ....:                                   n+7, r+3, "unorientable"):
         ....:                 assert M.is_valid()
     """
     from sage.matroids.constructor import Matroid

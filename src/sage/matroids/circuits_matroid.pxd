@@ -22,7 +22,7 @@ cdef class CircuitsMatroid(Matroid):
 
     # isomorphism and relabeling
     cpdef _is_isomorphic(self, other, certificate=*) noexcept
-    cpdef relabel(self, l) noexcept
+    cpdef relabel(self, f) noexcept
 
     # verification
     cpdef is_valid(self) noexcept

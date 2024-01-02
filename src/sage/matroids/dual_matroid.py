@@ -191,7 +191,8 @@ class DualMatroid(Matroid):
             ['a', 'c', 'd', 'e']
             sage: M.is_independent(X)
             True
-            sage: all(M.is_dependent(X.union([y])) for y in M.groundset() if y not in X)
+            sage: all(M.is_dependent(X.union([y])) for y in M.groundset()
+            ....:     if y not in X)
             True
         """
         return self._matroid._max_coindependent(X)
@@ -266,7 +267,8 @@ class DualMatroid(Matroid):
             ['a', 'd', 'e', 'f']
             sage: M.is_coindependent(X)
             True
-            sage: all(M.is_codependent(X.union([y])) for y in M.groundset() if y not in X)
+            sage: all(M.is_codependent(X.union([y])) for y in M.groundset()
+            ....:     if y not in X)
             True
         """
         return self._matroid._max_independent(X)
@@ -382,7 +384,8 @@ class DualMatroid(Matroid):
             sage: N.rank()
             3
             sage: N
-            Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning circuits
+            Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning
+            circuits
         """
         return self._matroid
 
@@ -565,17 +568,17 @@ class DualMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_dual_matroid, (version, data)
 
-    def relabel(self, l):
+    def relabel(self, f):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``l[e]``,
-        where ``l`` is a given injective map. If ``e not in l`` then the
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
         identity map is assumed.
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
         OUTPUT:
 
@@ -592,5 +595,5 @@ class DualMatroid(Matroid):
             sage: N.is_isomorphic(matroids.catalog.Fano())
             True
         """
-        M = self._matroid.relabel(l).dual()
+        M = self._matroid.relabel(f).dual()
         return M

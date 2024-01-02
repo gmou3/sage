@@ -345,17 +345,17 @@ cdef class FlatsMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_flats_matroid, (version, data)
 
-    cpdef relabel(self, l) noexcept:
+    cpdef relabel(self, f) noexcept:
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``l[e]``,
-        where ``l`` is a given injective map. If ``e not in l`` then the
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
         identity map is assumed.
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
         OUTPUT:
 
@@ -373,7 +373,7 @@ cdef class FlatsMatroid(Matroid):
             sage: M.is_isomorphic(N)
             True
         """
-        d = self._relabel_map(l)
+        d = self._relabel_map(f)
         E = [d[x] for x in self._groundset]
         F = {}
         for i in self._F:
