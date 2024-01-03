@@ -20,6 +20,9 @@ cdef class CircuitsMatroid(Matroid):
     cpdef nonspanning_circuits(self) noexcept
     # cpdef no_broken_circuits_sets(self, order=*) noexcept
 
+    # properties
+    cpdef girth(self) noexcept
+
     # isomorphism and relabeling
     cpdef _is_isomorphic(self, other, certificate=*) noexcept
     cpdef relabel(self, f) noexcept

@@ -65,8 +65,7 @@ cdef class CircuitsMatroid(Matroid):
 
     """
 
-    # NECESSARY (__init__, groundset, _rank)
-
+    # necessary (__init__, groundset, _rank)
 
     def __init__(self, M=None, groundset=None, circuits=None, nsc_defined=False):
         """
@@ -132,8 +131,7 @@ cdef class CircuitsMatroid(Matroid):
         return len(self._max_independent(X))
 
 
-    # OPTIONAL
-
+    # optional
 
     cpdef full_rank(self) noexcept:
         r"""
@@ -439,8 +437,7 @@ cdef class CircuitsMatroid(Matroid):
         return M
 
 
-    # ENUMERATION
-
+    # enumeration
 
     cpdef bases(self) noexcept:
         r"""
@@ -555,31 +552,24 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``order`` -- a total ordering of the groundset given as a list
 
         EXAMPLES::
 
             sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
-            sage: SimplicialComplex(M.no_broken_circuits_sets())                        # needs sage.graphs
+            sage: SimplicialComplex(M.no_broken_circuits_sets())
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
-            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))             # needs sage.graphs
+            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
 
         ::
 
             sage: M = Matroid(circuits=[[1,2,3], [1,4,5], [2,3,4,5]])
-            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))             # needs sage.graphs
+            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (2, 3, 5), (2, 4, 5), (3, 4, 5)}
-
-        .. NOTE::
-
-            Sage uses the convention that a broken circuit is found by
-            removing a minimal element from a circuit. This implementation
-            reverses the provided order so that it returns n.b.c. sets under
-            the minimal-removal convention.
         """
         if order is None:
             order = sorted(self.groundset(), key=str)
@@ -606,8 +596,30 @@ cdef class CircuitsMatroid(Matroid):
                 yield B
 
 
-    # VERIFICATION
+    # properties
 
+    cpdef girth(self) noexcept:
+        r"""
+        Return the girth of the matroid.
+
+        The girth is the size of the smallest circuit. In case the matroid has
+        no circuits the girth is `\infty`.
+
+        EXAMPLES::
+
+            sage: matroids.Spike(7).girth()
+            3
+            sage: matroids.Theta(10).girth()
+            3
+
+        REFERENCES:
+
+        [Oxl2011]_, p. 327.
+        """
+        return min([i for i in self._k_C], default=float('inf'))
+
+
+    # verification
 
     cpdef is_valid(self) noexcept:
         r"""
