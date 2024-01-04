@@ -6601,6 +6601,49 @@ cdef class Matroid(SageObject):
         """
         return self.ternary_matroid(randomized_tests=randomized_tests, verify=True) is not None
 
+    cpdef is_regular(self) noexcept:
+        """
+        Return if ``self`` is regular.
+
+        A matroid is regular if and only if it has no minor isomorphic to
+        `U_{2, 4}`, `F_7`, `F_7^*`.
+
+        REFERENCES:
+
+        [Oxl2011]_, p. 373.
+        """
+        if not self.is_binary():
+            return False
+        from sage.matroids.database_matroids import U24
+        if self.has_minor(U24()):
+            return False
+        return True
+
+    cpdef is_graphic(self) noexcept:
+        """
+        Return if ``self`` is graphic.
+
+        A matroid is graphic if and only if it has no minor isomorphic to any
+        of the matroids `U_{2, 4}`, `F_7`, `F_7^*`, `M^*(K_5)`, and
+        `M^*(K_{3, 3})`.
+
+        REFERENCES:
+
+        [Oxl2011]_, p. 385.
+        """
+        from sage.matroids.database_matroids import (
+            U24,
+            Fano,
+            FanoDual,
+            K5dual,
+            K33dual
+        )
+        excluded_minors = [U24(), Fano(), FanoDual(), K5dual(), K33dual()]
+        for M in excluded_minors:
+            if self.has_minor(M):
+                return False
+        return True
+
     # matroid k-closed
 
     cpdef is_k_closed(self, int k) noexcept:
