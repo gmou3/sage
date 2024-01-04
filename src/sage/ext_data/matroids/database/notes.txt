@@ -20,7 +20,6 @@ Update History
 Due to the large size of the corresponding files, the matroids for
 
 (n=12, r=3, "all")
-(n=12, r=3, "simple")
 (n=12, r=3, "unorientable")
 
 have not been included in this sage database.

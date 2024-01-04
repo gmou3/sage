@@ -32,12 +32,14 @@ def AllMatroids(n, r=None, type="all"):
     - ``n`` -- an integer; the number of elements of the matroids
     - ``r`` -- an integer (optional, `0 \le r \le n`); the rank of the matroids
     - ``type`` -- a string (default: ``all``); the type of the matroids.
-      Either ``all``, ``simple``, or ``unorientable``. If the type is set to
-      ``simple``, or ``unorientable``, then the rank must be specified.
+      Either ``all``, ``unorientable``, or any other type for which there
+      exists an ``is_type()`` attribute. For example, the type can be
+      ``simple``, as there exists the attribute ``is_simple()``. If the type is
+      set to ``unorientable``, then the rank must be specified.
 
     OUTPUT:
 
-    an iterator of matroids
+    an iterator over matroids
 
     EXAMPLES::
 
@@ -140,45 +142,53 @@ def AllMatroids(n, r=None, type="all"):
     from sage.env import SAGE_EXTCODE
     import os
 
-    types = ["all", "simple", "unorientable"]
-    if type not in types:
-        raise ValueError(
-            "The type given is not available. " +
-            "Available types: \"all\", \"simple\", \"unorientable\"."
-        )
+    if type != "all" and type != "unorientable":
+        try:
+            getattr(Matroid(bases=[[1, 2], [1, 3]]), "is_" + type)
+        except AttributeError:
+            raise AttributeError(
+                "The type \"%s\" is not available. " % type +
+                "There needs to be an \"is_%s()\" attribute for the " % type +
+                "type to be supported."
+            )
+
     if r is None and type == "unorientable":
         raise ValueError(
-            "The rank needs to be specified for type \"%s\"." % type
+            "The rank needs to be specified for type \"%s\". " % type +
+            "Available: (n=7-11, r=3), (n=7-9, r=4)."
         )
 
     if r is None:
-        if type == "all":
-            rng = range(0, n+1)
-        else:  # type == "simple":
-            rng = range(min(2, n), n+1)
+        rng = range(0, n+1)
     else:
         rng = range(r, r+1)
+
     for r in rng:
-        if r == 0 or r == n:
-            if type == "all" or (type == "simple" and r == n):
-                M = Matroid(groundset=range(n), bases=[range(r)])
-                M.rename(
-                    type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2)
-                    + "_#" + "0" + ": " + repr(M)
-                )
+        if (r == 0 or r == n) and type != "unorientable":
+            M = Matroid(groundset=range(n), bases=[range(r)])
+            M.rename(
+                type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2)
+                + "_#" + "0" + ": " + repr(M)
+            )
+            if type == "all":
                 yield M
+            else:
+                f = getattr(M, "is_" + type)
+                if f():
+                    yield M
         else:
-            rp = min(r, n - r) if (type == "all") else r
+            rp = min(r, n - r) if (type != "unorientable") else r
+            type_file = "all" if (type != "unorientable") else "unorientable"
             file = os.path.join(
                 str(SAGE_EXTCODE), "matroids", "database",
-                type + "_matroids",
-                type + "r" + str(rp) + "n" + str(n).zfill(2) + ".txt"
-            )  # type: ignore
+                type_file + "_matroids",
+                type_file + "r" + str(rp) + "n" + str(n).zfill(2) + ".txt"
+            )
             try:
                 fin = open(file, "r")
             except FileNotFoundError:
                 raise FileNotFoundError(
-                    "(n=%s, r=%s, type=\"%s\")" % (n, rp, type)
+                    "(n=%s, r=%s, type=\"%s\")" % (n, r, type)
                     + " is not available in the database"
                 )
 
@@ -196,8 +206,14 @@ def AllMatroids(n, r=None, type="all"):
                     type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2)
                     + "_#" + str(cnt) + ": " + repr(M)
                 )
-                yield M
-                cnt += 1
+                if type == "all" or type == "unorientable":
+                    yield M
+                    cnt += 1
+                else:
+                    f = getattr(M, "is_" + type)
+                    if f():
+                        yield M
+                        cnt += 1
 
             fin.close()
 
