@@ -200,7 +200,7 @@ def AllMatroids(n, r=None, type="all"):
 
                 M = Matroid(groundset=range(n), rank=rp, revlex=line[:-1])
 
-                if type == "all" and n - r < r:
+                if type != "unorientable" and n - r < r:
                     M = M.dual()
                 M.rename(
                     type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2)

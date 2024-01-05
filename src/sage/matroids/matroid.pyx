@@ -6211,9 +6211,10 @@ cdef class Matroid(SageObject):
             sage: M.is_paving()
             False
         """
-        for C in self.circuits_iterator():
-            if len(C) < self.rank():
-                return False
+        if self.rank() >= 2:
+            for X in combinations(self.groundset(), self.rank()-1):
+                if not self._is_independent(frozenset(X)):
+                    return False
         return True
 
     cpdef is_sparse_paving(self) noexcept:

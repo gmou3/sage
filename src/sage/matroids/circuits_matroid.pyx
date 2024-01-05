@@ -130,7 +130,6 @@ cdef class CircuitsMatroid(Matroid):
         """
         return len(self._max_independent(X))
 
-
     # optional
 
     cpdef full_rank(self) noexcept:
@@ -241,9 +240,7 @@ cdef class CircuitsMatroid(Matroid):
         N = CircuitsMatroid(other)
         return self._C._isomorphism(N._C) is not None
 
-
-    # REPRESENTATION
-
+    # representation
 
     def _repr_(self):
         """
@@ -254,9 +251,7 @@ cdef class CircuitsMatroid(Matroid):
         else:
             return Matroid._repr_(self) + " with " + str(len(self._C)) + " circuits"
 
-
-    # COMPARISON
-
+    # comparison
 
     def __hash__(self):
         r"""
@@ -316,9 +311,7 @@ cdef class CircuitsMatroid(Matroid):
             return rich_to_bool(op, 1)
         return richcmp(frozenset(lt._C), frozenset(rt._C), op)
 
-
-    # COPYING, LOADING, SAVING
-
+    # copying, loading, saving
 
     def __copy__(self):
         """
@@ -435,7 +428,6 @@ cdef class CircuitsMatroid(Matroid):
             C += [[d[y] for y in list(x)] for x in self._k_C[i]]
         M = CircuitsMatroid(groundset=E, circuits=C)
         return M
-
 
     # enumeration
 
@@ -595,7 +587,6 @@ cdef class CircuitsMatroid(Matroid):
             if flag:
                 yield B
 
-
     # properties
 
     cpdef girth(self) noexcept:
@@ -618,6 +609,27 @@ cdef class CircuitsMatroid(Matroid):
         """
         return min([i for i in self._k_C], default=float('inf'))
 
+    cpdef is_paving(self) noexcept:
+        """
+        Return if ``self`` is paving.
+
+        A matroid is paving if each of its circuits has size `r` or `r+1`.
+
+        OUTPUT:
+
+        boolean
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Vamos())
+            sage: M.is_paving()
+            True
+            sage: len([1 for M in matroids.AllMatroids(8)
+            ....:     if CircuitsMatroid(M).is_paving()])
+            468
+        """
+        return self.girth() >= self.rank()
 
     # verification
 
