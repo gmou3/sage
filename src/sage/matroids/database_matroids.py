@@ -1,8 +1,8 @@
 r"""
-Documentation of matroids
+Matroids in the database
 
 This module contains the implementation and documentation for all matroids in
-the catalog, accessible through :mod:`matroids. <sage.matroids.>` and
+the database, accessible through :mod:`matroids. <sage.matroids.>` and
 :mod:`matroids.catalog. <sage.matroids.catalog>` (type those lines followed by
 :kbd:`Tab` for a list).
 
@@ -44,7 +44,7 @@ from sage.matroids.linear_matroid import (
     TernaryMatroid,
     QuaternaryMatroid
 )
-from sage.matroids.database_functions import rename_and_relabel
+from sage.matroids.database_collections import rename_and_relabel
 from sage.rings.integer_ring import ZZ
 from sage.rings.finite_rings.finite_field_constructor import GF
 from sage.schemes.projective.projective_space import ProjectiveSpace

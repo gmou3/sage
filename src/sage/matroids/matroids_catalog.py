@@ -155,7 +155,6 @@ matroids type ``matroids.catalog.`` + :kbd:`Tab`.
     - :func:`matroids.catalog.R9A <sage.matroids.database_matroids.R9A>`
     - :func:`matroids.catalog.R9B <sage.matroids.database_matroids.R9B>`
     - :func:`matroids.catalog.P9 <sage.matroids.database_matroids.P9>`
-
 """
 
 # Do not add code to this file, only imports.
@@ -164,7 +163,7 @@ from sage.misc.lazy_import import lazy_import
 
 # user-accessible:
 lazy_import(
-    "sage.matroids.database_functions",
+    "sage.matroids.database_collections",
     ("AllMatroids", "BrettellMatroids", "OxleyMatroids", "VariousMatroids"),
 )
 lazy_import(
@@ -183,6 +182,6 @@ lazy_import(
     ),
 )
 lazy_import("sage.matroids", "catalog")
-lazy_import("sage.matroids", "catalog", "named_matroids")  # alias for catalog
+lazy_import("sage.matroids", "named_matroids")
 
 del lazy_import  # delete so it doesn't appear under tab completion
