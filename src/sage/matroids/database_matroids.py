@@ -1,5 +1,5 @@
 r"""
-Matroids in the database
+Database of matroids
 
 This module contains the implementation and documentation for all matroids in
 the database, accessible through :mod:`matroids. <sage.matroids.>` and
