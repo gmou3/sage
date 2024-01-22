@@ -1362,6 +1362,10 @@ REFERENCES:
             complexes and posets. I*. Trans. of
             Amer. Math. Soc. **348** No. 4. (1996)
 
+.. [BY2016] Pauline Bailet and Masahiko Yoshinaga. *Vanishing results for the
+            Aomoto complex of real hyperplane arrangements via minimality*.
+            J. Singularities. **14** (2016), 74-90.
+
 .. [BZ01] \A. Berenstein, A. Zelevinsky
           *Tensor product multiplicities, canonical bases
           and totally positive varieties*
@@ -1386,6 +1390,9 @@ REFERENCES:
 
 .. [Car1972] \R. W. Carter. *Simple groups of Lie type*, volume 28 of
              Pure and Applied Mathematics. John Wiley and Sons, 1972.
+
+.. [Car1972a] \R. W. Carter. *Conjugacy classes in the Weyl group*, Comp. Math.
+              Vol 26 (1972) 1-59.
 
 .. [Cha2005] \F. Chapoton, *Une Base Symétrique de l'algèbre des
              Coinvariants Quasi-Symétriques*, Electronic Journal of
@@ -2353,6 +2360,9 @@ REFERENCES:
 
 .. [Dy1994] \M. J. Dyer. *Bruhat intervals, polyhedral cones and
             Kazhdan-Lusztig-Stanley polynomials*. Math.Z., 215(2):223-236, 1994.
+
+.. [Dy2001] \M. J. Dyer. *On minimal lengths of expressions of Coxeter group elements as
+            products of reflections*. Proc. Amer. Math. Soc. Vol 129 (9) (Sep 2001) pp. 2591-2595
 
 .. _ref-E:
 
@@ -4707,6 +4717,12 @@ REFERENCES:
 
 .. [MM2015] \J. Matherne and \G. Muller, *Computing upper cluster algebras*,
             Int. Math. Res. Not. IMRN, 2015, 3121-3149.
+
+.. [MMRS2022] Ruslan G. Marzo, Rafael A. Melo,  Celso C. Ribeiro and
+              Marcio C. Santos: *New formulations and branch-and-cut procedures
+              for the longest induced path problem*. Computers & Operations
+              Research. 139, 105627 (2022)
+              :doi:`10.1016/j.cor.2021.105627`
 
 .. [Moh1988] \B. Mohar, *Isoperimetric inequalities, growth, and the spectrum
              of graphs*, Linear Algebra and its Applications 103 (1988),
