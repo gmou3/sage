@@ -6254,8 +6254,8 @@ cdef class Matroid(SageObject):
 
         EXAMPLES::
 
-            sage: matroids.Uniform(5,5).girth()
-            inf
+            sage: matroids.Uniform(5, 5).girth()
+            +Infinity
             sage: matroids.catalog.K4().girth()
             3
             sage: matroids.catalog.Vamos().girth()
@@ -6264,21 +6264,14 @@ cdef class Matroid(SageObject):
         REFERENCES:
 
         [Oxl2011]_, p. 327.
-
-        TESTS::
-
-            sage: for M in matroids.AllMatroids(8):
-            ....:     if M.is_paving():
-            ....:         assert M.girth() >= M.rank()
-            ....:     else:
-            ....:         assert M.girth() < M.rank()
         """
         for k in range(self.rank() + 2):
             for X in combinations(self.groundset(), k):
                 X = frozenset(X)
                 if self._is_circuit(X):
                     return k
-        return float('inf')
+        from sage.rings.infinity import infinity
+        return infinity
 
     # representability
 

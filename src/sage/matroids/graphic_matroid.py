@@ -3,7 +3,7 @@ r"""
 Graphic Matroids
 
 Let `G = (V,E)` be a graph and let `C` be the collection of the edge sets
-of cycles in `G`. The corresponding graphic matroid `M(G)` has ground set `E`
+of cycles in `G`. The corresponding graphic matroid `M(G)` has groundset `E`
 and circuits `C`.
 
 Construction
@@ -57,8 +57,8 @@ Below are some examples of constructing a graphic matroid.
 
 Note that if there is not a complete set of unique edge labels, and
 there are no parallel edges, then vertex tuples will be used for the
-ground set. The user may wish to override this by specifying the
-ground set, as the vertex tuples will not be updated if the matroid is
+groundset. The user may wish to override this by specifying the
+groundset, as the vertex tuples will not be updated if the matroid is
 modified::
 
     sage: G = graphs.DiamondGraph()
@@ -105,10 +105,8 @@ class GraphicMatroid(Matroid):
     - ``groundset`` -- (optional) a list in 1-1 correspondence with
       ``G.edge_iterator()``
 
-    OUTPUT:
-
-    A ``GraphicMatroid`` instance where the ground set elements are
-    the edges of ``G``.
+    OUTPUT: a ``GraphicMatroid`` instance where the groundset elements are the
+    edges of ``G``
 
     .. NOTE::
 
@@ -187,13 +185,13 @@ class GraphicMatroid(Matroid):
         from sage.graphs.graph import Graph
 
         if groundset is None:
-            # Try to construct a ground set based on the edge labels.
+            # Try to construct a groundset based on the edge labels.
             # If that fails, use range() to come up with a groundset.
             groundset = G.edge_labels()
 
         groundset_set = frozenset(groundset)
 
-        # if the provided ground set is incomplete, it gets overwritten
+        # if the provided groundset is incomplete, it gets overwritten
         # invalidate `None` as label
         if None in groundset_set or len(groundset_set) != G.num_edges():
             groundset = range(G.num_edges())
@@ -211,35 +209,26 @@ class GraphicMatroid(Matroid):
             self._vertex_map[v2] = v1
             comps[-1].extend(comp)
 
-        # Construct a graph and assign edge labels corresponding to the
-        # groundset
+        # Construct a graph and assign edge labels corresponding to the groundset
         edge_list = []
         for i, e in enumerate(G.edge_iterator()):
-            # the ordering from edge_labels() respects edge_iterator() and not
-            # edges()
-            edge_list.append(
-                (self._vertex_map[e[0]], self._vertex_map[e[1]], groundset[i])
-            )
+            # the ordering from edge_labels() respects edge_iterator() and not edges()
+            edge_list.append((self._vertex_map[e[0]],
+                              self._vertex_map[e[1]], groundset[i]))
         # If the matroid is empty, have the internal graph be a single vertex
         if edge_list:
-            self._G = Graph(
-                edge_list, loops=True, multiedges=True, weighted=True,
-                data_structure='static_sparse'
-            )
+            self._G = Graph(edge_list, loops=True, multiedges=True, weighted=True,
+                            data_structure='static_sparse')
         else:
-            self._G = Graph(
-                1, loops=True, multiedges=True, weighted=True,
-                data_structure='static_sparse'
-            )
-        # Map ground set elements to graph edges:
+            self._G = Graph(1, loops=True, multiedges=True, weighted=True,
+                            data_structure='static_sparse')
+        # Map groundset elements to graph edges:
         # The edge labels should already be the elements.
-        self._groundset_edge_map = (
-            {ll: (u, v) for (u, v, ll) in self._G.edge_iterator()}
-        )
+        self._groundset_edge_map = ({l: (u, v) for (u, v, l) in self._G.edge_iterator()})
 
     def groundset(self):
         """
-        Return the ground set of the matroid as a frozenset.
+        Return the groundset of the matroid as a frozenset.
 
         EXAMPLES::
 
@@ -267,9 +256,7 @@ class GraphicMatroid(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        The rank of `X` in the matroid.
+        OUTPUT: the rank of `X` in the matroid
 
         EXAMPLES::
 
@@ -337,10 +324,8 @@ class GraphicMatroid(Matroid):
 
         Internal method for hashing purposes.
 
-        OUTPUT:
-
-        A ``frozenset`` of ``frozenset`` s containing the edge labels around
-        each vertex.
+        OUTPUT: a ``frozenset`` of frozensets containing the edge labels
+        around each vertex
 
         EXAMPLES::
 
@@ -405,10 +390,8 @@ class GraphicMatroid(Matroid):
 
         - ``other`` -- a matroid
 
-        OUTPUT:
-
-        ``True`` if ``self`` and ``other`` have the same graph; ``False``
-        otherwise.
+        OUTPUT: ``True`` if ``self`` and ``other`` have the same graph;
+        ``False`` otherwise
 
         EXAMPLES::
 
@@ -455,10 +438,8 @@ class GraphicMatroid(Matroid):
 
         - ``other`` -- a matroid
 
-        OUTPUT:
-
-        ``False`` if ``self`` and ``other`` have the same graph; ``True``
-        otherwise.
+        OUTPUT: ``False`` if ``self`` and ``other`` have the same graph;
+        ``True`` otherwise
 
         EXAMPLES::
 
@@ -549,9 +530,7 @@ class GraphicMatroid(Matroid):
         Assumptions: contractions are independent, deletions are coindependent,
         contractions and deletions are disjoint.
 
-        OUTPUT:
-
-        An instance of GraphicMatroid.
+        OUTPUT: an instance of ``GraphicMatroid``
 
         EXAMPLES::
 
@@ -561,8 +540,8 @@ class GraphicMatroid(Matroid):
             sage: M._minor(contractions=frozenset([0,1,2]))
             Graphic matroid of rank 1 on 7 elements
             sage: M = Matroid(range(15), graphs.PetersenGraph())
-            sage: N = M._minor(deletions = frozenset([0, 3, 5, 9]),
-            ....:              contractions = frozenset([1, 2, 11]))
+            sage: N = M._minor(deletions=frozenset([0, 3, 5, 9]),
+            ....:              contractions=frozenset([1, 2, 11]))
             sage: N
             Graphic matroid of rank 6 on 8 elements
         """
@@ -722,9 +701,7 @@ class GraphicMatroid(Matroid):
 
         - ``X`` -- an iterable container of ground set elements
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -751,9 +728,7 @@ class GraphicMatroid(Matroid):
 
         - ``X`` -- an iterable container of ground set elements
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -776,9 +751,7 @@ class GraphicMatroid(Matroid):
 
         - ``X`` -- an iterable container of ground set elements
 
-        OUTPUT:
-
-        ``frozenset`` instance containing a subset of the ground set.
+        OUTPUT: ``frozenset`` instance containing a subset of the groundset
 
         EXAMPLES::
 
@@ -830,9 +803,7 @@ class GraphicMatroid(Matroid):
         - ``X`` -- An object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        ``frozenset`` instance containing a subset of the ground set.
+        OUTPUT: ``frozenset`` instance containing a subset of the groundset
 
         EXAMPLES::
 
@@ -871,9 +842,7 @@ class GraphicMatroid(Matroid):
 
         - ``X`` -- an iterable container of ground set elements
 
-        OUTPUT:
-
-        ``frozenset`` instance containing a subset of the ground set.
+        OUTPUT: ``frozenset`` instance containing a subset of the groundset
 
         EXAMPLES::
 
@@ -990,9 +959,7 @@ class GraphicMatroid(Matroid):
 
         - ``X`` -- an iterable container of ground set elements
 
-        OUTPUT:
-
-        ``frozenset`` instance containing a subset of the groundset.
+        OUTPUT: ``frozenset`` instance containing a subset of the groundset
 
         EXAMPLES::
 
@@ -1029,9 +996,7 @@ class GraphicMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -1046,8 +1011,8 @@ class GraphicMatroid(Matroid):
             False
         """
         # Take the set of vertices of the edges corresponding to the elements,
-        # and check if there are other edges incident with two of those
-        # vertices. Also, there must not be loops outside of X.
+        # and check if there are other edges incident with two of those vertices.
+        # Also, there must not be loops outside of X.
         X = set(X)
         loop_labels = set([ll for (u, v, ll) in self._G.loops()])
         if not loop_labels.issubset(X):
@@ -1080,9 +1045,9 @@ class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        - If ``certificate`` is ``False``, boolean.
-        - If ``certificate`` is ``True``, a tuple containing a boolean and a
-          dictionary giving the isomorphism or None.
+        - If ``certificate`` is ``False``, boolean
+        - If ``certificate`` is ``True``, a tuple containing a boolean and a dictionary
+          giving the isomorphism or None
 
         EXAMPLES::
 
@@ -1172,9 +1137,7 @@ class GraphicMatroid(Matroid):
 
         - ``other`` -- a matroid
 
-        OUTPUT:
-
-        A dictionary, or ``None``.
+        OUTPUT: a dictionary, or ``None``
 
         EXAMPLES::
 
@@ -1208,9 +1171,7 @@ class GraphicMatroid(Matroid):
 
         Since a graph is used for the data, this is always the case.
 
-        OUTPUT:
-
-        ``True``.
+        OUTPUT: ``True``
 
         EXAMPLES::
 
@@ -1229,9 +1190,7 @@ class GraphicMatroid(Matroid):
 
         The graph will always have loops and multiedges enabled.
 
-        OUTPUT:
-
-        A Graph.
+        OUTPUT: a graph
 
         EXAMPLES::
 
@@ -1255,9 +1214,7 @@ class GraphicMatroid(Matroid):
         input graph as keys, and the corresponding vertex label after any
         merging as values.
 
-        OUTPUT:
-
-        A dictionary.
+        OUTPUT: a dictionary
 
         EXAMPLES::
 
@@ -1284,15 +1241,13 @@ class GraphicMatroid(Matroid):
 
     def groundset_to_edges(self, X):
         """
-        Return a list of edges corresponding to a set of ground set elements.
+        Return a list of edges corresponding to a set of groundset elements.
 
         INPUT:
 
-        - ``X`` -- a subset of the ground set
+        - ``X`` -- a subset of the groundset
 
-        OUTPUT:
-
-        A list of graph edges.
+        OUTPUT: a list of graph edges
 
         EXAMPLES::
 
@@ -1302,24 +1257,22 @@ class GraphicMatroid(Matroid):
             sage: M.groundset_to_edges([2,3,4,5])
             Traceback (most recent call last):
             ...
-            ValueError: input must be a subset of the ground set
+            ValueError: input must be a subset of the groundset
         """
         for x in X:
             if x not in self._groundset:
-                raise ValueError("input must be a subset of the ground set")
+                raise ValueError("input must be a subset of the groundset")
         return self._groundset_to_edges(X)
 
     def _groundset_to_edges(self, X):
         """
-        Return a list of edges corresponding to a set of ground set elements.
+        Return a list of edges corresponding to a set of groundset elements.
 
         INPUT:
 
-        - ``X`` -- a subset of the ground set
+        - ``X`` -- a subset of the groundset
 
-        OUTPUT:
-
-        A list of graph edges.
+        OUTPUT: a list of graph edges
 
         EXAMPLES::
 
@@ -1338,11 +1291,9 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- a subset of the ground set
+        - ``X`` -- a subset of the groundset
 
-        OUTPUT:
-
-        A Graph.
+        OUTPUT: a graph
 
         EXAMPLES::
 
@@ -1352,11 +1303,11 @@ class GraphicMatroid(Matroid):
             sage: M.subgraph_from_set([3,4,5])
             Traceback (most recent call last):
             ...
-            ValueError: input must be a subset of the ground set
+            ValueError: input must be a subset of the groundset
         """
         for x in X:
             if x not in self._groundset:
-                raise ValueError("input must be a subset of the ground set")
+                raise ValueError("input must be a subset of the groundset")
         return self._subgraph_from_set(X)
 
     def _subgraph_from_set(self, X):
@@ -1365,11 +1316,9 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- a subset of the ground set
+        - ``X`` -- a subset of the groundset
 
-        OUTPUT:
-
-        A Graph.
+        OUTPUT: a graph
 
         EXAMPLES::
 
@@ -1436,7 +1385,7 @@ class GraphicMatroid(Matroid):
         if element is None:
             element = newlabel(self.groundset())
         elif element in self.groundset():
-            raise ValueError("cannot extend by element already in ground set")
+            raise ValueError("cannot extend by element already in groundset")
         if v is None:
             v = u
         G = self.graph()
@@ -1471,8 +1420,8 @@ class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        An iterable containing instances of GraphicMatroid. If ``vertices`` is
-        not specified, every vertex is used.
+        An iterable containing instances of ``GraphicMatroid``. If ``vertices``
+        is not specified, every vertex is used.
 
         .. NOTE::
 
@@ -1514,7 +1463,7 @@ class GraphicMatroid(Matroid):
         if element is None:
             element = newlabel(self.groundset())
         elif element in self.groundset():
-            raise ValueError("cannot extend by element already in ground set")
+            raise ValueError("cannot extend by element already in groundset")
         if vertices is None:
             vertices = self._G.vertices(sort=False)
         elif not set(vertices).issubset(self._G.vertices(sort=False)):
@@ -1601,7 +1550,7 @@ class GraphicMatroid(Matroid):
             sage: M = M.graphic_coextension(u=2, element='a')
             Traceback (most recent call last):
             ...
-            ValueError: cannot extend by element already in ground set
+            ValueError: cannot extend by element already in groundset
             sage: M = M.graphic_coextension(u=4)
             Traceback (most recent call last):
             ...
@@ -1638,9 +1587,7 @@ class GraphicMatroid(Matroid):
             element = newlabel(self.groundset())
         else:
             if element in self.groundset():
-                raise ValueError(
-                    "cannot extend by element already in ground set"
-                )
+                raise ValueError("cannot extend by element already in groundset")
 
         if u not in self._G.vertices(sort=False):
             raise ValueError("u must be an existing vertex")
@@ -1692,8 +1639,8 @@ class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        An iterable containing instances of GraphicMatroid. If ``vertices`` is
-        not specified, the method iterates over all vertices.
+        An iterable containing instances of ``GraphicMatroid``. If ``vertices``
+        is not specified, the method iterates over all vertices.
 
         EXAMPLES::
 
@@ -1701,8 +1648,7 @@ class GraphicMatroid(Matroid):
             ....:            (2, 3), (3, 4)])
             sage: M = Matroid(range(8), G)
             sage: I = M.graphic_coextensions(vertices=[0], element='a')
-            sage: sorted([N.graph().edges_incident(0, sort=True) for N in I],
-            ....:        key=str)
+            sage: sorted([N.graph().edges_incident(0, sort=True) for N in I], key=str)
             [[(0, 1, 0), (0, 2, 1), (0, 3, 2), (0, 4, 3), (0, 5, 'a')],
              [(0, 1, 0), (0, 2, 1), (0, 3, 2), (0, 5, 'a')],
              [(0, 1, 0), (0, 2, 1), (0, 4, 3), (0, 5, 'a')],
@@ -1902,7 +1848,7 @@ class GraphicMatroid(Matroid):
         # (1) The connectivity of X is 1,
         # (2) X intersects the rest of the graph on 2 vertices
         if not set(X).issubset(self.groundset()):
-            raise ValueError("X must be a subset of the ground set")
+            raise ValueError("X must be a subset of the groundset")
         connectivity = self.connectivity(X)
         if connectivity != 1:
             raise ValueError("the input must display a 2-separation "
@@ -1949,7 +1895,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- a subset of the ground set
+        - ``X`` -- a subset of the groundset
         - ``u`` -- a vertex spanned by the edges of the elements in ``X``
         - ``v`` -- a vertex spanned by the edges of the elements not in ``X``
 
@@ -2036,7 +1982,7 @@ class GraphicMatroid(Matroid):
         # (1) The connectivity of X is 0,
         # (2) X intersects the rest of the graph on 1 vertex
         if not set(X).issubset(self.groundset()):
-            raise ValueError("X must be a subset of the ground set")
+            raise ValueError("X must be a subset of the groundset")
         connectivity = self.connectivity(X)
         if connectivity != 0:
             raise ValueError("the input must display a 1-separation")
@@ -2054,9 +2000,7 @@ class GraphicMatroid(Matroid):
         Y_vertices = set([e[0] for e in Y_edges]).union(
             [e[1] for e in Y_edges])
         if v not in Y_vertices:
-            raise ValueError(
-                "second vertex must be spanned by the rest of the graph"
-            )
+            raise ValueError("second vertex must be spanned by the rest of the graph")
         vertices = X_vertices.intersection(Y_vertices)
         if len(vertices) != 1:
             raise ValueError("too many vertices in the intersection")
