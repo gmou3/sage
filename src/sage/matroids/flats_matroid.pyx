@@ -2,27 +2,22 @@ r"""
 Flats matroids
 
 Matroids are characterized by a set of flats, which are sets invariant under
-closure. The FlatsMatroid class implements matroids using this information as
-data.
+closure. The ``FlatsMatroid`` class implements matroids using this information
+as data.
 
 A ``FlatsMatroid`` can be created from another matroid or from a dictionary of
 flats. For a full description of allowed inputs, see
 :class:`below <sage.matroids.flats_matroid.FlatsMatroid>`. It is
 recommended to use the :func:`Matroid() <sage.matroids.constructor.Matroid>`
-function for a more flexible construction of a ``FlatsMatroid``. For direct
-access to the ``FlatsMatroid`` constructor, run::
+function for a more flexible way of constructing a ``FlatsMatroid`` and other
+classes of matroids. For direct access to the ``FlatsMatroid`` constructor,
+run::
 
     sage: from sage.matroids.flats_matroid import FlatsMatroid
 
 AUTHORS:
 
 - Giorgos Mousa (2024-01-01): initial version
-
-TESTS::
-
-    sage: from sage.matroids.flats_matroid import FlatsMatroid
-    sage: M = FlatsMatroid(matroids.catalog.Fano())
-    sage: TestSuite(M).run()
 """
 
 # ****************************************************************************
@@ -51,25 +46,23 @@ cdef class FlatsMatroid(Matroid):
     - ``flats`` -- a list (default: ``None``); the collection of flats of the
       matroid
 
-    OUTPUT:
-
-    - If the input is a matroid ``M``, return a ``FlatsMatroid`` instance
-      representing ``M``.
-    - Otherwise, return a ``FlatsMatroid`` instance based on the ``groundset``
-      and ``flats``.
-
     .. NOTE::
 
         For a more flexible means of input, use the ``Matroid()`` function.
     """
 
-    # NECESSARY (__init__, groundset, _rank)
-
+    # necessary (__init__, groundset, _rank)
 
     def __init__(self, M=None, groundset=None, flats=None):
         """
         Initialization of the matroid. See class docstring for full
         documentation.
+
+        TESTS::
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.catalog.Fano())
+            sage: TestSuite(M).run()
         """
         self._F = {}
         if M is not None:
@@ -98,13 +91,12 @@ cdef class FlatsMatroid(Matroid):
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT:
-
-        a set
+        OUTPUT: a set
 
         EXAMPLES::
 
-            sage: M = matroids.Theta(2)
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.Theta(2))
             sage: sorted(M.groundset())
             ['x0', 'x1', 'y0', 'y1']
         """
@@ -121,28 +113,27 @@ cdef class FlatsMatroid(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        an integer; the rank of ``X`` in the matroid
+        OUTPUT: an integer; the rank of ``X`` in the matroid
 
         EXAMPLES::
 
-            sage: M = matroids.Theta(3)
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.Theta(3))
             sage: M._rank(['x1', 'y0', 'y2'])
             2
         """
-        min = len(self._groundset)
+        cdef frozenset XX = frozenset(X)
+        cdef int min = len(self._groundset)
         for i in self._F:
             if i < min:
                 for f in self._F[i]:
-                    if f >= X:
+                    if f >= XX:
                         min = i
                         break
         return min
 
 
-    # OPTIONAL
-
+    # optional
 
     cpdef full_rank(self) noexcept:
         r"""
@@ -151,15 +142,14 @@ cdef class FlatsMatroid(Matroid):
         The *rank* of the matroid is the size of the largest independent
         subset of the groundset.
 
-        OUTPUT:
-
-        an integer; the rank of the matroid
+        OUTPUT: an integer; the rank of the matroid
 
         EXAMPLES::
 
-            sage: M = matroids.Theta(20)
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.Theta(7))
             sage: M.full_rank()
-            20
+            7
         """
         return self._matroid_rank
 
@@ -170,12 +160,21 @@ cdef class FlatsMatroid(Matroid):
         INPUT:
 
         - ``other`` -- a matroid
-        - ``certificate`` -- boolean (optional)
+        - ``certificate`` -- boolean (default: ``False``)
 
-        OUTPUT:
 
-        boolean, and, if certificate = True, a dictionary giving the
-        isomorphism or None
+        OUTPUT: boolean, and, if ``certificate=True``, a dictionary giving the
+        isomorphism or ``None``
+
+        EXAMPLES::
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = matroids.catalog.NonDesargues()
+            sage: N = FlatsMatroid(M)
+            sage: N._is_isomorphic(M)
+            True
+            sage: N._is_isomorphic(matroids.catalog.R9())
+            False
 
         .. NOTE::
 
@@ -191,19 +190,23 @@ cdef class FlatsMatroid(Matroid):
         return SS._isomorphism(OS) is not None
 
 
-    # REPRESENTATION
-
+    # representation
 
     def _repr_(self):
         """
         Return a string representation of the matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.Uniform(6, 6)); M
+            Matroid of rank 6 on 6 elements with 64 flats
         """
-        flats_num = len([F for i in self._F for F in self._F[i]])
+        flats_num = sum(1 for i in self._F for F in self._F[i])
         return Matroid._repr_(self) + " with " + str(flats_num) + " flats"
 
 
-    # COMPARISON
-
+    # comparison
 
     def __hash__(self):
         r"""
@@ -239,8 +242,8 @@ cdef class FlatsMatroid(Matroid):
 
         We take a very restricted view on equality: the objects need to be of
         the exact same type (so no subclassing) and the internal data need to
-        be the same. For BasisMatroids, this means that the groundsets and the
-        sets of bases of the two matroids are equal.
+        be the same. For FlatsMatroids, this means that the groundsets and the
+        dictionaries of flats of the two matroids are equal.
 
         EXAMPLES::
 
@@ -267,8 +270,7 @@ cdef class FlatsMatroid(Matroid):
         return richcmp(lt._F, rt._F, op)
 
 
-    # COPYING, LOADING, SAVING
-
+    # copying, loading, saving
 
     def __copy__(self):
         """
@@ -326,9 +328,9 @@ cdef class FlatsMatroid(Matroid):
         A tuple ``(unpickle, (version, data))``, where ``unpickle`` is the
         name of a function that, when called with ``(version, data)``,
         produces a matroid isomorphic to ``self``. ``version`` is an integer
-        (currently 0) and ``data`` is a tuple ``(E, CC, name)`` where ``E`` is
-        the groundset, ``CC`` is the dictionary of circuit closures, and
-        ``name`` is a custom name.
+        (currently 0) and ``data`` is a tuple ``(E, F, name)`` where ``E`` is
+        the groundset, ``F`` is the dictionary of flats, and ``name`` is a
+        custom name.
 
         EXAMPLES::
 
@@ -357,9 +359,7 @@ cdef class FlatsMatroid(Matroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
@@ -383,91 +383,130 @@ cdef class FlatsMatroid(Matroid):
         return M
 
 
-    # ENUMERATION
-
+    # enumeration
 
     cpdef flats(self, k) noexcept:
         r"""
         Return the flats of the matroid.
 
-        OUTPUT:
-
-        a dictionary
+        OUTPUT: a SetSystem
 
         EXAMPLES::
 
             sage: from sage.matroids.flats_matroid import FlatsMatroid
-            sage: M = FlatsMatroid(matroids.Uniform(2, 4))
-            sage: M.print_bases()
+            sage: M = FlatsMatroid(matroids.Uniform(3, 4))
+            sage: sorted(M.flats(2), key=str)
+            [frozenset({0, 1}),
+             frozenset({0, 2}),
+             frozenset({0, 3}),
+             frozenset({1, 2}),
+             frozenset({1, 3}),
+             frozenset({2, 3})]
+        """
+        if k in self._F:
+            return SetSystem(list(self._groundset), self._F[k])
+        return SetSystem(list(self._groundset))
+
+    def flats_iterator(self, k):
+        r"""
+        Return an iterator over the flats of the matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.Uniform(3, 4))
+            sage: sorted([list(F) for F in M.flats_iterator(2)])
             [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
         """
         if k in self._F:
-            return self._F[k]
-        else:
-            return frozenset()
-
-    def flats_iterator(self):
-        r"""
-        Return the bases of the matroid.
-
-        OUTPUT:
-
-        an iterable
-        """
-        for F in self._F:
-            yield F
+            for F in self._F[k]:
+                yield F
 
 
-    # VERIFICATION
-
+    # verification
 
     cpdef is_valid(self) noexcept:
         r"""
-        Test if self obeys the matroid axioms.
+        Test if ``self`` obeys the matroid axioms.
 
         For a matroid defined by its flats, we check the flat axioms.
 
-        OUTPUT:
+        OUTPUT: boolean
 
-        boolean
+        EXAMPLES::
 
-        EXAMPLES:
-
+            sage: M = Matroid(flats={0: [''], 1: ['0','1']})  # missing groundset
+            sage: M.is_valid()
+            False
+            sage: M = Matroid(flats={0: [''], 1: ['0','1'], 2: ['01']})
+            sage: M.is_valid()
+            True
+            sage: M = Matroid(flats={0: [''],
+            ....:                    1: ['0','1','2','3','4','5','6','7','8','9','a','b','c'],
+            ....:                    2: ['45','46','47','4c','56','57','5c','67','6c','7c',
+            ....:                        '048','149','24a','34b','059','15a','25b','358',
+            ....:                        '06a','16b','268','369','07b','178','279','37a',
+            ....:                        '0123c','89abc'],
+            ....:                    3: ['0123456789abc']})
+            sage: M.is_valid()
+            True
             sage: from sage.matroids.flats_matroid import FlatsMatroid
             sage: M = FlatsMatroid(matroids.catalog.NonVamos())
             sage: M.is_valid()
             True
+
+        TESTS::
+
+            sage: M = Matroid(flats={1: ['0','1'], 2: ['01']})  # missing an intersection
+            sage: M.is_valid()
+            False
+            sage: M = Matroid(flats={0: [''],  # missing an extention of flat ['5'] by '6'
+            ....:                    1: ['0','1','2','3','4','5','6','7','8','9','a','b','c'],
+            ....:                    2: ['45','46','47','4c','57','5c','67','6c','7c',
+            ....:                        '048','149','24a','34b','059','15a','25b','358',
+            ....:                        '06a','16b','268','369','07b','178','279','37a',
+            ....:                        '0123c','89abc'],
+            ....:                    3: ['0123456789abc']})
+            sage: M.is_valid()
+            False
         """
+        from itertools import combinations_with_replacement
+        cdef int i, j, k, cnt
+        cdef frozenset F1, F2, F3, I12, U1e
+        cdef bint flag, E_flat
+
         E_flat = False
         for i in self._F:
-            for F in self._F[i]:
-                if F == self._groundset:
+            for F1 in self._F[i]:
+                if F1 == self._groundset:
                     E_flat = True
                     break
-        if not E_flat:
+        if not E_flat:  # the groundset must be a flat
             return False
 
-        for i in self._F:
-            for j in self._F:
-                if i <= j:
-                    for F1 in self._F[i]:
-                        if j == i+1:
-                            for e in F1 ^ self._groundset:
-                                cnt = 0
-                                for F2 in self._F[j]:
-                                    if F2 >= F1 | set([e]):
-                                        cnt += 1
-                                if cnt != 1:
-                                    return False
+        for (i, j) in combinations_with_replacement(sorted(self._F), 2):
+            for F1 in self._F[i]:
+                if j == i+1:
+                    for e in F1 ^ self._groundset:
+                        cnt = 0
+                        U1e = F1 | set([e])
                         for F2 in self._F[j]:
-                            flag = False
-                            for k in self._F:
-                                if k <= j and not flag:
-                                    for F3 in self._F[k]:
-                                        if F3 == F1 & F2:
-                                            flag = True
-                                            break
-                            if not flag:
-                                return False
+                            if F2 >= U1e:
+                                cnt += 1
+                        if cnt != 1:
+                            return False
+                for F2 in self._F[j]:
+                    flag = False
+                    I12 = F1 & F2
+                    for k in self._F:
+                        if k <= j:
+                            for F3 in self._F[k]:
+                                if F3 == I12:
+                                    flag = True
+                                    break
+                            if flag:
+                                break
+                    if not flag:
+                        return False
 
         return True
