@@ -2995,6 +2995,14 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.Fano()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset_list()]
@@ -4088,6 +4096,14 @@ cdef class BinaryMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.Fano()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset_list()]
@@ -5010,6 +5026,14 @@ cdef class TernaryMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.NonFano()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset_list()]
@@ -5763,6 +5787,14 @@ cdef class QuaternaryMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.RelaxedNonFano("abcdefg")
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset_list()]
@@ -6710,6 +6742,14 @@ cdef class RegularMatroid(LinearMatroid):
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.R10()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([M._relabel_map(f)[x] for x in S])
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset_list()]

@@ -592,6 +592,14 @@ class DualMatroid(Matroid):
             [1, 2, 3, 4, 5, 6, 7]
             sage: N.is_isomorphic(matroids.catalog.Fano())
             True
+
+        TESTS::
+
+            sage: M = matroids.catalog.FanoDual([0,1,2,3,4,5,6])
+            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g'}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         M = self._matroid.relabel(f).dual()
         return M

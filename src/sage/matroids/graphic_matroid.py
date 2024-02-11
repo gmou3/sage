@@ -2072,6 +2072,14 @@ class GraphicMatroid(Matroid):
             [1, 2, 3, 4, 6, 'e']
             sage: N.is_isomorphic(M)
             True
+
+        TESTS::
+
+            sage: M = matroids.CompleteGraphic(4)
+            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g'}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset()]

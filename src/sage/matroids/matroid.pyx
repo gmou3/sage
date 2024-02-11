@@ -8283,6 +8283,16 @@ cdef class Matroid(SageObject):
             [0, 1, 2, 3, 4, 5, 6, 7]
             sage: M.is_isomorphic(N)
             True
+
+        TESTS::
+
+            sage: from sage.matroids.rank_matroid import RankMatroid
+            sage: N = matroids.catalog.Sp8pp()
+            sage: M = RankMatroid(groundset=N.groundset(), rank_function=N.rank)
+            sage: f = {1:'a', 2:'b', 3:'c', 4:'d', 5:'e', 6:'f', 7:'g', 8:'h'}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
         from sage.matroids.rank_matroid import RankMatroid
         d = self._relabel_map(f)
