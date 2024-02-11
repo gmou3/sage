@@ -132,7 +132,6 @@ cdef class FlatsMatroid(Matroid):
                         break
         return min
 
-
     # optional
 
     cpdef full_rank(self) noexcept:
@@ -189,7 +188,6 @@ cdef class FlatsMatroid(Matroid):
         OS = SetSystem(list(N._groundset), flats_other)
         return SS._isomorphism(OS) is not None
 
-
     # representation
 
     def _repr_(self):
@@ -204,7 +202,6 @@ cdef class FlatsMatroid(Matroid):
         """
         flats_num = sum(1 for i in self._F for F in self._F[i])
         return Matroid._repr_(self) + " with " + str(flats_num) + " flats"
-
 
     # comparison
 
@@ -268,7 +265,6 @@ cdef class FlatsMatroid(Matroid):
         if lt.full_rank() != rt.full_rank():
             return rich_to_bool(op, 1)
         return richcmp(lt._F, rt._F, op)
-
 
     # copying, loading, saving
 
@@ -382,7 +378,6 @@ cdef class FlatsMatroid(Matroid):
         M = FlatsMatroid(groundset=E, flats=F)
         return M
 
-
     # enumeration
 
     cpdef flats(self, k) noexcept:
@@ -421,7 +416,6 @@ cdef class FlatsMatroid(Matroid):
         if k in self._F:
             for F in self._F[k]:
                 yield F
-
 
     # verification
 

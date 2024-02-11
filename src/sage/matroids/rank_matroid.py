@@ -93,8 +93,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = RankMatroid(range(6),
-            ....:                 rank_function=matroids.Uniform(3, 6).rank)
+            sage: M = RankMatroid(range(6), rank_function=matroids.Uniform(3, 6).rank)
             sage: M
             Matroid of rank 3 on 6 elements
         """
@@ -108,8 +107,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = RankMatroid(range(6),
-            ....:                 rank_function=matroids.Uniform(3, 6).rank)
+            sage: M = RankMatroid(range(6), rank_function=matroids.Uniform(3, 6).rank)
             sage: sorted(M.groundset())
             [0, 1, 2, 3, 4, 5]
         """
@@ -126,8 +124,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = RankMatroid(range(6),
-            ....:                 rank_function=matroids.Uniform(3, 6).rank)
+            sage: M = RankMatroid(range(6), rank_function=matroids.Uniform(3, 6).rank)
             sage: M._rank([0, 2, 4, 5])
             3
         """
@@ -152,12 +149,9 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
-            sage: N = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
-            sage: O = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 3))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
+            sage: N = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
+            sage: O = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 3))
             sage: hash(M) == hash(N)
             True
             sage: hash(M) == hash(O)
@@ -173,10 +167,8 @@ class RankMatroid(Matroid):
 
         - ``other`` -- A matroid.
 
-        OUTPUT:
-
-        ``True`` if ``self`` and ``other have the same groundset and the same
-        rank function; ``False`` otherwise.
+        OUTPUT: ``True`` if ``self`` and ``other have the same groundset and
+        the same rank function; ``False`` otherwise.
 
         .. NOTE::
 
@@ -216,10 +208,8 @@ class RankMatroid(Matroid):
 
         - ``other`` -- A matroid.
 
-        OUTPUT:
-
-        ``False`` if ``self`` and ``other have the same groundset and the
-        same rank function; ``True`` otherwise.
+        OUTPUT: ``False`` if ``self`` and ``other have the same groundset and
+        the same rank function; ``True`` otherwise.
 
         .. NOTE::
 
@@ -256,8 +246,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
             sage: N = copy(M)  # indirect doctest
             sage: M == N
             True
@@ -280,8 +269,7 @@ class RankMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
             sage: N = deepcopy(M)  # indirect doctest
             sage: M == N
             True
@@ -309,8 +297,7 @@ class RankMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
             sage: M == loads(dumps(M))  # indirect doctest
             Traceback (most recent call last):
             ...
@@ -323,41 +310,3 @@ class RankMatroid(Matroid):
             + "doesn't have load/save support. Convert to another class, such "
             + " as BasisMatroid, instead."
         )
-
-    def relabel(self, f):
-        r"""
-        Return an isomorphic matroid with relabeled groundset.
-
-        The output is obtained by relabeling each element ``e`` by ``f[e]``,
-        where ``f`` is a given injective map. If ``e not in f`` then the
-        identity map is assumed.
-
-        INPUT:
-
-        - ``f`` -- a python object such that `f[e]` is the new label of `e`
-
-        OUTPUT:
-
-        a matroid
-
-        EXAMPLES::
-
-            sage: M = matroids.catalog.Sp8pp()
-            sage: sorted(M.groundset())
-            [1, 2, 3, 4, 5, 6, 7, 8]
-            sage: N = M.relabel({8:0})
-            sage: sorted(N.groundset())
-            [0, 1, 2, 3, 4, 5, 6, 7]
-            sage: M.is_isomorphic(N)
-            True
-        """
-        d = self._relabel_map(f)
-        E = [d[x] for x in self.groundset()]
-
-        def f_relabel(X):
-            d_inv = {d[x]: x for x in self.groundset()}
-            X_inv = [d_inv[x] for x in X]
-            return self._rank_function(X_inv)
-
-        M = RankMatroid(groundset=E, rank_function=f_relabel)
-        return M

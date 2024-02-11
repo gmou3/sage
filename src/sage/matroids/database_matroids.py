@@ -44,7 +44,6 @@ from sage.matroids.linear_matroid import (
     TernaryMatroid,
     QuaternaryMatroid
 )
-from sage.matroids.database_collections import rename_and_relabel
 from sage.rings.integer_ring import ZZ
 from sage.rings.finite_rings.finite_field_constructor import GF
 from sage.schemes.projective.projective_space import ProjectiveSpace
@@ -106,7 +105,7 @@ def U24(groundset='abcd'):
         True
     """
     M = Uniform(2, 4)
-    M = rename_and_relabel(M, "U(2, 4)", groundset)
+    M = _rename_and_relabel(M, "U(2, 4)", groundset)
     return M
 
 
@@ -136,7 +135,7 @@ def U25(groundset='abcde'):
         [0, 1, 2, 3, 4]
     """
     M = Uniform(2, 5)
-    M = rename_and_relabel(M, "U(2, 5)", groundset)
+    M = _rename_and_relabel(M, "U(2, 5)", groundset)
     return M
 
 
@@ -166,7 +165,7 @@ def U35(groundset='abcde'):
         [0, 1, 2, 3, 4]
     """
     M = Uniform(3, 5)
-    M = rename_and_relabel(M, "U(3, 5)", groundset)
+    M = _rename_and_relabel(M, "U(3, 5)", groundset)
     return M
 
 
@@ -207,7 +206,7 @@ def K4(groundset='abcdef'):
         [0, 1, 2, 3, 4, 5]
     """
     M = CompleteGraphic(4)
-    M = rename_and_relabel(M, "M(K4)", groundset)
+    M = _rename_and_relabel(M, "M(K4)", groundset)
     return M
 
 
@@ -249,7 +248,7 @@ def Whirl3(groundset='abcdef'):
         [0, 1, 2, 3, 4, 5]
     """
     M = Whirl(3)
-    M = rename_and_relabel(M, "Whirl(3)", groundset)
+    M = _rename_and_relabel(M, "Whirl(3)", groundset)
     return M
 
 
@@ -283,7 +282,7 @@ def Q6(groundset='abcdef'):
     x = F.gens()[0]
     A = Matrix(F, [[1, 0, 0, 1, 0, 1], [0, 1, 0, 1, 1, x], [0, 0, 1, 0, 1, 1]])
     M = QuaternaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Q6")
+    M = _rename_and_relabel(M, "Q6")
     return M
 
 
@@ -317,7 +316,7 @@ def P6(groundset=None):
     """
     CC = {2: ['abc'], 3: ['abcdef']}
     M = Matroid(groundset='abcdef', circuit_closures=CC)
-    M = rename_and_relabel(M, "P6", groundset)
+    M = _rename_and_relabel(M, "P6", groundset)
     return M
 
 
@@ -354,7 +353,7 @@ def U36(groundset='abcdef'):
         True
     """
     M = Uniform(3, 6)
-    M = rename_and_relabel(M, "U(3, 6)", groundset)
+    M = _rename_and_relabel(M, "U(3, 6)", groundset)
     return M
 
 
@@ -387,7 +386,7 @@ def R6(groundset='abcdef'):
         GF(3), [[1, 0, 0, 1, 1, 1], [0, 1, 0, 1, 2, 1], [0, 0, 1, 1, 0, 2]]
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "R6")
+    M = _rename_and_relabel(M, "R6")
     return M
 
 
@@ -437,7 +436,7 @@ def Fano(groundset='abcdefg'):
         [[1, 0, 0, 0, 1, 1, 1], [0, 1, 0, 1, 0, 1, 1], [0, 0, 1, 1, 1, 0, 1]]
     )
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Fano")
+    M = _rename_and_relabel(M, "Fano")
     return M
 
 
@@ -478,7 +477,7 @@ def FanoDual(groundset='abcdefg'):
         [0, 1, 2, 3, 4, 5, 6]
     """
     M = Fano().dual()
-    M = rename_and_relabel(M, "F7*", groundset)
+    M = _rename_and_relabel(M, "F7*", groundset)
     return M
 
 
@@ -512,7 +511,7 @@ def NonFano(groundset='abcdefg'):
         [[1, 0, 0, 0, 1, 1, 1], [0, 1, 0, 1, 0, 1, 1], [0, 0, 1, 1, 1, 0, 1]]
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "NonFano")
+    M = _rename_and_relabel(M, "NonFano")
     return M
 
 
@@ -554,7 +553,7 @@ def NonFanoDual(groundset='abcdefg'):
         True
     """
     M = NonFano().dual()
-    M = rename_and_relabel(M, "NonFano*", groundset)
+    M = _rename_and_relabel(M, "NonFano*", groundset)
     return M
 
 
@@ -584,7 +583,7 @@ def O7(groundset='abcdefg'):
         [[1, 0, 0, 1, 1, 1, 1], [0, 1, 0, 0, 1, 2, 2], [0, 0, 1, 1, 0, 1, 0]]
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "O7")
+    M = _rename_and_relabel(M, "O7")
     return M
 
 
@@ -617,7 +616,7 @@ def P7(groundset='abcdefg'):
         [[1, 0, 0, 2, 1, 1, 0], [0, 1, 0, 1, 1, 0, 1], [0, 0, 1, 1, 0, 1, 1]]
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "P7")
+    M = _rename_and_relabel(M, "P7")
     return M
 
 
@@ -661,7 +660,7 @@ def AG32(groundset='abcdefgh'):
     [Oxl2011]_, p. 645.
     """
     M = AG(3, 2)
-    M = rename_and_relabel(M, "AG(3, 2)", groundset)
+    M = _rename_and_relabel(M, "AG(3, 2)", groundset)
     return M
 
 
@@ -727,7 +726,7 @@ def AG32prime(groundset=None):
         4: ['abcdefgh'],
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "AG(3, 2)'", groundset)
+    M = _rename_and_relabel(M, "AG(3, 2)'", groundset)
     return M
 
 
@@ -779,7 +778,7 @@ def R8(groundset='abcdefgh'):
         ],
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "R8")
+    M = _rename_and_relabel(M, "R8")
     return M
 
 
@@ -828,7 +827,7 @@ def F8(groundset=None):
         4: ['abcdefgh'],
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "F8", groundset)
+    M = _rename_and_relabel(M, "F8", groundset)
     return M
 
 
@@ -877,7 +876,7 @@ def Q8(groundset=None):
         4: ['abcdefgh'],
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "Q8", groundset)
+    M = _rename_and_relabel(M, "Q8", groundset)
     return M
 
 
@@ -924,7 +923,7 @@ def L8(groundset=None):
     CC = {3: ['abfg', 'bcdg', 'defg', 'cdeh', 'aefh', 'abch', 'aceg', 'bdfh'],
           4: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "L8", groundset)
+    M = _rename_and_relabel(M, "L8", groundset)
     return M
 
 
@@ -976,7 +975,7 @@ def S8(groundset='abcdefgh'):
         ],
     )
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "S8")
+    M = _rename_and_relabel(M, "S8")
     return M
 
 
@@ -1014,7 +1013,7 @@ def Vamos(groundset=None):
     """
     CC = {3: ['abcd', 'abef', 'cdef', 'abgh', 'efgh'], 4: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "Vamos", groundset)
+    M = _rename_and_relabel(M, "Vamos", groundset)
     return M
 
 
@@ -1055,7 +1054,7 @@ def T8(groundset='abcdefgh'):
         ],
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "T8")
+    M = _rename_and_relabel(M, "T8")
     return M
 
 
@@ -1096,7 +1095,7 @@ def J(groundset='abcdefgh'):
         ],
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "J")
+    M = _rename_and_relabel(M, "J")
     return M
 
 
@@ -1135,7 +1134,7 @@ def P8(groundset='abcdefgh'):
         ],
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "P8")
+    M = _rename_and_relabel(M, "P8")
     return M
 
 
@@ -1167,7 +1166,7 @@ def P8pp(groundset=None):
     """
     NSC = ['abfh', 'bceg', 'cdfh', 'adeg', 'acef', 'bdfg', 'acgh', 'bdeh']
     M = Matroid(groundset='abcdefgh', rank=4, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "P8''", groundset)
+    M = _rename_and_relabel(M, "P8''", groundset)
     return M
 
 
@@ -1194,7 +1193,7 @@ def Wheel4(groundset='abcdefgh'):
     [Oxl2011]_, p. 651-2.
     """
     M = Wheel(4)
-    M = rename_and_relabel(M, "Wheel(4)", groundset)
+    M = _rename_and_relabel(M, "Wheel(4)", groundset)
     return M
 
 
@@ -1221,7 +1220,7 @@ def Whirl4(groundset='abcdefgh'):
     [Oxl2011]_, p. 652.
     """
     M = Whirl(4)
-    M = rename_and_relabel(M, "Whirl(4)", groundset)
+    M = _rename_and_relabel(M, "Whirl(4)", groundset)
     return M
 
 
@@ -1255,7 +1254,7 @@ def K33dual(groundset='abcdefghi'):
     G = graphs.CompleteBipartiteGraph(3, 3)
     M = Matroid(groundset=groundset, graph=G, regular=True)
     M = M.dual()
-    M = rename_and_relabel(M, "M*(K3, 3)")
+    M = _rename_and_relabel(M, "M*(K3, 3)")
     return M
 
 
@@ -1284,7 +1283,7 @@ def K33(groundset='abcdefghi'):
 
     G = graphs.CompleteBipartiteGraph(3, 3)
     M = Matroid(groundset=groundset, graph=G, regular=True)
-    M = rename_and_relabel(M, "M(K3, 3)")
+    M = _rename_and_relabel(M, "M(K3, 3)")
     return M
 
 
@@ -1315,7 +1314,7 @@ def AG23(groundset='abcdefghi'):
     [Oxl2011]_, p. 653.
     """
     M = AG(2, 3)
-    M = rename_and_relabel(M, "AG(2, 3)", groundset)
+    M = _rename_and_relabel(M, "AG(2, 3)", groundset)
     return M
 
 
@@ -1351,7 +1350,7 @@ def TernaryDowling3(groundset='abcdefghi'):
         ],
     )
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Q3(GF(3)x)")
+    M = _rename_and_relabel(M, "Q3(GF(3)x)")
     return M
 
 
@@ -1383,7 +1382,7 @@ def R9(groundset=None):
     NSC = ['abc', 'abd', 'acd', 'aef', 'agh', 'bcd', 'bfh', 'bgi',
            'ceg', 'cfi', 'deh', 'dei', 'dfg', 'dhi', 'ehi']
     M = Matroid(rank=3, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "R9", groundset)
+    M = _rename_and_relabel(M, "R9", groundset)
     return M
 
 
@@ -1418,7 +1417,7 @@ def Pappus(groundset=None):
     """
     NSC = ['abc', 'def', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi']
     M = Matroid(groundset='abcdefghi', rank=3, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "Pappus", groundset)
+    M = _rename_and_relabel(M, "Pappus", groundset)
     return M
 
 
@@ -1450,7 +1449,7 @@ def NonPappus(groundset=None):
     """
     NSC = ['abc', 'ceg', 'bfg', 'cdh', 'afh', 'bdi', 'aei', 'ghi']
     M = Matroid(groundset='abcdefghi', rank=3, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "NonPappus", groundset)
+    M = _rename_and_relabel(M, "NonPappus", groundset)
     return M
 
 
@@ -1475,7 +1474,7 @@ def K5(groundset='abcdefghij'):
     [Oxl2011]_, p. 656.
     """
     M = CompleteGraphic(5)
-    M = rename_and_relabel(M, "M(K5)", groundset)
+    M = _rename_and_relabel(M, "M(K5)", groundset)
     return M
 
 
@@ -1502,7 +1501,7 @@ def K5dual(groundset='abcdefghij'):
     """
     M = CompleteGraphic(5).dual()
     M = Matroid(circuits=list(M.circuits()))
-    M = rename_and_relabel(M, "M*(K5)", groundset)
+    M = _rename_and_relabel(M, "M*(K5)", groundset)
     return M
 
 
@@ -1562,7 +1561,7 @@ def R10(groundset='abcdefghij'):
         ],
     )
     M = RegularMatroid(A, groundset)
-    M = rename_and_relabel(M, "R10")
+    M = _rename_and_relabel(M, "R10")
     return M
 
 
@@ -1590,7 +1589,7 @@ def NonDesargues(groundset=None):
     """
     NSC = ['acj', 'aef', 'bce', 'bfj', 'bgi', 'chi', 'dfg', 'dij', 'egh']
     M = Matroid(rank=3, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "NonDesargues", groundset)
+    M = _rename_and_relabel(M, "NonDesargues", groundset)
     return M
 
 
@@ -1630,7 +1629,7 @@ def R12(groundset='abcdefghijkl'):
         ],
     )
     M = RegularMatroid(A, groundset)
-    M = rename_and_relabel(M, "R12")
+    M = _rename_and_relabel(M, "R12")
     return M
 
 
@@ -1698,7 +1697,7 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1]
     ])
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Extended Ternary Golay Code")
+    M = _rename_and_relabel(M, "Extended Ternary Golay Code")
     return M
 
 
@@ -1739,7 +1738,7 @@ def T12(groundset='abcdefghijkl'):
         ],
     )
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "T12")
+    M = _rename_and_relabel(M, "T12")
     return M
 
 
@@ -1764,7 +1763,7 @@ def PG23(groundset=None):
     [Oxl2011]_, p. 659.
     """
     M = PG(2, 3)
-    M = rename_and_relabel(M, groundset=groundset)
+    M = _rename_and_relabel(M, groundset=groundset)
     return M
 
 
@@ -1841,7 +1840,7 @@ def Wheel(r, field=None, ring=None, groundset=None):
         M = RegularMatroid(A)
     else:
         M = Matroid(A)
-    M = rename_and_relabel(M, "Wheel(" + str(r) + ")", groundset)
+    M = _rename_and_relabel(M, "Wheel(" + str(r) + ")", groundset)
     return M
 
 
@@ -1912,7 +1911,7 @@ def Whirl(r, groundset=None):
         else:
             A[i, 2 * r - 1] = 1
     M = TernaryMatroid(A)
-    M = rename_and_relabel(M, "Whirl(" + str(r) + ")", groundset)
+    M = _rename_and_relabel(M, "Whirl(" + str(r) + ")", groundset)
     return M
 
 
@@ -1966,7 +1965,7 @@ def Uniform(r, n, groundset=None):
     else:
         CC = {}
     M = Matroid(groundset=E, circuit_closures=CC)
-    M = rename_and_relabel(M, "U(" + str(r) + ", " + str(n) + ")", groundset)
+    M = _rename_and_relabel(M, "U(" + str(r) + ", " + str(n) + ")", groundset)
     return M
 
 
@@ -2011,7 +2010,7 @@ def PG(n, q, x=None, groundset=None):
     P = ProjectiveSpace(n, F)
     A = Matrix(F, [list(p) for p in list(P)]).transpose()
     M = Matroid(A)
-    M = rename_and_relabel(M, "PG(" + str(n) + ", " + str(q) + ")", groundset)
+    M = _rename_and_relabel(M, "PG(" + str(n) + ", " + str(q) + ")", groundset)
     return M
 
 
@@ -2061,7 +2060,7 @@ def AG(n, q, x=None, groundset=None):
         F, [list(p) for p in list(P) if not list(p)[0] == 0]
     ).transpose()
     M = Matroid(A)
-    M = rename_and_relabel(M, "AG(" + str(n) + ", " + str(q) + ")", groundset)
+    M = _rename_and_relabel(M, "AG(" + str(n) + ", " + str(q) + ")", groundset)
     return M
 
 
@@ -2156,7 +2155,7 @@ def Z(r, t=True, groundset=None):
         M = M.delete(2*r)
         M = M.relabel(X+Y)
         M.rename("Z_" + str(r) + "\\t: " + repr(M))
-    M = rename_and_relabel(M, groundset=groundset)
+    M = _rename_and_relabel(M, groundset=groundset)
     return M
 
 
@@ -2286,7 +2285,7 @@ def Spike(r, t=True, C3=[], groundset=None):
     free = "Free " if C3 == [] else ""
     tip = "" if t else "\\t"
     M = M if t else M.delete('t')
-    M = rename_and_relabel(M, free + str(r) + "-spike" + tip, groundset)
+    M = _rename_and_relabel(M, free + str(r) + "-spike" + tip, groundset)
     return M
 
 
@@ -2367,7 +2366,7 @@ def Theta(n, groundset=None):
                     C += [Yu + ['x'+str(s)] + ['x'+str(t)]]
 
     M = Matroid(groundset=E, circuits=C)
-    M = rename_and_relabel(M, "Theta_" + str(n), groundset)
+    M = _rename_and_relabel(M, "Theta_" + str(n), groundset)
     return M
 
 
@@ -2453,7 +2452,7 @@ def Psi(r, groundset=None):
                 NSC += [C]
 
     M = Matroid(groundset=E, rank=r, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "Psi_" + str(r), groundset)
+    M = _rename_and_relabel(M, "Psi_" + str(r), groundset)
     return M
 
 
@@ -2483,7 +2482,7 @@ def RelaxedNonFano(groundset=None):
     w = GF4('w')
     A = Matrix(GF4, [[1, 1, 0, 1], [1, 0, 1, 1], [0, 1, w, 1]])
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "F7=", groundset)
+    M = _rename_and_relabel(M, "F7=", groundset)
     return M
 
 
@@ -2507,7 +2506,7 @@ def TippedFree3spike(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 3, 5, 1, 4, 6, 2]
     )
-    M = rename_and_relabel(M, "Tipped rank-3 free spike", groundset)
+    M = _rename_and_relabel(M, "Tipped rank-3 free spike", groundset)
     return M
 
 
@@ -2531,7 +2530,7 @@ def AG23minusDY(groundset=None):
     """
     A = Matrix(GF(3), [[1, 1, 1, 1], [1, 0, 1, 2], [2, 0, 1, 2], [2, 1, 1, 0]])
     M = TernaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "Delta-Y of AG(2,3)\\e", groundset)
+    M = _rename_and_relabel(M, "Delta-Y of AG(2,3)\\e", groundset)
     return M
 
 
@@ -2556,7 +2555,7 @@ def TQ8(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 7, 5, 3, 8, 6, 4, 2]
     )
-    M = rename_and_relabel(M, "TQ8", groundset)
+    M = _rename_and_relabel(M, "TQ8", groundset)
     return M
 
 
@@ -2583,7 +2582,7 @@ def P8p(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=['a', 'c', 'b', 'f', 'd', 'e', 'g', 'h']
     )
-    M = rename_and_relabel(M, "P8-", groundset)
+    M = _rename_and_relabel(M, "P8-", groundset)
     return M
 
 
@@ -2610,7 +2609,7 @@ def KP8(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 3, 5, 6, 7, 0, 2]
     )
-    M = rename_and_relabel(M, "KP8", groundset)
+    M = _rename_and_relabel(M, "KP8", groundset)
     return M
 
 
@@ -2637,7 +2636,7 @@ def Sp8(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 2, 3, 5, 4, 6, 7, 8]
     )
-    M = rename_and_relabel(M, "Sp8", groundset)
+    M = _rename_and_relabel(M, "Sp8", groundset)
     return M
 
 
@@ -2662,7 +2661,7 @@ def Sp8pp(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 5, 6, 7, 2, 3, 4, 8]
     )
-    M = rename_and_relabel(M, "Sp8=", groundset)
+    M = _rename_and_relabel(M, "Sp8=", groundset)
     return M
 
 
@@ -2689,7 +2688,7 @@ def LP8(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=['a', 'b', 'd', 'e', 'c', 'f', 'g', 'h']
     )
-    M = rename_and_relabel(M, "LP8", groundset)
+    M = _rename_and_relabel(M, "LP8", groundset)
     return M
 
 
@@ -2716,7 +2715,7 @@ def WQ8(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 1, 3, 4, 2, 5, 6, 7]
     )
-    M = rename_and_relabel(M, "WQ8", groundset)
+    M = _rename_and_relabel(M, "WQ8", groundset)
     return M
 
 
@@ -2758,7 +2757,7 @@ def BB9(groundset=None):
         reduced_matrix=A,
         groundset=['i', 'b', 'd', 'j', 'h', 'f', 'c', 'a', 'k']
     )
-    M = rename_and_relabel(M, "BB9", groundset)
+    M = _rename_and_relabel(M, "BB9", groundset)
     return M
 
 
@@ -2793,7 +2792,7 @@ def TQ9(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 6, 0, 2, 5, 3, 7, 8]
     )
-    M = rename_and_relabel(M, "TQ9", groundset)
+    M = _rename_and_relabel(M, "TQ9", groundset)
     return M
 
 
@@ -2832,7 +2831,7 @@ def TQ9p(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 4, 7, 8, 0, 6, 5, 2, 3]
     )
-    M = rename_and_relabel(M, "TQ9'", groundset)
+    M = _rename_and_relabel(M, "TQ9'", groundset)
     return M
 
 
@@ -2860,7 +2859,7 @@ def M8591(groundset=None):
               [0, 0, 1, 1, 0]]
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "M8591", groundset)
+    M = _rename_and_relabel(M, "M8591", groundset)
     return M
 
 
@@ -2900,7 +2899,7 @@ def PP9(groundset=None):
         reduced_matrix=A,
         groundset=['a', 'c', 'b', 'f', 'd', 'e', 'g', 'h', 'z']
     )
-    M = rename_and_relabel(M, "PP9", groundset)
+    M = _rename_and_relabel(M, "PP9", groundset)
     return M
 
 
@@ -2939,7 +2938,7 @@ def BB9gDY(groundset=None):
         reduced_matrix=A,
         groundset=['c', 'd', 'i', 'f', 'h', 'a', 'j', 'k', 'b']
     )
-    M = rename_and_relabel(M, "Segment cosegment exchange on BB9", groundset)
+    M = _rename_and_relabel(M, "Segment cosegment exchange on BB9", groundset)
     return M
 
 
@@ -2968,7 +2967,7 @@ def A9(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[6, 5, 4, 1, 2, 3, 7, 8, 0]
     )
-    M = rename_and_relabel(M, "A9", groundset)
+    M = _rename_and_relabel(M, "A9", groundset)
     return M
 
 
@@ -3002,7 +3001,7 @@ def FN9(groundset=None):
         reduced_matrix=A,
         groundset=['b0', 'a', 'y', 'z', 'x', "c0", 'b', 'c', 'a0']
     )
-    M = rename_and_relabel(M, "FN9", groundset)
+    M = _rename_and_relabel(M, "FN9", groundset)
     return M
 
 
@@ -3034,7 +3033,7 @@ def FX9(groundset=None):
     )
     # M48806
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FX9", groundset)
+    M = _rename_and_relabel(M, "FX9", groundset)
     return M
 
 
@@ -3069,7 +3068,7 @@ def KR9(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[2, 4, 0, 6, 1, 5, 3, 7, 8]
     )
-    M = rename_and_relabel(M, "KR9", groundset)
+    M = _rename_and_relabel(M, "KR9", groundset)
     return M
 
 
@@ -3108,7 +3107,7 @@ def KQ9(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[5, 0, 4, 3, 2, 6, 8, 7, 1]
     )
-    M = rename_and_relabel(M, "KQ9", groundset)
+    M = _rename_and_relabel(M, "KQ9", groundset)
     return M
 
 
@@ -3145,7 +3144,7 @@ def UG10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UG10", groundset)
+    M = _rename_and_relabel(M, "UG10", groundset)
     return M
 
 
@@ -3178,7 +3177,7 @@ def FF10(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     )
-    M = rename_and_relabel(M, "FF10", groundset)
+    M = _rename_and_relabel(M, "FF10", groundset)
     return M
 
 
@@ -3208,7 +3207,7 @@ def GP10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "GP10", groundset)
+    M = _rename_and_relabel(M, "GP10", groundset)
     return M
 
 
@@ -3239,7 +3238,7 @@ def FZ10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FZ10", groundset)
+    M = _rename_and_relabel(M, "FZ10", groundset)
     return M
 
 
@@ -3271,7 +3270,7 @@ def UQ10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UQ10", groundset)
+    M = _rename_and_relabel(M, "UQ10", groundset)
     return M
 
 
@@ -3302,7 +3301,7 @@ def FP10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FP10", groundset)
+    M = _rename_and_relabel(M, "FP10", groundset)
     return M
 
 
@@ -3339,7 +3338,7 @@ def TQ10(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 6, 8, 'c', 3, 7, 'd', 2, 5, 4]
     )
-    M = rename_and_relabel(M, "TQ10", groundset)
+    M = _rename_and_relabel(M, "TQ10", groundset)
     return M
 
 
@@ -3370,7 +3369,7 @@ def FY10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FY10", groundset)
+    M = _rename_and_relabel(M, "FY10", groundset)
     return M
 
 
@@ -3411,7 +3410,7 @@ def PP10(groundset=None):
         reduced_matrix=A,
         groundset=['z', 'f', 'c', 'g', 'e', 'b', 'a', 'h', 'd', 'x']
     )
-    M = rename_and_relabel(M, "PP10", groundset)
+    M = _rename_and_relabel(M, "PP10", groundset)
     return M
 
 
@@ -3441,7 +3440,7 @@ def FU10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FU10", groundset)
+    M = _rename_and_relabel(M, "FU10", groundset)
     return M
 
 
@@ -3472,7 +3471,7 @@ def D10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "D10", groundset)
+    M = _rename_and_relabel(M, "D10", groundset)
     return M
 
 
@@ -3503,7 +3502,7 @@ def UK10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UK10", groundset)
+    M = _rename_and_relabel(M, "UK10", groundset)
     return M
 
 
@@ -3534,7 +3533,7 @@ def PK10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "PK10", groundset)
+    M = _rename_and_relabel(M, "PK10", groundset)
     return M
 
 
@@ -3565,7 +3564,7 @@ def GK10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "GK10", groundset)
+    M = _rename_and_relabel(M, "GK10", groundset)
     return M
 
 
@@ -3596,7 +3595,7 @@ def FT10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FT10", groundset)
+    M = _rename_and_relabel(M, "FT10", groundset)
     return M
 
 
@@ -3627,7 +3626,7 @@ def TK10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "TK10", groundset)
+    M = _rename_and_relabel(M, "TK10", groundset)
     return M
 
 
@@ -3658,7 +3657,7 @@ def KT10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "KT10", groundset)
+    M = _rename_and_relabel(M, "KT10", groundset)
     return M
 
 
@@ -3689,7 +3688,7 @@ def TU10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "TU10", groundset)
+    M = _rename_and_relabel(M, "TU10", groundset)
     return M
 
 
@@ -3720,7 +3719,7 @@ def UT10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UT10", groundset)
+    M = _rename_and_relabel(M, "UT10", groundset)
     return M
 
 
@@ -3751,7 +3750,7 @@ def FK10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FK10", groundset)
+    M = _rename_and_relabel(M, "FK10", groundset)
     return M
 
 
@@ -3782,7 +3781,7 @@ def KF10(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "KF10", groundset)
+    M = _rename_and_relabel(M, "KF10", groundset)
     return M
 
 
@@ -3820,7 +3819,7 @@ def FA11(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[1, 3, 4, 2, 8, 7, 9, 0, 5, 10, 6]
     )
-    M = rename_and_relabel(M, "FA11", groundset)
+    M = _rename_and_relabel(M, "FA11", groundset)
     return M
 
 
@@ -3855,7 +3854,7 @@ def FR12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FR12", groundset)
+    M = _rename_and_relabel(M, "FR12", groundset)
     return M
 
 
@@ -3887,7 +3886,7 @@ def GP12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "GP12", groundset)
+    M = _rename_and_relabel(M, "GP12", groundset)
     return M
 
 
@@ -3928,7 +3927,7 @@ def FQ12(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[7, 4, 5, 9, 2, 1, 0, 6, 'd', 'c', 8, 3]
     )
-    M = rename_and_relabel(M, "FQ12", groundset)
+    M = _rename_and_relabel(M, "FQ12", groundset)
     return M
 
 
@@ -3967,7 +3966,7 @@ def FF12(groundset=None):
     M = QuaternaryMatroid(
         reduced_matrix=A, groundset=[0, 4, 'c', 3, 5, 'd', 8, 9, 2, 7, 1, 6]
     )
-    M = rename_and_relabel(M, "FF12", groundset)
+    M = _rename_and_relabel(M, "FF12", groundset)
     return M
 
 
@@ -3999,7 +3998,7 @@ def FZ12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FZ12", groundset)
+    M = _rename_and_relabel(M, "FZ12", groundset)
     return M
 
 
@@ -4031,7 +4030,7 @@ def UQ12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UQ12", groundset)
+    M = _rename_and_relabel(M, "UQ12", groundset)
     return M
 
 
@@ -4063,7 +4062,7 @@ def FP12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FP12", groundset)
+    M = _rename_and_relabel(M, "FP12", groundset)
     return M
 
 
@@ -4094,7 +4093,7 @@ def FS12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FS12", groundset)
+    M = _rename_and_relabel(M, "FS12", groundset)
     return M
 
 
@@ -4126,7 +4125,7 @@ def UK12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UK12", groundset)
+    M = _rename_and_relabel(M, "UK12", groundset)
     return M
 
 
@@ -4158,7 +4157,7 @@ def UA12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UA12", groundset)
+    M = _rename_and_relabel(M, "UA12", groundset)
     return M
 
 
@@ -4190,7 +4189,7 @@ def AK12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "AK12", groundset)
+    M = _rename_and_relabel(M, "AK12", groundset)
     return M
 
 
@@ -4222,7 +4221,7 @@ def FK12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FK12", groundset)
+    M = _rename_and_relabel(M, "FK12", groundset)
     return M
 
 
@@ -4254,7 +4253,7 @@ def KB12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "KB12", groundset)
+    M = _rename_and_relabel(M, "KB12", groundset)
     return M
 
 
@@ -4286,7 +4285,7 @@ def AF12(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "AF12", groundset)
+    M = _rename_and_relabel(M, "AF12", groundset)
     return M
 
 
@@ -4351,7 +4350,7 @@ def NestOfTwistedCubes(groundset=None):
         },
     )
     M = Matroid(circuits=list(M.circuits()))
-    M = rename_and_relabel(M, "NestOfTwistedCubes", groundset)
+    M = _rename_and_relabel(M, "NestOfTwistedCubes", groundset)
     return M
 
 
@@ -4386,7 +4385,7 @@ def XY13(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "XY13", groundset)
+    M = _rename_and_relabel(M, "XY13", groundset)
     return M
 
 
@@ -4424,7 +4423,7 @@ def N3(groundset=None):
         ],
     )
     M = TernaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "N3", groundset)
+    M = _rename_and_relabel(M, "N3", groundset)
     return M
 
 
@@ -4460,7 +4459,7 @@ def N3pp(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "N3=", groundset)
+    M = _rename_and_relabel(M, "N3=", groundset)
     return M
 
 
@@ -4493,7 +4492,7 @@ def UP14(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "UP14", groundset)
+    M = _rename_and_relabel(M, "UP14", groundset)
     return M
 
 
@@ -4526,7 +4525,7 @@ def VP14(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "VP14", groundset)
+    M = _rename_and_relabel(M, "VP14", groundset)
     return M
 
 
@@ -4559,7 +4558,7 @@ def FV14(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FV14", groundset)
+    M = _rename_and_relabel(M, "FV14", groundset)
     return M
 
 
@@ -4592,7 +4591,7 @@ def OW14(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "OW14", groundset)
+    M = _rename_and_relabel(M, "OW14", groundset)
     return M
 
 
@@ -4624,7 +4623,7 @@ def FM14(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FM14", groundset)
+    M = _rename_and_relabel(M, "FM14", groundset)
     return M
 
 
@@ -4661,7 +4660,7 @@ def FA15(groundset=None):
         ],
     )
     M = QuaternaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "FA15", groundset)
+    M = _rename_and_relabel(M, "FA15", groundset)
     return M
 
 
@@ -4700,7 +4699,7 @@ def N4(groundset=None):
         ],
     )
     M = TernaryMatroid(reduced_matrix=A)
-    M = rename_and_relabel(M, "N4", groundset)
+    M = _rename_and_relabel(M, "N4", groundset)
     return M
 
 
@@ -4743,7 +4742,7 @@ def NonVamos(groundset=None):
         4: ['abcdefgh']
     }
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "NonVamos", groundset)
+    M = _rename_and_relabel(M, "NonVamos", groundset)
     return M
 
 
@@ -4772,7 +4771,7 @@ def NotP8(groundset='abcdefgh'):
         [0, 0, 0, 1, -1, 1, 1, 1]
     ])
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "NotP8")
+    M = _rename_and_relabel(M, "NotP8")
     return M
 
 
@@ -4801,7 +4800,7 @@ def AG23minus(groundset=None):
     CC = {2: ['abc', 'ceh', 'fgh', 'adf', 'aeg', 'cdg', 'bdh', 'bef'],
           3: ['abcdefgh']}
     M = Matroid(groundset='abcdefgh', circuit_closures=CC)
-    M = rename_and_relabel(M, "AG23minus", groundset)
+    M = _rename_and_relabel(M, "AG23minus", groundset)
     return M
 
 
@@ -4828,7 +4827,7 @@ def P9(groundset='abcdefghi'):
         [0, 0, 0, 1, 0, 0, 1, 1, 0]
     ])
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "P9")
+    M = _rename_and_relabel(M, "P9")
     return M
 
 
@@ -4851,7 +4850,7 @@ def R9A(groundset=None):
     NSC = ['abch', 'abde', 'abfi', 'acdi', 'aceg', 'adgh', 'aefh', 'bcdf',
            'bdhi', 'begi', 'cehi', 'defi', 'fghi']
     M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "R9A", groundset)
+    M = _rename_and_relabel(M, "R9A", groundset)
     return M
 
 
@@ -4874,7 +4873,7 @@ def R9B(groundset=None):
     NSC = ['abde', 'bcdf', 'aceg', 'abch', 'befh', 'cdgh', 'bcei', 'adfi',
            'abgi', 'degi', 'bdhi', 'aehi', 'fghi']
     M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "R9B", groundset)
+    M = _rename_and_relabel(M, "R9B", groundset)
     return M
 
 
@@ -4898,7 +4897,7 @@ def Block_9_4(groundset=None):
            'begh', 'dfgh', 'abei', 'cdfi', 'bcgi', 'adgi', 'efgi', 'bdhi',
            'cehi', 'afhi']
     M = Matroid(groundset='abcdefghi', rank=4, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "Block(9, 4)", groundset)
+    M = _rename_and_relabel(M, "Block(9, 4)", groundset)
     return M
 
 
@@ -4923,7 +4922,7 @@ def TicTacToe(groundset=None):
     NSC = ['abcdg', 'adefg', 'abceh', 'abcfi', 'cdefi', 'adghi', 'beghi',
            'cfghi']
     M = Matroid(groundset='abcdefghi', rank=5, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "TicTacToe", groundset)
+    M = _rename_and_relabel(M, "TicTacToe", groundset)
     return M
 
 
@@ -4954,7 +4953,7 @@ def N1(groundset='abcdefghij'):
         [0, 0, 0, 0, 1, 1, 1, 1, 2, 0]
     ])
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "N1")
+    M = _rename_and_relabel(M, "N1")
     return M
 
 
@@ -4981,7 +4980,7 @@ def Block_10_5(groundset=None):
            'abcij', 'bdeij', 'cdfij', 'adgij', 'efgij', 'aehij', 'bfhij',
            'cghij']
     M = Matroid(groundset='abcdefghij', rank=5, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "Block(10, 5)", groundset)
+    M = _rename_and_relabel(M, "Block(10, 5)", groundset)
     return M
 
 
@@ -5023,7 +5022,7 @@ def Q10(groundset='abcdefghij'):
         [0, 0, 0, 0, 1, x, 0, 0, x + 1, 1]
     ])
     M = QuaternaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Q10")
+    M = _rename_and_relabel(M, "Q10")
     return M
 
 
@@ -5049,7 +5048,7 @@ def BetsyRoss(groundset=None):
            'bef', 'bej', 'bfj', 'bgh', 'bik', 'ceh', 'cei', 'cfg', 'chi',
            'cjk', 'dfk', 'dgh', 'dij', 'efj', 'egk', 'ehi']
     M = Matroid(groundset='abcdefghijk', rank=3, nonspanning_circuits=NSC)
-    M = rename_and_relabel(M, "BetsyRoss", groundset)
+    M = _rename_and_relabel(M, "BetsyRoss", groundset)
     return M
 
 
@@ -5081,7 +5080,7 @@ def N2(groundset='abcdefghijkl'):
         [0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 0, 1]
     ])
     M = TernaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "N2")
+    M = _rename_and_relabel(M, "N2")
     return M
 
 
@@ -5116,7 +5115,7 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
         [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0]
     ])
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "D16")
+    M = _rename_and_relabel(M, "D16")
     return M
 
 
@@ -5149,7 +5148,7 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # aka the Dillon Mayhew Matroid
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0]
     ])
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Terrahawk")
+    M = _rename_and_relabel(M, "Terrahawk")
     return M
 
 
@@ -5199,7 +5198,7 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ])
     M = BinaryMatroid(A, groundset)
-    M = rename_and_relabel(M, "Extended Binary Golay Code")
+    M = _rename_and_relabel(M, "Extended Binary Golay Code")
     return M
 
 
@@ -5239,5 +5238,39 @@ def CompleteGraphic(n, groundset=None):
         groundset=list(range((n * (n - 1)) // 2)),
         graph=graphs.CompleteGraph(n)
     )
-    M = rename_and_relabel(M, "M(K" + str(n) + ")", groundset)
+    M = _rename_and_relabel(M, "M(K" + str(n) + ")", groundset)
+    return M
+
+
+# helper function
+
+
+def _rename_and_relabel(M, name=None, groundset=None):
+    """
+    Return a renamed and relabeled matroid.
+
+    This is a helper function for easily renaming and relabeling matroids upon
+    definition in the context of the database of matroids.
+
+    INPUT:
+
+    - ``M`` -- a matroid
+    - ``name`` -- a string (optional)
+    - ``groundset`` -- a string (optional)
+
+    OUTPUT:
+
+    a matroid
+    """
+    if groundset is not None:
+        if len(groundset) != len(M.groundset()):
+            raise ValueError(
+                "The groundset should be of size %s (%s given)." %
+                (len(M.groundset()), len(groundset))
+            )
+        M = M.relabel(dict(zip(M.groundset(), groundset)))
+
+    if name is not None:
+        M.rename(name+": " + repr(M))
+
     return M

@@ -580,13 +580,11 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
+            sage: from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
             sage: M = CircuitClosuresMatroid(matroids.catalog.RelaxedNonFano())
             sage: sorted(M.groundset())
             [0, 1, 2, 3, 4, 5, 6]

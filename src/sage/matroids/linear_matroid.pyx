@@ -2985,9 +2985,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
@@ -4080,14 +4078,11 @@ cdef class BinaryMatroid(LinearMatroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.catalog.Fano())
+            sage: M = matroids.catalog.Fano()
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -5005,14 +5000,11 @@ cdef class TernaryMatroid(LinearMatroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.catalog.Fano())
+            sage: M = matroids.catalog.NonFano()
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -5761,14 +5753,11 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.catalog.Fano())
+            sage: M = matroids.catalog.RelaxedNonFano("abcdefg")
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
             sage: N = M.relabel({'g':'x'})
@@ -6711,19 +6700,16 @@ cdef class RegularMatroid(LinearMatroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        a matroid
+        OUTPUT: a matroid
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import *
-            sage: M = BasisMatroid(matroids.catalog.Fano())
+            sage: M = matroids.catalog.R10()
             sage: sorted(M.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
             sage: N = M.relabel({'g':'x'})
             sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            ['a', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'x']
         """
         d = self._relabel_map(f)
         E = [d[x] for x in self.groundset_list()]

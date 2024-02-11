@@ -136,7 +136,6 @@ cdef class Matroid(SageObject):
     cpdef equals(self, other) noexcept
     cpdef is_isomorphism(self, other, morphism) noexcept
     cpdef _is_isomorphism(self, other, morphism) noexcept
-    cpdef relabel(self, f) noexcept
     cpdef _relabel_map(self, f) noexcept
 
     # minors, dual, truncation
