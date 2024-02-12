@@ -43,8 +43,8 @@ cdef class FlatsMatroid(Matroid):
 
     - ``M`` -- a matroid (default: ``None``)
     - ``groundset`` -- a list (default: ``None``); the groundset of the matroid
-    - ``flats`` -- a list (default: ``None``); the collection of flats of the
-      matroid
+    - ``flats`` -- a dictionary (default: ``None``); the lists of `k`-flats of
+      the matroid where `k` is the rank
 
     .. NOTE::
 
@@ -438,12 +438,15 @@ cdef class FlatsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(flats={0: [''], 1: ['0','1']})  # missing groundset
-            sage: M.is_valid()
-            False
-            sage: M = Matroid(flats={0: [''], 1: ['0','1'], 2: ['01']})
+            sage: M = Matroid(flats={0: [[]], 1: [[0], [1]], 2: [[0, 1]]})
             sage: M.is_valid()
             True
+            sage: M = Matroid(flats={0: [''], 1: ['a', 'b'], 2: ['ab']})
+            sage: M.is_valid()
+            True
+            sage: M = Matroid(flats={0: [[]], 1: [[0], [1]]})  # missing groundset
+            sage: M.is_valid()
+            False
             sage: M = Matroid(flats={0: [''],
             ....:                    1: ['0','1','2','3','4','5','6','7','8','9','a','b','c'],
             ....:                    2: ['45','46','47','4c','56','57','5c','67','6c','7c',
@@ -460,8 +463,15 @@ cdef class FlatsMatroid(Matroid):
 
         TESTS::
 
-            sage: M = Matroid(flats={1: ['0','1'], 2: ['01']})  # missing an intersection
-            sage: M.is_valid()
+            sage: Matroid(flats={0: [], 1: [[0], [1]], 2: [[0, 1]]}).is_valid()  # missing an intersection
+            False
+            sage: Matroid(flats={0: [[]], 2: [[0], [1]], 3: [[0, 1]]}).is_valid()  # invalid ranks
+            False
+            sage: Matroid(flats={0: [[]], 1: [[0], [1]], 2: [[0], [0, 1]]}).is_valid()  # duplicates
+            False
+            sage: Matroid(flats={0: [[]], 1: [[0], [1], [0, 1]]}).is_valid()
+            False
+            sage: Matroid(flats={0: [[]], 1: [[0, 1], [2]], 2: [[0], [1], [0, 1, 2]]}).is_valid()
             False
             sage: M = Matroid(flats={0: [''],  # missing an extention of flat ['5'] by '6'
             ....:                    1: ['0','1','2','3','4','5','6','7','8','9','a','b','c'],
@@ -473,43 +483,55 @@ cdef class FlatsMatroid(Matroid):
             sage: M.is_valid()
             False
         """
-        from itertools import combinations_with_replacement
-        cdef int i, j, k, cnt
-        cdef frozenset F1, F2, F3, I12, U1e
-        cdef bint flag, E_flat
+        cdef int i, j, k
+        cdef frozenset F1, F2, F3, I12
+        cdef list ranks, cover, flats_lst
+        cdef bint flag
 
-        E_flat = False
+        # check flats dictionary for invalid ranks and repeated flats
+        ranks = sorted(self._F)
+        if ranks != list(range(len(ranks))):
+            return False
+        flats_lst = [F for i in self._F for F in self._F[i]]
+        if len(flats_lst) != len(set(flats_lst)):
+            return False
+
+        # the groundset must be a flat
+        flag = False
         for i in self._F:
             for F1 in self._F[i]:
                 if F1 == self._groundset:
-                    E_flat = True
+                    flag = True
                     break
-        if not E_flat:  # the groundset must be a flat
+        if not flag:
             return False
 
-        for (i, j) in combinations_with_replacement(sorted(self._F), 2):
+        # a single element extension of a flat must be a subset of exactly one flat
+        for i in ranks[:-1]:
             for F1 in self._F[i]:
-                if j == i+1:
-                    for e in F1 ^ self._groundset:
-                        cnt = 0
-                        U1e = F1 | set([e])
-                        for F2 in self._F[j]:
-                            if F2 >= U1e:
-                                cnt += 1
-                        if cnt != 1:
-                            return False
-                for F2 in self._F[j]:
-                    flag = False
-                    I12 = F1 & F2
-                    for k in self._F:
-                        if k <= j:
-                            for F3 in self._F[k]:
-                                if F3 == I12:
-                                    flag = True
+                cover = []
+                for F2 in self._F[i+1]:
+                    if F2 >= F1:
+                        cover.extend(F1 ^ F2)
+                if len(cover) != len(F1 ^ self._groundset) or set(cover) != F1 ^ self._groundset:
+                    return False
+
+        # the intersection of two flats must be a flat
+        for i in ranks:
+            for j in ranks[i:]:
+                for F1 in self._F[i]:
+                    for F2 in self._F[j]:
+                        flag = False
+                        I12 = F1 & F2
+                        for k in self._F:
+                            if k <= i:
+                                for F3 in self._F[k]:
+                                    if F3 == I12:
+                                        flag = True
+                                        break
+                                if flag:
                                     break
-                            if flag:
-                                break
-                    if not flag:
-                        return False
+                        if not flag:
+                            return False
 
         return True

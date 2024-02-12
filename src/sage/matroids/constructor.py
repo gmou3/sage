@@ -836,7 +836,7 @@ def Matroid(groundset=None, data=None, **kwds):
                     break
             if flag:
                 B += [list(b)]
-        # convert to circuits matroid defined by non-spanning circuits
+        # convert to circuits matroid defined by nonspanning circuits
         M = CircuitsMatroid(
             BasisMatroid(groundset=groundset, bases=B),
             nsc_defined=True
