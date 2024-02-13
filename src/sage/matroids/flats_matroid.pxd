@@ -11,6 +11,7 @@ cdef class FlatsMatroid(Matroid):
 
     # enumeration
     cpdef flats(self, k) noexcept
+    cpdef whitney_numbers2(self) noexcept
 
     # isomorphism and relabeling
     cpdef _is_isomorphic(self, other, certificate=*) noexcept

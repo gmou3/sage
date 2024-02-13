@@ -569,6 +569,12 @@ cdef class CircuitsMatroid(Matroid):
             sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (2, 3, 5), (2, 4, 5), (3, 4, 5)}
+
+        TESTS::
+
+            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])
+            sage: M.broken_circuit_complex()
+            Simplicial complex with vertex set () and facets {}
         """
         if order is None:
             order = sorted(self.groundset(), key=str)

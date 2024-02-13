@@ -71,6 +71,8 @@ additional functionality (e.g. linear extensions).
     - :meth:`coflats() <sage.matroids.matroid.Matroid.coflats>`
     - :meth:`hyperplanes() <sage.matroids.matroid.Matroid.hyperplanes>`
     - :meth:`f_vector() <sage.matroids.matroid.Matroid.f_vector>`
+    - :meth:`whitney_numbers() <sage.matroids.matroid.Matroid.whitney_numbers>`
+    - :meth:`whitney_numbers2() <sage.matroids.matroid.Matroid.whitney_numbers2>`
     - :meth:`broken_circuits() <sage.matroids.matroid.Matroid.broken_circuits>`
     - :meth:`no_broken_circuits_sets() <sage.matroids.matroid.Matroid.no_broken_circuits_sets>`
 
@@ -129,6 +131,7 @@ additional functionality (e.g. linear extensions).
 
 - Invariants
     - :meth:`tutte_polynomial() <sage.matroids.matroid.Matroid.tutte_polynomial>`
+    - :meth:`characteristic_polynomial() <sage.matroids.matroid.Matroid.characteristic_polynomial>`
     - :meth:`flat_cover() <sage.matroids.matroid.Matroid.flat_cover>`
 
 - Visualization
@@ -2980,24 +2983,84 @@ cdef class Matroid(SageObject):
         r"""
         Return the `f`-vector of the matroid.
 
-        The `f`-*vector* is a vector `(f_0, ..., f_r)`, where `f_i` is the
-        number of flats of rank `i`, and `r` is the rank of the matroid.
+        The `f`-*vector* is a vector `(f_0, \dots, f_r)`, where `f_i` is the
+        number of independent sets of rank `i`, and `r` is the rank of the
+        matroid.
+
+        OUTPUT: a list of integers
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.Vamos()
+            sage: M.f_vector()
+            [1, 8, 28, 56, 65]
+
+        TESTS::
+
+            sage: for M in matroids.AllMatroids(5):
+            ....:     assert M.f_vector() == SimplicialComplex(M.bases()).f_vector()
+        """
+        cdef list f = []
+        cdef int i, sum
+        for i in range(self.full_rank() + 1):
+            sum = 0
+            for _ in self.independent_r_sets_iterator(i):
+                sum += 1
+            f.append(sum)
+        return f
+
+    cpdef whitney_numbers(self) noexcept:
+        r"""
+        Return the Whitney numbers of the first kind of the matroid.
+
+        The Whitney numbers of the first kind -- here encoded as a vector
+        `(w_0=1, ..., w_r)` -- are numbers of alternating sign, where `w_i` is
+        the value of the coefficient of the `(r-i)`-th degree term of the
+        matroid's characteristic polynomial. Moreover, `|w_i|` is the number of
+        `i`-faces of the broken circuit complex of the matroid.
 
         OUTPUT: a list of integers
 
         EXAMPLES::
 
             sage: M = matroids.catalog.BetsyRoss()
-            sage: M.f_vector()
+            sage: M.whitney_numbers()
+            [1, -11, 35, -25]
+
+        TESTS::
+
+            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])
+            sage: M.whitney_numbers()
+            []
+        """
+        cdef list abs_w = [0] * (self.rank()+1)
+        for S in self.no_broken_circuits_sets_iterator():
+            abs_w[len(S)] += 1
+        return [(-1)**i * abs_w[i] for i in range(len(abs_w)) if abs_w[i] != 0]
+
+    cpdef whitney_numbers2(self) noexcept:
+        r"""
+        Return the Whitney numbers of the second kind of the matroid.
+
+        The Whitney numbers of the second kind are here encoded as a vector
+        `(W_0, ..., W_r)`, where `W_i` is the number of flats of rank `i`, and
+        `r` is the rank of the matroid.
+
+        OUTPUT: a list of integers
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.BetsyRoss()
+            sage: M.whitney_numbers2()
             [1, 11, 20, 1]
         """
         loops = self._closure(set())
         flags = [[loops, set(), self.groundset() - loops]]
-        f_vec = [1]
+        W = [1]
         for r in range(self.full_rank()):
             flags = self._extend_flags(flags)
-            f_vec.append(len(flags))
-        return f_vec
+            W.append(len(flags))
+        return W
 
     cpdef broken_circuits(self, ordering=None) noexcept:
         r"""
@@ -3083,8 +3146,10 @@ cdef class Matroid(SageObject):
             minimal-removal convention, while the implementation is not
             modified from the published algorithm.
         """
-        cdef list rev_order
+        if len(self.loops()) > 0:
+            return []
 
+        cdef list rev_order
         if ordering is None:
             rev_order = sorted(self.groundset(), key=str, reverse=True)
         else:
@@ -3099,8 +3164,7 @@ cdef class Matroid(SageObject):
         cdef dict reverse_dict = {value: key for key, value in enumerate(rev_order)}
 
         cdef list H, Ht, temp, B = [frozenset()]
-        cdef frozenset loops = self.loops()
-        cdef list next_level = [[val] for val in rev_order if val not in loops]
+        cdef list next_level = [[val] for val in rev_order]
         cdef list cur_level
         cdef Py_ssize_t i = 0
         cdef Py_ssize_t tp
@@ -3124,6 +3188,68 @@ cdef class Matroid(SageObject):
                     B.append(frozenset(H))
                     next_level.extend(Ht)
         return B
+
+    def no_broken_circuits_sets_iterator(self, ordering=None):
+        r"""
+        Return an iterator over no broken circuits (NBC) sets of ``self``.
+
+        An NBC set is a subset `A` of the groundset under some total
+        ordering `<` such that `A` contains no broken circuit.
+
+        INPUT:
+
+        - ``ordering`` -- a total ordering of the groundset given as a list
+
+        EXAMPLES::
+
+            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
+            sage: SimplicialComplex(list(M.no_broken_circuits_sets_iterator()))
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
+            sage: SimplicialComplex(list(M.no_broken_circuits_sets_iterator([5,4,3,2,1])))
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+
+        ::
+
+            sage: M = Matroid(circuits=[[1,2,3], [1,4,5], [2,3,4,5]])
+            sage: SimplicialComplex(list(M.no_broken_circuits_sets_iterator([5,4,3,2,1])))
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (2, 3, 5), (2, 4, 5), (3, 4, 5)}
+        """
+        if len(self.loops()) == 0:
+
+            if ordering is None:
+                rev_order = sorted(self.groundset(), key=str, reverse=True)
+            else:
+                if frozenset(ordering) != self.groundset():
+                    raise ValueError("not an ordering of the groundset")
+                rev_order = list(reversed(ordering))
+
+            Tmax = len(rev_order)
+            reverse_dict = {value: key for key, value in enumerate(rev_order)}
+
+            yield frozenset()
+            next_level = [[val] for val in rev_order]
+            i = 0
+            level = -1
+            while next_level:
+                cur_level = next_level
+                next_level = []
+                level += 1
+                for H in cur_level:
+                    tp = (<Py_ssize_t> reverse_dict[H[level]]) + 1
+                    is_indep = True
+                    Ht = [None] * (Tmax-tp)
+                    for i in range(tp, Tmax):
+                        temp = H + [rev_order[i]]
+                        if not self._is_independent(frozenset(temp)):
+                            is_indep = False
+                            break
+                        Ht[i-tp] = temp
+                    if is_indep:
+                        yield frozenset(H)
+                        next_level.extend(Ht)
 
     def orlik_solomon_algebra(self, R, ordering=None, **kwargs):
         """
@@ -7553,7 +7679,7 @@ cdef class Matroid(SageObject):
         N = self.groundset() - B
         A = set()
         for e in B:
-            if min(self._cocircuit(N | set([e]))) == e:
+            if min(self._cocircuit(N | set([e])), key=str) == e:
                 A.add(e)
         return A
 
@@ -7590,7 +7716,7 @@ cdef class Matroid(SageObject):
         N = self.groundset() - B
         A = set()
         for e in N:
-            if min(self._circuit(B | set([e]))) == e:
+            if min(self._circuit(B | set([e])), key=str) == e:
                 A.add(e)
         return A
 
@@ -7654,6 +7780,60 @@ cdef class Matroid(SageObject):
         if a is not None and b is not None:
             T = T(a, b)
         return T
+
+    cpdef characteristic_polynomial(self, l=None) noexcept:
+        r"""
+        Return the characteristic polynomial of the matroid.
+
+        The *characteristic polynomial* of a matroid `M` is the polynomial
+
+        .. MATH::
+
+            \chi_M(\lambda) = \sum_{S \subseteq E} (-1)^{|S|}\lambda^{r(E)-r(S)},
+
+        where `E` is the groundset and`r` is the matroid's rank function. The
+        characteristic polynomial is also equal to
+        \sum_{i = 0}^r w_i\lambda^{r-i}, where `\{w_i\}_{i=0}^r` are the
+        Whitney numbers of the first kind.
+
+        INPUT:
+
+        - ``l`` -- a variable or numerical argument (optional)
+
+        OUTPUT: the characteristic polynomial, `\chi_M(\lambda)`, where
+        `\lambda` is substituted with any value provided as input.
+
+        EXAMPLES::
+
+            sage: M = matroids.CompleteGraphic(5)
+            sage: M.characteristic_polynomial()
+            l^4 - 10*l^3 + 35*l^2 - 50*l + 24
+            sage: M.characteristic_polynomial().factor()
+            (l - 4) * (l - 3) * (l - 2) * (l - 1)
+            sage: M.characteristic_polynomial(5)
+            24
+
+        .. SEEALSO::
+
+            :meth:`whitney_numbers() <sage.matroids.matroid.Matroid.whitney_numbers>`
+
+        TESTS::
+
+            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])  # 0 is a loop
+            sage: M.characteristic_polynomial()
+            0
+        """
+        val = l
+        R = ZZ['l']
+        l = R._first_ngens(1)[0]
+        chi = R(0)
+        cdef int r = self.rank()
+        cdef list w = self.whitney_numbers()
+        for i in range(len(w)):
+            chi += w[i] * l**(r-i)
+        if val is not None:
+            return chi(val)
+        return chi
 
     cpdef flat_cover(self, solver=None, verbose=0, integrality_tolerance=1e-3) noexcept:
         """
@@ -7992,9 +8172,20 @@ cdef class Matroid(SageObject):
             sage: M.broken_circuit_complex([5,4,3,2,1])                                 # needs sage.graphs
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+
+        TESTS::
+
+            sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
+            sage: M.broken_circuit_complex()
+            Simplicial complex with vertex set () and facets {}
         """
         from sage.topology.simplicial_complex import SimplicialComplex
-        return SimplicialComplex(self.no_broken_circuits_sets(ordering))
+        cdef int r = self.rank()
+        cdef list facets = []
+        for S in self.no_broken_circuits_sets_iterator(ordering):
+            if len(S) == r:
+                facets += [S]
+        return SimplicialComplex(facets, maximality_check=False)
 
     cpdef automorphism_group(self) noexcept:
         r"""
@@ -8142,7 +8333,7 @@ cdef class Matroid(SageObject):
                 r = self.rank() - len(c)
 
                 # get candidate independent_sets
-                for I in self.independent_r_sets(r):
+                for I in self.independent_r_sets_iterator(r):
                     if I.issubset(c[0]):
 
                         # add the facet

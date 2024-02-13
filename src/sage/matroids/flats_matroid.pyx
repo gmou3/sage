@@ -44,7 +44,7 @@ cdef class FlatsMatroid(Matroid):
     - ``M`` -- a matroid (default: ``None``)
     - ``groundset`` -- a list (default: ``None``); the groundset of the matroid
     - ``flats`` -- a dictionary (default: ``None``); the lists of `k`-flats of
-      the matroid where `k` is the rank
+      the matroid, indexed by their rank `k`
 
     .. NOTE::
 
@@ -391,7 +391,11 @@ cdef class FlatsMatroid(Matroid):
 
     cpdef flats(self, k) noexcept:
         r"""
-        Return the flats of the matroid.
+        Return the flats of the matroid of specified rank.
+
+        INPUT:
+
+        - ``k`` -- an integer
 
         OUTPUT: a SetSystem
 
@@ -413,7 +417,11 @@ cdef class FlatsMatroid(Matroid):
 
     def flats_iterator(self, k):
         r"""
-        Return an iterator over the flats of the matroid.
+        Return an iterator over the flats of the matroid of specified rank.
+
+        INPUT:
+
+        - ``k`` -- an integer
 
         EXAMPLES::
 
@@ -425,6 +433,35 @@ cdef class FlatsMatroid(Matroid):
         if k in self._F:
             for F in self._F[k]:
                 yield F
+
+    cpdef whitney_numbers2(self) noexcept:
+        r"""
+        Return the Whitney numbers of the second kind of the matroid.
+
+        The Whitney numbers of the second kind are here encoded as a vector
+        `(W_0, ..., W_r)`, where `W_i` is the number of flats of rank `i`, and
+        `r` is the rank of the matroid.
+
+        OUTPUT: a list of integers
+
+        EXAMPLES::
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: M = FlatsMatroid(matroids.catalog.XY13())
+            sage: M.whitney_numbers2()
+            [1, 13, 78, 250, 394, 191, 1]
+
+        TESTS::
+
+            sage: from sage.matroids.flats_matroid import FlatsMatroid
+            sage: for M in matroids.AllMatroids(4):
+            ....:     assert M.whitney_numbers2() == FlatsMatroid(M).whitney_numbers2()
+        """
+        cdef list W = []
+        cdef int i
+        for i in sorted(self._F):
+            W.append(len(self._F[i]))
+        return W
 
     # verification
 
