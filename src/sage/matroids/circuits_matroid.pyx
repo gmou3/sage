@@ -2,28 +2,22 @@ r"""
 Circuits matroids
 
 Matroids are characterized by a list of circuits, which are minimal dependent
-sets. The CircuitsMatroid class implements matroids using this information as
-data.
+sets. The ``CircuitsMatroid`` class implements matroids using this information
+as data.
 
 A ``CircuitsMatroid`` can be created from another matroid or from a list of
 circuits. For a full description of allowed inputs, see
 :class:`below <sage.matroids.circuits_matroid.CircuitsMatroid>`. It is
 recommended to use the :func:`Matroid() <sage.matroids.constructor.Matroid>`
-function for a more flexible construction of a ``CircuitsMatroid``. For direct
-access to the ``CircuitsMatroid`` constructor, run::
+function for a more flexible way of constructing a ``CircuitsMatroid`` and
+other classes of matroids. For direct access to the ``CircuitsMatroid``
+constructor, run::
 
     sage: from sage.matroids.circuits_matroid import CircuitsMatroid
 
 AUTHORS:
 
 - Giorgos Mousa (2023-12-23): initial version
-
-TESTS::
-
-    sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-    sage: M = CircuitsMatroid(matroids.catalog.Fano())
-    sage: TestSuite(M).run()
-
 """
 
 # ****************************************************************************
@@ -39,30 +33,25 @@ TESTS::
 from sage.structure.richcmp cimport rich_to_bool, richcmp
 from sage.matroids.matroid cimport Matroid
 from sage.matroids.set_system cimport SetSystem
-from sage.matroids.utilities import setprint_s
 from cpython.object cimport Py_EQ, Py_NE
 
 
 cdef class CircuitsMatroid(Matroid):
     r"""
+    A matroid defined by its circuits.
+
     INPUT:
 
     - ``M`` -- a matroid (default: ``None``)
     - ``groundset`` -- a list (default: ``None``); the groundset of the matroid
     - ``circuits`` -- a list (default: ``None``); the collection of circuits of
       the matroid
-
-    OUTPUT:
-
-    - If the input is a matroid ``M``, return a ``CircuitsMatroid`` instance
-      representing ``M``.
-    - Otherwise, return a ``CircuitsMatroid`` instance based on the
-      ``groundset`` and ``circuits``.
+    - ``nsc_defined`` -- boolean (default: ``False``); whether the matroid was
+      defined by its nonspanning circuits
 
     .. NOTE::
 
         For a more flexible means of input, use the ``Matroid()`` function.
-
     """
 
     # necessary (__init__, groundset, _rank)
@@ -71,6 +60,12 @@ cdef class CircuitsMatroid(Matroid):
         """
         Initialization of the matroid. See class docstring for full
         documentation.
+
+        TESTS::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Fano())
+            sage: TestSuite(M).run()
         """
         if M is not None:
             self._groundset = frozenset(M.groundset())
@@ -95,9 +90,7 @@ cdef class CircuitsMatroid(Matroid):
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT:
-
-        a set
+        OUTPUT: a set
 
         EXAMPLES::
 
@@ -118,9 +111,7 @@ cdef class CircuitsMatroid(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        an integer; the rank of ``X`` in the matroid
+        OUTPUT: an integer; the rank of ``X`` in the matroid
 
         EXAMPLES::
 
@@ -139,9 +130,7 @@ cdef class CircuitsMatroid(Matroid):
         The *rank* of the matroid is the size of the largest independent
         subset of the groundset.
 
-        OUTPUT:
-
-        an integer; the rank of the matroid
+        OUTPUT: an integer; the rank of the matroid
 
         EXAMPLES::
 
@@ -160,12 +149,18 @@ cdef class CircuitsMatroid(Matroid):
         - ``X`` -- An object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
+        OUTPUT: boolean
 
-        boolean
+        EXAMPLES::
+
+            sage: M = matroids.Theta(4)
+            sage: M._is_independent(['y0', 'y1', 'y3', 'x2'])
+            False
+            sage: M._is_independent(['y0', 'y2', 'y3', 'x2'])
+            True
         """
-        I = set(F)
-        s = len(F)
+        cdef set I = set(F)
+        cdef int s = len(F)
         for i in self._k_C:
             if i <= s:
                 for C in self._k_C[i]:
@@ -182,17 +177,20 @@ cdef class CircuitsMatroid(Matroid):
         - ``X`` -- An object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
+        OUTPUT: a frozenset; a maximal independent subset of ``X``
 
-        a frozenset; a maximal independent subset of ``X``
+        EXAMPLES::
+
+            sage: M = matroids.Theta(6)
+            sage: len(M._max_independent(M.groundset()))
+            6
         """
-        I = set(F)
+        cdef set I = set(F)
         for i in self._k_C:
             for C in self._k_C[i]:
                 if i <= len(I) and i > 0:
                     if C <= I:
-                        for e in C:
-                            break
+                        e = next(iter(C))
                         I.remove(e)
 
         return frozenset(I)
@@ -206,13 +204,21 @@ cdef class CircuitsMatroid(Matroid):
         - ``X`` -- An object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``.
 
-        OUTPUT:
+        OUTPUT: a frozenset; a circuit contained in ``X``, if it exists.
+        Otherwise an error is raised.
 
-        a frozenset; a circuit contained in ``X``, if it exists. Otherwise an
-        error is raised.
+        EXAMPLES::
+
+            sage: M = matroids.Theta(4)
+            sage: sorted(M._circuit(['y0', 'y1', 'y3', 'x2']))
+            ['x2', 'y0', 'y1', 'y3']
+            sage: M._circuit(['y0', 'y2', 'y3', 'x2'])
+            Traceback (most recent call last):
+            ...
+            ValueError: no circuit in independent set
         """
-        I = set(F)
-        for C in self.circuits():
+        cdef set I = set(F)
+        for C in self._C:
             if C <= I:
                 return C
         raise ValueError("no circuit in independent set")
@@ -224,12 +230,21 @@ cdef class CircuitsMatroid(Matroid):
         INPUT:
 
         - ``other`` -- a matroid
-        - ``certificate`` -- boolean (optional)
+        - ``certificate`` -- boolean (default: ``False``)
 
-        OUTPUT:
+        OUTPUT: boolean, and, if ``certificate=True``, a dictionary giving the
+        isomorphism or ``None``
 
-        boolean, and, if certificate = True, a dictionary giving the
-        isomorphism or None
+        EXAMPLES::
+
+            sage: M = matroids.Spike(3)
+            sage: from sage.matroids.basis_matroid import BasisMatroid
+            sage: N = BasisMatroid(M)
+            sage: M.is_isomorphic(N)
+            True
+            sage: N = matroids.catalog.Vamos()
+            sage: M.is_isomorphic(N)
+            False
 
         .. NOTE::
 
@@ -245,9 +260,16 @@ cdef class CircuitsMatroid(Matroid):
     def _repr_(self):
         """
         Return a string representation of the matroid.
+
+        EXAMPLES::
+
+            sage: matroids.Theta(10)
+            Theta_10: Matroid of rank 10 on 20 elements with 490 circuits
+            sage: matroids.catalog.NonDesargues()
+            NonDesargues: Matroid of rank 3 on 10 elements with 9 nonspanning circuits
         """
         if self._nsc_defined:
-            return Matroid._repr_(self) + " with " + str(len(self.print_nonspanning_circuits())) + " non-spanning circuits"
+            return Matroid._repr_(self) + " with " + str(len(self.nonspanning_circuits())) + " nonspanning circuits"
         else:
             return Matroid._repr_(self) + " with " + str(len(self._C)) + " circuits"
 
@@ -269,11 +291,12 @@ cdef class CircuitsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Vamos()
-            sage: N = matroids.catalog.Vamos()
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Vamos())
+            sage: N = CircuitsMatroid(matroids.catalog.Vamos())
             sage: hash(M) == hash(N)
             True
-            sage: O = matroids.catalog.NonVamos()
+            sage: O = CircuitsMatroid(matroids.catalog.NonVamos())
             sage: hash(M) == hash(O)
             False
         """
@@ -285,18 +308,19 @@ cdef class CircuitsMatroid(Matroid):
 
         We take a very restricted view on equality: the objects need to be of
         the exact same type (so no subclassing) and the internal data need to
-        be the same. For BasisMatroids, this means that the groundsets and the
-        sets of bases of the two matroids are equal.
+        be the same. For CircuitsMatroids, this means that the groundsets and
+        the sets of circuits of the two matroids are equal.
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Pappus()
-            sage: N = matroids.catalog.NonPappus()
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Pappus())
+            sage: N = CircuitsMatroid(matroids.catalog.NonPappus())
             sage: M == N
             False
-            sage: N = Matroid(M.bases())
+            sage: N = Matroid(circuits=M.circuits())
             sage: M == N
-            False
+            True
         """
         cdef CircuitsMatroid lt, rt
         if op not in [Py_EQ, Py_NE]:
@@ -371,70 +395,23 @@ cdef class CircuitsMatroid(Matroid):
         A tuple ``(unpickle, (version, data))``, where ``unpickle`` is the
         name of a function that, when called with ``(version, data)``,
         produces a matroid isomorphic to ``self``. ``version`` is an integer
-        (currently 0) and ``data`` is a tuple ``(E, CC, name)`` where ``E`` is
-        the groundset, ``CC`` is the dictionary of circuit closures, and
-        ``name`` is a custom name.
+        (currently 0) and ``data`` is a tuple ``(E, C, name)`` where ``E`` is
+        the groundset, ``C`` is the list of circuits, and ``name`` is a custom
+        name.
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Vamos()
+            sage: M = matroids.Theta(5)
             sage: M == loads(dumps(M))  # indirect doctest
             True
             sage: M.reset_name()
             sage: loads(dumps(M))
-            Matroid of rank 4 on 8 elements with circuit-closures
-            {3: {{'a', 'b', 'c', 'd'}, {'a', 'b', 'e', 'f'},
-                 {'a', 'b', 'g', 'h'}, {'c', 'd', 'e', 'f'},
-                 {'e', 'f', 'g', 'h'}},
-             4: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}
+            Matroid of rank 5 on 10 elements with 45 circuits
         """
         import sage.matroids.unpickling
         data = (self._groundset, frozenset(self._C), self.get_custom_name())
         version = 0
         return sage.matroids.unpickling.unpickle_circuits_matroid, (version, data)
-
-    cpdef relabel(self, f) noexcept:
-        r"""
-        Return an isomorphic matroid with relabeled groundset.
-
-        The output is obtained by relabeling each element ``e`` by ``f[e]``,
-        where ``f`` is a given injective map. If ``e not in f`` then the
-        identity map is assumed.
-
-        INPUT:
-
-        - ``f`` -- a python object such that `f[e]` is the new label of `e`
-
-        OUTPUT: a matroid
-
-        EXAMPLES::
-
-            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-            sage: M = CircuitsMatroid(matroids.catalog.RelaxedNonFano())
-            sage: sorted(M.groundset())
-            [0, 1, 2, 3, 4, 5, 6]
-            sage: N = M.relabel({'g':'x', 0:'z'}) # 'g':'x' is ignored
-            sage: sorted(N.groundset(), key=str)
-            [1, 2, 3, 4, 5, 6, 'z']
-            sage: M.is_isomorphic(N)
-            True
-
-        TESTS::
-
-            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-            sage: M = CircuitsMatroid(matroids.catalog.RelaxedNonFano())
-            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g'}
-            sage: N = M.relabel(f)
-            sage: for S in powerset(M.groundset()):
-            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
-        """
-        d = self._relabel_map(f)
-        E = [d[x] for x in self._groundset]
-        C = []
-        for i in self._k_C:
-            C += [[d[y] for y in list(x)] for x in self._k_C[i]]
-        M = CircuitsMatroid(groundset=E, circuits=C)
-        return M
 
     # enumeration
 
@@ -442,24 +419,25 @@ cdef class CircuitsMatroid(Matroid):
         r"""
         Return the bases of the matroid.
 
-        OUTPUT:
-
-        an iterable
+        OUTPUT: a SetSystem
 
         EXAMPLES::
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
-            sage: M.print_bases()
-            [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
+            sage: len(M.bases())
+            6
         """
-        cdef SetSystem B
+        cdef SetSystem B, NSC
+        cdef bint flag
         B = SetSystem(list(self.groundset()))
+        NSC = self.nonspanning_circuits()
         from itertools import combinations
         for S in combinations(self._groundset, self._matroid_rank):
             flag = True
-            for C in self.nonspanning_circuits():
-                if C <= set(S):
+            S = frozenset(S)
+            for C in NSC:
+                if C <= S:
                     flag = False
                     break
             if flag:
@@ -468,42 +446,60 @@ cdef class CircuitsMatroid(Matroid):
 
     def bases_iterator(self):
         r"""
-        Return the bases of the matroid.
-
-        OUTPUT:
-
-        an iterable
+        Return an iterator over the bases of the matroid.
 
         EXAMPLES::
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
-            sage: M.print_bases()
-            [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
+            sage: it = M.bases_iterator()
+            sage: it.__next__()
+            frozenset({0, 1})
+            sage: sorted(M.bases_iterator(), key=str)
+            [frozenset({0, 1}),
+             frozenset({0, 2}),
+             frozenset({0, 3}),
+             frozenset({1, 2}),
+             frozenset({1, 3}),
+             frozenset({2, 3})]
         """
         from itertools import combinations
+        cdef SetSystem NSC = self.nonspanning_circuits()
         for B in combinations(self._groundset, self._matroid_rank):
-            flag = True
-            for C in self.nonspanning_circuits():
-                if C <= set(B):
-                    flag = False
-                    break
-            if flag:
-                yield frozenset(B)
+            B = frozenset(B)
+            if not any(C <= B for C in NSC):
+                yield B
 
     cpdef circuits(self, k=None) noexcept:
         """
-        Return the list of circuits of the matroid.
+        Return the circuits of the matroid.
 
-        OUTPUT:
+        INPUT:
 
-        a SetSystem
+        - ``k`` -- an integer (optional); the length of the circuits
+
+        OUTPUT: a SetSystem
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: M.circuits()
+            Iterator over a system of subsets
+            sage: list(M.circuits(0))
+            []
+            sage: sorted(M.circuits(3), key=str)
+            [frozenset({0, 1, 2}),
+             frozenset({0, 1, 3}),
+             frozenset({0, 2, 3}),
+             frozenset({1, 2, 3})]
         """
         cdef SetSystem C
         C = SetSystem(list(self.groundset()))
-        if k:
-            for c in self._k_C[k]:
-                C.append(c)
+        if k is not None:
+            if k in self._k_C:
+                for c in self._k_C[k]:
+                    C.append(c)
         else:
             for i in self._k_C:
                 for c in self._k_C[i]:
@@ -514,13 +510,28 @@ cdef class CircuitsMatroid(Matroid):
         """
         Return an iterator over the circuits of the matroid.
 
-        OUTPUT:
+        INPUT:
 
-        an iterator
+        - ``k`` -- an integer (optional); the length of the circuits
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: sum(1 for C in M.circuits_iterator())
+            4
+            sage: list(M.circuits_iterator(0))
+            []
+            sage: sorted(M.circuits_iterator(3), key=str)
+            [frozenset({0, 1, 2}),
+             frozenset({0, 1, 3}),
+             frozenset({0, 2, 3}),
+             frozenset({1, 2, 3})]
         """
-        if k:
-            for C in self._k_C[k]:
-                yield C
+        if k is not None:
+            if k in self._k_C:
+                for C in self._k_C[k]:
+                    yield C
         else:
             for i in self._k_C:
                 for C in self._k_C[i]:
@@ -528,21 +539,40 @@ cdef class CircuitsMatroid(Matroid):
 
     cpdef nonspanning_circuits(self) noexcept:
         """
-        Return the list of nonspanning circuits of the matroid.
+        Return the nonspanning circuits of the matroid.
 
-        OUTPUT:
+        OUTPUT: a SetSystem
 
-        a SetSystem
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: M.nonspanning_circuits()
+            Iterator over a system of subsets
         """
-        cdef SetSystem NSC
-        NSC = SetSystem(list(self.groundset()))
+        cdef list NSC = []
+        for i in self._k_C:
+            if i <= self.rank():
+                NSC.extend(self._k_C[i])
+        return SetSystem(list(self.groundset()), NSC)
+
+    def nonspanning_circuits_iterator(self):
+        """
+        Return an iterator over the nonspanning circuits of the matroid.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: list(M.nonspanning_circuits_iterator())
+            []
+        """
         for i in self._k_C:
             if i <= self.rank():
                 for C in self._k_C[i]:
-                    NSC.append(C)
-        return NSC
+                    yield C
 
-    def no_broken_circuits_sets(self, order=None):
+    cpdef no_broken_circuits_sets(self, ordering=None) noexcept:
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
@@ -551,7 +581,9 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``order`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- a total ordering of the groundset given as a list
+
+        OUTPUT: a list of frozensets
 
         EXAMPLES::
 
@@ -572,25 +604,29 @@ cdef class CircuitsMatroid(Matroid):
 
         TESTS::
 
-            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])
-            sage: M.broken_circuit_complex()
-            Simplicial complex with vertex set () and facets {}
+            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
+            sage: C1 = SimplicialComplex(M.no_broken_circuits_sets())
+            sage: from sage.matroids.basis_matroid import BasisMatroid
+            sage: M = BasisMatroid(Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]]))
+            sage: C2 = SimplicialComplex(M.no_broken_circuits_sets())
+            sage: C1 == C2
+            True
         """
-        if order is None:
-            order = sorted(self.groundset(), key=str)
+        if ordering is None:
+            ordering = sorted(self.groundset(), key=str)
         else:
-            if frozenset(order) != self.groundset():
+            if frozenset(ordering) != self.groundset():
                 raise ValueError("not an ordering of the groundset")
 
         # compute broken circuits
-        BC = []
-        for C in self.circuits():
-            for e in order:
+        cdef list BC = []
+        for C in self._C:
+            for e in ordering:
                 if e in C:
                     BC.append(C - set([e]))
                     break
 
-        # the facets suffice
+        cdef list F = []  # broken circuit complex facets
         for B in self.bases():
             flag = True
             for bc in BC:
@@ -598,7 +634,10 @@ cdef class CircuitsMatroid(Matroid):
                     flag = False
                     break
             if flag:
-                yield B
+                F.append(B)
+
+        from sage.topology.simplicial_complex import SimplicialComplex
+        return [frozenset(f) for f in SimplicialComplex(F).face_iterator()]
 
     # properties
 
@@ -611,8 +650,6 @@ cdef class CircuitsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: matroids.Spike(7).girth()
-            3
             sage: matroids.Theta(10).girth()
             3
 
@@ -620,7 +657,7 @@ cdef class CircuitsMatroid(Matroid):
 
         [Oxl2011]_, p. 327.
         """
-        return min([i for i in self._k_C], default=float('inf'))
+        return min(self._k_C, default=float('inf'))
 
     cpdef is_paving(self) noexcept:
         """
@@ -628,9 +665,7 @@ cdef class CircuitsMatroid(Matroid):
 
         A matroid is paving if each of its circuits has size `r` or `r+1`.
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -638,9 +673,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = CircuitsMatroid(matroids.catalog.Vamos())
             sage: M.is_paving()
             True
-            sage: len([1 for M in matroids.AllMatroids(8)
-            ....:     if CircuitsMatroid(M).is_paving()])
-            468
         """
         return self.girth() >= self.rank()
 
@@ -648,13 +680,11 @@ cdef class CircuitsMatroid(Matroid):
 
     cpdef is_valid(self) noexcept:
         r"""
-        Test if self obeys the matroid axioms.
+        Test if ``self`` obeys the matroid axioms.
 
         For a matroid defined by its circuits, we check the circuit axioms.
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -683,26 +713,38 @@ cdef class CircuitsMatroid(Matroid):
             sage: M.is_valid()
             False
         """
-        for i in self._k_C:
-            for j in self._k_C:
-                if i <= j:
-                    for C1 in self._k_C[i]:
-                        if len(C1) == 0:
-                            return False
-                        for C2 in self._k_C[j]:
-                            if C1 < C2:
-                                return False
-                            if C1 == C2:
+        from itertools import combinations_with_replacement
+        cdef int i, j, k, S_len
+        cdef frozenset C1, C2, C3, I12, U12
+        cdef bint flag
+        for (i, j) in combinations_with_replacement(sorted(self._k_C), 2):
+            # loop through all circuit length pairs (i, j) with i <= j
+            for C1 in self._k_C[i]:
+                if not C1:  # the empty set can't be a circuit
+                    return False
+                for C2 in self._k_C[j]:
+                    I12 = C1 & C2
+                    if not I12:  # C1 and C2 are disjoint; nothing to test
+                        continue
+                    if len(I12) == len(C1):
+                        if len(C1) == len(C2):  # they are the same circuit
+                            break
+                        # C1 < C2; a circuit can't be a subset of another circuit
+                        return False
+                    # check circuit elimination axiom
+                    U12 = C1 | C2
+                    S_len = len(U12) - 1  # the size of S below
+                    for e in I12:
+                        flag = False
+                        S = U12 - {e}
+                        for k in self._k_C:
+                            if k <= S_len:
+                                for C3 in self._k_C[k]:
+                                    if C3 <= S:
+                                        flag = True
+                                        break
+                            if flag:
                                 break
-                            for e in C1 & C2:
-                                flag = False
-                                S = (set(C1) | set(C2)) - {e}
-                                for k in self._k_C:
-                                    if k <= len(S) and not flag:
-                                        for C3 in self._k_C[k]:
-                                            if C3 <= S:
-                                                flag = True
-                                                break
-                                if not flag:
-                                    return False
+                        if not flag:
+                            return False
         return True
