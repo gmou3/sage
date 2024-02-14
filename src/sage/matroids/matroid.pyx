@@ -2239,13 +2239,21 @@ cdef class Matroid(SageObject):
             ....: 3: [[1, 2, 3, 4, 5], [1, 2, 3, 6, 7], [1, 4, 5, 6, 7]]})
             sage: M.is_valid()
             False
+
+        TESTS::
+
+            sage: def r(X):
+            ....:     return -1
+            sage: M = Matroid(groundset=[0,1,2], rank_function=r)
+            sage: M.is_valid()
+            False
         """
         E = list(self.groundset())
         for i in range(len(E) + 1):
             for X in combinations(E, i):
                 XX = frozenset(X)
                 rX = self._rank(XX)
-                if rX > i:
+                if rX > i or rX < 0:
                     return False
                 for j in range(i, len(E) + 1):
                     for Y in combinations(E, j):
@@ -2280,18 +2288,19 @@ cdef class Matroid(SageObject):
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
         """
-        cdef list C
-        C = []
-        if k and k < self.rank() + 2:
+        if k is None:
+            C = set()
+            B_ext = set()
+            for B in self.bases_iterator():
+                for e in B ^ self.groundset():
+                    B_ext.add(B | set([e]))
+            for S in B_ext:
+                C.add(self._circuit(S))
+        else:
+            C = []
             for X in combinations(self.groundset(), k):
                 X = frozenset(X)
                 if self._is_circuit(X):
-                    C.append(X)
-        elif not k:
-            for k in range(self.rank() + 2):
-                for X in combinations(self.groundset(), k):
-                    X = frozenset(X)
-                    if self._is_circuit(X):
                         C.append(X)
         return SetSystem(list(self.groundset()), C)
 

@@ -997,7 +997,7 @@ def Vamos(groundset=None):
          {'c', 'd', 'e', 'f'}, {'e', 'f', 'g', 'h'}]
         sage: M.is_dependent(['c', 'd', 'g', 'h'])
         False
-        sage: M.is_valid() and M.is_paving()
+        sage: M.is_valid() and M.is_paving()  # long time
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
