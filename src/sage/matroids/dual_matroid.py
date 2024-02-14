@@ -384,7 +384,7 @@ class DualMatroid(Matroid):
             sage: N.rank()
             3
             sage: N
-            Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning
+            Pappus: Matroid of rank 3 on 9 elements with 9 nonspanning
             circuits
         """
         return self._matroid

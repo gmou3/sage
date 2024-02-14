@@ -4187,7 +4187,7 @@ cdef class Matroid(SageObject):
             sage: N.rank()
             6
             sage: N
-            Dual of 'Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning circuits'
+            Dual of 'Pappus: Matroid of rank 3 on 9 elements with 9 nonspanning circuits'
         """
         from sage.matroids import dual_matroid
         return dual_matroid.DualMatroid(self)
@@ -7822,9 +7822,14 @@ cdef class Matroid(SageObject):
 
         TESTS::
 
-            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])  # 0 is a loop
+            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])
             sage: M.characteristic_polynomial()
             0
+            sage: l = -1
+            sage: for M in matroids.AllMatroids(6):
+            ....:     r = M.rank()
+            ....:     assert M.characteristic_polynomial(l) == (-1)**r * M.tutte_polynomial(1-l, 0)
+            ....:     assert (-1)**r * M.characteristic_polynomial(l) == sum(M.broken_circuit_complex().f_vector())
         """
         val = l
         R = ZZ['l']
@@ -7840,7 +7845,7 @@ cdef class Matroid(SageObject):
 
     cpdef flat_cover(self, solver=None, verbose=0, integrality_tolerance=1e-3) noexcept:
         """
-        Return a minimum-size cover of the nonbases by non-spanning flats.
+        Return a minimum-size cover of the nonbases by nonspanning flats.
 
         A *nonbasis* is a subset that has the size of a basis, yet is
         dependent. A *flat* is a closed set.
@@ -8181,6 +8186,13 @@ cdef class Matroid(SageObject):
             sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
             sage: M.broken_circuit_complex()
             Simplicial complex with vertex set () and facets {}
+            sage: for M in matroids.AllMatroids(5):
+            ....:     r = M.rank()
+            ....:     if r > 0:
+            ....:         C = SimplicialComplex(M.bases(), maximality_check=False)
+            ....:         betti = C.betti()
+            ....:         betti[0] -= 1  # reduced homology
+            ....:         assert betti[r-1] == len(M.dual().broken_circuit_complex().facets())
         """
         from sage.topology.simplicial_complex import SimplicialComplex
         cdef int r = self.rank()
@@ -8407,7 +8419,7 @@ cdef class Matroid(SageObject):
             sage: N = matroids.catalog.Fano().direct_sum(M); N
             Matroid of rank 6 on 16 elements as matroid sum of
             Binary matroid of rank 3 on 7 elements, type (3, 0)
-            Matroid of rank 3 on 9 elements with 9 non-spanning circuits
+            Matroid of rank 3 on 9 elements with 9 nonspanning circuits
             sage: len(N.independent_sets())
             6897
             sage: len(list(N.bases()))

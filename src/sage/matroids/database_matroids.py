@@ -1147,7 +1147,7 @@ def P8pp(groundset=None):
 
         sage: from sage.matroids.advanced import *
         sage: M = matroids.catalog.P8pp(); M
-        P8'': Matroid of rank 4 on 8 elements with 8 non-spanning circuits
+        P8'': Matroid of rank 4 on 8 elements with 8 nonspanning circuits
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
         sage: len(get_nonisomorphic_matroids([M.contract(i) for i in M.groundset()]))
@@ -1393,7 +1393,7 @@ def Pappus(groundset=None):
 
         sage: from sage.matroids.advanced import setprint
         sage: M = matroids.catalog.Pappus(); M
-        Pappus: Matroid of rank 3 on 9 elements with 9 non-spanning circuits
+        Pappus: Matroid of rank 3 on 9 elements with 9 nonspanning circuits
         sage: setprint(M.nonspanning_circuits())
         [{'a', 'b', 'c'}, {'a', 'e', 'i'}, {'a', 'f', 'h'}, {'b', 'd', 'i'},
          {'b', 'f', 'g'}, {'c', 'd', 'h'}, {'c', 'e', 'g'}, {'d', 'e', 'f'},
@@ -1426,7 +1426,7 @@ def NonPappus(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.NonPappus(); M
-        NonPappus: Matroid of rank 3 on 9 elements with 8 non-spanning circuits
+        NonPappus: Matroid of rank 3 on 9 elements with 8 nonspanning circuits
         sage: M.print_nonspanning_circuits()
         [['a', 'b', 'c'], ['a', 'e', 'i'], ['a', 'f', 'h'], ['b', 'd', 'i'],
          ['b', 'f', 'g'], ['c', 'd', 'h'], ['c', 'e', 'g'], ['g', 'h', 'i']]
@@ -2361,7 +2361,7 @@ def Psi(r, groundset=None):
     EXAMPLES::
 
         sage: matroids.Psi(7)
-         Psi_7: Matroid of rank 7 on 14 elements with 105 non-spanning circuits
+         Psi_7: Matroid of rank 7 on 14 elements with 105 nonspanning circuits
 
     The matroid `\Psi_r` is `3`-connected but, for all `r \ge 4`, not `4`-connected::
 
@@ -4814,7 +4814,7 @@ def R9A(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.R9A(); M
-        R9A: Matroid of rank 4 on 9 elements with 13 non-spanning circuits
+        R9A: Matroid of rank 4 on 9 elements with 13 nonspanning circuits
         sage: M.is_valid()
         True
     """
@@ -4837,7 +4837,7 @@ def R9B(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.R9B(); M
-        R9B: Matroid of rank 4 on 9 elements with 13 non-spanning circuits
+        R9B: Matroid of rank 4 on 9 elements with 13 nonspanning circuits
         sage: M.is_valid() and M.is_paving()
         True
     """
@@ -4856,7 +4856,7 @@ def Block_9_4(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.Block_9_4(); M
-        Block(9, 4): Matroid of rank 4 on 9 elements with 18 non-spanning
+        Block(9, 4): Matroid of rank 4 on 9 elements with 18 nonspanning
         circuits
         sage: M.is_valid() and M.is_paving()
         True
@@ -4882,7 +4882,7 @@ def TicTacToe(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.TicTacToe(); M
-        TicTacToe: Matroid of rank 5 on 9 elements with 8 non-spanning circuits
+        TicTacToe: Matroid of rank 5 on 9 elements with 8 nonspanning circuits
         sage: M.is_valid() and M.is_paving()
         True
 
@@ -4936,7 +4936,7 @@ def Block_10_5(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.Block_10_5(); M
-        Block(10, 5): Matroid of rank 5 on 10 elements with 36 non-spanning
+        Block(10, 5): Matroid of rank 5 on 10 elements with 36 nonspanning
         circuits
         sage: M.is_valid() and M.is_paving()
         True
@@ -5008,7 +5008,7 @@ def BetsyRoss(groundset=None):
     EXAMPLES::
 
         sage: M = matroids.catalog.BetsyRoss(); M
-        BetsyRoss: Matroid of rank 3 on 11 elements with 25 non-spanning
+        BetsyRoss: Matroid of rank 3 on 11 elements with 25 nonspanning
         circuits
         sage: len(M.circuit_closures()[2])
         10
