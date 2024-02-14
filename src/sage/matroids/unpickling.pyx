@@ -33,6 +33,7 @@ from sage.rings.rational cimport Rational
 from sage.matroids.basis_matroid cimport BasisMatroid
 from sage.matroids.circuits_matroid cimport CircuitsMatroid
 from sage.matroids.circuit_closures_matroid cimport CircuitClosuresMatroid
+from sage.matroids.flats_matroid cimport FlatsMatroid
 from sage.matroids.dual_matroid import DualMatroid
 from sage.matroids.graphic_matroid import GraphicMatroid
 from sage.matroids.lean_matrix cimport GenericMatrix, BinaryMatrix, TernaryMatrix, QuaternaryMatrix, PlusMinusOneMatrix, RationalMatrix
