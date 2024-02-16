@@ -226,6 +226,7 @@ cdef class Matroid(SageObject):
     cpdef automorphism_group(self) noexcept
     cpdef bergman_complex(self) noexcept
     cpdef augmented_bergman_complex(self) noexcept
+    cpdef broken_circuit_complex(self, ordering=*, reduced=*) noexcept
 
     # visualization
     cpdef plot(self,B=*,lineorders=*,pos_method=*,pos_dict=*,save_pos=*) noexcept

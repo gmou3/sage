@@ -7803,9 +7803,9 @@ cdef class Matroid(SageObject):
 
             \chi_M(\lambda) = \sum_{S \subseteq E} (-1)^{|S|}\lambda^{r(E)-r(S)},
 
-        where `E` is the groundset and`r` is the matroid's rank function. The
+        where `E` is the groundset and `r` is the matroid's rank function. The
         characteristic polynomial is also equal to
-        \sum_{i = 0}^r w_i\lambda^{r-i}, where `\{w_i\}_{i=0}^r` are the
+        `\sum_{i = 0}^r w_i\lambda^{r-i}`, where `\{w_i\}_{i=0}^r` are the
         Whitney numbers of the first kind.
 
         INPUT:
@@ -7813,7 +7813,7 @@ cdef class Matroid(SageObject):
         - ``l`` -- a variable or numerical argument (optional)
 
         OUTPUT: the characteristic polynomial, `\chi_M(\lambda)`, where
-        `\lambda` is substituted with any value provided as input.
+        `\lambda` is substituted with any value provided as input
 
         EXAMPLES::
 
@@ -8166,7 +8166,7 @@ cdef class Matroid(SageObject):
                 self._cached_info = {'plot_positions': pos_dict, 'lineorders': lineorders}
         return
 
-    def broken_circuit_complex(self, ordering=None):
+    cpdef broken_circuit_complex(self, ordering=None, reduced=False) noexcept:
         r"""
         Return the broken circuit complex of ``self``.
 
@@ -8208,7 +8208,10 @@ cdef class Matroid(SageObject):
         cdef list facets = []
         for S in self.no_broken_circuits_sets_iterator(ordering):
             if len(S) == r:
-                facets += [S]
+                if not reduced:
+                    facets += [S]
+                elif ordering[0] in S:
+                    facets += [S.difference([ordering[0]])]
         return SimplicialComplex(facets, maximality_check=False)
 
     cpdef automorphism_group(self) noexcept:
