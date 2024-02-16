@@ -148,6 +148,7 @@ additional functionality (e.g. linear extensions).
     - :meth:`chow_ring() <sage.matroids.matroid.Matroid.chow_ring>`
     - :meth:`matroid_polytope() <sage.matroids.matroid.Matroid.matroid_polytope>`
     - :meth:`independence_matroid_polytope() <sage.matroids.matroid.Matroid.independence_matroid_polytope>`
+    - :meth:`lattice_of_flats() <sage.matroids.matroid.Matroid.lattice_of_flats>`
     - :meth:`orlik_solomon_algebra() <sage.matroids.matroid.Matroid.orlik_solomon_algebra>`
     - :meth:`bergman_complex() <sage.matroids.matroid.Matroid.bergman_complex>`
     - :meth:`augmented_bergman_complex() <sage.matroids.matroid.Matroid.augmented_bergman_complex>`
@@ -319,9 +320,10 @@ REFERENCES
 
 AUTHORS:
 
-- Michael Welsh (2013-04-03): Changed flats() to use SetSystem
-- Michael Welsh (2013-04-01): Added is_3connected(), using naive algorithm
 - Rudi Pendavingh, Stefan van Zwam (2013-04-01): initial version
+- Michael Welsh (2013-04-01): Added is_3connected(), using naive algorithm
+- Michael Welsh (2013-04-03): Changed flats() to use SetSystem
+- Giorgos Mousa (2024-02-15): Add Whitney numbers, characteristic polynomial
 
 Methods
 =======
@@ -1113,9 +1115,9 @@ cdef class Matroid(SageObject):
             if certificate:
                 return False, None
             return False
-        YY = self.dual().independent_r_sets(cd)
-        for X in self.independent_r_sets(rd):
-            for Y in YY:
+        D = self.dual()
+        for X in self.independent_r_sets_iterator(rd):
+            for Y in D.independent_r_sets_iterator(cd):
                 if X.isdisjoint(Y):
                     if N._is_isomorphic(self._minor(contractions=X, deletions=Y)):
                         if certificate:
@@ -1378,6 +1380,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- a subset (or any iterable) of the groundset
 
+        OUTPUT: a subset of ``X``
         OUTPUT: subset of ``X``
 
         EXAMPLES::
@@ -1480,6 +1483,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- a subset (or any iterable) of the groundset
 
+        OUTPUT: a superset of ``X``
         OUTPUT: set of elements containing ``X``
 
         EXAMPLES::
@@ -1717,6 +1721,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- a subset (or any iterable) of the groundset
 
+        OUTPUT: a superset of ``X``
         OUTPUT: a set of elements containing ``X``
 
         .. SEEALSO::
@@ -3006,6 +3011,36 @@ cdef class Matroid(SageObject):
 
         TESTS::
 
+            sage: for M in matroids.AllMatroids(5):                                     # optional - matroid_database
+            ....:     assert M.f_vector() == SimplicialComplex(M.bases()).f_vector()
+        """
+        cdef list f = []
+        cdef int i, sum
+        for i in range(self.full_rank() + 1):
+            sum = 0
+            for _ in self.independent_r_sets_iterator(i):
+                sum += 1
+            f.append(sum)
+        return f
+
+    cpdef whitney_numbers(self) noexcept:
+        r"""
+        Return the Whitney numbers of the first kind of the matroid.
+
+        The Whitney numbers of the first kind -- here encoded as a vector
+        `(w_0=1, ..., w_r)` -- are numbers of alternating sign, where `w_i` is
+        the value of the coefficient of the `(r-i)`-th degree term of the
+        matroid's characteristic polynomial. Moreover, `|w_i|` is the number of
+        `(i-1)`-dimensional faces of the broken circuit complex of the matroid.
+
+        OUTPUT: a list of integers
+
+            sage: M = matroids.catalog.Vamos()
+            sage: M.f_vector()
+            [1, 8, 28, 56, 65]
+
+        TESTS::
+
             sage: for M in matroids.AllMatroids(5):
             ....:     assert M.f_vector() == SimplicialComplex(M.bases()).f_vector()
         """
@@ -3325,7 +3360,7 @@ cdef class Matroid(SageObject):
 
     # polytopes
 
-    def matroid_polytope(self):
+    cpdef matroid_polytope(self) noexcept:
         r"""
         Return the matroid polytope of ``self``.
 
@@ -3364,11 +3399,17 @@ cdef class Matroid(SageObject):
         n = self.size()
         vector_e = FreeModule(ZZ, n).basis()
         convert = {ind: i for i, ind in enumerate(self.groundset())}
+        vertices = []
+        for B in self.bases_iterator():
+            sum = 0
+            for i in B:
+                sum += vector_e[convert[i]]
+            vertices += [sum]
         vertices = [sum(vector_e[convert[i]] for i in B)
                     for B in self.bases_iterator()]
         return Polyhedron(vertices)
 
-    def independence_matroid_polytope(self):
+    cpdef independence_matroid_polytope(self) noexcept:
         r"""
         Return the independence matroid polytope of ``self``.
 
@@ -3408,6 +3449,12 @@ cdef class Matroid(SageObject):
         ambient = FreeModule(ZZ, n)
         vector_e = ambient.basis()
         convert = {ind: i for i, ind in enumerate(self.groundset())}
+        vertices = []
+        for IS in self.independent_sets_iterator():
+            lst = []
+            for i in IS:
+                lst += [vector_e[convert[i]]]
+            vertices += [ambient.sum(lst)]
         vertices = [ambient.sum(vector_e[convert[i]] for i in IS)
                     for IS in self.independent_sets_iterator()]
         return Polyhedron(vertices)
@@ -4037,9 +4084,7 @@ cdef class Matroid(SageObject):
         - ``X`` -- Either a single element of the groundset, or a collection
           of elements
 
-        OUTPUT:
-
-        The matroid obtained by contracting the element(s) in ``X``.
+        OUTPUT: the matroid obtained by contracting the element(s) in ``X``
 
         .. SEEALSO::
 
@@ -4262,8 +4307,7 @@ cdef class Matroid(SageObject):
             sage: matroids.catalog.NonFano().has_minor(M)
             True
             sage: matroids.catalog.NonFano().has_minor(M, certificate=True)
-            (True, (frozenset(), frozenset({'g'}),
-                {0: 'b', 1: 'c', 2: 'a', 3: 'd', 4: 'e', 5: 'f'}))
+            (True, (frozenset(), frozenset({...}), {...}))
             sage: M = matroids.catalog.Fano()
             sage: M.has_minor(M, True)
             (True,
@@ -4741,7 +4785,7 @@ cdef class Matroid(SageObject):
                 raise ValueError("cannot extend by element already in groundset")
         return extension.MatroidExtensions(self, element, line_length=line_length, subsets=subsets)  # return enumerator
 
-    def coextensions(self, element=None, coline_length=None, subsets=None):
+    cpdef coextensions(self, element=None, coline_length=None, subsets=None) noexcept:
         r"""
         Return an iterable set of single-element coextensions of the matroid.
 
@@ -5431,6 +5475,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
         - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
@@ -5480,6 +5525,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
         - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
@@ -5607,6 +5653,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
         - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
@@ -5683,6 +5730,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
         - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
@@ -5937,6 +5985,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
         - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
@@ -6211,6 +6260,7 @@ cdef class Matroid(SageObject):
         - ``randomized_tests`` -- (default: 1) an integer; the number of
           times a certain necessary condition for being binary is tested,
           using randomization
+        - ``verify`` -- boolean (default: ``True``); if ``True``,
         - ``verify`` -- (default: ``True``), boolean; if ``True``,
           any output will be a binary matroid representing ``self``; if
           ``False``, any output will represent ``self`` if and only if the
@@ -6392,6 +6442,7 @@ cdef class Matroid(SageObject):
         - ``randomized_tests`` -- (default: 1) an integer; the number of
           times a certain necessary condition for being ternary is tested,
           using randomization
+        - ``verify`` -- boolean (default: ``True``); if ``True``,
         - ``verify`` -- (default: ``True``), boolean; if ``True``,
           any output will be a ternary matroid representing ``self``; if
           ``False``, any output will represent ``self`` if and only if the
@@ -6563,6 +6614,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``C`` -- a circuit
+        - ``certificate`` -- boolean (default: ``False``), if ``True``
         - ``certificate`` -- (default: ``False``) boolean, if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
@@ -6613,6 +6665,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``C`` -- a circuit
+        - ``certificate`` -- boolean (default: ``False``), if ``True``
         - ``certificate`` -- (default: ``False``) boolean, if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
@@ -6681,12 +6734,12 @@ cdef class Matroid(SageObject):
             sage: M.is_chordal(4, 5)
             False
             sage: M.is_chordal(4, 5, certificate=True)
-            (False, frozenset({'a', 'b', 'e', 'f', 'g'}))
+            (False, frozenset({...}))
         """
         cdef frozenset C
         if k2 is None:
             k2 = len(self.groundset()) + 1 # This is always larger than the rank
-        for C in self.circuits():
+        for C in self.circuits_iterator():
             if len(C) < k1 or len(C) > k2:
                 continue
             if not self._is_circuit_chordal(C):
@@ -8247,7 +8300,7 @@ cdef class Matroid(SageObject):
         [Oxl2011]_, p. 189.
         """
         from sage.topology.simplicial_complex import SimplicialComplex
-        return SimplicialComplex(self.bases()).automorphism_group()
+        return SimplicialComplex(self.bases(), maximality_check=False).automorphism_group()
 
     cpdef bergman_complex(self) noexcept:
         r"""
@@ -8341,7 +8394,7 @@ cdef class Matroid(SageObject):
         """
         # Construct independent set complex from bases
         from sage.topology.simplicial_complex import SimplicialComplex
-        IM = SimplicialComplex(self.bases())
+        IM = SimplicialComplex(self.bases(), maximality_check=False)
 
         LM = self.lattice_of_flats()
 
@@ -8408,7 +8461,7 @@ cdef class Matroid(SageObject):
         matroids.insert(0, self)
         return union_matroid.MatroidUnion(iter(matroids))
 
-    def direct_sum(self, matroids):
+    cpdef direct_sum(self, matroids) noexcept:
         r"""
         Return the matroid direct sum with another matroid or list of
         matroids.

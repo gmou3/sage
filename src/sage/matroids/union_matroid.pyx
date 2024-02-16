@@ -20,8 +20,8 @@ cdef class MatroidUnion(Matroid):
         Matroid of rank 3 on 3 elements with circuit-closures
         {}
         Matroid of rank 1 on 2 elements with 2 bases
-        sage: list(M.bases())
-        [frozenset({0, 1, 2, 3}), frozenset({0, 1, 2, 4})]
+        sage: M.bases()
+        Iterator over a system of subsets
         sage: list(M.circuits())
         [frozenset({3, 4})]
 
