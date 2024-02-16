@@ -3035,36 +3035,6 @@ cdef class Matroid(SageObject):
 
         OUTPUT: a list of integers
 
-            sage: M = matroids.catalog.Vamos()
-            sage: M.f_vector()
-            [1, 8, 28, 56, 65]
-
-        TESTS::
-
-            sage: for M in matroids.AllMatroids(5):
-            ....:     assert M.f_vector() == SimplicialComplex(M.bases()).f_vector()
-        """
-        cdef list f = []
-        cdef int i, sum
-        for i in range(self.full_rank() + 1):
-            sum = 0
-            for _ in self.independent_r_sets_iterator(i):
-                sum += 1
-            f.append(sum)
-        return f
-
-    cpdef whitney_numbers(self) noexcept:
-        r"""
-        Return the Whitney numbers of the first kind of the matroid.
-
-        The Whitney numbers of the first kind -- here encoded as a vector
-        `(w_0=1, ..., w_r)` -- are numbers of alternating sign, where `w_i` is
-        the value of the coefficient of the `(r-i)`-th degree term of the
-        matroid's characteristic polynomial. Moreover, `|w_i|` is the number of
-        `i`-faces of the broken circuit complex of the matroid.
-
-        OUTPUT: a list of integers
-
         EXAMPLES::
 
             sage: M = matroids.catalog.BetsyRoss()
@@ -3405,8 +3375,6 @@ cdef class Matroid(SageObject):
             for i in B:
                 sum += vector_e[convert[i]]
             vertices += [sum]
-        vertices = [sum(vector_e[convert[i]] for i in B)
-                    for B in self.bases_iterator()]
         return Polyhedron(vertices)
 
     cpdef independence_matroid_polytope(self) noexcept:
@@ -3455,8 +3423,6 @@ cdef class Matroid(SageObject):
             for i in IS:
                 lst += [vector_e[convert[i]]]
             vertices += [ambient.sum(lst)]
-        vertices = [ambient.sum(vector_e[convert[i]] for i in IS)
-                    for IS in self.independent_sets_iterator()]
         return Polyhedron(vertices)
 
     # isomorphism and equality
