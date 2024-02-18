@@ -2478,7 +2478,7 @@ class NumberField_relative(NumberField_generic):
 
         The base ring of an order in a relative extension is still `\ZZ`.::
 
-            sage: R.base_ring()                                                         # needs sage.symbolic
+            sage: R.base_ring()                                                         # needs sage.symbolic, long time
             Integer Ring
 
         One must give enough generators to generate a ring of finite index
