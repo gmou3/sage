@@ -2292,7 +2292,7 @@ class IntegralProjectiveCurve(ProjectiveCurve_field):
 
             sage: P.<x,y,z> = ProjectiveSpace(GF(4), 2)                                 # needs sage.rings.finite_rings
             sage: C = Curve(x^5 + y^5 + x*y*z^3 + z^5)                                  # needs sage.rings.finite_rings
-            sage: C.genus()  # indirect doctest                                         # needs sage.rings.finite_rings
+            sage: C.genus()  # long time  # indirect doctest                                         # needs sage.rings.finite_rings
             1
         """
         return self._open_affine.genus()
@@ -2341,7 +2341,7 @@ class IntegralProjectiveCurve(ProjectiveCurve_field):
             sage: C = Curve(x^5 + y^5 + x*y*z^3 + z^5)
             sage: f = C.function(x/y); f
             1/y
-            sage: f.divisor()
+            sage: f.divisor()  # long time
             Place (1/y, 1/y^2*z^2 + z2/y*z + 1)
              + Place (1/y, 1/y^2*z^2 + ((z2 + 1)/y)*z + 1)
              + Place (1/y, 1/y*z + 1)
@@ -2664,6 +2664,7 @@ class IntegralProjectiveCurve(ProjectiveCurve_field):
 
             sage: P.<x,y,z> = ProjectiveSpace(QQ, 2)
             sage: C = Curve(x*y*z^4 - x^6 - y^6)
+            sage: # long time
             sage: C.singular_closed_points()
             [Point (x, y)]
             sage: p, = _
@@ -2724,7 +2725,7 @@ class IntegralProjectiveCurve_finite_field(IntegralProjectiveCurve):
         sage: C = Curve(y^2*z^7 - x^9 - x*z^8)
         sage: C.function_field()
         Function field in z defined by z^8 + 4*y^2*z^7 + 1
-        sage: C.closed_points()
+        sage: C.closed_points()  # long time
         [Point (x, z),
          Point (x, y),
          Point (x - 2*z, y + 2*z),
@@ -2867,7 +2868,7 @@ class IntegralProjectiveCurve_finite_field(IntegralProjectiveCurve):
             sage: D = Cbar.change_ring(Cbar.base_ring().extension(3))
             sage: D.base_ring()
             Finite Field in z3 of size 3^3
-            sage: len(D.closed_points())
+            sage: len(D.closed_points())  # long time
             21
 
         """

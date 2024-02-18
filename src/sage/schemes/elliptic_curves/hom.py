@@ -1340,7 +1340,7 @@ def compute_trace_generic(phi):
         sage: F.<t> = GF((p, e))
         sage: E = choice(EllipticCurve(j=F.random_element()).twists())
         sage: pi = E.frobenius_endomorphism()
-        sage: compute_trace_generic(pi) == E.trace_of_frobenius()
+        sage: compute_trace_generic(pi) == E.trace_of_frobenius()  # long time
         True
 
     Check that the nonexistence of `p`-torsion for supersingular curves

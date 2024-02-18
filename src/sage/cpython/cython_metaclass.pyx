@@ -64,7 +64,8 @@ In Python, this would be ``meta.__init__(cls, name, bases, dict)``.
 
 EXAMPLES::
 
-    sage: cython(                                                                       # needs sage.misc.cython
+    sage: # needs sage.misc.cython, long time
+    sage: cython(                                                                       
     ....: '''
     ....: cimport cython
     ....: cimport sage.cpython.cython_metaclass
@@ -81,9 +82,9 @@ EXAMPLES::
     ....: ''')
     Calling MyMetaclass.__init__(<class '...MyCustomType'>, None, None, None)
     Calling MyMetaclass.__init__(<class '...MyDerivedType'>, None, None, None)
-    sage: MyCustomType.__class__                                                        # needs sage.misc.cython
+    sage: MyCustomType.__class__
     <class '...MyMetaclass'>
-    sage: class MyPythonType(MyDerivedType):                                            # needs sage.misc.cython
+    sage: class MyPythonType(MyDerivedType):
     ....:     pass
     Calling MyMetaclass.__init__(<class '...MyPythonType'>, 'MyPythonType', (<class '...MyDerivedType'>,), {...})
 

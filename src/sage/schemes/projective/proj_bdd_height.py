@@ -294,7 +294,7 @@ def points_of_bounded_height(PS, K, dim, bound, prec=53):
         sage: R2.<y> = K[]
         sage: L.<w> = K.extension(y^2 - 3)
         sage: P.<a,b> = ProjectiveSpace(L, 1)
-        sage: len(list(P.points_of_bounded_height(bound=2)))
+        sage: len(list(P.points_of_bounded_height(bound=2)))  # long time
         256
     """
     if bound < 1:

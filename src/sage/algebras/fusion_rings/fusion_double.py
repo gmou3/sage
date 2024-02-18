@@ -157,7 +157,7 @@ class FusionDouble(CombinatorialFreeModule):
         EXAMPLES::
 
             sage: H = FusionDouble(DihedralGroup(6))
-            sage: TestSuite(H).run()
+            sage: TestSuite(H).run()  # long time
             sage: H = FusionDouble(DihedralGroup(7))
             sage: TestSuite(H).run()  # long time
 

@@ -20,12 +20,13 @@ EXAMPLES::
     sage: G = 5*Q
     sage: codes.EvaluationAGCode(pls, G)
     [8, 5] evaluation AG code over GF(4)
-    sage: codes.DifferentialAGCode(pls, G)
+    sage: codes.DifferentialAGCode(pls, G)  # long time
     [8, 3] differential AG code over GF(4)
 
 As is well known, the two kinds of AG codes are dual to each other. ::
 
     sage: E = codes.EvaluationAGCode(pls, G)
+    sage: # long time
     sage: D = codes.DifferentialAGCode(pls, G)
     sage: E.dual_code() == D
     True
@@ -518,6 +519,7 @@ class DifferentialAGCode(AGCode):
             sage: pls = F.places()
             sage: Q, = C.places_at_infinity()
             sage: pls.remove(Q)
+            sage: # long time
             sage: code = codes.DifferentialAGCode(pls, 3*Q)
             sage: latex(code)
             [8, 5]\text{ differential AG code over }\Bold{F}_{2^{2}}
@@ -539,7 +541,7 @@ class DifferentialAGCode(AGCode):
             sage: Q, = C.places_at_infinity()
             sage: pls.remove(Q)
             sage: code = codes.DifferentialAGCode(pls, 3*Q)
-            sage: matrix([[w.residue(p) for p in pls]
+            sage: matrix([[w.residue(p) for p in pls]  # long time
             ....:         for w in code.basis_differentials()])
             [    1     0     0     0     0 a + 1 a + 1     1]
             [    0     1     0     0     0 a + 1     a     0]
@@ -562,6 +564,7 @@ class DifferentialAGCode(AGCode):
             sage: pls = F.places()
             sage: Q, = C.places_at_infinity()
             sage: pls.remove(Q)
+            sage: # long time
             sage: code = codes.DifferentialAGCode(pls, 3*Q)
             sage: code.generator_matrix()
             [    1     0     0     0     0 a + 1 a + 1     1]

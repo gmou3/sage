@@ -615,7 +615,7 @@ def fieldI(field):
         sage: p = QQ[x](x^5 + 2 * x + 1)
         sage: a0 = p.roots(QQbar, multiplicities=False)[0]
         sage: F0.<a> = NumberField(p, embedding=a0)
-        sage: fieldI(F0)
+        sage: fieldI(F0)  # long time
         Number Field in b with defining polynomial
         x^10 + 5*x^8 + 14*x^6 - 2*x^5 - 10*x^4 + 20*x^3 - 11*x^2 - 14*x + 10
         with b = 0.4863890359345430? + 1.000000000000000?*I

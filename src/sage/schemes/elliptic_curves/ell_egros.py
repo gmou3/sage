@@ -321,6 +321,7 @@ def egros_from_jlist(jlist, S=[]):
     EXAMPLES::
 
         sage: from sage.schemes.elliptic_curves.ell_egros import egros_get_j, egros_from_jlist
+        sage: # long time
         sage: jlist=egros_get_j([3])
         sage: elist=egros_from_jlist(jlist,[3])
         sage: [e.label() for e in elist]

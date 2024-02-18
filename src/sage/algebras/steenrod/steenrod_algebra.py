@@ -551,7 +551,7 @@ class SteenrodAlgebra_generic(CombinatorialFreeModule):
             sage: TestSuite(SteenrodAlgebra()).run()
             sage: TestSuite(SteenrodAlgebra(profile=[4,3,2,2,1])).run()
             sage: TestSuite(SteenrodAlgebra(basis='adem')).run()
-            sage: TestSuite(SteenrodAlgebra(basis='wall')).run()
+            sage: TestSuite(SteenrodAlgebra(basis='wall')).run()  # long time
             sage: TestSuite(SteenrodAlgebra(basis='arnonc')).run()  # long time
             sage: TestSuite(SteenrodAlgebra(basis='woody')).run()   # long time
             sage: A3 = SteenrodAlgebra(3)

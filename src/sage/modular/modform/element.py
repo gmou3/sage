@@ -292,7 +292,7 @@ class ModularForm_abstract(ModuleElement):
 
             sage: f = Newforms(Gamma1(30), 2, names='a')[1]
             sage: g = ModularForms(23, 2).0
-            sage: f != g
+            sage: f != g  # long time
             True
             sage: f != f
             False

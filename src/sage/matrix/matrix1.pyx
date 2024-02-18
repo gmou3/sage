@@ -726,7 +726,7 @@ cdef class Matrix(Matrix0):
             sage: b.dtype
             dtype('int32')  # 32-bit
             dtype('int64')  # 64-bit
-            sage: b.shape
+            sage: b.shape  # needs numpy
             (3, 4)
         """
         import numpy

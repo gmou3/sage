@@ -917,7 +917,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
 
         sage: l = designs.ProjectiveGeometryDesign(2, 1, GF(4,name='a'))                # needs sage.rings.finite_rings
         sage: f = lambda S: not any(len(set(S).intersection(x))>2 for x in l)
-        sage: SimplicialComplex(from_characteristic_function=(f, l.ground_set()))       # needs sage.rings.finite_rings
+        sage: SimplicialComplex(from_characteristic_function=(f, l.ground_set()))       # long time, needs sage.rings.finite_rings
         Simplicial complex with 21 vertices and 168 facets
 
     TESTS:
@@ -4778,7 +4778,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             sage: # needs sage.numerical.mip
             sage: X = SimplicialComplex([[1,3,5], [1,3,6], [1,4,5], [1,4,6],
             ....:                        [2,3,5], [2,3,6], [2,4,5]])
-            sage: X.is_partitionable()
+            sage: X.is_partitionable()  # long time
             True
             sage: P = X.is_partitionable(certificate=True)
             sage: def n_intervals_containing(f):

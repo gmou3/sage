@@ -613,7 +613,7 @@ class Polytopes:
 
             sage: b4norm = polytopes.Birkhoff_polytope(4,backend='normaliz')    # optional - pynormaliz
             sage: TestSuite(b4norm).run()                                       # optional - pynormaliz
-            sage: TestSuite(polytopes.Birkhoff_polytope(3)).run()
+            sage: TestSuite(polytopes.Birkhoff_polytope(3)).run()  # long time
         """
         from itertools import permutations
         verts = []

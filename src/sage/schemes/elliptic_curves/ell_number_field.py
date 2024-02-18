@@ -805,7 +805,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             sage: K.<a> = QuadraticField(4569)
             sage: j = 46969655/32768
             sage: E = EllipticCurve(j=K(j))
-            sage: C = E.isogeny_class()
+            sage: C = E.isogeny_class()  # long time
         """
         K = self.base_field()
         r1, r2 = K.signature()
@@ -2601,13 +2601,13 @@ class EllipticCurve_number_field(EllipticCurve_field):
 
             sage: K.<i> = QuadraticField(-1)
             sage: E = EllipticCurve(K, [0,0,0,0,1])
-            sage: C = E.isogeny_class(); C
+            sage: C = E.isogeny_class(); C  # long time
             Isogeny class of Elliptic Curve defined by y^2 = x^3 + 1
              over Number Field in i with defining polynomial x^2 + 1 with i = 1*I
 
         The curves in the class (sorted)::
 
-            sage: [E1.ainvs() for E1 in C]
+            sage: [E1.ainvs() for E1 in C]  # long time
             [(0, 0, 0, 0, -27),
             (0, 0, 0, 0, 1),
             (i + 1, i, i + 1, -i + 3, 4*i),
@@ -2615,7 +2615,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
 
         The matrix of degrees of cyclic isogenies between curves::
 
-            sage: C.matrix()
+            sage: C.matrix()  # long time
             [1 3 6 2]
             [3 1 2 6]
             [6 2 1 3]
@@ -2628,6 +2628,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
         this case we used `2`-isogenies to go from 0 to 2 and from 1
         to 3, and `3`-isogenies to go from 0 to 1 and from 2 to 3::
 
+            sage: # long time
             sage: isogs = C.isogenies()
             sage: [((i,j), isogs[i][j].degree())
             ....:  for i in range(4) for j in range(4) if isogs[i][j] != 0]
@@ -2653,25 +2654,27 @@ class EllipticCurve_number_field(EllipticCurve_field):
         The isogeny class may be visualized by obtaining its graph and
         plotting it::
 
+            sage: # long time
             sage: G = C.graph()
-            sage: G.show(edge_labels=True) # long time
+            sage: G.show(edge_labels=True)
 
             sage: K.<i> = QuadraticField(-1)
             sage: E = EllipticCurve([1+i, -i, i, 1, 0])
-            sage: C = E.isogeny_class(); C # long time
+            sage: # long time
+            sage: C = E.isogeny_class(); C
             Isogeny class of
              Elliptic Curve defined by y^2 + (i+1)*x*y + i*y = x^3 + (-i)*x^2 + x
               over Number Field in i with defining polynomial x^2 + 1 with i = 1*I
-            sage: len(C) # long time
+            sage: len(C)
             6
-            sage: C.matrix() # long time
+            sage: C.matrix()
             [ 1  3  9 18  6  2]
             [ 3  1  3  6  2  6]
             [ 9  3  1  2  6 18]
             [18  6  2  1  3  9]
             [ 6  2  6  3  1  3]
             [ 2  6 18  9  3  1]
-            sage: [E1.ainvs() for E1 in C] # long time
+            sage: [E1.ainvs() for E1 in C]
             [(i + 1, i - 1, i, -i - 1, -i + 1),
              (i + 1, i - 1, i, 14*i + 4, 7*i + 14),
              (i + 1, i - 1, i, 59*i + 99, 372*i - 410),
@@ -2691,6 +2694,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             True
             sage: E.cm_discriminant()
             -20
+            sage: # long time
             sage: C = E.isogeny_class()
             sage: len(C)
             2
@@ -2887,7 +2891,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
         edges than in the non-CM case, it may be preferable to omit
         the edge_labels::
 
-            sage: G = C.graph()
+            sage: G = C.graph()  # long time
             sage: G.show(edge_labels=False) # long time
 
         It is possible to display a 3-dimensional plot, with colours
@@ -2928,7 +2932,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
 
             sage: L5.<r5> = NumberField(x^2-5)
             sage: F = EllipticCurve(L5,[0,-4325477943600 *r5-4195572876000])
-            sage: F.isogeny_class().matrix()
+            sage: F.isogeny_class().matrix()  # long time
             [ 1 25 75  3  5 15]
             [25  1  3 75  5 15]
             [75  3  1 25 15  5]
@@ -3334,9 +3338,10 @@ class EllipticCurve_number_field(EllipticCurve_field):
             sage: K = NumberField(x**2 - 29, 'a'); a = K.gen()
             sage: E = EllipticCurve([1, 0, ((5 + a)/2)**2, 0, 0])
             sage: rho = E.galois_representation()
-            sage: rho.reducible_primes() # long time
+            sage: # long time
+            sage: rho.reducible_primes()
             [3, 5]
-            sage: E.reducible_primes() # long time
+            sage: E.reducible_primes()
             [3, 5]
             sage: K = NumberField(x**2 + 1, 'a')
             sage: E = EllipticCurve_from_j(K(1728)) # CM over K
@@ -3347,7 +3352,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             [2, 5]
             sage: E = EllipticCurve_from_j(K(0)) # CM but NOT over K
             sage: rho = E.galois_representation()
-            sage: rho.reducible_primes() # long time
+            sage: rho.reducible_primes()
             [2, 3]
             sage: E.reducible_primes()
             [2, 3]
@@ -3355,9 +3360,9 @@ class EllipticCurve_number_field(EllipticCurve_field):
             sage: rho = E.galois_representation()
             sage: rho.isogeny_bound() # ..but there is no 7-isogeny, long time
             [7]
-            sage: rho.reducible_primes() # long time
+            sage: rho.reducible_primes()
             []
-            sage: E.reducible_primes() # long time
+            sage: E.reducible_primes()
             []
         """
         from sage.schemes.elliptic_curves.isogeny_class import possible_isogeny_degrees
@@ -3396,6 +3401,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
         Some examples over `\QQ`::
 
             sage: E = EllipticCurve([0, 1, 1, -2, 42])
+            sage: # long time
             sage: Pi = E.gens(); Pi
             [(-4 : 1 : 1), (-3 : 5 : 1), (-11/4 : 43/8 : 1), (-2 : 6 : 1)]
             sage: Qi, U = E.lll_reduce(Pi)
@@ -3926,7 +3932,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
               (-1/25*i + 18/25 : -69/125*i - 58/125 : 1)],
              2,
              0.103174443217351)
-            sage: EK.saturation([26*Q], lower_ht_bound=0.1)
+            sage: EK.saturation([26*Q], lower_ht_bound=0.1)  # long time
             ([(0 : -1 : 1)], 26, 0.327000773651605)
 
         Another number field::
@@ -4088,7 +4094,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             sage: EK.gens_quadratic()
             [(5 : 17 : 1), (-13 : 48*i + 5 : 1)]
 
-            sage: E.change_ring(QuadraticField(3, 'a')).gens_quadratic()
+            sage: E.change_ring(QuadraticField(3, 'a')).gens_quadratic()  # long time
             [(5 : 17 : 1), (-1 : 2*a - 1 : 1), (11/4 : 33/4*a - 23/8 : 1)]
 
             sage: K.<a> = QuadraticField(-7)
@@ -4098,7 +4104,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             sage: E.gens()
             [(47995604297578081/7389879786648100 : -25038161802544048018837479/635266655830129794121000 : 1)]
             sage: K.<a> = QuadraticField(7)
-            sage: E.change_ring(K).gens_quadratic()
+            sage: E.change_ring(K).gens_quadratic()  # long time
             [(-1209642055/59583566*a + 1639995844/29791783 : -377240626321899/1720892553212*a + 138577803462855/245841793316 : 1),
              (1/28 : 393/392*a : 1),
              (-61*a + 162 : 1098*a - 2916 : 1)]

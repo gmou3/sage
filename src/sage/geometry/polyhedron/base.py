@@ -125,7 +125,7 @@ class Polyhedron_base(Polyhedron_base7):
     ::
 
         sage: p = polytopes.flow_polytope(digraphs.DeBruijn(3,2))                       # needs sage.combinat sage.graphs
-        sage: TestSuite(p).run()
+        sage: TestSuite(p).run()  # long time
 
     ::
 

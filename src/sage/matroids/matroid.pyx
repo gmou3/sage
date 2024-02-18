@@ -2234,7 +2234,7 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M.is_valid()
+            sage: M.is_valid()  # long time
             True
 
         The following is the 'Escher matroid' by Brylawski and Kelly. See

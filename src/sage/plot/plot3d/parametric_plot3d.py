@@ -201,7 +201,7 @@ def parametric_plot3d(f, urange, vrange=None, plot_points="automatic",
         sage: cm = colormaps.autumn
         sage: def c(x,y): return sin(x*y)**2
         sage: def g(x,y): return x, y+sin(y), x**2 + y**2
-        sage: ParametricSurface(g, (srange(-10,10,0.1), srange(-5,5.0,0.1)), color=(c,cm))
+        sage: ParametricSurface(g, (srange(-10,10,0.1), srange(-5,5.0,0.1)), color=(c,cm))  # long time
         Graphics3d Object
 
     .. PLOT::

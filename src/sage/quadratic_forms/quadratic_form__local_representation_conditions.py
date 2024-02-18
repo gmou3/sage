@@ -681,7 +681,7 @@ def local_representation_conditions(self, recompute_flag=False, silent_flag=Fals
          p = 2:   [0, 0, 0, +Infinity, 0, 0, 0, 0]
 
         sage: Q1 = DiagonalQuadraticForm(ZZ, [1,1,1,1])
-        sage: Q1.local_representation_conditions()
+        sage: Q1.local_representation_conditions()  # long time
         This form represents the p-adic integers Z_p for all primes p except
         [].  For these and the reals, we have:
          Reals:   [0, +Infinity]
@@ -728,7 +728,7 @@ def is_locally_universal_at_prime(self, p) -> bool:
     EXAMPLES::
 
         sage: Q = DiagonalQuadraticForm(ZZ, [1,3,5,7])
-        sage: Q.is_locally_universal_at_prime(2)
+        sage: Q.is_locally_universal_at_prime(2)  # long time
         True
         sage: Q.is_locally_universal_at_prime(3)
         True
@@ -768,7 +768,7 @@ def is_locally_universal_at_all_primes(self) -> bool:
     EXAMPLES::
 
         sage: Q = DiagonalQuadraticForm(ZZ, [1,3,5,7])
-        sage: Q.is_locally_universal_at_all_primes()
+        sage: Q.is_locally_universal_at_all_primes()  # long time
         True
 
     ::
@@ -797,7 +797,7 @@ def is_locally_universal_at_all_places(self) -> bool:
     EXAMPLES::
 
         sage: Q = DiagonalQuadraticForm(ZZ, [1,3,5,7])
-        sage: Q.is_locally_universal_at_all_places()
+        sage: Q.is_locally_universal_at_all_places()  # long time
         False
 
     ::

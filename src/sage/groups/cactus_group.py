@@ -78,7 +78,7 @@ class CactusGroup(UniqueRepresentation, Group):
             sage: J3 = groups.misc.Cactus(3)
             sage: it = iter(J3)
             sage: elts = [next(it) for _ in range(100)]
-            sage: TestSuite(J3).run(elements=elts[::7], skip="_test_enumerated_set_contains")
+            sage: TestSuite(J3).run(elements=elts[::7], skip="_test_enumerated_set_contains")  # long time
 
         We run this test separately because the words grow very long, very
         quickly. This means the code needs to check a lot of normalizations,
@@ -500,7 +500,7 @@ class CactusGroup(UniqueRepresentation, Group):
             sage: RG = list(J3.geometric_representation_generators())
             sage: count = 0
             sage: max_tests = 1000
-            sage: while cur:
+            sage: while cur:  # long time
             ....:     count += 1
             ....:     if count >= max_tests:
             ....:         break

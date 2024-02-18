@@ -38,7 +38,7 @@ Computing inverses::
     sage: ~M
     [1/a - b*c/(a^2*(b*c/a - d))           b/(a*(b*c/a - d))]
     [          c/(a*(b*c/a - d))              -1/(b*c/a - d)]
-    sage: (~M*M).simplify_rational()
+    sage: (~M*M).simplify_rational()  # long time
     [1 0]
     [0 1]
     sage: M = matrix(SR, 3, 3, range(9)) - var('t')

@@ -180,6 +180,7 @@ def enumerate_hypergeometric_data(d, weight=None):
     EXAMPLES::
 
         sage: from sage.modular.hypergeometric_motive import enumerate_hypergeometric_data as enum
+        sage: # long time
         sage: l = [H for H in enum(6, weight=2) if H.hodge_numbers()[0] == 1]
         sage: len(l)
         112

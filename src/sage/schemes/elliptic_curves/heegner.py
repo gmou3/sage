@@ -4378,7 +4378,7 @@ class KolyvaginPoint(HeegnerPoint):
             sage: E = EllipticCurve('43a'); P = E.heegner_point(-20).kolyvagin_point()
             sage: PP = P.numerical_approx(); PP
             (0.000000000000000 : -1.00000000000000 : 1.00000000000000)
-            sage: P._recognize_point_over_QQ(PP, 4)
+            sage: P._recognize_point_over_QQ(PP, 4)  # long time
             (0 : -1 : 1)
         """
         # Here is where we *should* implement the "method of Cremona
@@ -4433,7 +4433,7 @@ class KolyvaginPoint(HeegnerPoint):
             sage: E = EllipticCurve('11a1'); P = E.kolyvagin_point(-7)
             sage: P.mod(3,70)  # long time (4s on sage.math, 2013)
             (1 : 2 : 1)
-            sage: P.mod(5,70)
+            sage: P.mod(5,70)  # long time
             (1 : 4 : 1)
             sage: P.mod(7,70)
             Traceback (most recent call last):
@@ -5437,13 +5437,14 @@ class HeegnerQuatAlg(SageObject):
             sage: N = 389; D = -7; ell = 5; c = 17; q = 3
             sage: H = heegner_points(N).reduce_mod(ell)
             sage: E = EllipticCurve('389a')
-            sage: V = H.modp_dual_elliptic_curve_factor(E, q, 5)  # long time (4s on sage.math, 2012)
+            sage: # long time
+            sage: V = H.modp_dual_elliptic_curve_factor(E, q, 5)
             sage: k118 = H.kolyvagin_sigma_operator(D, c, 118)
             sage: k104 = H.kolyvagin_sigma_operator(D, c, 104)
-            sage: [b.dot_product(k104.element().change_ring(GF(3)))  # long time
+            sage: [b.dot_product(k104.element().change_ring(GF(3)))
             ....:  for b in V.basis()]
             [0, 0]
-            sage: [b.dot_product(k118.element().change_ring(GF(3)))  # long time
+            sage: [b.dot_product(k118.element().change_ring(GF(3)))
             ....:  for b in V.basis()]
             [0, 0]
 
@@ -5451,12 +5452,13 @@ class HeegnerQuatAlg(SageObject):
         get something nonzero, when dotting with V::
 
             sage: c = 41
+            sage: # long time
             sage: k118 = H.kolyvagin_sigma_operator(D, c, 118)
             sage: k104 = H.kolyvagin_sigma_operator(D, c, 104)
-            sage: [b.dot_product(k118.element().change_ring(GF(3)))  # long time
+            sage: [b.dot_product(k118.element().change_ring(GF(3)))
             ....:  for b in V.basis()]
             [2, 0]
-            sage: [b.dot_product(k104.element().change_ring(GF(3)))  # long time
+            sage: [b.dot_product(k104.element().change_ring(GF(3)))
             ....:  for b in V.basis()]
             [1, 0]
 
@@ -5747,7 +5749,7 @@ def kolyvagin_reduction_data(E, q, first_only=True):
 
     The first rank 2 example::
 
-        sage: kolyvagin_reduction_data(EllipticCurve('389a'), 3)
+        sage: kolyvagin_reduction_data(EllipticCurve('389a'), 3)  # long time
         (5, -7, 1, 130)
         sage: kolyvagin_reduction_data(EllipticCurve('389a'), 3, first_only=False)
         (5, 17, -7, 1, 130, 520)
@@ -5759,7 +5761,7 @@ def kolyvagin_reduction_data(E, q, first_only=True):
 
     Additive reduction::
 
-        sage: kolyvagin_reduction_data(EllipticCurve('2350g1'), 5, first_only=False)
+        sage: kolyvagin_reduction_data(EllipticCurve('2350g1'), 5, first_only=False)  # long time
         (19, 239, -311, 19, 6480, 85680)
     """
     from .ell_generic import is_EllipticCurve
@@ -7149,7 +7151,7 @@ def heegner_sha_an(self, D, prec=53):
 
         sage: # long time
         sage: E = EllipticCurve('65a')
-        sage: E.heegner_sha_an(-56)
+        sage: E.heegner_sha_an(-56)  # long time
         1.00000000000000
         sage: E.torsion_order()
         2

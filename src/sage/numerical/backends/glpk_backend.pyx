@@ -1114,7 +1114,7 @@ cdef class GLPKBackend(GenericBackend):
             sage: # needs sage.graphs
             sage: p.solver_parameter("mip_gap_tolerance",1)
             sage: p.solver_parameter("timelimit",3.0)
-            sage: p.solve() # rel tol 100
+            sage: p.solve()  # long time, rel tol 100
             1
         """
 

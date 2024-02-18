@@ -150,7 +150,7 @@ class DownUpAlgebra(CombinatorialFreeModule):
         ....:     return YL.sum_of_monomials(la.add_cell(*c) for c in la.addable_cells())
         sage: D = YL.module_morphism(on_basis=d_action, codomain=YL)
         sage: U = YL.module_morphism(on_basis=u_action, codomain=YL)
-        sage: for la in PartitionsInBox(5, 5):
+        sage: for la in PartitionsInBox(5, 5):  # long time
         ....:     b = YL.basis()[la]
         ....:     assert (D*D*U)(b) == 0*(D*U*D)(b) + 1*(U*D*D)(b) + 2*D(b)
         ....:     assert (D*U*U)(b) == 0*(U*D*U)(la) + 1*(U*U*D)(b) + 2*U(b)

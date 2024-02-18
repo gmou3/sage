@@ -776,7 +776,7 @@ class CubicHeckeAlgebra(CombinatorialFreeModule):
     TESTS::
 
         sage: CHA3 = algebras.CubicHecke(3)
-        sage: TestSuite(CHA3).run()
+        sage: TestSuite(CHA3).run()  # long time
 
     Note, that the ``TestSuite`` run on the cubic Hecke algebra on four strands
     would take up to half an hour if the file cache is empty. A repetition takes

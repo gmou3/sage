@@ -58,7 +58,7 @@ EXAMPLES::
     ....:             4: (0.5, 1.0),  5: (1.0, 0.0), 6: (1.0, 0.666666666666667),
     ....:             7: (3,3), 8: (4,0), 9: (-1,1), 10: (-2,-2)}
     sage: M1._cached_info = {'plot_positions': pos_dict, 'plot_lineorders': None}
-    sage: matroids_plot_helpers.geomrep(M1, sp=True)                                    # needs sage.plot sage.rings.finite_rings
+    sage: matroids_plot_helpers.geomrep(M1, sp=True)                                    # long time, needs sage.plot sage.rings.finite_rings
     Graphics object consisting of 22 graphics primitives
 """
 # *****************************************************************************

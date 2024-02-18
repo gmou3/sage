@@ -1645,6 +1645,7 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
 
     The automorphism group is the `5`-transitive Mathieu group `M12`:
 
+        sage: # long time
         sage: G = M.automorphism_group()
         sage: G.is_transitive()
         True
@@ -2286,7 +2287,7 @@ def Theta(n, groundset=None):
 
     EXAMPLES::
 
-        sage: matroids.Theta(50)
+        sage: matroids.Theta(50)  # long time
         Theta_50: Matroid of rank 50 on 100 elements with 78450 circuits
         sage: M = matroids.Theta(2)
         sage: U12 = matroids.Uniform(1, 2)
@@ -2385,7 +2386,7 @@ def Psi(r, groundset=None):
         sage: M = matroids.Psi(r)
         sage: M.equals(M.dual())
         True
-        sage: M.automorphism_group().is_transitive()
+        sage: M.automorphism_group().is_transitive()  # long time
         True
 
     REFERENCES:
@@ -4701,7 +4702,7 @@ def NonVamos(groundset=None):
          {'c', 'd', 'e', 'f'}, {'c', 'd', 'g', 'h'}, {'e', 'f', 'g', 'h'}]
         sage: M.is_dependent(['c', 'd', 'g', 'h'])
         True
-        sage: M.is_valid()
+        sage: M.is_valid()  # long time
         True
 
     REFERENCES:

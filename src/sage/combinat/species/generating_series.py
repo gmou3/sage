@@ -556,7 +556,7 @@ class CycleIndexSeriesRing(LazySymmetricFunctions):
             sage: from sage.combinat.species.generating_series import CycleIndexSeriesRing
             sage: CycleIndexSeriesRing.options.halting_precision(12)
             sage: R = CycleIndexSeriesRing(QQ)                                          # needs sage.modules
-            sage: TestSuite(R).run()                                                    # needs sage.modules
+            sage: TestSuite(R).run()                                                    # needs sage.modules, long time
 
             sage: CycleIndexSeriesRing.options._reset()  # reset options
         """

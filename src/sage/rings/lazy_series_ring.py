@@ -2694,7 +2694,7 @@ class LazyCompletionGradedAlgebra(LazySeriesRing):
             sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python
             sage: s = SymmetricFunctions(QQ["q"]).s()
             sage: L = LazySymmetricFunctions(s)
-            sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python
+            sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python, long time
 
         Options are remembered across doctests::
 
@@ -3156,7 +3156,7 @@ class LazyDirichletSeriesRing(LazySeriesRing):
             sage: TestSuite(L).run()                                                    # needs sage.symbolic
 
             sage: L = LazyDirichletSeriesRing(QQ, 't')
-            sage: TestSuite(L).run()                                                    # needs sage.symbolic
+            sage: TestSuite(L).run()                                                    # needs sage.symbolic, long time
 
             sage: LazyDirichletSeriesRing.options._reset()  # reset the options
 

@@ -42,7 +42,7 @@ Computing inverses::
     [1 0]
     [0 1]
     sage: M = matrix(SR, 3, 3, range(9), sparse=True) - var('t')
-    sage: (~M * M).simplify_rational()
+    sage: (~M * M).simplify_rational()  # long time
     [1 0 0]
     [0 1 0]
     [0 0 1]
@@ -763,14 +763,14 @@ cdef class Matrix_symbolic_sparse(Matrix_generic_sparse):
         EXAMPLES::
 
             sage: M = matrix(SR, 3, 3, range(9), sparse=True) - var('t')
-            sage: (~M*M)[0,0]
+            sage: (~M*M)[0,0]  # long time
             t*(3*(2/t + (6/t + 7)/((t - 3/t - 4)*t))*(2/t + (6/t + 5)/((t - 3/t
             - 4)*t))/(t - (6/t + 7)*(6/t + 5)/(t - 3/t - 4) - 12/t - 8) + 1/t +
             3/((t - 3/t - 4)*t^2)) - 6*(2/t + (6/t + 5)/((t - 3/t - 4)*t))/(t -
             (6/t + 7)*(6/t + 5)/(t - 3/t - 4) - 12/t - 8) - 3*(6/t + 7)*(2/t +
             (6/t + 5)/((t - 3/t - 4)*t))/((t - (6/t + 7)*(6/t + 5)/(t - 3/t -
             4) - 12/t - 8)*(t - 3/t - 4)) - 3/((t - 3/t - 4)*t)
-            sage: expand((~M*M)[0,0])
+            sage: expand((~M*M)[0,0])  # long time
             1
             sage: (~M * M).simplify_rational()
             [1 0 0]

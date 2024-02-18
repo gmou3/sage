@@ -1337,7 +1337,7 @@ class HyperellipticCurve_padic_field(hyperelliptic_generic.HyperellipticCurve_ge
             sage: HK.coleman_integral(y.diff(),P,Q)
             3 + O(5^6)
             sage: w = HK.invariant_differential()
-            sage: HK.coleman_integral_from_weierstrass_via_boundary(w,P,Q,20)
+            sage: HK.coleman_integral_from_weierstrass_via_boundary(w,P,Q,20)  # long time
             2*a^40 + a^80 + a^100 + O(a^105)
             sage: HK.coleman_integral(w,P,Q)
             2*5^2 + 5^4 + 5^5 + 3*5^6 + O(5^7)

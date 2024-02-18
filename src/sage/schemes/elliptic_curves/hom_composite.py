@@ -186,15 +186,15 @@ def _compute_factored_isogeny_prime_power(P, l, n, split=.8):
         sage: P, = E.gens()
         sage: (l,n), = P.order().factor()
         sage: phis = hom_composite._compute_factored_isogeny_prime_power(P,l,n)
-        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0)
+        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0)  # long time
         True
-        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0.1)
+        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0.1)  # long time
         True
-        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0.5)
+        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0.5)  # long time
         True
-        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0.9)
+        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=0.9)  # long time
         True
-        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=1)
+        sage: phis == hom_composite._compute_factored_isogeny_prime_power(P,l,n, split=1)  # long time
         True
     """
     def rec(Q, k):

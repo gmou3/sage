@@ -987,7 +987,7 @@ class EllipticCurve_field(ell_generic.EllipticCurve_generic, ProjectivePlaneCurv
             (9, 9)
             sage: E.change_ring(E.division_field(10)).abelian_group().torsion_subgroup(10).invariants()
             (10, 10)
-            sage: E.change_ring(E.division_field(36)).abelian_group().torsion_subgroup(36).invariants()
+            sage: E.change_ring(E.division_field(36)).abelian_group().torsion_subgroup(36).invariants()  # long time
             (36, 36)
             sage: E.change_ring(E.division_field(11)).abelian_group().torsion_subgroup(11).invariants()
             (11,)
@@ -1001,7 +1001,7 @@ class EllipticCurve_field(ell_generic.EllipticCurve_generic, ProjectivePlaneCurv
             sage: E = EllipticCurve([0,0,0,0,i])
             sage: L,emb = E.division_field(6, names='b', map=True); L
             Number Field in b with defining polynomial x^24 + 12*x^23 + ...
-            sage: E.change_ring(emb).torsion_subgroup().invariants()
+            sage: E.change_ring(emb).torsion_subgroup().invariants()  # long time
             (6, 6)
 
         .. SEEALSO::
@@ -1419,7 +1419,7 @@ class EllipticCurve_field(ell_generic.EllipticCurve_generic, ProjectivePlaneCurv
             sage: from sage.schemes.elliptic_curves.ell_field import EllipticCurve_field, point_of_order
             sage: p = 2^127 - 1
             sage: E = EllipticCurve(GF(p), [1,0])
-            sage: P = point_of_order(E, 31)
+            sage: P = point_of_order(E, 31)  # long time
             sage: %timeit E.kernel_polynomial_from_point(P, algorithm='basic')    # not tested
             4.38 ms ± 13.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
             sage: %timeit E.kernel_polynomial_from_point(P, algorithm='minpoly')  # not tested

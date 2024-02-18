@@ -13244,7 +13244,7 @@ cdef class Expression(Expression_abc):
 
         We check that :trac:`13097` is resolved::
 
-            sage: integrate(ln(1+4/5*sin(x)), x, -3.1415, 3.1415)  # tol 10e-6
+            sage: integrate(ln(1+4/5*sin(x)), x, -3.1415, 3.1415)  # long time  # tol 10e-6
             -1.40205228301000
         """
         from sage.symbolic.integration.integral import \

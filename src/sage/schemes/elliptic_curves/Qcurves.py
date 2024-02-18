@@ -174,6 +174,7 @@ def is_Q_curve(E, maxp=100, certificate=False, verbose=False):
         sage: E = EllipticCurve([K([-2,-4,1,1]), K([0,1,0,0]), K([0,1,0,0]),
         ....:                    K([-4780,9170,1265,-2463]),
         ....:                    K([163923,-316598,-43876,84852])])
+        sage: # long time
         sage: flag, cert = is_Q_curve(E, certificate=True)
         sage: flag
         True

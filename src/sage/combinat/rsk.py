@@ -2648,7 +2648,7 @@ class RuleStar(Rule):
         sage: reduce = lambda w: permutation.from_reduced_word(H.from_reduced_word(w).reduced_word())
         sage: fc = lambda w: not reduce(w).has_pattern([3,2,1])
         sage: words = [w for n in range(10) for w in Words(3, n) if fc(w)]
-        sage: all([all(w == RSK_inverse(*RSK(w, insertion='Star'),
+        sage: all([all(w == RSK_inverse(*RSK(w, insertion='Star'),  # long time
         ....:          insertion='Star', output='word') for w in words)])
         True
     """
