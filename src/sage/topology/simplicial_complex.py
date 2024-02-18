@@ -892,7 +892,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
         sage: SimplicialComplex(S) == S
         True
         sage: Tc = cubical_complexes.Torus(); Tc
-        Cubical complex with 16 vertices and 64 cubes
+        Cubical complex with 16 vertices and 65 cubes
         sage: Ts = SimplicialComplex(Tc); Ts
         Simplicial complex with 16 vertices and 32 facets
         sage: Ts.homology()                                                             # needs sage.modules
@@ -1339,7 +1339,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             Faces = {}
             # sub_facets is the dictionary of facets in the subcomplex
             sub_facets = {}
-            dimension = max([-2] + [face.dimension() for face in self._facets])
+            dimension = max([face.dimension() for face in self._facets], default=-1)
             for i in range(-1, dimension + 1):
                 Faces[i] = set()
                 sub_facets[i] = set()
@@ -4019,7 +4019,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             {0: 0, 1: Z x Z, 2: Z}
             sage: Tc = T._cubical_()
             sage: Tc
-            Cubical complex with 42 vertices and 168 cubes
+            Cubical complex with 42 vertices and 169 cubes
             sage: Tc.homology()                                                         # needs sage.modules
             {0: 0, 1: Z x Z, 2: Z}
         """
