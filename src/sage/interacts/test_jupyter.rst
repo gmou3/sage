@@ -52,7 +52,7 @@ Test all interacts from the Sage interact library::
     Pink Curve: \(n^2 + 8\)
     Green Curve: \(n^2 + n + -1\)
 
-    sage: test(interacts.calculus.taylor_polynomial)
+    sage: test(interacts.calculus.taylor_polynomial)  # long time
     ...Interactive function <function taylor_polynomial at ...> with 3 widgets
       title: HTMLText(value='<h2>Taylor polynomial</h2>')
       f: EvalText(value='e^(-x)*sin(x)', description='$f(x)=$', layout=Layout(max_width='81em'))
@@ -60,7 +60,7 @@ Test all interacts from the Sage interact library::
     \(f(x)\;=\;e^{\left(-x\right)} \sin\left(x\right)\)
     \(\hat{f}(x;0)\;=\;x+\mathcal{O}(x^{2})\)
 
-    sage: test(interacts.calculus.definite_integral)
+    sage: test(interacts.calculus.definite_integral)  # long time
     ...Interactive function <function definite_integral at ...> with 6 widgets
       title: HTMLText(value='<h2>Definite integral</h2>')
       f: EvalText(value='3*x', description='$f(x)=$', layout=Layout(max_width='81em'))
@@ -154,7 +154,7 @@ Test all interacts from the Sage interact library::
                 </div>
     <BLANKLINE>
 
-    sage: test(interacts.calculus.simpson_integration)
+    sage: test(interacts.calculus.simpson_integration)  # long time
     ...Interactive function <function simpson_integration at ...> with 7 widgets
       title: HTMLText(value='<h2>Simpson integration</h2>')
       f: EvalText(value='x*sin(x)+x+1', description='$f(x)=$', layout=Layout(max_width='81em'))
@@ -278,7 +278,7 @@ Test all interacts from the Sage interact library::
       show_incircle: Checkbox(value=False, description='Incircle')
       show_euler: Checkbox(value=False, description="Euler's Line")
 
-    sage: test(interacts.statistics.coin)
+    sage: test(interacts.statistics.coin)  # long time
     ...Interactive function <function coin at ...> with 2 widgets
       n: IntSlider(value=1000, description='Number of Tosses', max=10000, min=2, step=100)
       interval: FloatRangeSlider(value=(0.45, 0.55), description='Plotting range (y)', max=1.0)

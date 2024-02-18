@@ -206,7 +206,7 @@ class FreePreLieAlgebra(CombinatorialFreeModule):
 
             sage: A = algebras.FreePreLie(QQ, '@'); A
             Free PreLie algebra on one generator ['@'] over Rational Field
-            sage: TestSuite(A).run()
+            sage: TestSuite(A).run()  # long time
 
             sage: A = algebras.FreePreLie(QQ, None); A
             Free PreLie algebra on one generator ['o'] over Rational Field

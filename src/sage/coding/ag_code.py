@@ -453,6 +453,7 @@ class DifferentialAGCode(AGCode):
             sage: pls = F.places()
             sage: Q, = C.places_at_infinity()
             sage: pls.remove(Q)
+            sage: # long time
             sage: c1 = codes.DifferentialAGCode(pls, 3*Q)
             sage: c2 = codes.DifferentialAGCode(pls, 3*Q)
             sage: c1 is c2

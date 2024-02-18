@@ -623,13 +623,13 @@ class FusionDouble(CombinatorialFreeModule):
 
             sage: FusionDouble(SymmetricGroup(3)).is_multiplicity_free()
             True
-            sage: FusionDouble(SymmetricGroup(4)).is_multiplicity_free()
+            sage: FusionDouble(SymmetricGroup(4)).is_multiplicity_free()  # long time
             False
 
             sage: FusionDouble(SymmetricGroup(3)).is_multiplicity_free(True)
             Checking multiplicity freeness
             True
-            sage: FusionDouble(SymmetricGroup(4)).is_multiplicity_free(True)
+            sage: FusionDouble(SymmetricGroup(4)).is_multiplicity_free(True)  # long time
             Checking multiplicity freeness
             N(s2,s13,s13) = 2
             False

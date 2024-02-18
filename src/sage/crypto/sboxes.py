@@ -184,7 +184,7 @@ def bracken_leander(n):
     EXAMPLES::
 
         sage: from sage.crypto.sboxes import bracken_leander
-        sage: sbox = bracken_leander(12); [sbox(i) for i in range(8)]
+        sage: sbox = bracken_leander(12); [sbox(i) for i in range(8)]  # long time
         [0, 1, 2742, 4035, 1264, 408, 1473, 1327]
     """
     if n % 4 == 1 or is_even(n / 4):

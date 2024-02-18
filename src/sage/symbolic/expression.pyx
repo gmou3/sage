@@ -1077,6 +1077,7 @@ cdef class Expression(Expression_abc):
         EXAMPLES::
 
             sage: i = var('i')
+            sage: # long time
             sage: f = integral(exp(x + x^2)/(x+1), x)
             ...
             sage: f._sympy_character_art(False)                                         # needs sympy

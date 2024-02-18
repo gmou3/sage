@@ -45,7 +45,7 @@ class Polyhedron_mutable(Polyhedron_base):
             sage: q = P._element_constructor_(p, mutable=True)
             sage: TestSuite(q).run()  # long time
             sage: q._clear_cache()
-            sage: TestSuite(q).run()
+            sage: TestSuite(q).run()  # long time
 
         ::
 

@@ -460,7 +460,7 @@ class EllipticCurveHom_frobenius(EllipticCurveHom):
             sage: f = EllipticCurveHom_frobenius(E, n)
             sage: f.dual() * f == EllipticCurveHom_scalar(E, p**n)  # long time
             True
-            sage: f * f.dual() == EllipticCurveHom_scalar(f.codomain(), p**n)
+            sage: f * f.dual() == EllipticCurveHom_scalar(f.codomain(), p**n)  # long time
             True
             sage: f.dual().dual() == f  # known bug -- broken in characteristic 2,3
             True

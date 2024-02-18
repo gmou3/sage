@@ -191,6 +191,7 @@ def is_Q_curve(E, maxp=100, certificate=False, verbose=False):
         sage: # needs sage.rings.number_field
         sage: E = EllipticCurve([K([0,-3,0,1]), K([1,4,0,-1]), K([0,0,0,0]),
         ....:                    K([-2,-16,0,4]), K([-19,-32,4,8])])
+        sage: # long time
         sage: flag, cert = is_Q_curve(E, certificate=True)
         sage: flag
         True

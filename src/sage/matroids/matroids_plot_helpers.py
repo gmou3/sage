@@ -327,7 +327,7 @@ def createline(ptsdict, ll, lineorders2=None):
         [4, 4, 100, 100]
         sage: G = line(zip(x_i, y_i), color='black', thickness=3, zorder=1)             # needs sage.plot
         sage: G += points(zip(x, y), color='black', size=300, zorder=2)                 # needs sage.plot
-        sage: G.show()                                                                  # needs sage.plot
+        sage: G.show()                                                                  # needs sage.plot, long time
         sage: x,y,x_i,y_i = matroids_plot_helpers.createline(ptsdict,
         ....: ['a','b','c','d'],lineorders2=[['b','a','c','d'],
         ....: ['p','q','r','s']])
@@ -335,7 +335,7 @@ def createline(ptsdict, ll, lineorders2=None):
         [4, 4, 100, 100]
         sage: G = line(zip(x_i, y_i), color='black', thickness=3, zorder=1)             # needs sage.plot
         sage: G += points(zip(x, y), color='black', size=300, zorder=2)                 # needs sage.plot
-        sage: G.show()                                                                  # needs sage.plot
+        sage: G.show()                                                                  # needs sage.plot, long time
 
     .. NOTE::
 

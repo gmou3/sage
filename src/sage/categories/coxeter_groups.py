@@ -1104,7 +1104,7 @@ class CoxeterGroups(Category_singleton):
             EXAMPLES::
 
                 sage: W = CoxeterGroup(['H', 3])                                        # needs sage.combinat sage.graphs sage.groups
-                sage: G = W.bruhat_graph(); G                                           # needs sage.combinat sage.graphs sage.groups
+                sage: G = W.bruhat_graph(); G                                           # needs sage.combinat sage.graphs sage.groups, long time
                 Digraph on 120 vertices
 
                 sage: # needs sage.combinat sage.graphs sage.groups

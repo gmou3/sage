@@ -1064,8 +1064,7 @@ class CohomologyRing_mod2(CohomologyRing):
                 sage: y.Sq(1)
                 h^{3,0}
 
-                sage: # long time
-                sage: # needs sage.groups
+                sage: # long time, needs sage.groups
                 sage: RP4 = simplicial_complexes.RealProjectiveSpace(4)
                 sage: H = RP4.cohomology_ring(GF(2))
                 sage: x = H.basis()[1,0]

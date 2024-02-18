@@ -258,8 +258,8 @@ def generalised_quadrangle_hermitian_with_ovoid(const int q):
         Incidence structure with 1105 points and 325 blocks
         sage: len(t[1])
         65
-        sage: G = t[0].intersection_graph([1])  # line graph
-        sage: G.is_strongly_regular(True)
+        sage: G = t[0].intersection_graph([1])  # line graph, long time
+        sage: G.is_strongly_regular(True)  # long time
         (325, 68, 3, 17)
         sage: set(t[0].block_sizes())
         {17}

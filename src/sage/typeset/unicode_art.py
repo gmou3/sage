@@ -88,9 +88,9 @@ def unicode_art(*obj, **kwds):
 
     EXAMPLES::
 
-        sage: result = unicode_art(integral(exp(sqrt(x))/(x+pi), x))                    # needs sage.symbolic
+        sage: result = unicode_art(integral(exp(sqrt(x))/(x+pi), x))                    # long time, needs sage.symbolic
         ...
-        sage: result                                                                    # needs sage.symbolic
+        sage: result                                                                    # long time, needs sage.symbolic
             ⌠
             ⎮   √x
             ⎮  ℯ

@@ -4775,10 +4775,10 @@ class SimplicialComplex(Parent, GenericCellComplex):
 
         Shellable complexes are partitionable::
 
-            sage: # needs sage.numerical.mip
+            sage: # needs sage.numerical.mip, long time
             sage: X = SimplicialComplex([[1,3,5], [1,3,6], [1,4,5], [1,4,6],
             ....:                        [2,3,5], [2,3,6], [2,4,5]])
-            sage: X.is_partitionable()  # long time
+            sage: X.is_partitionable()
             True
             sage: P = X.is_partitionable(certificate=True)
             sage: def n_intervals_containing(f):

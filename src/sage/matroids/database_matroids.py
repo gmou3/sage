@@ -855,7 +855,7 @@ def Q8(groundset=None):
          {'b', 'g', 'h'}, {'c', 'd', 'e', 'h'}, {'c', 'e', 'g'},
          {'c', 'f', 'g', 'h'}, {'d', 'e', 'f', 'g'}, {'d', 'f', 'h'},
          {'e', 'g', 'h'}]
-        sage: M.is_valid()
+        sage: M.is_valid()  # long time
         True
         sage: M.is_isomorphic(M.dual()) and not M.equals(M.dual())
         True
@@ -897,7 +897,7 @@ def L8(groundset=None):
          4: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}
         sage: M.equals(M.dual())
         True
-        sage: M.is_valid()
+        sage: M.is_valid()  # long time
         True
         sage: M.automorphism_group().is_transitive()
         True
@@ -2113,7 +2113,7 @@ def Z(r, t=True, groundset=None):
         True
         sage: Z.equals(Z.dual()) != (r % 2 == 1)  # XOR
         True
-        sage: Z.automorphism_group().is_transitive()
+        sage: Z.automorphism_group().is_transitive()  # long time
         True
 
     REFERENCES:

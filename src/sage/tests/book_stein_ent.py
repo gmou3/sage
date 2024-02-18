@@ -35,7 +35,7 @@ False
 sage: p = 2^32582657 - 1
 sage: p.ndigits()                                                                       # needs sage.rings.real_interval_field
 9808358
-sage: s = p.str(10) # this takes a long time
+sage: s = p.str(10) # long time
 sage: len(s)        # s is a very long string  (long time)
 9808358
 sage: s[:20]        # the first 20 digits of p (long time)
@@ -249,7 +249,7 @@ sage: crack_when_pq_close(23360947609)
 sage: p = next_prime(2^128); p
 340282366920938463463374607431768211507
 sage: q = next_prime(p)
-sage: crack_when_pq_close(p*q)
+sage: crack_when_pq_close(p*q)  # long time
 (340282366920938463463374607431768211537,
       340282366920938463463374607431768211507)
 sage: def crack_given_decrypt(n, m):

@@ -1345,7 +1345,7 @@ class EllipticCurveCanonicalHeight:
 
             sage: H.real_intersection_is_empty([H.B(n,0.07) for n in srange(1,5)], v)  # long time, needs sage.rings.number_field
             True
-            sage: H.real_intersection_is_empty([H.B(n,0.08) for n in srange(1,5)], v)   # needs sage.rings.number_field
+            sage: H.real_intersection_is_empty([H.B(n,0.08) for n in srange(1,5)], v)   # long time, needs sage.rings.number_field
             False
         """
         return UnionOfIntervals.intersection([self.Sn(-B, B, k+1, v) for k,B in enumerate(Bk)]).is_empty()

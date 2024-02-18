@@ -874,8 +874,8 @@ class EllipticCurveHom(Morphism):
             sage: phi.is_injective()
             False
             sage: E = EllipticCurve_from_j(GF(3).algebraic_closure()(0))
-            sage: nu = EllipticCurveHom_composite.from_factors(E.automorphisms())
-            sage: nu
+            sage: # long time
+            sage: nu = EllipticCurveHom_composite.from_factors(E.automorphisms()); nu
             Composite morphism of degree 1 = 1^12:
               From: Elliptic Curve defined by y^2 = x^3 + x
                     over Algebraic closure of Finite Field of size 3

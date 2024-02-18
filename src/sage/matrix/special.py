@@ -302,7 +302,7 @@ def random_matrix(ring, nrows, ncols=None, algorithm='randomize', implementation
         sage: expected(100)
         1/25250
         sage: add_samples(ZZ, 5, 5)
-        sage: while not all(abs(dic[a]/total_count - expected(a)) < 0.001 for a in dic):
+        sage: while not all(abs(dic[a]/total_count - expected(a)) < 0.001 for a in dic):  # long time
         ....:     add_samples(ZZ, 5, 5)
 
     The ``distribution`` keyword  set to ``uniform`` will limit values

@@ -5486,11 +5486,11 @@ class HeegnerQuatAlg(SageObject):
 
         An example with `c` a product of two primes::
 
+            sage: # long time
             sage: N = 389; D = -7; ell = 5; q = 3
             sage: H = heegner_points(N).reduce_mod(ell)
             sage: V = H.modp_dual_elliptic_curve_factor(EllipticCurve('389a'), q, 5)
-            sage: k = H.kolyvagin_sigma_operator(D, 17*41, 104)     # long time
-            sage: k                                                 # long time
+            sage: k = H.kolyvagin_sigma_operator(D, 17*41, 104); k
             (990, 656, 219, ..., 246, 534, 1254)
             sage: [b.dot_product(k.element().change_ring(GF(3))) for b in V.basis()]   # long time (but only because depends on something slow)
             [0, 0]
@@ -5603,10 +5603,11 @@ class HeegnerQuatAlg(SageObject):
 
             sage: N = 389; D = -7; ell = 5; c = 17; q = 3
             sage: H = heegner_points(N).reduce_mod(ell)
-            sage: k = H.rational_kolyvagin_divisor(D, c); k  # long time (5s on sage.math, 2013)
+            sage: # long time
+            sage: k = H.rational_kolyvagin_divisor(D, c); k
             (2, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 4, 0, 0, 9, 11, 0, 6, 0, 0, 7, 0, 0, 0, 0, 14, 12, 13, 15, 17, 0, 0, 0, 0, 8, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             sage: V = H.modp_dual_elliptic_curve_factor(EllipticCurve('389a'), q, 2)
-            sage: [b.dot_product(k.element().change_ring(GF(q))) for b in V.basis()]  # long time
+            sage: [b.dot_product(k.element().change_ring(GF(q))) for b in V.basis()]
             [0, 0]
             sage: k = H.rational_kolyvagin_divisor(D, 59)
             sage: [b.dot_product(k.element().change_ring(GF(q))) for b in V.basis()]

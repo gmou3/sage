@@ -65,7 +65,7 @@ In Python, this would be ``meta.__init__(cls, name, bases, dict)``.
 EXAMPLES::
 
     sage: # needs sage.misc.cython, long time
-    sage: cython(                                                                       
+    sage: cython(
     ....: '''
     ....: cimport cython
     ....: cimport sage.cpython.cython_metaclass
@@ -105,7 +105,7 @@ TESTS:
 Check that a proper exception is raised if ``__getmetaclass__``
 returns a non-type::
 
-    sage: cython(                                                                       # needs sage.misc.cython
+    sage: cython(                                                                       # needs sage.misc.cython, long time
     ....: '''
     ....: cimport cython
     ....: cimport sage.cpython.cython_metaclass

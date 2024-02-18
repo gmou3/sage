@@ -2752,7 +2752,7 @@ class RowStandardTableauTuples(TableauTuples):
         sage: TestSuite( RowStandardTableauTuples(level=4, size=0) ).run()
         sage: TestSuite( RowStandardTableauTuples(level=4, size=0) ).run()
         sage: TestSuite( RowStandardTableauTuples(level=4, size=10) ).run()     # long time
-        sage: TestSuite( RowStandardTableauTuples(shape=[[1],[3,1],[],[2,1]]) ).run()
+        sage: TestSuite( RowStandardTableauTuples(shape=[[1],[3,1],[],[2,1]]) ).run()  # long time
 
     .. SEEALSO::
 

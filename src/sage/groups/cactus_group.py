@@ -91,7 +91,7 @@ class CactusGroup(UniqueRepresentation, Group):
             sage: J4 = groups.misc.Cactus(4)
             sage: it = iter(J4)
             sage: elts = [next(it) for _ in range(100)]
-            sage: TestSuite(J4).run(elements=elts[::8])
+            sage: TestSuite(J4).run(elements=elts[::8])  # long time
         """
         self._n = n
         ell = len(str(n))

@@ -1089,7 +1089,7 @@ class HyperplaneArrangementElement(Element):
 
             sage: R.<x> = ZZ[]
             sage: Arr = [hyperplane_arrangements.braid(n) for n in range(2,6)]
-            sage: all(R(A.cocharacteristic_polynomial()(1/(x-1)) * (x-1)^A.dimension())
+            sage: all(R(A.cocharacteristic_polynomial()(1/(x-1)) * (x-1)^A.dimension())  # long time
             ....:     == R(A.primitive_eulerian_polynomial()) for A in Arr)
             True
 
@@ -1100,7 +1100,7 @@ class HyperplaneArrangementElement(Element):
             sage: H = A([[0] + list(r) for r in W.positive_roots()])
             sage: H.is_simplicial()
             True
-            sage: H.primitive_eulerian_polynomial()
+            sage: H.primitive_eulerian_polynomial()  # long time
             z^3 + 28*z^2 + 16*z
 
             sage: W = CoxeterGroup(['F',4], implementation="permutation")
@@ -1115,7 +1115,7 @@ class HyperplaneArrangementElement(Element):
             sage: B = [hyperplane_arrangements.braid(k) for k in range(2,6)]
             sage: all(H.is_simplicial() for H in B)
             True
-            sage: all(c > 0 for H in B for c in H.primitive_eulerian_polynomial().coefficients())
+            sage: all(c > 0 for H in B for c in H.primitive_eulerian_polynomial().coefficients())  # long time
             True
 
         We verify Example 9.4 in [BHS2023]_ showing a hyperplane arrangement

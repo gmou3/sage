@@ -153,7 +153,7 @@ class Polyhedron_base(Polyhedron_base7):
         ....:         break
         ....:
         sage: P = Polyhedron(M)
-        sage: TestSuite(P).run()
+        sage: TestSuite(P).run()  # long time
     """
 
     def _test_basic_properties(self, tester=None, **options):

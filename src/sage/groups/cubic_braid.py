@@ -1524,8 +1524,7 @@ class CubicBraidGroup(FinitelyPresentedGroup):
             [2*t + 1       0 2*t + 2     3*t 3*t + 3]
             [2*t + 2       0       0 3*t + 4       0]
             [     0       0 2*t + 2 3*t + 4       0]
-            sage: m_back = C5(m)
-            sage: m_back == c
+            sage: m_back = C5(m); m_back == c  # long time
             True
             sage: U5 = AssionGroupU(5); U5
             Assion group on 5 strands of type U

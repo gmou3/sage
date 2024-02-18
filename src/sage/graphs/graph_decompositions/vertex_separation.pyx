@@ -1442,7 +1442,7 @@ def vertex_separation_MILP(G, integrality=False, solver=None, verbose=0,
     Comparison with exponential algorithm::
 
         sage: from sage.graphs.graph_decompositions import vertex_separation
-        sage: for i in range(10):                                                       # needs sage.numerical.mip
+        sage: for i in range(10):                                                       # needs sage.numerical.mip, long time
         ....:     G = digraphs.RandomDirectedGNP(10, 0.2)
         ....:     ve, le = vertex_separation.vertex_separation(G)
         ....:     vm, lm = vertex_separation.vertex_separation_MILP(G)

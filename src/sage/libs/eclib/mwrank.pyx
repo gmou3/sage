@@ -572,8 +572,7 @@ cdef class _mw:
 
             sage: E = _Curvedata(0,0,1,-7,6)
             sage: EQ = _mw(E)
-            sage: EQ.search(2)
-            sage: EQ
+            sage: EQ.search(2); EQ  # long time
             [[1:-1:1], [-2:3:1], [-14:25:8]]
 
         Example to illustrate the verbose parameter::
@@ -582,7 +581,7 @@ cdef class _mw:
             sage: from sage.libs.eclib.mwrank import _Curvedata
             sage: E = _Curvedata(0,0,1,-7,6)
             sage: EQ = _mw(E, verb=False)
-            sage: EQ.search(1)
+            sage: EQ.search(1)  # long time
             sage: EQ = _mw(E, verb=True)
             sage: EQ.search(1)
             P1 = [0:1:0]         is torsion point, order 1
@@ -641,7 +640,7 @@ cdef class _mw:
             sage: from sage.libs.eclib.mwrank import _Curvedata
             sage: E = _Curvedata(0,0,1,-7,6)
             sage: EQ = _mw(E, pp=1)
-            sage: EQ.search(1); EQ
+            sage: EQ.search(1); EQ  # long time
             [[1:-1:1], [-2:3:1], [-14:25:8]]
             sage: EQ = _mw(E, pp=0)
             sage: EQ.search(1); EQ
@@ -674,8 +673,7 @@ cdef class _mw:
             sage: EQ = _mw(E)
             sage: EQ # indirect doctest
             []
-            sage: EQ.search(2)
-            sage: EQ
+            sage: EQ.search(2); EQ  # long time
             [[1:-1:1], [-2:3:1], [-14:25:8]]
         """
         sig_on()
@@ -762,6 +760,7 @@ cdef class _mw:
             sage: from sage.libs.eclib.mwrank import _mw
             sage: E = _Curvedata(0,1,1,-2,0)
             sage: EQ = _mw(E)
+            sage: # long time
             sage: EQ.search(3)
             sage: EQ.getbasis()
             [[0, -1, 1], [-1, 1, 1]]
@@ -791,6 +790,7 @@ cdef class _mw:
             sage: from sage.libs.eclib.mwrank import _mw
             sage: E = _Curvedata(0,1,1,-2,0)
             sage: EQ = _mw(E)
+            sage: # long time
             sage: EQ.search(3)
             sage: EQ.getbasis()
             [[0, -1, 1], [-1, 1, 1]]
@@ -818,6 +818,7 @@ cdef class _mw:
             sage: from sage.libs.eclib.mwrank import _mw
             sage: E = _Curvedata(0,1,1,-2,0)
             sage: EQ = _mw(E)
+            sage: # long time
             sage: EQ.search(3)
             sage: EQ.getbasis()
             [[0, -1, 1], [-1, 1, 1]]

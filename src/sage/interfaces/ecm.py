@@ -711,7 +711,7 @@ class ECM(SageObject):
         EXAMPLES::
 
             sage: n = next_prime(11^23)*next_prime(11^37)
-            sage: ecm.time(n, 35)                  # random output
+            sage: ecm.time(n, 35)                  # random output, long time
             Expected curves: 910, Expected time: 23.95m
 
             sage: ecm.time(n, 30, verbose=True)     # random output

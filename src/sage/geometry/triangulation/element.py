@@ -793,7 +793,7 @@ class Triangulation(Element):
         It is a subcomplex of ``self`` as a :meth:`polyhedral_complex`::
 
             sage: C = T.polyhedral_complex()                                            # needs sage.graphs
-            sage: bd_C.is_subcomplex(C)                                                 # needs sage.graphs
+            sage: bd_C.is_subcomplex(C)                                                 # needs sage.graphs, long time
             True
         """
         from sage.geometry.polyhedral_complex import PolyhedralComplex

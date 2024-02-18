@@ -1155,7 +1155,7 @@ def hadamard_matrix_cooper_wallis_smallcases(n, check=True, existence=False):
     TESTS::
 
         sage: from sage.combinat.matrices.hadamard_matrix import hadamard_matrix_cooper_wallis_smallcases, is_hadamard_matrix
-        sage: is_hadamard_matrix(hadamard_matrix_cooper_wallis_smallcases(188))
+        sage: is_hadamard_matrix(hadamard_matrix_cooper_wallis_smallcases(188))  # long time
         True
         sage: hadamard_matrix_cooper_wallis_smallcases(64, existence=True)
         False

@@ -8063,7 +8063,7 @@ cdef class Matroid(SageObject):
             sage: G = M.plot()                                                          # needs sage.plot sage.rings.finite_rings
             sage: type(G)                                                               # needs sage.plot sage.rings.finite_rings
             <class 'sage.plot.graphics.Graphics'>
-            sage: G.show()                                                              # needs sage.plot sage.rings.finite_rings
+            sage: G.show()                                                              # needs sage.plot sage.rings.finite_rings, long time
         """
         from sage.matroids import matroids_plot_helpers
         if pos_method == 1 and pos_dict is not None:

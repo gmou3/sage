@@ -1006,7 +1006,7 @@ class SymmetricFunctions(UniqueRepresentation, Parent):
             Symmetric Functions over Rational Field in the irreducible symmetric group character basis
             sage: st = SymmetricFunctions(QQ).st()
             sage: s = SymmetricFunctions(QQ).s()
-            sage: s(st([3,2]).character_to_frobenius_image(9))
+            sage: s(st([3,2]).character_to_frobenius_image(9))  # long time
             s[4, 3, 2]
             sage: s(st([3,2]).character_to_frobenius_image(7))
             0

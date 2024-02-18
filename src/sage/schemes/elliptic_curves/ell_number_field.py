@@ -2364,7 +2364,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             sage: E = EllipticCurve(K, [1, 0, 5*t^2 + 16, 0, 0])
             sage: E.gens(lim1=1, lim3=1)
             []
-            sage: E.rank()
+            sage: E.rank()  # long time
             1
             sage: gg=E.gens(lim3=13); gg  # long time (about 4s)
             [(... : 1)]
@@ -2990,6 +2990,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
 
             sage: K.<i> = QuadraticField(-1)
             sage: E = EllipticCurve(K, [0,0,0,0,1])
+            sage: # long time
             sage: isogs = E.isogenies_prime_degree()
             sage: [phi.degree() for phi in isogs]
             [2, 3]
@@ -3451,6 +3452,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
         An example to show the explicit use of the height pairing matrix::
 
             sage: E = EllipticCurve([0, 1, 1, -2, 42])
+            sage: # long time
             sage: Pi = E.gens()
             sage: H = E.height_pairing_matrix(Pi,3)
             sage: E.lll_reduce(Pi,height_matrix=H)
@@ -3522,7 +3524,7 @@ class EllipticCurve_number_field(EllipticCurve_field):
             True
             sage: rho.is_surjective(5)  # long time (4s on sage.math, 2014)
             False
-            sage: rho.non_surjective()
+            sage: rho.non_surjective()  # long time
             [5]
         """
         from .gal_reps_number_field import GaloisRepresentation

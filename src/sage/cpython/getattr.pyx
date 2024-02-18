@@ -407,7 +407,7 @@ def dir_with_other_class(self, *cls):
 
     Check that objects without dicts are well handled::
 
-        sage: # needs sage.misc.cython
+        sage: # needs sage.misc.cython, long time
         sage: cython("cdef class A:\n    cdef public int a")
         sage: cython("cdef class B:\n    cdef public int b")
         sage: x = A()

@@ -694,7 +694,7 @@ def local_representation_conditions(self, recompute_flag=False, silent_flag=Fals
          p = 3:   [0, 1, 0, 0]
 
         sage: Q2 = DiagonalQuadraticForm(ZZ, [2,3,3,3])
-        sage: Q2.local_representation_conditions()
+        sage: Q2.local_representation_conditions()  # long time
         This form represents the p-adic integers Z_p for all primes p except
         [3].  For these and the reals, we have:
          Reals:   [0, +Infinity]

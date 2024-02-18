@@ -2242,7 +2242,7 @@ cdef class Matrix_rational_dense(Matrix_dense):
             sage: expected = {-2: 1/9, -1: 3/18, -1/2: 1/18, 0: 3/9,
             ....:             1/2: 1/18, 1: 3/18, 2: 1/9}
             sage: add_samples()
-            sage: while not all(abs(dic[a]/total_count - expected[a]) < 0.001 for a in dic):
+            sage: while not all(abs(dic[a]/total_count - expected[a]) < 0.001 for a in dic):  # long time
             ....:     add_samples()
 
         The distribution ``'1/n'``::
@@ -2262,7 +2262,7 @@ cdef class Matrix_rational_dense(Matrix_dense):
             sage: add_samples('1/n')
             sage: for _ in range(8):
             ....:     dic2[mpq_randomize_entry_recip_uniform()] += 1
-            sage: while not all(abs(dic[a] - dic2[a])/total_count < 0.005 for a in dic):
+            sage: while not all(abs(dic[a] - dic2[a])/total_count < 0.005 for a in dic):  # long time
             ....:     add_samples('1/n')
             ....:     for _ in range(800):
             ....:         dic2[mpq_randomize_entry_recip_uniform()] += 1

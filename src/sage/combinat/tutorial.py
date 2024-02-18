@@ -1084,7 +1084,7 @@ that, for `p<1000`, if `2^p-1` is prime, then
 `p` is also prime::
 
     sage: def mersenne(p): return 2^p -1
-    sage: [ is_prime(p)
+    sage: [ is_prime(p)  # long time
     ....:   for p in range(1000) if is_prime(mersenne(p)) ]
     [True, True, True, True, True, True, True, True, True, True,
      True, True, True, True]

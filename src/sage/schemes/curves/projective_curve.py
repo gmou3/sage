@@ -2502,7 +2502,7 @@ class IntegralProjectiveCurve(ProjectiveCurve_field):
 
             sage: P.<x,y,z> = ProjectiveSpace(GF(5), 2)
             sage: C = Curve(y^2*z^7 - x^9 - x*z^8)
-            sage: C._singularities
+            sage: C._singularities  # long time
             [(Point (x, z), [Place (1/y, 1/y*z^5 + 4*y*z^4 + 1/y^2*z)])]
             sage: D = Curve(x)
             sage: D._singularities
@@ -2783,7 +2783,7 @@ class IntegralProjectiveCurve_finite_field(IntegralProjectiveCurve):
             sage: A.<x,y> = AffineSpace(GF(9),2)
             sage: C = Curve(y^2 - x^5 - x^4 - 2*x^3 - 2*x-2)
             sage: Cp = C.projective_closure()
-            sage: Cp.closed_points()
+            sage: Cp.closed_points()  # long time
             [Point (x0, x1),
              Point (x0 + (-z2 - 1)*x2, x1),
              Point (x0 + (z2 + 1)*x2, x1),

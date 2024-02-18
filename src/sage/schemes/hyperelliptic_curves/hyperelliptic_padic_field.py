@@ -1065,8 +1065,7 @@ class HyperellipticCurve_padic_field(hyperelliptic_generic.HyperellipticCurve_ge
             sage: P = HK(1,0)
             sage: J.<a> = K.extension(x^30-3)
             sage: HJ  = H.change_ring(J)
-            sage: S = HK.get_boundary_point(HJ,P)
-            sage: S
+            sage: S = HK.get_boundary_point(HJ,P); S  # long time
             (1 + 2*a^2 + 2*a^6 + 2*a^18 + a^32 + a^34 + a^36 + 2*a^38 + 2*a^40 + a^42 + 2*a^44 + a^48 + 2*a^50 + 2*a^52 + a^54 + a^56 + 2*a^60 + 2*a^62 + a^70 + 2*a^72 + a^76 + 2*a^78 + a^82 + a^88 + a^96 + 2*a^98 + 2*a^102 + a^104 + 2*a^106 + a^108 + 2*a^110 + a^112 + 2*a^116 + a^126 + 2*a^130 + 2*a^132 + a^144 + 2*a^148 + 2*a^150 + a^152 + 2*a^154 + a^162 + a^164 + a^166 + a^168 + a^170 + a^176 + a^178 + O(a^180) : a + O(a^180) : 1 + O(a^180))
 
         AUTHOR:
@@ -1332,7 +1331,7 @@ class HyperellipticCurve_padic_field(hyperelliptic_generic.HyperellipticCurve_ge
             sage: P = HK(1,0)
             sage: Q = HK(0,3)
             sage: x,y = HK.monsky_washnitzer_gens()
-            sage: HK.coleman_integral_from_weierstrass_via_boundary(y.diff(),P,Q,20)
+            sage: HK.coleman_integral_from_weierstrass_via_boundary(y.diff(),P,Q,20)  # long time
             3 + O(a^119)
             sage: HK.coleman_integral(y.diff(),P,Q)
             3 + O(5^6)
