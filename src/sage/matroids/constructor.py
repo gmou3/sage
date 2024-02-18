@@ -822,20 +822,19 @@ def Matroid(groundset=None, data=None, **kwds):
             groundset = set()
             for C in data:
                 groundset.update(C)
-        # Construct the basis matroid of appropriate rank. Note: slow!
-        B = []  # bases
-        for b in combinations(groundset, rk):
+        # Compute the spanning circuits. Note: slow!
+        SC = []  # spanning circuits
+        for S in combinations(groundset, rk+1):
             flag = True
             for C in data:
-                if set(b) >= set(C):
+                if set(S) >= set(C):
                     flag = False
                     break
             if flag:
-                B += [list(b)]
-        # convert to circuits matroid defined by nonspanning circuits
+                SC += [list(S)]
+        # Define as CircuitsMatroid using spanning and nonspanning circuits
         M = CircuitsMatroid(
-            BasisMatroid(groundset=groundset, bases=B),
-            nsc_defined=True
+            groundset=groundset, circuits=data+SC, nsc_defined=True
         )
 
     # Flats

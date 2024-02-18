@@ -120,6 +120,8 @@ def U25(groundset='abcde'):
         sage: U25 = matroids.catalog.U25(); U25
         U(2, 5): Matroid of rank 2 on 5 elements with circuit-closures
         {2: {{'a', 'b', 'c', 'd', 'e'}}}
+        sage: U25.is_graphic() or U25.is_regular()
+        False
         sage: U35 = matroids.catalog.U35()
         sage: U25.is_isomorphic(U35.dual())
         True
@@ -150,6 +152,8 @@ def U35(groundset='abcde'):
         sage: U35 = matroids.catalog.U35(); U35
         U(3, 5): Matroid of rank 3 on 5 elements with circuit-closures
         {3: {{'a', 'b', 'c', 'd', 'e'}}}
+        sage: U35.is_graphic() or U35.is_regular()
+        False
         sage: U25 = matroids.catalog.U25()
         sage: U35.is_isomorphic(U25.dual())
         True
@@ -177,6 +181,8 @@ def K4(groundset='abcdef'):
 
         sage: M = matroids.catalog.K4(); M
         M(K4): Graphic matroid of rank 3 on 6 elements
+        sage: M.is_graphic()
+        True
 
     `M(K_4)` is isomorphic to `M(\mathcal{W}_3)`, the rank-`3` wheel::
 
@@ -2257,7 +2263,7 @@ def Spike(r, t=True, C3=[], groundset=None):
         for i in range(1, r+1):
             NSC += [['t', 'x'+str(i), 'y'+str(i)]]
             for j in range(i+1, r+1):
-                NSC += [['t', 'x'+str(i), 'y'+str(i), 'x'+str(j), 'y'+str(j)]]
+                NSC += [['x'+str(i), 'y'+str(i), 'x'+str(j), 'y'+str(j)]]
 
         M = Matroid(groundset=E, rank=r, nonspanning_circuits=NSC)
 
