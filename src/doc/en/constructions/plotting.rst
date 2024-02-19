@@ -39,7 +39,7 @@ You can plot piecewise-defined functions:
     sage: f3 = exp(x)
     sage: f4 = sin(2*x)
     sage: f = piecewise([((0,1),f1), ((1,2),f2), ((2,3),f3), ((3,10),f4)])
-    sage: f.plot(x,0,10)
+    sage: f.plot(x,0,10)  # long time
     Graphics object consisting of 1 graphics primitive
 
 Other function plots can be produced as well:

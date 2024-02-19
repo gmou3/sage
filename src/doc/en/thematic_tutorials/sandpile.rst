@@ -478,13 +478,13 @@ attained from `E` by firing a single unstable vertex. ::
 
 The ``is_alive`` method checks whether the divisor `D` is alive, i.e.,
 whether every divisor linearly equivalent to `D` is unstable.
-   
+
 The second graph has the same set of vertices but with an edge from `E` to `F`
 if `F` is obtained from `E` by firing all unstable vertices of `E`. ::
 
     sage: S = Sandpile(graphs.CycleGraph(6),0)
     sage: D = SandpileDivisor(S, [1,1,1,1,2,0])
-    sage: eff = D.effective_div() 
+    sage: eff = D.effective_div()
     sage: parallel_firing_graph(S,eff).show3d(edge_size=.005,vertex_size=0.01,iterations=500)
 
 .. figure:: media/sandpile/C_6-parallel.png
@@ -1454,7 +1454,7 @@ printed string
 
 EXAMPLES::
 
-    sage: Sandpile.help()
+    sage: Sandpile.help()  # long time
     For detailed help with any method FOO listed below,
     enter "Sandpile.FOO?" or enter "S.FOO?" for any Sandpile S.
     <BLANKLINE>
@@ -1854,7 +1854,7 @@ EXAMPLES::
 
 The minimal recurrent elements.  If the underlying graph is
 undirected, these are the recurrent elements of least degree.
-If ``verbose`` is ``False``, the configurations are converted 
+If ``verbose`` is ``False``, the configurations are converted
 to lists of integers.
 
 INPUT:
@@ -2133,7 +2133,7 @@ EXAMPLES::
 
 The vertices 1 and 2 have been swapped::
 
-    sage: T.dict() 
+    sage: T.dict()
     {0: {1: 1}, 1: {0: 1, 2: 1}, 2: {0: 1}}
 
 ---
@@ -4956,7 +4956,7 @@ Documentation for each method is available through the Sage online help system:
     An alternative to ``SandpileConfig.fire_vertex?`` in the preceding code example
     would be ``c.fire_vertex?``, if ``c`` is any SandpileConfig.
 
-Enter ``Sandpile.help()``, ``SandpileConfig.help()``, and ``SandpileDivisor.help()`` for lists of available Sandpile-specific methods. 
+Enter ``Sandpile.help()``, ``SandpileConfig.help()``, and ``SandpileDivisor.help()`` for lists of available Sandpile-specific methods.
 
 General Sage documentation can be found at http://doc.sagemath.org/html/en/.
 

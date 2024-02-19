@@ -85,7 +85,7 @@ A vector field can evaluated at any point of `\mathbb{E}^3`::
 
 Vector fields can be plotted::
 
-    sage: v.plot(max_range=1.5, scale=0.5)
+    sage: v.plot(max_range=1.5, scale=0.5)  # long time
     Graphics3d Object
 
 
@@ -101,7 +101,7 @@ For customizing the plot, see the list of options in the documentation of
 For instance, to get a view of the orthogonal projection of `v` in the plane
 `y=1`, do::
 
-    sage: v.plot(fixed_coords={y: 1}, ambient_coords=(x,z), max_range=1.5,
+    sage: v.plot(fixed_coords={y: 1}, ambient_coords=(x,z), max_range=1.5,  # long time
     ....:        scale=0.25)
     Graphics object consisting of 81 graphics primitives
 
@@ -371,7 +371,7 @@ An identity valid for any scalar field `F` and any vector field `u` is
 
 as we can check::
 
-    sage: curl(F*u) == grad(F).cross(u) + F*curl(u)
+    sage: curl(F*u) == grad(F).cross(u) + F*curl(u)  # long time
     True
 
 
@@ -434,7 +434,7 @@ For the vector fields `v` and `w`, we have::
 
 We have::
 
-    sage: curl(curl(u)).display()
+    sage: curl(curl(u)).display()  # long time
     curl(curl(u)) = (-d^2(u_x)/dy^2 - d^2(u_x)/dz^2 + d^2(u_y)/dxdy
      + d^2(u_z)/dxdz) e_x + (d^2(u_x)/dxdy - d^2(u_y)/dx^2 - d^2(u_y)/dz^2
      + d^2(u_z)/dydz) e_y + (d^2(u_x)/dxdz + d^2(u_y)/dydz - d^2(u_z)/dx^2
@@ -453,7 +453,7 @@ A famous identity is
 
 Let us check it::
 
-    sage: curl(curl(u)) == grad(div(u)) - laplacian(u)
+    sage: curl(curl(u)) == grad(div(u)) - laplacian(u)  # long time
     True
 
 

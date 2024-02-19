@@ -570,6 +570,7 @@ class BruhatTitsHarmonicCocycleElement(HeckeModuleElement):
             sage: H = X.harmonic_cocycles(4,20)
             sage: f0, g0 = H.basis()
             sage: A = X.padic_automorphic_forms(4,20,overconvergent=True)
+            sage: # long time
             sage: f = A.lift(f0).modular_form(method='moments')
             sage: T.<x> = Qq(7^2,20)
             sage: a,b,c,d = X.embed_quaternion(X.get_units_of_order()[1]).change_ring(Qp(7,20)).list()

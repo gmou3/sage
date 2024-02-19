@@ -84,7 +84,7 @@ Sage example in ./sol/combinat.tex, line 200::
 
 Sage example in ./sol/combinat.tex, line 212::
 
-  sage: float(estimate_proportion(Hands, is_full_hand, 10000)) # random
+  sage: float(estimate_proportion(Hands, is_full_hand, 10000)) # random, long time
   0.0014
 
 Sage example in ./sol/combinat.tex, line 229::

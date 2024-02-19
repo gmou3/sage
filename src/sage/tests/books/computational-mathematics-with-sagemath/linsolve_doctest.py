@@ -363,6 +363,7 @@ Sage example in ./linsolve.tex, line 2609::
   sage: n2 = n*n
   sage: A = lil_matrix((n2, n2))
   sage: h2 = 1./float((n+1)^2)
+  sage: # long time
   sage: for i in range(0,n2):
   ....:    A[i,i]=4*h2+1.
   ....:    if i+1<n2: A[i,int(i+1)]=-h2

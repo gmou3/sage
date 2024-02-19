@@ -2673,7 +2673,7 @@ class ModularFormElement(ModularForm_abstract, element.HeckeModuleElement):
             sage: f = M.gen(0); f
             1 + 60*q^3 - 120*q^4 + 240*q^5 + O(q^6)
             sage: chi = DirichletGroup(2)[0]
-            sage: f.twist(chi)
+            sage: f.twist(chi)  # long time
             60*q^3 + 240*q^5 + O(q^6)
 
         The base field of the twisted form is extended if necessary::

@@ -284,7 +284,7 @@ rank :math:`3`, which has 36 integral points.
 ::
 
     sage: E = elliptic_curves.rank(3)[0]
-    sage: E.integral_points(both_signs=True)   # less than 3 seconds
+    sage: E.integral_points(both_signs=True)   # long time, less than 3 seconds
     [(-3 : -1 : 1), (-3 : 0 : 1), (-2 : -4 : 1), (-2 : 3 : 1), ...(816 : -23310 : 1), (816 : 23309 : 1)]
 
 The algorithm to compute all integral points involves first
@@ -300,7 +300,7 @@ points).
 ::
 
     sage: E = elliptic_curves.rank(4)[0]
-    sage: E.integral_points(both_signs=True)   # about a minute
+    sage: E.integral_points(both_signs=True)  # long time
     [(-10 : 3 : 1), (-10 : 7 : 1), ...
      (19405 : -2712802 : 1), (19405 : 2693397 : 1)]
 

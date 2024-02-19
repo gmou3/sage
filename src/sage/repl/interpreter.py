@@ -729,6 +729,7 @@ def get_test_shell():
 
         sage: from sage.tests.cmdline import test_executable
         sage: cmd = 'from sage.repl.interpreter import get_test_shell; shell = get_test_shell()'
+        sage: # long time
         sage: (out, err, ret) = test_executable(["sage", "-c", cmd])
         sage: out + err
         ''

@@ -1699,7 +1699,7 @@ class EllipticCurveCanonicalHeight:
 
             sage: H.complex_intersection_is_empty([H.B(n,0.02) for n in [1,2,3]], v)  # long time, needs sage.rings.number_field
             False
-            sage: H.complex_intersection_is_empty([H.B(n,0.02) for n in [1,2,3,4]], v)  # needs sage.rings.number_field
+            sage: H.complex_intersection_is_empty([H.B(n,0.02) for n in [1,2,3,4]], v)  # long time, needs sage.rings.number_field
             True
             sage: H.complex_intersection_is_empty([H.B(n,0.03) for n in [1,2,3,4]], v)  # long time, needs sage.rings.number_field
             False

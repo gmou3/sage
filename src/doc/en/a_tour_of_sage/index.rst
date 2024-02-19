@@ -38,7 +38,7 @@ Here we integrate a simple function.
 ::
 
     sage: x = var('x')   # create a symbolic variable
-    sage: integrate(sqrt(x) * sqrt(1 + x), x)
+    sage: integrate(sqrt(x) * sqrt(1 + x), x)  # long time
     1/4*((x + 1)^(3/2)/x^(3/2) + sqrt(x + 1)/sqrt(x))/((x + 1)^2/x^2 - 2*(x + 1)/x + 1)
     - 1/8*log(sqrt(x + 1)/sqrt(x) + 1) + 1/8*log(sqrt(x + 1)/sqrt(x) - 1)
 
@@ -98,6 +98,7 @@ digits.
 
 ::
 
+    sage: # long time
     sage: n = factorial(1000000)  # about 1 second
     sage: len(n.digits())
     5565709

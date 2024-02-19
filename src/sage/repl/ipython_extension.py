@@ -222,7 +222,7 @@ class SageMagics(Magics):
         output::
 
             sage: shell.run_cell("i = var('i')")                                        # needs sage.symbolic
-            sage: shell.run_cell('sum(i^2*x^i, i, 0, 10)')                              # needs sage.symbolic
+            sage: shell.run_cell('sum(i^2*x^i, i, 0, 10)')                              # needs sage.symbolic, long time
                  10       9       8       7       6       5       4      3      2
             100*x   + 81*x  + 64*x  + 49*x  + 36*x  + 25*x  + 16*x  + 9*x  + 4*x  + x
 
@@ -352,13 +352,14 @@ class SageMagics(Magics):
 
             sage: from sage.repl.interpreter import get_test_shell
             sage: shell = get_test_shell()
-            sage: shell.run_cell(                                                       # needs sage.misc.cython
+            sage: # needs sage.misc.cython, long time
+            sage: shell.run_cell(
             ....: '''
             ....: %%cython
             ....: def f():
             ....:     print('test')
             ....: ''')
-            sage: f()                                                                   # needs sage.misc.cython
+            sage: f()
             test
         """
         from sage.misc.cython import cython_compile

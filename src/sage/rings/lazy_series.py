@@ -6813,7 +6813,7 @@ class LazySymmetricFunction(LazyCompletionGradedAlgebraElement):
             sage: Ep = p[1]*H.derivative_with_respect_to_p1(); Ep
             h[1] + (h[1,1]) + (h[2,1]) + (h[3,1]) + (h[4,1]) + (h[5,1]) + O^7
             sage: f = L(lambda n: h[n-n//2, n//2])
-            sage: f - Ep.functorial_composition(f)                                      # needs sage.libs.pari
+            sage: f - Ep.functorial_composition(f)                                      # needs sage.libs.pari, long time
             O^7
 
         The symmetric function `\sum_n h_n` is a left absorbing element::

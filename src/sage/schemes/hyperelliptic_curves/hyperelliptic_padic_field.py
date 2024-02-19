@@ -1195,8 +1195,8 @@ class HyperellipticCurve_padic_field(hyperelliptic_generic.HyperellipticCurve_ge
             sage: Q = HK(0,3)
             sage: S = HK.get_boundary_point(HJ,P)
             sage: P_to_S = HK.P_to_S(P,S)
-            sage: S_to_Q = HJ.S_to_Q(S,Q)
-            sage: P_to_S + S_to_Q
+            sage: S_to_Q = HJ.S_to_Q(S,Q)  # long time
+            sage: P_to_S + S_to_Q  # long time
             (2*a^40 + a^80 + a^100 + O(a^105), a^20 + 2*a^40 + 4*a^60 + 2*a^80 + O(a^103))
             sage: HK.coleman_integrals_on_basis(P,Q)
             (2*5^2 + 5^4 + 5^5 + 3*5^6 + O(5^7), 5 + 2*5^2 + 4*5^3 + 2*5^4 + 5^6 + O(5^7))

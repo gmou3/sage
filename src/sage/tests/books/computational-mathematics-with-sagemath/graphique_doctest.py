@@ -32,6 +32,7 @@ Sage example in ./graphique.tex, line 237::
 
   sage: f2(x) = 1; f1(x) = -1
   sage: f = piecewise([[(-pi,0),f1],[(0,pi),f2]])
+  sage: # long time
   sage: S = f.fourier_series_partial_sum(20,pi)
   sage: g = plot(S, x, -8, 8, color='blue')
   sage: saw(x) = x - 2 * pi * floor((x + pi) / (2 * pi))

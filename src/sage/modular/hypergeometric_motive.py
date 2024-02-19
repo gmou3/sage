@@ -215,7 +215,7 @@ def possible_hypergeometric_data(d, weight=None):
     EXAMPLES::
 
         sage: from sage.modular.hypergeometric_motive import possible_hypergeometric_data as P
-        sage: [len(P(i,weight=2)) for i in range(1, 7)]
+        sage: [len(P(i,weight=2)) for i in range(1, 7)]  # long time
         [0, 0, 10, 30, 93, 234]
     """
     return list(enumerate_hypergeometric_data(d, weight))

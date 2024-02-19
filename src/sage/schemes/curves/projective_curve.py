@@ -2562,7 +2562,7 @@ class IntegralProjectiveCurve(ProjectiveCurve_field):
 
             sage: P.<x,y,z> = ProjectiveSpace(GF(5), 2)
             sage: C = Curve(y^2*z^7 - x^9 - x*z^8)
-            sage: C.singular_closed_points()
+            sage: C.singular_closed_points()  # long time
             [Point (x, z)]
         """
         return [p[0] for p in self._singularities]

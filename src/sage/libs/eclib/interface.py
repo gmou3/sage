@@ -782,7 +782,7 @@ class mwrank_MordellWeil(SageObject):
         sage: E = mwrank_EllipticCurve([0,0,1,-7,6])
         sage: EQ = mwrank_MordellWeil(E, verbose=False, pp=1)
         sage: # long time
-        sage: EQ.search(1); EQ, generators only
+        sage: EQ.search(1); EQ  # generators only
         Subgroup of Mordell-Weil group: [[1:-1:1], [-2:3:1], [-14:25:8]]
         sage: EQ = mwrank_MordellWeil(E, verbose=False, pp=0)
         sage: EQ.search(1); EQ  # all points found
