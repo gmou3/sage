@@ -1074,6 +1074,7 @@ class ModularFormsSpace(hecke.HeckeModule_generic):
             sage: M0 = ModularForms(Gamma0(8), 10)
             sage: M1 = ModularForms(Gamma1(8), 10)
             sage: f = M0.0; g = M1.0
+            sage: # long time
             sage: f + g
             2*q + O(q^6)
             sage: M1(f)

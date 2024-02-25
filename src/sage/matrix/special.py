@@ -302,7 +302,7 @@ def random_matrix(ring, nrows, ncols=None, algorithm='randomize', implementation
         sage: expected(100)
         1/25250
         sage: add_samples(ZZ, 5, 5)
-        sage: while not all(abs(dic[a]/total_count - expected(a)) < 0.001 for a in dic):
+        sage: while not all(abs(dic[a]/total_count - expected(a)) < 0.001 for a in dic):  # long time
         ....:     add_samples(ZZ, 5, 5)
 
     The ``distribution`` keyword  set to ``uniform`` will limit values
@@ -330,7 +330,7 @@ def random_matrix(ring, nrows, ncols=None, algorithm='randomize', implementation
         sage: total_count = 0
         sage: dic = defaultdict(Integer)
         sage: add_samples(ZZ, 3, 7, x=-5, y=5)
-        sage: while not all(abs(dic[a]/total_count - expected(a)) < 0.001 for a in dic):
+        sage: while not all(abs(dic[a]/total_count - expected(a)) < 0.001 for a in dic):  # long time
         ....:     add_samples(ZZ, 3, 7, x=-5, y=5)
 
     If only ``x`` is given, then it is used as the upper bound of a range

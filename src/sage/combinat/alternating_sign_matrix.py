@@ -1129,6 +1129,7 @@ class AlternatingSignMatrices(UniqueRepresentation, Parent):
 
             sage: M = MatrixSpace(ZZ, 3)
             sage: A = AlternatingSignMatrices(3)
+            sage: # long time
             sage: mats = [M(p) for p in product([-1,0,1], repeat=9)]
             sage: sum(1 for m in mats if m in A)
             7

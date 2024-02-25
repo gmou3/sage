@@ -249,7 +249,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             sage: M._is_independent(set(['a', 'b', 'c', 'd']))
             False
         """
-        for r in sorted(self._circuit_closures):
+        for r in sorted(self._circuit_closures, key=str):
             if len(F) <= r:
                 break
             for C in self._circuit_closures[r]:
@@ -319,7 +319,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             ...
             ValueError: no circuit in independent set
         """
-        for r in sorted(self._circuit_closures):
+        for r in sorted(self._circuit_closures, key=str):
             for C in self._circuit_closures[r]:
                 S = set(F & C)
                 if len(S) > r:
@@ -567,5 +567,134 @@ cdef class CircuitClosuresMatroid(Matroid):
         data = (self._groundset, self._circuit_closures, self.get_custom_name())
         version = 0
         return sage.matroids.unpickling.unpickle_circuit_closures_matroid, (version, data)
+
+    cpdef relabel(self, f) noexcept:
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
+            sage: M = CircuitClosuresMatroid(matroids.catalog.RelaxedNonFano())
+            sage: sorted(M.groundset())
+            [0, 1, 2, 3, 4, 5, 6]
+            sage: N = M.relabel({'g':'x', 0:'z'}) # 'g':'x' is ignored
+            sage: sorted(N.groundset(), key=str)
+            [1, 2, 3, 4, 5, 6, 'z']
+            sage: M.is_isomorphic(N)
+            True
+
+        TESTS::
+
+            sage: from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
+            sage: M = CircuitClosuresMatroid(matroids.catalog.RelaxedNonFano())
+            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g'}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
+        """
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset()]
+        CC = {}
+        for i in self.circuit_closures():
+            CC[i] = [[d[y] for y in x] for x in list(self._circuit_closures[i])]
+        M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
+        return M
+
+    cpdef is_valid(self) noexcept:
+        r"""
+        Test if the data obey the matroid axioms.
+
+        For the matroid defined by circuit closures, we do the default checks
+        of the rank axioms and we also check that the circuit closures
+        correspond to flats. If the flats are not checked a matroid can be
+        deemed valid while having an invalid family of circuit closures.
+
+        OUTPUT:
+
+        Boolean.
+
+        EXAMPLES::
+
+            sage: M = matroids.Spike(4)
+            sage: M.is_valid()  # long time
+            True
+
+        We next try defining the same spike incorrectly, ommiting the element
+        't' (the tip) from the circuit closures of rank 3::
+
+            sage: CC = {2: [['t', 'x1', 'y1'], ['t', 'x2', 'y2'],
+            ....:           ['t', 'x3', 'y3'], ['t', 'x4', 'y4']],
+            ....:       3: [['x1', 'x2', 'y1', 'y2'],
+            ....:           ['x1', 'x3', 'y1', 'y3'],
+            ....:           ['x1', 'x4', 'y1', 'y4'],
+            ....:           ['x2', 'x3', 'y2', 'y3'],
+            ....:           ['x2', 'x4', 'y2', 'y4'],
+            ....:           ['x3', 'x4', 'y3', 'y4']],
+            ....:       4: [['t', 'x1', 'x2', 'x3', 'x4',
+            ....:                'y1', 'y2', 'y3', 'y4']],
+            ....: }
+            sage: N = Matroid(circuit_closures=CC)
+
+        Here, somewhat unexpectedly, the rank function of N is correctly
+        computed, but the incorrectly specified circuit closures cause
+        unexpected behaviour. First::
+
+            sage: M.is_isomorphic(N)
+            False
+
+        But, if we cast N as a BasisMatroid::
+
+            sage: N_B = Matroid(N.bases())
+            sage: M.is_isomorphic(N_B)
+            True
+
+        By also checking that the given circuit closures correspond to flats,
+        we designate the matroid with the erroneous circuit closures as
+        invalid::
+
+            sage: N.is_valid()
+            False
+        """
+        for i in self.circuit_closures():
+            for S in self._circuit_closures[i]:
+                if S not in self.flats(i):
+                    return False
+
+        for i in range(self.rank()+1):
+            for j in range(self.rank()+1):
+                if i <= j:
+                    for C1 in self.circuits_iterator(i):
+                        if len(C1) == 0:
+                            return False
+                        for C2 in self.circuits_iterator(j):
+                            if C1 < C2:
+                                return False
+                            if C1 == C2:
+                                break
+                            for e in C1 & C2:
+                                flag = False
+                                S = (set(C1) | set(C2)) - {e}
+                                for k in range(len(S)+1):
+                                    if not flag:
+                                        for C3 in self.circuits_iterator(k):
+                                            if C3 <= S:
+                                                flag = True
+                                                break
+                                if not flag:
+                                    return False
+
+        return True
+
 
 # todo: customized minor, extend methods.

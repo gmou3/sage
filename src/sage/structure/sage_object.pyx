@@ -240,6 +240,7 @@ cdef class SageObject:
         You can use the :func:`~sage.typeset.ascii_art.ascii_art` function
         to get the ASCII art representation of any object in Sage::
 
+            sage: # long time
             sage: result = ascii_art(integral(exp(x+x^2)/(x+1), x))                     # needs sage.symbolic
             ...
             sage: result                                                                # needs sage.symbolic

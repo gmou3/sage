@@ -1,4 +1,5 @@
 from sage.structure.sage_object cimport SageObject
+from sage.matroids.set_system cimport SetSystem
 
 cdef class Matroid(SageObject):
     cdef public _SageObject__custom_name
@@ -107,7 +108,7 @@ cdef class Matroid(SageObject):
     cpdef is_valid(self) noexcept
 
     # enumeration
-    cpdef circuits(self) noexcept
+    cpdef circuits(self, k=*) noexcept
     cpdef nonspanning_circuits(self) noexcept
     cpdef cocircuits(self) noexcept
     cpdef noncospanning_cocircuits(self) noexcept
@@ -124,8 +125,14 @@ cdef class Matroid(SageObject):
     cpdef coflats(self, r) noexcept
     cpdef hyperplanes(self) noexcept
     cpdef f_vector(self) noexcept
+    cpdef whitney_numbers(self) noexcept
+    cpdef whitney_numbers2(self) noexcept
     cpdef broken_circuits(self, ordering=*) noexcept
     cpdef no_broken_circuits_sets(self, ordering=*) noexcept
+
+    # polytopes
+    cpdef matroid_polytope(self) noexcept
+    cpdef independence_matroid_polytope(self) noexcept
 
     # isomorphism
     cpdef is_isomorphic(self, other, certificate=*) noexcept
@@ -135,6 +142,7 @@ cdef class Matroid(SageObject):
     cpdef equals(self, other) noexcept
     cpdef is_isomorphism(self, other, morphism) noexcept
     cpdef _is_isomorphism(self, other, morphism) noexcept
+    cpdef _relabel_map(self, f) noexcept
 
     # minors, dual, truncation
     cpdef minor(self, contractions=*, deletions=*) noexcept
@@ -153,6 +161,7 @@ cdef class Matroid(SageObject):
     cpdef modular_cut(self, subsets) noexcept
     cpdef linear_subclasses(self, line_length=*, subsets=*) noexcept
     cpdef extensions(self, element=*, line_length=*, subsets=*) noexcept
+    cpdef coextensions(self, element=*, coline_length=*, subsets=*) noexcept
 
     # connectivity
     cpdef simplify(self) noexcept
@@ -186,6 +195,8 @@ cdef class Matroid(SageObject):
     cpdef _local_ternary_matroid(self, basis=*) noexcept
     cpdef ternary_matroid(self, randomized_tests=*, verify=*) noexcept
     cpdef is_ternary(self, randomized_tests=*) noexcept
+    cpdef is_regular(self) noexcept
+    cpdef is_graphic(self) noexcept
 
     # matroid k-closed
     cpdef is_k_closed(self, int k) noexcept
@@ -213,14 +224,26 @@ cdef class Matroid(SageObject):
     cpdef _internal(self, B) noexcept
     cpdef _external(self, B) noexcept
     cpdef tutte_polynomial(self, x=*, y=*) noexcept
+    cpdef characteristic_polynomial(self, l=*) noexcept
     cpdef flat_cover(self, solver=*, verbose=*, integrality_tolerance=*) noexcept
 
     # misc
     cpdef automorphism_group(self) noexcept
     cpdef bergman_complex(self) noexcept
     cpdef augmented_bergman_complex(self) noexcept
+    cpdef broken_circuit_complex(self, ordering=*, reduced=*) noexcept
 
     # visualization
     cpdef plot(self,B=*,lineorders=*,pos_method=*,pos_dict=*,save_pos=*) noexcept
     cpdef show(self,B=*,lineorders=*,pos_method=*,pos_dict=*,save_pos=*,lims=*) noexcept
     cpdef _fix_positions(self,pos_dict=*,lineorders=*) noexcept
+
+    # construction
+    cpdef direct_sum(self, matroids) noexcept
+
+    # printing
+    cpdef print_bases(self) noexcept
+    cpdef print_circuits(self, k=*) noexcept
+    cpdef print_nonspanning_circuits(self) noexcept
+    cpdef _subset_sort(self, subsets) noexcept
+    cpdef _subset_cmp(self, A, B) noexcept

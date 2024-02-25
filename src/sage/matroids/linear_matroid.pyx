@@ -2299,7 +2299,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         INPUT:
 
         - ``F`` -- (default: ``self.groundset()``) a subset of the groundset.
-        - ``simple`` -- (default: ``False``) a boolean variable.
+        - ``simple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2399,7 +2399,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         INPUT:
 
         - ``F`` -- (default: ``self.groundset()``) a subset of the groundset.
-        - ``cosimple`` -- (default: ``False``) a boolean variable.
+        - ``cosimple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2453,7 +2453,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``element`` -- (default: ``None``) the name of the new element of
           the groundset.
         - ``F`` -- (default: ``None``) a subset of the ground set.
-        - ``simple`` -- (default: ``False``) a boolean variable.
+        - ``simple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2521,7 +2521,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``element`` -- (default: ``None``) the name of the new element of
           the groundset.
         - ``F`` -- (default: ``None``) a subset of the ground set.
-        - ``cosimple`` -- (default: ``False``) a boolean variable.
+        - ``cosimple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
 
@@ -2640,7 +2640,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -2719,7 +2719,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) a boolean; if ``True``,
+        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
 
@@ -2972,6 +2972,42 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             reduced = True
         data = (A, gs, reduced, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_linear_matroid, (version, data)
+
+    cpdef relabel(self, f) noexcept:
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.Fano()
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.Fano()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
+        """
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset_list()]
+        M = LinearMatroid(groundset=E, matrix=self._matrix_())
+        return M
 
 # Binary matroid
 
@@ -3913,7 +3949,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -4037,6 +4073,42 @@ cdef class BinaryMatroid(LinearMatroid):
             basis = self._current_rows_cols()[0]
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_binary_matroid, (version, data)
+
+    cpdef relabel(self, f) noexcept:
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.Fano()
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.Fano()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
+        """
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset_list()]
+        M = BinaryMatroid(groundset=E, matrix=self._matrix_())
+        return M
 
 cdef class TernaryMatroid(LinearMatroid):
     r"""
@@ -4803,7 +4875,7 @@ cdef class TernaryMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -4931,6 +5003,42 @@ cdef class TernaryMatroid(LinearMatroid):
             basis = self._current_rows_cols()[0]
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_ternary_matroid, (version, data)
+
+    cpdef relabel(self, f) noexcept:
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.NonFano()
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.NonFano()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
+        """
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset_list()]
+        M = TernaryMatroid(groundset=E, matrix=self._matrix_())
+        return M
 
 # Quaternary Matroids
 
@@ -5657,6 +5765,42 @@ cdef class QuaternaryMatroid(LinearMatroid):
         data = (A, gs, basis, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_quaternary_matroid, (version, data)
 
+    cpdef relabel(self, f) noexcept:
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.RelaxedNonFano("abcdefg")
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.RelaxedNonFano("abcdefg")
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
+        """
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset_list()]
+        M = QuaternaryMatroid(groundset=E, matrix=self._matrix_())
+        return M
+
 # Regular Matroids
 
 cdef class RegularMatroid(LinearMatroid):
@@ -5985,7 +6129,7 @@ cdef class RegularMatroid(LinearMatroid):
                     for k in range(j):
                         if P.get_unsafe(i, j)*P.get_unsafe(j, k)*P.get_unsafe(k, i)<0:
                             N=N+1
-        self._r_invariant = hash(tuple([tuple([(w, A[w]) for w in sorted(A)]), tuple([(w, B[w]) for w in sorted(B)]), N]))
+        self._r_invariant = hash(tuple([tuple([(w, A[w]) for w in sorted(A, key=str)]), tuple([(w, B[w]) for w in sorted(B, key=str)]), N]))
         return self._r_invariant
 
     cpdef _hypergraph(self) noexcept:
@@ -6043,8 +6187,8 @@ cdef class RegularMatroid(LinearMatroid):
                     else:
                         B[w] = [frozenset([e, f])]
                     E.append(frozenset([e, f]))
-        self._hypergraph_vertex_partition = [[str(x) for x in A[w]] for w in sorted(A)] + [['**' + str(x) for x in B[w]] for w in sorted(B)]
-        self._hypergraph_tuples = [(w, len(A[w])) for w in sorted(A)] + [(w, len(B[w])) for w in sorted(B)]
+        self._hypergraph_vertex_partition = [[str(x) for x in A[w]] for w in sorted(A, key=str)] + [['**' + str(x) for x in B[w]] for w in sorted(B, key=str)]
+        self._hypergraph_tuples = [(w, len(A[w])) for w in sorted(A, key=str)] + [(w, len(B[w])) for w in sorted(B, key=str)]
         G = DiGraph()
         G.add_vertices([str(x) for x in V] + ['**' + str(x) for x in E])
         # Note that Sage's Graph object attempts a sort on calling G.vertices(), which means vertices have to be well-behaved.
@@ -6408,7 +6552,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -6467,7 +6611,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         OUTPUT:
 
-        A Boolean.
+        boolean
 
         ALGORITHM:
 
@@ -6575,3 +6719,39 @@ cdef class RegularMatroid(LinearMatroid):
             reduced = True
         data = (A, gs, reduced, self.get_custom_name())
         return sage.matroids.unpickling.unpickle_regular_matroid, (version, data)
+
+    cpdef relabel(self, f) noexcept:
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.R10()
+            sage: sorted(M.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+            sage: N = M.relabel({'g':'x'})
+            sage: sorted(N.groundset())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'x']
+
+        TESTS::
+
+            sage: M = matroids.catalog.R10()
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([M._relabel_map(f)[x] for x in S])
+        """
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset_list()]
+        M = RegularMatroid(groundset=E, matrix=self._matrix_())
+        return M

@@ -2558,6 +2558,7 @@ cdef class EvaluationAGCodeDecoder_K_extension(Decoder_K_extension):
         sage: code = codes.EvaluationAGCode(pls, G)
         sage: Q = F.get_place(3)
         sage: from sage.coding.ag_code_decoders import EvaluationAGCodeDecoder_K_extension
+        sage: # long time
         sage: circuit = EvaluationAGCodeDecoder_K_extension(pls, G, Q)
         sage: cw = code.random_element()
         sage: rv = cw + vector([0,1,1,0,0,0,0,0,0])
@@ -2609,13 +2610,14 @@ cdef class DifferentialAGCodeDecoder_K_extension(Decoder_K_extension):
         sage: pls = C.places()
         sage: F = C.function_field()
         sage: G = 1*F.get_place(4)
+        sage: # long time
         sage: code = codes.DifferentialAGCode(pls, G)
         sage: Q = F.get_place(3)
         sage: from sage.coding.ag_code_decoders import DifferentialAGCodeDecoder_K_extension
-        sage: circuit = DifferentialAGCodeDecoder_K_extension(pls, G, Q)  # long time
+        sage: circuit = DifferentialAGCodeDecoder_K_extension(pls, G, Q)
         sage: cw = code.random_element()
         sage: rv = cw + vector([0,0,a,0,0,0,0,0,0])
-        sage: circuit.encode(circuit.decode(circuit._lift(rv))) == circuit._lift(cw)  # long time
+        sage: circuit.encode(circuit.decode(circuit._lift(rv))) == circuit._lift(cw)
         True
     """
     def __init__(self, pls, G, Q, verbose=False):

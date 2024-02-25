@@ -712,7 +712,7 @@ class FiniteCoxeterGroups(CategoryWithAxiom):
                 A 3-dimensional polyhedron in RDF^3 defined as the convex hull of 120 vertices
 
                 sage: W = CoxeterGroup(['I',7])
-                sage: W.permutahedron()
+                sage: W.permutahedron()  # long time
                 A 2-dimensional polyhedron in AA^2 defined as the convex hull of 14 vertices
                 sage: W.permutahedron(base_ring=RDF)
                 A 2-dimensional polyhedron in RDF^2 defined as the convex hull of 14 vertices

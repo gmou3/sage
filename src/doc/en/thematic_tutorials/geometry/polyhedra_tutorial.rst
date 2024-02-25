@@ -216,7 +216,7 @@ There is another way to create a polyhedron over algebraic numbers:
     sage: # needs sage.rings.number_field
     sage: K.<a> = NumberField(x^2 - 2, embedding=AA(2)**(1/2))
     sage: L.<b> = NumberField(x^3 - 2, embedding=AA(2)**(1/3))
-    sage: timeit('Polyhedron(vertices=[[a, 0], [0, b]])')               # random
+    sage: timeit('Polyhedron(vertices=[[a, 0], [0, b]])')               # random, long time
     5 loops, best of 3: 39.9 ms per loop
     sage: P5 = Polyhedron(vertices=[[a, 0], [0, b]]); P5
     A 1-dimensional polyhedron in AA^2 defined as the convex hull of 2 vertices
@@ -229,7 +229,7 @@ If the base ring is known it may be a good option to use the proper :meth:`sage.
 
     sage: # needs sage.rings.number_field
     sage: J = K.composite_fields(L)[0]
-    sage: timeit('Polyhedron(vertices=[[J(a), 0], [0, J(b)]])')         # random
+    sage: timeit('Polyhedron(vertices=[[J(a), 0], [0, J(b)]])')         # random, long time
     25 loops, best of 3: 9.8 ms per loop
     sage: P5_comp = Polyhedron(vertices=[[J(a), 0], [0, J(b)]]); P5_comp
     A 1-dimensional polyhedron

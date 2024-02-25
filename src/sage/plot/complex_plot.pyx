@@ -1089,7 +1089,7 @@ def complex_plot(f, x_range, y_range, contoured=False, tiled=False, cmap=None,
 
     The Riemann Zeta function::
 
-        sage: complex_plot(zeta, (-30,30), (-30,30))                                    # needs sage.symbolic
+        sage: complex_plot(zeta, (-30,30), (-30,30))                                    # long time, needs sage.symbolic
         Graphics object consisting of 1 graphics primitive
 
     .. PLOT::
@@ -1100,7 +1100,7 @@ def complex_plot(f, x_range, y_range, contoured=False, tiled=False, cmap=None,
     ``dark_rate`` will make regions become darker/lighter faster when there are no
     contours::
 
-        sage: complex_plot(zeta, (-30, 30), (-30, 30), dark_rate=1.0)                   # needs sage.symbolic
+        sage: complex_plot(zeta, (-30, 30), (-30, 30), dark_rate=1.0)                   # long time, needs sage.symbolic
         Graphics object consisting of 1 graphics primitive
 
     .. PLOT::

@@ -458,13 +458,13 @@ class EllipticCurveHom_frobenius(EllipticCurveHom):
             ....:     except ArithmeticError:
             ....:         pass
             sage: f = EllipticCurveHom_frobenius(E, n)
-            sage: f.dual() * f == EllipticCurveHom_scalar(E, p**n)
+            sage: f.dual() * f == EllipticCurveHom_scalar(E, p**n)  # long time
             True
-            sage: f * f.dual() == EllipticCurveHom_scalar(f.codomain(), p**n)
+            sage: f * f.dual() == EllipticCurveHom_scalar(f.codomain(), p**n)  # long time
             True
             sage: f.dual().dual() == f  # known bug -- broken in characteristic 2,3
             True
-            sage: p in (2,3) or f.dual().dual() == f
+            sage: p in (2,3) or f.dual().dual() == f  # long time
             True
 
         ALGORITHM:

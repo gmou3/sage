@@ -30,7 +30,7 @@ TESTS:
 
 Check that :trac:`24212` is fixed::
 
-    sage: integrate(sin(x^2), x, algorithm='sympy')
+    sage: integrate(sin(x^2), x, algorithm='sympy')  # long time
     3/8*sqrt(2)*sqrt(pi)*fresnel_sin(sqrt(2)*x/sqrt(pi))*gamma(3/4)/gamma(7/4)
 
 Test that conversion of symbolic functions with latex names works (:trac:`31047`)::

@@ -168,7 +168,7 @@ class RepresentationByMorphism(CombinatorialFreeModule, Representation_abstract)
         2*R[1] + 2*R[2] + 3*R[3]
         sage: x * v
         R[1] + 5*R[2] - 3*R[3]
-        sage: R._test_representation()  # verify that it is a representation
+        sage: R._test_representation()  # long time, verify that it is a representation
     """
     @staticmethod
     def __classcall_private__(cls, lie_algebra, f=None, index_set=None, on_basis=False, **kwargs):

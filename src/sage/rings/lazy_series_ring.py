@@ -1485,7 +1485,7 @@ class LazyLaurentSeriesRing(LazySeriesRing):
              and Category of infinite sets
 
             sage: L = LazyLaurentSeriesRing(ZZ['x, y'], 't')
-            sage: TestSuite(L).run()                                                    # needs sage.libs.singular
+            sage: TestSuite(L).run()                                                    # needs sage.libs.singular, long time
             sage: L.category()
             Category of infinite commutative no zero divisors algebras over
              (unique factorization domains and commutative algebras over
@@ -2006,7 +2006,7 @@ class LazyPowerSeriesRing(LazySeriesRing):
             sage: TestSuite(L).run(skip=['_test_revert'])
 
             sage: L = LazyPowerSeriesRing(QQ['q'], 't')
-            sage: TestSuite(L).run(skip="_test_fraction_field")
+            sage: TestSuite(L).run(skip="_test_fraction_field")  # long time
             sage: L = LazyPowerSeriesRing(QQ['q'], 's, t')
             sage: TestSuite(L).run(skip="_test_fraction_field")  # long time
 
@@ -2681,7 +2681,7 @@ class LazyCompletionGradedAlgebra(LazySeriesRing):
             sage: # needs sage.modules
             sage: s = SymmetricFunctions(QQ).s()
             sage: L = LazySymmetricFunctions(s)
-            sage: TestSuite(L).run()                                                    # needs lrcalc_python
+            sage: TestSuite(L).run()                                                    # needs lrcalc_python, long time
             sage: p = SymmetricFunctions(GF(5)).p()
             sage: L = LazySymmetricFunctions(p)
             sage: TestSuite(L).run()
@@ -2691,10 +2691,10 @@ class LazyCompletionGradedAlgebra(LazySeriesRing):
             sage: # needs sage.modules
             sage: s = SymmetricFunctions(ZZ).s()
             sage: L = LazySymmetricFunctions(s)
-            sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python
+            sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python, long time
             sage: s = SymmetricFunctions(QQ["q"]).s()
             sage: L = LazySymmetricFunctions(s)
-            sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python
+            sage: TestSuite(L).run(skip=['_test_revert'])                               # needs lrcalc_python, long time
 
         Options are remembered across doctests::
 
@@ -3153,10 +3153,10 @@ class LazyDirichletSeriesRing(LazySeriesRing):
             sage: LazyDirichletSeriesRing.options.halting_precision(12)
 
             sage: L = LazyDirichletSeriesRing(ZZ, 't')
-            sage: TestSuite(L).run()                                                    # needs sage.symbolic
+            sage: TestSuite(L).run()                                                    # needs sage.symbolic, long time
 
             sage: L = LazyDirichletSeriesRing(QQ, 't')
-            sage: TestSuite(L).run()                                                    # needs sage.symbolic
+            sage: TestSuite(L).run()                                                    # needs sage.symbolic, long time
 
             sage: LazyDirichletSeriesRing.options._reset()  # reset the options
 

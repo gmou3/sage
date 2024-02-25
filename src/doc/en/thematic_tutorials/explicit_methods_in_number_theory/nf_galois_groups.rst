@@ -225,7 +225,7 @@ class number :math:`1`!
     sage: v = [D for D in w if D.is_fundamental_discriminant()]
     sage: len(v)
     302
-    sage: len([D for D in v if QuadraticField(D,'a').class_number() == 1])
+    sage: len([D for D in v if QuadraticField(D,'a').class_number() == 1])  # long time
     176
     sage: 176.0/302
     0.582781456953642

@@ -17,7 +17,7 @@ This provides two functions:
 
 TESTS::
 
-    sage: cython(                                                                       # needs sage.misc.cython
+    sage: cython(                                                                       # needs sage.misc.cython, long time
     ....: '''
     ....: from sage.rings.integer_fake cimport Integer_AS_MPZ, is_Integer
     ....: from sage.rings.integer cimport Integer

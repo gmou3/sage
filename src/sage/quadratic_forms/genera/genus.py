@@ -2910,10 +2910,10 @@ class GenusSymbol_global_ring:
         TESTS::
 
             sage: from sage.quadratic_forms.genera.genus import genera
-            sage: for det in range(1, 5):
+            sage: for det in range(1, 5):  # long time
             ....:     G = genera((4,0), det, even=False)
             ....:     assert all(g==Genus(g.representative()) for g in G)
-            sage: for det in range(1, 5):
+            sage: for det in range(1, 5):  # long time
             ....:     G = genera((1,2), det, even=False)
             ....:     assert all(g==Genus(g.representative()) for g in G)
             sage: for det in range(1, 9): # long time (8s, 2020)

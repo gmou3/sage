@@ -28,6 +28,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
     cpdef is_field_isomorphism(self, other, morphism) noexcept
     # cpdef is_field_isomorphic(self, other)  # TODO: currently only works as ``def``
     cpdef _fast_isom_test(self, other) noexcept
+    cpdef relabel(self, f) noexcept
 
     cpdef _minor(self, contractions, deletions) noexcept
     cpdef dual(self) noexcept
@@ -88,6 +89,7 @@ cdef class BinaryMatroid(LinearMatroid):
     cpdef BinaryMatrix _projection(self) noexcept
     cpdef BinaryMatrix _projection_partition(self) noexcept
     cpdef _fast_isom_test(self, other) noexcept
+    cpdef relabel(self, f) noexcept
 
     cpdef is_graphic(self) noexcept
     cpdef is_valid(self) noexcept
@@ -118,6 +120,7 @@ cdef class TernaryMatroid(LinearMatroid):
     cpdef _principal_quadripartition(self) noexcept
     cpdef TernaryMatrix _projection(self) noexcept
     cpdef _fast_isom_test(self, other) noexcept
+    cpdef relabel(self, f) noexcept
 
     cpdef is_valid(self) noexcept
 
@@ -144,6 +147,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
     cpdef bicycle_dimension(self) noexcept
     cpdef _principal_tripartition(self) noexcept
     cpdef _fast_isom_test(self, other) noexcept
+    cpdef relabel(self, f) noexcept
 
     cpdef is_valid(self) noexcept
 
@@ -159,6 +163,7 @@ cdef class RegularMatroid(LinearMatroid):
 
     cpdef _invariant(self) noexcept
     cpdef _fast_isom_test(self, other) noexcept
+    cpdef relabel(self, f) noexcept
 
     cpdef bases_count(self) noexcept
     cpdef _projection(self) noexcept

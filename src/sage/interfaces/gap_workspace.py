@@ -53,6 +53,7 @@ def gap_workspace_file(system="gap", name="workspace", dir=None):
         sage: from subprocess import Popen, PIPE
         sage: import sys
         sage: cmd = 'import sage.all, sage.interfaces.gap_workspace; print(sage.interfaces.gap_workspace.gap_workspace_file())'
+        sage: # long time
         sage: name1 = Popen([sys.executable, '-c', cmd], stdout=PIPE).communicate()[0]
         sage: name2 = Popen([sys.executable, '-c', cmd], stdout=PIPE).communicate()[0]
         sage: assert name1 == name2

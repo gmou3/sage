@@ -1810,6 +1810,7 @@ def gap_console():
         sage: import subprocess as sp
         sage: from sage.interfaces.gap import gap_command
         sage: cmd = 'echo "quit;" | ' + gap_command(use_workspace_cache=False)[0]
+        sage: # long time
         sage: gap_startup = sp.check_output(cmd, shell=True,
         ....:                               stderr=sp.STDOUT,
         ....:                               encoding='latin1')

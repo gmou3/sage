@@ -211,7 +211,7 @@ class LieConformalAlgebraWithStructureCoefficients(
         TESTS::
 
             sage: V = lie_conformal_algebras.NeveuSchwarz(QQ)
-            sage: TestSuite(V).run()
+            sage: TestSuite(V).run()  # long time
         """
         names, index_set = standardize_names_index_set(names,index_set)
         if central_elements is None:

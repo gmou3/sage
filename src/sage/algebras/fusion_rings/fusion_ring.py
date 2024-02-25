@@ -228,7 +228,7 @@ class FusionRing(WeylCharacterRing):
         [0, 1, 1/8]
         sage: [x.ribbon() for x in b]
         [1, -1, zeta128^8]
-        sage: [I.r_matrix(i, j, k) for (i, j, k) in [(s, s, i0), (p, p, i0), (p, s, s), (s, p, s), (s, s, p)]]
+        sage: [I.r_matrix(i, j, k) for (i, j, k) in [(s, s, i0), (p, p, i0), (p, s, s), (s, p, s), (s, s, p)]]  # long time
         [-zeta128^56, -1, -zeta128^32, -zeta128^32, zeta128^24]
         sage: I.r_matrix(s, s, i0) == I.root_of_unity(-1/8)
         True

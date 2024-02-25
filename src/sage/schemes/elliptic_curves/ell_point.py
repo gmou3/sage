@@ -205,6 +205,7 @@ class EllipticCurvePoint_field(SchemeMorphism_point_abelian_variety_field):
     ::
 
         sage: K.<t> = FractionField(PolynomialRing(QQ,'t'))
+        sage: # long time
         sage: E = EllipticCurve([0,0,0,0,t^2])
         sage: P = E(0,t)
         sage: P, 2*P, 3*P

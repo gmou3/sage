@@ -415,9 +415,10 @@ def is_orthogonal_polar(int v, int k, int l, int mu):
         sage: from sage.graphs.strongly_regular_db import is_orthogonal_polar
         sage: t = is_orthogonal_polar(85, 20, 3, 5); t
         (<function OrthogonalPolarGraph at ...>, 5, 4, '')
-        sage: g = t[0](*t[1:]); g                                                       # needs sage.rings.finite_rings
+        sage: # long time, needs sage.rings.finite_rings
+        sage: g = t[0](*t[1:]); g
         Orthogonal Polar Graph O(5, 4): Graph on 85 vertices
-        sage: g.is_strongly_regular(parameters=True)                                    # needs sage.rings.finite_rings
+        sage: g.is_strongly_regular(parameters=True)
         (85, 20, 3, 5)
 
         sage: t = is_orthogonal_polar(5,5,5,5); t                                       # needs sage.rings.finite_rings

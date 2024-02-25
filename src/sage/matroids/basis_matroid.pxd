@@ -7,6 +7,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
     cdef bitset_t _bb
     cdef bitset_t _b
     cdef SetSystem _nonbases
+    cdef SetSystem _C  # circuits
     cdef _bases_invariant_var
     cdef SetSystem _bases_partition_var
     cdef _bases_invariant2_var

@@ -2520,11 +2520,10 @@ class DifferentialGCAlgebra(GCAlgebra):
             sage: [p(g.representative()) for g in T.cohomology(2).basis().keys()]
             [z]
 
-
-
             sage: A.<e1, e2, e3, e4, e5, e6, e7> = GradedCommutativeAlgebra(QQ)
             sage: d = A.differential({e1:e1*e7, e2:e2*e7, e3:-e3*e7, e4:-e4*e7})
             sage: B = A.cdg_algebra(d)
+            sage: # long time
             sage: phi = B.minimal_model(i=3)
             sage: M = phi.domain()
             sage: M
@@ -2549,7 +2548,6 @@ class DifferentialGCAlgebra(GCAlgebra):
                y3_6 --> x2_1*x2_3
                y3_7 --> x2_2*x2_3
                y3_8 --> x2_3^2
-
             sage: phi
             Commutative Differential Graded Algebra morphism:
               From: Commutative Differential Graded Algebra with generators
@@ -2968,7 +2966,7 @@ class DifferentialGCAlgebra(GCAlgebra):
             sage: B = A.cdg_algebra({e5: e1*e2 + e3*e4})
             sage: B.is_formal(1)
             True
-            sage: B.is_formal(2)
+            sage: B.is_formal(2)  # long time
             False
 
         ALGORITHM:

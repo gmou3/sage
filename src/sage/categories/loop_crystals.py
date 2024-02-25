@@ -522,7 +522,7 @@ class KirillovReshetikhinCrystals(Category_singleton):
                 True
 
                 sage: K = crystals.KirillovReshetikhin(['E',6,1], 1, 3)
-                sage: K.is_perfect()
+                sage: K.is_perfect()  # long time
                 True
 
             TESTS:

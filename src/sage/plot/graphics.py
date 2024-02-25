@@ -1875,6 +1875,7 @@ class Graphics(WithEqualityById, SageObject):
         ::
 
             sage: x, y = var('x, y')                                                    # needs sage.symbolic
+            sage: # long time
             sage: p = implicit_plot((y^2-x^2)*(x-1)*(2*x-3) - 4*(x^2+y^2-2*x)^2,        # needs sage.symbolic
             ....:                   (x,-2,2), (y,-2,2), plot_points=1000)
             sage: p.show(gridlines=[[1,0],[-1,0,1]])                                    # needs sage.symbolic
@@ -1922,6 +1923,7 @@ class Graphics(WithEqualityById, SageObject):
         ::
 
             sage: x, y = var('x, y')                                                    # needs sage.symbolic
+            sage: # long time
             sage: p = implicit_plot((y^2-x^2)*(x-1)*(2*x-3) - 4*(x^2+y^2-2*x)^2,        # needs sage.symbolic
             ....:                   (x,-2,2), (y,-2,2), plot_points=1000)
             sage: p.show(gridlines=(                                                    # needs sage.symbolic

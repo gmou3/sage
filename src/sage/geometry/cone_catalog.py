@@ -361,7 +361,7 @@ def rearrangement(p, ambient_dim=None, lattice=None):
         ....:              for ambient_dim in range(2, 10)
         ....:              for p in [ ambient_dim-1 ] )
         True
-        sage: all( cones.rearrangement(p, ambient_dim).lyapunov_rank() == 1
+        sage: all( cones.rearrangement(p, ambient_dim).lyapunov_rank() == 1  # long time
         ....:              for ambient_dim in range(3, 10)
         ....:              for p in range(2, ambient_dim-1) )
         True

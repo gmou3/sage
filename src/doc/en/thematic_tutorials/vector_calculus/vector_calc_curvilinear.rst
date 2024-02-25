@@ -164,6 +164,7 @@ Divergence
 
 The divergence of a vector field::
 
+    sage: # long time
     sage: s = div(u)
     sage: s.display()
     div(u): E^3 → ℝ
@@ -177,7 +178,7 @@ The divergence of a vector field::
 
 For `v`, we have::
 
-    sage: div(v).expr()
+    sage: div(v).expr()  # long time
     3
 
 Curl
@@ -185,13 +186,12 @@ Curl
 
 The curl of a vector field::
 
-    sage: s = curl(u)
-    sage: s
+    sage: s = curl(u); s  # long time
     Vector field curl(u) on the Euclidean space E^3
 
 ::
 
-    sage: s.display()
+    sage: s.display()  # long time
     curl(u) = (cos(th)*u_phi(r, th, ph) + sin(th)*d(u_phi)/dth
      - d(u_theta)/dph)/(r*sin(th)) e_r - ((r*d(u_phi)/dr + u_phi(r, th, ph))*sin(th)
      - d(u_r)/dph)/(r*sin(th)) e_th + (r*d(u_theta)/dr + u_theta(r, th, ph)
@@ -209,7 +209,7 @@ The curl of a gradient is always zero::
 
 The divergence of a curl is always zero::
 
-    sage: div(curl(u)).display()
+    sage: div(curl(u)).display()  # long time
     div(curl(u)): E^3 → ℝ
        (r, th, ph) ↦ 0
 
@@ -219,6 +219,7 @@ Laplacian
 
 The Laplacian of a scalar field::
 
+    sage: # long time
     sage: s = laplacian(F)
     sage: s.display()
     Delta(F): E^3 → ℝ
@@ -232,6 +233,7 @@ The Laplacian of a scalar field::
 
 The Laplacian of a vector field::
 
+    sage: # long time
     sage: Du = laplacian(u)
     sage: Du.display()
     Delta(u) = ((r^2*d^2(u_r)/dr^2 + 2*r*d(u_r)/dr - 2*u_r(r, th, ph)
@@ -247,7 +249,7 @@ The Laplacian of a vector field::
 Since this expression is quite lengthy, we may ask for a display component by
 component::
 
-    sage: Du.display_comp()
+    sage: Du.display_comp()  # long time
     Delta(u)^1 = ((r^2*d^2(u_r)/dr^2 + 2*r*d(u_r)/dr - 2*u_r(r, th, ph) + d^2(u_r)/dth^2
      - 2*d(u_theta)/dth)*sin(th)^2 - ((2*u_theta(r, th, ph) - d(u_r)/dth)*cos(th)
      + 2*d(u_phi)/dph)*sin(th) + d^2(u_r)/dph^2)/(r^2*sin(th)^2)
@@ -260,6 +262,7 @@ component::
 
 We may expand each component::
 
+    sage: # long time
     sage: for i in E.irange():
     ....:     s = Du[i].expand()
     sage: Du.display_comp()
@@ -370,6 +373,7 @@ The Laplacian of a scalar field::
 
 The Laplacian of a vector field::
 
+    sage: # long time
     sage: Du = laplacian(u)
     sage: Du.display()
     Delta(u) = (rh^2*d^2(u_rho)/drh^2 + rh^2*d^2(u_rho)/dz^2 + rh*d(u_rho)/drh
@@ -381,6 +385,7 @@ The Laplacian of a vector field::
 
 ::
 
+    sage: # long time
     sage: for i in E.irange():
     ....:     s = Du[i].expand()
     sage: Du.display_comp()

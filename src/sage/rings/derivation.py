@@ -228,7 +228,7 @@ class RingDerivationModule(Module, UniqueRepresentation):
 
             sage: A.<x,y> = QQ[]
             sage: M = A.derivation_module()
-            sage: TestSuite(M).run()
+            sage: TestSuite(M).run()  # long time
 
             sage: from sage.rings.derivation import RingDerivationModule
             sage: R5.<x> = GF(5)[]

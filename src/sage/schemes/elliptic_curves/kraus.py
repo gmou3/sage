@@ -965,12 +965,11 @@ def semi_global_minimal_model(E, debug=False):
         ....:          358777608829102441023422458989744*a + 1110881475104109582383304709231832166)
         sage: E = EllipticCurve(ainvs)
         sage: from sage.schemes.elliptic_curves.kraus import semi_global_minimal_model
-        sage: Emin, p = semi_global_minimal_model(E)  # 25s
-        sage: p
+        sage: Emin, p = semi_global_minimal_model(E); p  # long time
         Fractional ideal (23567, a + 2270)
-        sage: p.norm()
+        sage: p.norm()  # long time
         23567
-        sage: Emin.discriminant().norm().factor()
+        sage: Emin.discriminant().norm().factor()  # long time
         23567^12
     """
     c = E.global_minimality_class()

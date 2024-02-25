@@ -58,7 +58,7 @@ EXAMPLES::
     ....:             4: (0.5, 1.0),  5: (1.0, 0.0), 6: (1.0, 0.666666666666667),
     ....:             7: (3,3), 8: (4,0), 9: (-1,1), 10: (-2,-2)}
     sage: M1._cached_info = {'plot_positions': pos_dict, 'plot_lineorders': None}
-    sage: matroids_plot_helpers.geomrep(M1, sp=True)                                    # needs sage.plot sage.rings.finite_rings
+    sage: matroids_plot_helpers.geomrep(M1, sp=True)                                    # long time, needs sage.plot sage.rings.finite_rings
     Graphics object consisting of 22 graphics primitives
 """
 # *****************************************************************************
@@ -327,7 +327,7 @@ def createline(ptsdict, ll, lineorders2=None):
         [4, 4, 100, 100]
         sage: G = line(zip(x_i, y_i), color='black', thickness=3, zorder=1)             # needs sage.plot
         sage: G += points(zip(x, y), color='black', size=300, zorder=2)                 # needs sage.plot
-        sage: G.show()                                                                  # needs sage.plot
+        sage: G.show()                                                                  # needs sage.plot, long time
         sage: x,y,x_i,y_i = matroids_plot_helpers.createline(ptsdict,
         ....: ['a','b','c','d'],lineorders2=[['b','a','c','d'],
         ....: ['p','q','r','s']])
@@ -335,7 +335,7 @@ def createline(ptsdict, ll, lineorders2=None):
         [4, 4, 100, 100]
         sage: G = line(zip(x_i, y_i), color='black', thickness=3, zorder=1)             # needs sage.plot
         sage: G += points(zip(x, y), color='black', size=300, zorder=2)                 # needs sage.plot
-        sage: G.show()                                                                  # needs sage.plot
+        sage: G.show()                                                                  # needs sage.plot, long time
 
     .. NOTE::
 
@@ -521,7 +521,7 @@ def addlp(M, M1, L, P, ptsdict, G=None, limits=None):
     if P:
         # create list of lists where inner lists are parallel classes
         pcls = []
-        gnd = sorted(M1.groundset())
+        gnd = sorted(M1.groundset(), key=str)
         for g in gnd:
             pcl = [g]
             for p in P:
@@ -656,8 +656,8 @@ def posdict_is_sane(M1, pos_dict):
 
     OUTPUT:
 
-    A boolean that is ``True`` if posdict indeed has all the required elements
-    to plot the geometric elements, otherwise ``False``.
+    boolean; ``True`` if posdict has all the required elements to plot the
+    geometric elements, otherwise ``False``.
 
     EXAMPLES::
 
@@ -803,7 +803,7 @@ def geomrep(M1, B1=None, lineorders1=None, pd=None, sp=False):
             pts = M._cached_info['plot_positions']
         else:
             pts = {}
-            gnd = sorted(M.groundset())
+            gnd = sorted(M.groundset(), key=str)
         pts[gnd[0]] = (1, float(2)/3)
         G += point((1, float(2)/3), size=300, color=Color('#BDBDBD'), zorder=2)
         pt = [1, float(2)/3]

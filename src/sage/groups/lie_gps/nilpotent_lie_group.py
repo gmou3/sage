@@ -48,7 +48,7 @@ def _symbolic_lie_algebra_copy(L):
         sage: L_SR = _symbolic_lie_algebra_copy(L)
         sage: L.structure_coefficients()
         Finite family {((1,), (2,)): X_12}
-        sage: L_SR.structure_coefficients()
+        sage: L_SR.structure_coefficients()  # long time
         Finite family {((1,), (2,)): L[(1, 2)]}
 
     TESTS:

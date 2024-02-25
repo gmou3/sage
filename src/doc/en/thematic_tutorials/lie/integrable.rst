@@ -63,7 +63,7 @@ many of these representations. They wrote
     dust-gathering compilations of transcendental functions appear for us
     today because of their availability on every pocket calculator.
 
-As we will explain, Sage can reproduce the contents of these tables. 
+As we will explain, Sage can reproduce the contents of these tables.
 Moreover the tables in [KMPS]_ are limited to the untwisted types,
 but Sage also implements the twisted types.
 
@@ -97,7 +97,7 @@ where `(\, | \,)` is the invariant inner product on the weight
 lattice and `\rho` is the Weyl vector (:ref:`untwisted_affine`).
 Moreover if `\mu \in \operatorname{supp}(V)` then `\Lambda - \mu`
 is an element of the root lattice `Q` ([Kac]_, Propositions 11.3 and 11.4).
-    
+
 We organize the weight multiplicities into sequences called
 *string functions* or *strings* as follows. By [Kac]_, Proposition 11.3
 or Corollary 11.9, for fixed `\mu` the function
@@ -289,7 +289,7 @@ notation as follows::
     sage: Lambda = L.fundamental_weights()
     sage: delta = L.null_root()
     sage: V = IntegrableRepresentation(Lambda[0])
-    sage: V.strings()
+    sage: V.strings()  # long time
     {Lambda[0]: [1, 2, 7, 14, 35, 66, 140, 252, 485, 840, 1512, 2534]}
     sage: V.to_weight((1,2,0,1,0))
     Lambda[0] - 3*Lambda[1] + 4*Lambda[2] - 2*Lambda[3] + Lambda[4] - delta

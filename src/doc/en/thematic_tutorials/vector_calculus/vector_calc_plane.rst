@@ -86,7 +86,7 @@ documentation of
 :meth:`~sage.manifolds.differentiable.vectorfield.VectorField.plot` for the
 various options)::
 
-    sage: v.plot()
+    sage: v.plot()  # long time
     Graphics object consisting of 80 graphics primitives
 
 .. PLOT::
@@ -440,6 +440,7 @@ Let us define a generic vector field in terms of polar coordinates::
 
 Its divergence is::
 
+    sage: # long time
     sage: div(u).display(polar)
     div(u): E^2 → ℝ
        (r, ph) ↦ (r*d(u_r)/dr + u_r(r, ph) + d(u_ph)/dph)/r
@@ -479,7 +480,7 @@ Then we have::
 
     sage: w.display()
     w = (cos(ph)*w_x(r*cos(ph), r*sin(ph)) + sin(ph)*w_y(r*cos(ph), r*sin(ph))) e_r + (-sin(ph)*w_x(r*cos(ph), r*sin(ph)) + cos(ph)*w_y(r*cos(ph), r*sin(ph))) e_ph
-    sage: div(u).expr()
+    sage: div(u).expr()  # long time
     (r*diff(u_r(r, ph), r) + u_r(r, ph) + diff(u_ph(r, ph), ph))/r
 
 

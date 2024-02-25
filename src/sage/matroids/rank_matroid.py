@@ -93,8 +93,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = RankMatroid(range(6),
-            ....:                 rank_function=matroids.Uniform(3, 6).rank)
+            sage: M = RankMatroid(range(6), rank_function=matroids.Uniform(3, 6).rank)
             sage: M
             Matroid of rank 3 on 6 elements
         """
@@ -108,8 +107,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = RankMatroid(range(6),
-            ....:                 rank_function=matroids.Uniform(3, 6).rank)
+            sage: M = RankMatroid(range(6), rank_function=matroids.Uniform(3, 6).rank)
             sage: sorted(M.groundset())
             [0, 1, 2, 3, 4, 5]
         """
@@ -126,8 +124,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = RankMatroid(range(6),
-            ....:                 rank_function=matroids.Uniform(3, 6).rank)
+            sage: M = RankMatroid(range(6), rank_function=matroids.Uniform(3, 6).rank)
             sage: M._rank([0, 2, 4, 5])
             3
         """
@@ -152,12 +149,9 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
-            sage: N = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
-            sage: O = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 3))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
+            sage: N = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
+            sage: O = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 3))
             sage: hash(M) == hash(N)
             True
             sage: hash(M) == hash(O)
@@ -173,10 +167,8 @@ class RankMatroid(Matroid):
 
         - ``other`` -- A matroid.
 
-        OUTPUT:
-
-        ``True`` if ``self`` and ``other have the same groundset and the same
-        rank function; ``False`` otherwise.
+        OUTPUT: ``True`` if ``self`` and ``other have the same groundset and
+        the same rank function; ``False`` otherwise.
 
         .. NOTE::
 
@@ -204,7 +196,9 @@ class RankMatroid(Matroid):
         """
         if not isinstance(other, RankMatroid):
             return False
-        return (self.groundset() == other.groundset()) and (self._rank_function == other._rank_function)
+        grnd = self.groundset() == other.groundset()
+        rnk = self._rank_function == other._rank_function
+        return grnd and rnk
 
     def __ne__(self, other):
         """
@@ -214,10 +208,8 @@ class RankMatroid(Matroid):
 
         - ``other`` -- A matroid.
 
-        OUTPUT:
-
-        ``False`` if ``self`` and ``other have the same groundset and the
-        same rank function; ``True`` otherwise.
+        OUTPUT: ``False`` if ``self`` and ``other have the same groundset and
+        the same rank function; ``True`` otherwise.
 
         .. NOTE::
 
@@ -254,8 +246,7 @@ class RankMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.advanced import *
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
             sage: N = copy(M)  # indirect doctest
             sage: M == N
             True
@@ -278,8 +269,7 @@ class RankMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
             sage: N = deepcopy(M)  # indirect doctest
             sage: M == N
             True
@@ -287,8 +277,12 @@ class RankMatroid(Matroid):
             False
         """
         from copy import deepcopy
-        # Since matroids are immutable, N cannot reference itself in correct code, so no need to worry about the recursion.
-        N = RankMatroid(groundset=deepcopy(self._groundset), rank_function=deepcopy(self._rank_function))
+        # Since matroids are immutable, N cannot reference itself in correct
+        # code, so no need to worry about the recursion.
+        N = RankMatroid(
+            groundset=deepcopy(self._groundset),
+            rank_function=deepcopy(self._rank_function)
+        )
         N.rename(deepcopy(self.get_custom_name(), memo))
         return N
 
@@ -303,8 +297,7 @@ class RankMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: M = Matroid(groundset=range(10),
-            ....:             rank_function=lambda X: min(len(X), 4))
+            sage: M = Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4))
             sage: M == loads(dumps(M))  # indirect doctest
             Traceback (most recent call last):
             ...
@@ -312,4 +305,8 @@ class RankMatroid(Matroid):
             this class doesn't have load/save support. Convert to another
             class, such as BasisMatroid, instead.
         """
-        raise TypeError("unfortunately, functions cannot be saved reliably, so this class doesn't have load/save support. Convert to another class, such as BasisMatroid, instead.")
+        raise TypeError(
+            "unfortunately, functions cannot be saved reliably, so this class "
+            + "doesn't have load/save support. Convert to another class, such "
+            + " as BasisMatroid, instead."
+        )

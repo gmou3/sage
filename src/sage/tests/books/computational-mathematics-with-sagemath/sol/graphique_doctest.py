@@ -63,6 +63,7 @@ Sage example in ./sol/graphique.tex, line 154::
 
   sage: n = 10;  L = srange(6, 18, 12 / n); R = srange(3, 9, 6 / n)
   sage: def g(x,y): v = vector(f(x, y)); return v / v.norm()
+  sage: # long time
   sage: q = plot_vector_field(g(x, y), (x, 0, 60), (y, 0, 36))
   sage: for j in range(n):
   ....:     P = desolve_system_rk4(f(x,y), [x,y],

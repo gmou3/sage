@@ -516,7 +516,7 @@ class InterfaceInit(Converter):
 
             sage: t = var('t'); f = function('f')(t)
             sage: a = 2^e^t * f.subs(t=e^t) * diff(f, t).subs(t=e^t) + 2*t
-            sage: solve(a == 0, diff(f, t).subs(t=e^t))
+            sage: solve(a == 0, diff(f, t).subs(t=e^t))  # long time
             [D[0](f)(e^t) == -2^(-e^t + 1)*t/f(e^t)]
 
         ::

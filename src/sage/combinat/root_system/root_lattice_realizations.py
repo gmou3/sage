@@ -3187,7 +3187,7 @@ class RootLatticeRealizations(Category_over_base_ring):
                 Graphics object consisting of 15 graphics primitives
                 sage: C = crystals.Tableaux(['A',2], shape=[8,4])
                 sage: p = L.plot_crystal(C, plot_labels='circles')
-                sage: p.show(figsize=15)
+                sage: p.show(figsize=15)  # long time
 
             A 3-dimensional example::
 

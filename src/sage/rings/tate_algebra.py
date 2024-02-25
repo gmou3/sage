@@ -698,7 +698,7 @@ class TateAlgebra_generic(Parent):
         TESTS::
 
             sage: A.<x,y> = TateAlgebra(Zp(2), log_radii=1)
-            sage: TestSuite(A).run()
+            sage: TestSuite(A).run()  # long time
 
         We check that univariate Tate algebras work correctly::
 

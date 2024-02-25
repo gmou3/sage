@@ -2136,7 +2136,7 @@ class ShiftedPrimedTableaux_shape(ShiftedPrimedTableaux):
         sage: ShiftedPrimedTableaux([4,3,1], max_entry=4,
         ....:                        primed_diagonal=True)
         Shifted Primed Tableaux of shape [4, 3, 1] and maximum entry 4
-        sage: ShiftedPrimedTableaux([4,3,1], max_entry=4,
+        sage: ShiftedPrimedTableaux([4,3,1], max_entry=4,  # long time
         ....:                       primed_diagonal=True).cardinality()
         3072
         sage: SPTC = ShiftedPrimedTableaux([3,2], max_entry=3,
@@ -2299,7 +2299,7 @@ class ShiftedPrimedTableaux_shape(ShiftedPrimedTableaux):
              [(1, 1, 1), (2', 2)],
              [(1', 1, 1), (2, 2)],
              [(1', 1, 1), (2', 2)]]
-            sage: len(list(Tabs))
+            sage: len(list(Tabs))  # long time
             1504
         """
         if not self._primed_diagonal:

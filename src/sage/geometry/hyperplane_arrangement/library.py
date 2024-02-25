@@ -775,7 +775,7 @@ class HyperplaneArrangementLibrary:
             sage: h.characteristic_polynomial()
             x^3 - 54*x^2 + 972*x - 5832
             sage: h.characteristic_polynomial.clear_cache()
-            sage: h.characteristic_polynomial()
+            sage: h.characteristic_polynomial()  # long time
             x^3 - 54*x^2 + 972*x - 5832
         """
         if data in NN:

@@ -191,7 +191,8 @@ class DualMatroid(Matroid):
             ['a', 'c', 'd', 'e']
             sage: M.is_independent(X)
             True
-            sage: all(M.is_dependent(X.union([y])) for y in M.groundset() if y not in X)
+            sage: all(M.is_dependent(X.union([y])) for y in M.groundset()
+            ....:     if y not in X)
             True
         """
         return self._matroid._max_coindependent(X)
@@ -266,7 +267,8 @@ class DualMatroid(Matroid):
             ['a', 'd', 'e', 'f']
             sage: M.is_coindependent(X)
             True
-            sage: all(M.is_codependent(X.union([y])) for y in M.groundset() if y not in X)
+            sage: all(M.is_codependent(X.union([y])) for y in M.groundset()
+            ....:     if y not in X)
             True
         """
         return self._matroid._max_independent(X)
@@ -564,3 +566,39 @@ class DualMatroid(Matroid):
         data = (self._matroid, self.get_custom_name())
         version = 0
         return sage.matroids.unpickling.unpickle_dual_matroid, (version, data)
+
+    def relabel(self, f):
+        r"""
+        Return an isomorphic matroid with relabeled groundset.
+
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
+        identity map is assumed.
+
+        INPUT:
+
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+
+        OUTPUT: a matroid
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.FanoDual([0,1,2,3,4,5,6])
+            sage: sorted(M.groundset())
+            [0, 1, 2, 3, 4, 5, 6]
+            sage: N = M.dual().relabel({0:7})
+            sage: sorted(N.groundset())
+            [1, 2, 3, 4, 5, 6, 7]
+            sage: N.is_isomorphic(matroids.catalog.Fano())
+            True
+
+        TESTS::
+
+            sage: M = matroids.catalog.FanoDual([0,1,2,3,4,5,6])
+            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g'}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
+        """
+        M = self._matroid.relabel(f).dual()
+        return M

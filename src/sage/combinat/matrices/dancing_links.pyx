@@ -538,8 +538,7 @@ cdef class dancing_linksWrapper:
             sage: dlx = dlx_solver(rows)
             sage: dlx
             Dancing links solver for 11 columns and 2048 rows
-            sage: d = dlx.split(0)
-            sage: d[1]
+            sage: d = dlx.split(0); d[1]  # long time
             Dancing links solver for 12 columns and 2048 rows
         """
         if not 0 <= column < self.ncols():

@@ -460,7 +460,7 @@ def PBD_4_7(v,check=True, existence=False):
 
     All values `\leq 300`::
 
-        sage: for i in range(1,300,3):                                                  # needs sage.schemes
+        sage: for i in range(1,300,3):                                                  # needs sage.schemes, long time
         ....:     if i not in [10,19,31]:
         ....:         assert PBD_4_7(i,existence=True) is True
         ....:         _ = PBD_4_7(i,check=True)

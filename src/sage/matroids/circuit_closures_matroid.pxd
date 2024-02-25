@@ -13,3 +13,5 @@ cdef class CircuitClosuresMatroid(Matroid):
     cpdef _circuit(self, F) noexcept
     cpdef circuit_closures(self) noexcept
     cpdef _is_isomorphic(self, other, certificate=*) noexcept
+    cpdef relabel(self, f) noexcept
+    cpdef is_valid(self) noexcept

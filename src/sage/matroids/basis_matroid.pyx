@@ -189,15 +189,19 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         if M is not None:
             rank = M.full_rank()
             nonbases = M.nonbases()
-            groundset = sorted(M.groundset())
+            groundset = sorted(M.groundset(), key=str)
 
         if groundset is None:
             groundset = frozenset()
         if rank is None:
             if bases is not None:
-                rank = len(min(bases))
+                for B in bases:
+                    rank = len(B)
+                    break
             elif nonbases is not None:
-                rank = len(min(nonbases))
+                for N in nonbases:
+                    rank = len(N)
+                    break
             else:
                 rank = 0
 
@@ -428,9 +432,9 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             sage: M = Matroid(bases=matroids.catalog.N2().bases())
             sage: M.truncation()
             Matroid of rank 5 on 12 elements with 702 bases
-            sage: M.f_vector()
+            sage: M.whitney_numbers2()
             [1, 12, 66, 190, 258, 99, 1]
-            sage: M.truncation().f_vector()
+            sage: M.truncation().whitney_numbers2()
             [1, 12, 66, 190, 258, 1]
         """
         if self.full_rank() == 0:
@@ -515,29 +519,19 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         cdef frozenset se = frozenset([e])
         return BasisMatroid(groundset=self._E + (e,), bases=[B | se for B in self.bases()])
 
-    cpdef relabel(self, l) noexcept:
-        """
+    cpdef relabel(self, f) noexcept:
+        r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``l[e]``,
-        where ``l`` is a given injective map. If ``e not in l`` then the
+        The output is obtained by relabeling each element ``e`` by ``f[e]``,
+        where ``f`` is a given injective map. If ``e not in f`` then the
         identity map is assumed.
 
         INPUT:
 
-        - ``l`` -- a python object such that `l[e]` is the new label of `e`.
+        - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT:
-
-        A matroid.
-
-        .. TODO::
-
-            Write abstract ``RelabeledMatroid`` class, and add ``relabel()``
-            method to the main ``Matroid`` class, together with ``_relabel()``
-            method that can be replaced by subclasses. Use the code from
-            ``is_isomorphism()`` in ``relabel()`` to deal with a variety of
-            input methods for the relabeling.
+        OUTPUT: a matroid
 
         EXAMPLES::
 
@@ -545,12 +539,25 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             sage: M = BasisMatroid(matroids.catalog.Fano())
             sage: sorted(M.groundset())
             ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-            sage: N = M.relabel({'g':'x'})
-            sage: sorted(N.groundset())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: N = M.relabel({'a':0, 'g':'x'})
+            sage: sorted(N.groundset(), key=str)
+            [0, 'b', 'c', 'd', 'e', 'f', 'x']
+            sage: N.is_isomorphic(M)
+            True
+
+        TESTS::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = BasisMatroid(matroids.catalog.Fano())
+            sage: f = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+            sage: N = M.relabel(f)
+            sage: for S in powerset(M.groundset()):
+            ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
-        M = BasisMatroid(M=self)
-        M._relabel(l)
+        d = self._relabel_map(f)
+        E = [d[x] for x in self.groundset()]
+        B = [[d[y] for y in list(x)] for x in self.bases()]
+        M = BasisMatroid(groundset=E, bases=B)
         return M
 
     # enumeration
@@ -691,8 +698,8 @@ cdef class BasisMatroid(BasisExchangeMatroid):
                 bi[bc[e]].append(e)
             else:
                 bi[bc[e]] = [e]
-        self._bases_invariant_var = hash(tuple([(c, len(bi[c])) for c in sorted(bi)]))
-        self._bases_partition_var = SetSystem(self._E, [[self._E[e] for e in bi[c]] for c in sorted(bi)])
+        self._bases_invariant_var = hash(tuple([(c, len(bi[c])) for c in sorted(bi, key=str)]))
+        self._bases_partition_var = SetSystem(self._E, [[self._E[e] for e in bi[c]] for c in sorted(bi, key=str)])
         return self._bases_invariant_var
 
     cpdef _bases_partition(self) noexcept:

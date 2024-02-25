@@ -115,6 +115,7 @@ cdef inline bint integer_check_long(x, long* value, int* err) except -1:
 
     We create a pure Python wrapper of this function::
 
+        sage: # long time
         sage: cython('''
         ....: from sage.arith.long cimport *
         ....: from sage.rings.integer cimport smallInteger
@@ -166,6 +167,7 @@ cdef inline bint integer_check_long(x, long* value, int* err) except -1:
 
     Repeat the overflow tests with python integers:
 
+        sage: # long time
         sage: check_long(int(2^100))
         Traceback (most recent call last):
         ...
@@ -181,6 +183,7 @@ cdef inline bint integer_check_long(x, long* value, int* err) except -1:
 
     And again with rationals:
 
+        sage: # long time
         sage: check_long(QQ(2^100))
         Traceback (most recent call last):
         ...
@@ -189,7 +192,7 @@ cdef inline bint integer_check_long(x, long* value, int* err) except -1:
         Traceback (most recent call last):
         ...
         OverflowError: integer_check_long: overflow (...)
-        sage: check_long(QQ(long_min() - 1))
+        sage: check_long(QQ(long_min() - 1))  # long time
         Traceback (most recent call last):
         ...
         OverflowError: integer_check_long: overflow (...)

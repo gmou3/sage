@@ -1077,6 +1077,7 @@ cdef class Expression(Expression_abc):
         EXAMPLES::
 
             sage: i = var('i')
+            sage: # long time
             sage: f = integral(exp(x + x^2)/(x+1), x)
             ...
             sage: f._sympy_character_art(False)                                         # needs sympy
@@ -13244,7 +13245,7 @@ cdef class Expression(Expression_abc):
 
         We check that :trac:`13097` is resolved::
 
-            sage: integrate(ln(1+4/5*sin(x)), x, -3.1415, 3.1415)  # tol 10e-6
+            sage: integrate(ln(1+4/5*sin(x)), x, -3.1415, 3.1415)  # long time  # tol 10e-6
             -1.40205228301000
         """
         from sage.symbolic.integration.integral import \

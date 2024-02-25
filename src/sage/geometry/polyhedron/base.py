@@ -125,7 +125,7 @@ class Polyhedron_base(Polyhedron_base7):
     ::
 
         sage: p = polytopes.flow_polytope(digraphs.DeBruijn(3,2))                       # needs sage.combinat sage.graphs
-        sage: TestSuite(p).run()
+        sage: TestSuite(p).run()  # long time
 
     ::
 
@@ -153,7 +153,7 @@ class Polyhedron_base(Polyhedron_base7):
         ....:         break
         ....:
         sage: P = Polyhedron(M)
-        sage: TestSuite(P).run()
+        sage: TestSuite(P).run()  # long time
     """
 
     def _test_basic_properties(self, tester=None, **options):

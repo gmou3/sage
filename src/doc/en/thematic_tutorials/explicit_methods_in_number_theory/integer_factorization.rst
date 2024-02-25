@@ -16,12 +16,12 @@ uses PARI.
 ::
 
     sage: n = next_prime(2^90)*next_prime(2^91)
-    sage: n.factor(algorithm="qsieve")
+    sage: n.factor(algorithm="qsieve")  # long time
     doctest:... RuntimeWarning: the factorization returned
     by qsieve may be incomplete (the factors may not be prime)
     or even wrong; see qsieve? for details
     1237940039285380274899124357 * 2475880078570760549798248507
-    sage: n.factor()  # uses PARI at the time of writing
+    sage: n.factor()  # uses PARI at the time of writing, long time
     1237940039285380274899124357 * 2475880078570760549798248507
 
 
@@ -46,5 +46,5 @@ algorithm may depend on your specific problem.
     sage: n = next_prime(2^40) * next_prime(2^300)
     sage: n.factor(algorithm="ecm")
     1099511627791 * 2037035976334486086268445688409378161051468393665936250636140449354381299763336706183397533
-    sage: n.factor()  # uses PARI at the time of writing
+    sage: n.factor()  # uses PARI at the time of writing, long time
     1099511627791 * 2037035976334486086268445688409378161051468393665936250636140449354381299763336706183397533

@@ -2655,7 +2655,8 @@ def SquaredSkewHadamardMatrixGraph(n):
         sage: G.is_strongly_regular(parameters=True)
         (225, 112, 55, 56)
         sage: G = graphs.SquaredSkewHadamardMatrixGraph(5)
-        sage: G.is_strongly_regular(parameters=True)    # long time
+        sage: # long time
+        sage: G.is_strongly_regular(parameters=True)
         (361, 180, 89, 90)
         sage: G = graphs.SquaredSkewHadamardMatrixGraph(9)
         sage: G.is_strongly_regular(parameters=True)    # not tested

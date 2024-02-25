@@ -2719,7 +2719,7 @@ EXAMPLES::
     sage: from sage.combinat.designs.designs_pyx import is_quasi_difference_matrix
     sage: from sage.combinat.designs.orthogonal_arrays import QDM_from_Vmt
     sage: from sage.combinat.designs.database import Vmt_vectors
-    sage: for (m,t),(vec,source) in sorted(Vmt_vectors.items()):                        # needs sage.rings.finite_rings
+    sage: for (m,t),(vec,source) in sorted(Vmt_vectors.items()):                        # needs sage.rings.finite_rings, long time
     ....:     G,M = QDM_from_Vmt(m,t,vec)
     ....:     if m*t < 600:
     ....:         assert  is_quasi_difference_matrix(M,G,m+2,1,1,t,verbose=1),(m,t)
