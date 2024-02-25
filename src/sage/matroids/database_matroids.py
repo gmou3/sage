@@ -2293,8 +2293,8 @@ def Theta(n, groundset=None):
 
     EXAMPLES::
 
-        sage: matroids.Theta(50)  # long time
-        Theta_50: Matroid of rank 50 on 100 elements with 78450 circuits
+        sage: matroids.Theta(30)
+        Theta_30: Matroid of rank 30 on 60 elements with 16270 circuits
         sage: M = matroids.Theta(2)
         sage: U12 = matroids.Uniform(1, 2)
         sage: U = U12.direct_sum(U12)

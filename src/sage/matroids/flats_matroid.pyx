@@ -150,9 +150,9 @@ cdef class FlatsMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.flats_matroid import FlatsMatroid
-            sage: M = FlatsMatroid(matroids.Theta(7))
+            sage: M = FlatsMatroid(matroids.Theta(6))
             sage: M.full_rank()
-            7
+            6
         """
         return self._matroid_rank
 
@@ -458,7 +458,7 @@ cdef class FlatsMatroid(Matroid):
         TESTS::
 
             sage: from sage.matroids.flats_matroid import FlatsMatroid
-            sage: for M in matroids.AllMatroids(4):
+            sage: for M in matroids.AllMatroids(4):  # optional - matroid_database
             ....:     assert M.whitney_numbers2() == FlatsMatroid(M).whitney_numbers2()
         """
         cdef list W = []

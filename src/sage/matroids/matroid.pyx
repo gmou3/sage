@@ -7854,7 +7854,7 @@ cdef class Matroid(SageObject):
             sage: M.characteristic_polynomial()
             0
             sage: l = -1
-            sage: for M in matroids.AllMatroids(6):
+            sage: for M in matroids.AllMatroids(6):  # optional - matroid_database
             ....:     r = M.rank()
             ....:     assert M.characteristic_polynomial(l) == (-1)**r * M.tutte_polynomial(1-l, 0)
             ....:     assert (-1)**r * M.characteristic_polynomial(l) == sum(M.broken_circuit_complex().f_vector())
@@ -8214,7 +8214,7 @@ cdef class Matroid(SageObject):
             sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
             sage: M.broken_circuit_complex()
             Simplicial complex with vertex set () and facets {}
-            sage: for M in matroids.AllMatroids(5):
+            sage: for M in matroids.AllMatroids(5):  # optional - matroid_database
             ....:     r = M.rank()
             ....:     if r > 0:
             ....:         C = SimplicialComplex(M.bases(), maximality_check=False)

@@ -111,7 +111,7 @@ def AllMatroids(n, r=None, type="all"):
 
     TESTS::
 
-        sage: # optional - matroid_database
+        sage: # optional - matroid_database, long time
         sage: all_n = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
         sage: for i in range(0, 8 + 1):
         ....:     assert len(list(matroids.AllMatroids(i))) == all_n[i]
