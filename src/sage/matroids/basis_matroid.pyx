@@ -77,6 +77,7 @@ from sage.structure.richcmp cimport rich_to_bool
 from sage.matroids.matroid cimport Matroid
 from sage.matroids.basis_exchange_matroid cimport BasisExchangeMatroid
 from sage.matroids.set_system cimport SetSystem
+from sage.matroids.utilities import cmp_elements_key
 from cpython.object cimport Py_EQ, Py_NE
 
 from itertools import combinations
@@ -189,7 +190,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         if M is not None:
             rank = M.full_rank()
             nonbases = M.nonbases()
-            groundset = sorted(M.groundset(), key=str)
+            groundset = sorted(M.groundset(), key=cmp_elements_key)
 
         if groundset is None:
             groundset = frozenset()
@@ -698,8 +699,8 @@ cdef class BasisMatroid(BasisExchangeMatroid):
                 bi[bc[e]].append(e)
             else:
                 bi[bc[e]] = [e]
-        self._bases_invariant_var = hash(tuple([(c, len(bi[c])) for c in sorted(bi, key=str)]))
-        self._bases_partition_var = SetSystem(self._E, [[self._E[e] for e in bi[c]] for c in sorted(bi, key=str)])
+        self._bases_invariant_var = hash(tuple([(c, len(bi[c])) for c in sorted(bi, key=cmp_elements_key)]))
+        self._bases_partition_var = SetSystem(self._E, [[self._E[e] for e in bi[c]] for c in sorted(bi, key=cmp_elements_key)])
         return self._bases_invariant_var
 
     cpdef _bases_partition(self) noexcept:

@@ -493,6 +493,7 @@ def addlp(M, M1, L, P, ptsdict, G=None, limits=None):
 
             This method does NOT do any checks.
     """
+    from sage.matroids.utilities import cmp_elements_key
     if G is None:
         G = Graphics()
     # deal with loops
@@ -521,7 +522,7 @@ def addlp(M, M1, L, P, ptsdict, G=None, limits=None):
     if P:
         # create list of lists where inner lists are parallel classes
         pcls = []
-        gnd = sorted(M1.groundset(), key=str)
+        gnd = sorted(M1.groundset(), key=cmp_elements_key)
         for g in gnd:
             pcl = [g]
             for p in P:
@@ -767,6 +768,7 @@ def geomrep(M1, B1=None, lineorders1=None, pd=None, sp=False):
 
             This method does NOT do any checks.
     """
+    from sage.matroids.utilities import cmp_elements_key
     G = Graphics()
     # create lists of loops and parallel elements and simplify given matroid
     [M, L, P] = slp(M1, pos_dict=pd, B=B1)
@@ -803,7 +805,7 @@ def geomrep(M1, B1=None, lineorders1=None, pd=None, sp=False):
             pts = M._cached_info['plot_positions']
         else:
             pts = {}
-            gnd = sorted(M.groundset(), key=str)
+            gnd = sorted(M.groundset(), key=cmp_elements_key)
         pts[gnd[0]] = (1, float(2)/3)
         G += point((1, float(2)/3), size=300, color=Color('#BDBDBD'), zorder=2)
         pt = [1, float(2)/3]

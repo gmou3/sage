@@ -356,7 +356,7 @@ MixedIntegerLinearProgram = LazyImport('sage.numerical.mip', 'MixedIntegerLinear
 
 from sage.matroids.lean_matrix cimport BinaryMatrix, TernaryMatrix
 from sage.matroids.set_system cimport SetSystem
-from sage.matroids.utilities import newlabel, sanitize_contractions_deletions, spanning_forest, spanning_stars
+from sage.matroids.utilities import newlabel, sanitize_contractions_deletions, spanning_forest, spanning_stars, cmp_elements_key
 
 
 # On some systems, macros "minor()" and "major()" are defined in system header
@@ -3104,7 +3104,7 @@ cdef class Matroid(SageObject):
             [[1, 2], [1, 4], [2, 3, 4]]
         """
         if ordering is None:
-            ordering = sorted(self.groundset(), key=str)
+            ordering = sorted(self.groundset(), key=cmp_elements_key)
         else:
             orderset = frozenset(ordering)
             if len(orderset) != len(self.groundset()) or orderset != self.groundset():
@@ -3168,7 +3168,7 @@ cdef class Matroid(SageObject):
 
         cdef list rev_order
         if ordering is None:
-            rev_order = sorted(self.groundset(), key=str, reverse=True)
+            rev_order = sorted(self.groundset(), key=cmp_elements_key, reverse=True)
         else:
             if frozenset(ordering) != self.groundset():
                 raise ValueError("not an ordering of the groundset")
@@ -3237,7 +3237,7 @@ cdef class Matroid(SageObject):
         if len(self.loops()) == 0:
 
             if ordering is None:
-                rev_order = sorted(self.groundset(), key=str, reverse=True)
+                rev_order = sorted(self.groundset(), key=cmp_elements_key, reverse=True)
             else:
                 if frozenset(ordering) != self.groundset():
                     raise ValueError("not an ordering of the groundset")
@@ -6351,9 +6351,9 @@ cdef class Matroid(SageObject):
 
         if basis is None:
             basis = self.basis()
-        basis = sorted(basis, key=str)
+        basis = sorted(basis, key=cmp_elements_key)
         bdx = {basis[i]: i for i in range(len(basis))}
-        E = sorted(self.groundset(), key=str)
+        E = sorted(self.groundset(), key=cmp_elements_key)
         idx = {Ei: i for i, Ei in enumerate(E)}
         A = TernaryMatrix(len(basis), len(E))
         for e in basis:
@@ -7710,7 +7710,7 @@ cdef class Matroid(SageObject):
         N = self.groundset() - B
         A = set()
         for e in B:
-            if min(self._cocircuit(N | set([e])), key=str) == e:
+            if min(self._cocircuit(N | set([e])), key=cmp_elements_key) == e:
                 A.add(e)
         return A
 
@@ -7747,7 +7747,7 @@ cdef class Matroid(SageObject):
         N = self.groundset() - B
         A = set()
         for e in N:
-            if min(self._circuit(B | set([e])), key=str) == e:
+            if min(self._circuit(B | set([e])), key=cmp_elements_key) == e:
                 A.add(e)
         return A
 
@@ -8014,7 +8014,7 @@ cdef class Matroid(SageObject):
         # Create the ambient polynomial ring
         from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
         try:
-            names = ['A{}'.format(''.join(str(x) for x in sorted(F, key=str))) for F in flats]
+            names = ['A{}'.format(''.join(str(x) for x in sorted(F, key=cmp_elements_key))) for F in flats]
             P = PolynomialRing(R, names)
         except ValueError: # variables are not proper names
             P = PolynomialRing(R, 'A', len(flats))

@@ -69,7 +69,7 @@ Methods
 from sage.structure.richcmp cimport rich_to_bool, richcmp
 from sage.matroids.matroid cimport Matroid
 from sage.matroids.set_system cimport SetSystem
-from sage.matroids.utilities import setprint_s
+from sage.matroids.utilities import setprint_s, cmp_elements_key
 from cpython.object cimport Py_EQ, Py_NE
 
 
@@ -249,7 +249,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             sage: M._is_independent(set(['a', 'b', 'c', 'd']))
             False
         """
-        for r in sorted(self._circuit_closures, key=str):
+        for r in sorted(self._circuit_closures, key=cmp_elements_key):
             if len(F) <= r:
                 break
             for C in self._circuit_closures[r]:
@@ -319,7 +319,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             ...
             ValueError: no circuit in independent set
         """
-        for r in sorted(self._circuit_closures, key=str):
+        for r in sorted(self._circuit_closures, key=cmp_elements_key):
             for C in self._circuit_closures[r]:
                 S = set(F & C)
                 if len(S) > r:

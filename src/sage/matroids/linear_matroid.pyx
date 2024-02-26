@@ -6104,6 +6104,7 @@ cdef class RegularMatroid(LinearMatroid):
             sage: M._invariant() == O._invariant()
             False
         """
+        from sage.matroids.utilities import cmp_elements_key
         # TODO: this currently uses Sage matrices internally. Perhaps dependence on those can be eliminated for further speed gains.
         if self._r_invariant is not None:
             return self._r_invariant
@@ -6129,7 +6130,7 @@ cdef class RegularMatroid(LinearMatroid):
                     for k in range(j):
                         if P.get_unsafe(i, j)*P.get_unsafe(j, k)*P.get_unsafe(k, i)<0:
                             N=N+1
-        self._r_invariant = hash(tuple([tuple([(w, A[w]) for w in sorted(A, key=str)]), tuple([(w, B[w]) for w in sorted(B, key=str)]), N]))
+        self._r_invariant = hash(tuple([tuple([(w, A[w]) for w in sorted(A, key=cmp_elements_key)]), tuple([(w, B[w]) for w in sorted(B, key=cmp_elements_key)]), N]))
         return self._r_invariant
 
     cpdef _hypergraph(self) noexcept:
@@ -6162,6 +6163,7 @@ cdef class RegularMatroid(LinearMatroid):
         """
         # NEW VERSION, Uses Sage'S Graph Isomorphism
         from sage.graphs.digraph import DiGraph
+        from sage.matroids.utilities import cmp_elements_key
         if self._r_hypergraph is not None:
             return (self._hypergraph_vertex_partition, self._hypergraph_tuples, self._r_hypergraph)
         cdef Matrix P = self._projection()
@@ -6187,8 +6189,8 @@ cdef class RegularMatroid(LinearMatroid):
                     else:
                         B[w] = [frozenset([e, f])]
                     E.append(frozenset([e, f]))
-        self._hypergraph_vertex_partition = [[str(x) for x in A[w]] for w in sorted(A, key=str)] + [['**' + str(x) for x in B[w]] for w in sorted(B, key=str)]
-        self._hypergraph_tuples = [(w, len(A[w])) for w in sorted(A, key=str)] + [(w, len(B[w])) for w in sorted(B, key=str)]
+        self._hypergraph_vertex_partition = [[str(x) for x in A[w]] for w in sorted(A, key=cmp_elements_key)] + [['**' + str(x) for x in B[w]] for w in sorted(B, key=cmp_elements_key)]
+        self._hypergraph_tuples = [(w, len(A[w])) for w in sorted(A, key=cmp_elements_key)] + [(w, len(B[w])) for w in sorted(B, key=cmp_elements_key)]
         G = DiGraph()
         G.add_vertices([str(x) for x in V] + ['**' + str(x) for x in E])
         # Note that Sage's Graph object attempts a sort on calling G.vertices(), which means vertices have to be well-behaved.

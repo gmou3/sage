@@ -425,7 +425,7 @@ cdef class SetSystem:
                         else:
                             C[t] = set([v])
                     v = bitset_next(P._subsets[i], v + 1)
-                for t in sorted(C, key=str):
+                for t in sorted(C):
                     bitset_clear(self._temp)
                     for v in C[t]:
                         bitset_add(self._temp, v)

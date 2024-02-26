@@ -1952,6 +1952,7 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: M._weak_invariant() == N._weak_invariant()
             False
         """
+        from sage.matroids.utilities import cmp_elements_key
         if self._weak_invariant_var is None:
             if self.full_rank() == 0 or self.full_corank() == 0:
                 self._weak_invariant_var = 0
@@ -1959,8 +1960,8 @@ cdef class BasisExchangeMatroid(Matroid):
             else:
                 k = min(self.full_rank() - 1, 2)
                 fie, f_vec = self._flat_element_inv(k)
-                self._weak_invariant_var = hash(tuple([tuple([(f, len(fie[f])) for f in sorted(fie, key=str)]), f_vec]))
-                self._weak_partition_var = SetSystem(self._E, [fie[f] for f in sorted(fie, key=str)])
+                self._weak_invariant_var = hash(tuple([tuple([(f, len(fie[f])) for f in sorted(fie, key=cmp_elements_key)]), f_vec]))
+                self._weak_partition_var = SetSystem(self._E, [fie[f] for f in sorted(fie, key=cmp_elements_key)])
         return self._weak_invariant_var
 
     cpdef _weak_partition(self) noexcept:
