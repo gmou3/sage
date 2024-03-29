@@ -2035,7 +2035,7 @@ class GraphicMatroid(Matroid):
 
         TESTS:
 
-        Check that :trac:`28482` is fixed::
+        Check that :issue:`28482` is fixed::
 
             sage: G = Graph([[3, 4], [4, 1], [1, 2], [2, 3], [3, 5], [5, 6],
             ....:            [6, 3]])

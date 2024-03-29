@@ -2130,7 +2130,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
         TESTS:
 
-        Check that :trac:`23300` was fixed::
+        Check that :issue:`23300` was fixed::
 
             sage: def f(X):
             ....:     return min(len(X), 2)
@@ -2196,7 +2196,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
         TESTS:
 
-        Check that :trac:`23300` was fixed::
+        Check that :issue:`23300` was fixed::
 
             sage: def f(X):
             ....:     return min(len(X), 2)
@@ -2368,7 +2368,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
         TESTS:
 
-        Verify that :trac:`20172` was fixed::
+        Verify that :issue:`20172` was fixed::
 
             sage: M = Matroid(groundset='1234', bases=['12','13','23','34'])
             sage: M.is_valid()
