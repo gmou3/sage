@@ -917,7 +917,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
 
         sage: l = designs.ProjectiveGeometryDesign(2, 1, GF(4,name='a'))                # needs sage.rings.finite_rings
         sage: f = lambda S: not any(len(set(S).intersection(x))>2 for x in l)
-        sage: SimplicialComplex(from_characteristic_function=(f, l.ground_set()))       # long time, needs sage.rings.finite_rings
+        sage: SimplicialComplex(from_characteristic_function=(f, l.ground_set()))       # needs sage.rings.finite_rings, long time
         Simplicial complex with 21 vertices and 168 facets
 
     TESTS:
