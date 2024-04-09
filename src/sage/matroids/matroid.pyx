@@ -8110,7 +8110,7 @@ cdef class Matroid(SageObject):
                 self._cached_info = {'plot_positions': pos_dict, 'lineorders': lineorders}
         return
 
-    cpdef broken_circuit_complex(self, ordering=None):
+    cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""
         Return the broken circuit complex of ``self``.
 
@@ -8136,6 +8136,9 @@ cdef class Matroid(SageObject):
 
         TESTS::
 
+            sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
+            sage: M.broken_circuit_complex()
+            Simplicial complex with vertex set () and facets {()}
             sage: for M in matroids.AllMatroids(5):  # optional - matroid_database
             ....:     r = M.rank()
             ....:     if r > 0 and not M.dual().loops():
@@ -8149,7 +8152,10 @@ cdef class Matroid(SageObject):
         cdef list facets = []
         for S in self.no_broken_circuits_sets_iterator(ordering):
             if len(S) == r:
-                facets.append(S)
+                if not reduced:
+                    facets += [S]
+                elif ordering[0] in S:
+                    facets += [S.difference([ordering[0]])]
         return SimplicialComplex(facets, maximality_check=False)
 
     cpdef automorphism_group(self):

@@ -572,7 +572,84 @@ cdef class CircuitsMatroid(Matroid):
                 for C in self._k_C[i]:
                     yield C
 
-    cpdef no_broken_circuits_sets(self, ordering=None):
+    cpdef no_broken_circuits_facets(self, ordering=None, reduced=False):
+        r"""
+        Return the no broken circuits (NBC) sets of ``self``.
+
+        An NBC set is a subset `A` of the ground set under some total
+        ordering `<` such that `A` contains no broken circuit.
+
+        INPUT:
+
+        - ``ordering`` -- a total ordering of the groundset given as a list
+
+        OUTPUT: a list of frozensets
+
+        EXAMPLES::
+
+            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
+            sage: SimplicialComplex(M.no_broken_circuits_sets())
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
+            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+
+        ::
+
+            sage: M = Matroid(circuits=[[1,2,3], [1,4,5], [2,3,4,5]])
+            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (2, 3, 5), (2, 4, 5), (3, 4, 5)}
+
+        TESTS::
+
+            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
+            sage: C1 = SimplicialComplex(M.no_broken_circuits_sets())
+            sage: from sage.matroids.basis_matroid import BasisMatroid
+            sage: M = BasisMatroid(Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]]))
+            sage: C2 = SimplicialComplex(M.no_broken_circuits_sets())
+            sage: C1 == C2
+            True
+        """
+        from itertools import combinations
+        from sage.matroids.utilities import cmp_elements_key
+
+        if ordering is None:
+            ordering = sorted(self.groundset(), key=cmp_elements_key)
+        else:
+            if frozenset(ordering) != self.groundset():
+                raise ValueError("not an ordering of the groundset")
+
+        # compute broken circuits
+        cdef list BC = []
+        for C in self._C:
+            for e in ordering:
+                if e in C:
+                    BC.append(C - set([e]))
+                    break
+
+        cdef list F = []  # broken circuit complex facets
+        if not reduced:
+            BB = self.bases()
+        else:
+            BB = combinations(self.groundset().difference([ordering[0]]), self.rank()-1)
+            BB = [set([ordering[0]]) | set(B) for B in BB]
+        for B in BB:
+            flag = True
+            for bc in BC:
+                if bc <= B:
+                    flag = False
+                    break
+            if flag:
+                if not reduced:
+                    F.append(B)
+                else:
+                    F.append(frozenset(B).difference([ordering[0]]))
+
+        return F
+
+    cpdef no_broken_circuits_sets(self, ordering=None, reduced=False):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
@@ -619,26 +696,35 @@ cdef class CircuitsMatroid(Matroid):
             if frozenset(ordering) != self.groundset():
                 raise ValueError("not an ordering of the groundset")
 
-        # compute broken circuits
-        cdef list BC = []
-        for C in self._C:
-            for e in ordering:
-                if e in C:
-                    BC.append(C - set([e]))
-                    break
-
-        cdef list F = []  # broken circuit complex facets
-        for B in self.bases():
-            flag = True
-            for bc in BC:
-                if bc <= B:
-                    flag = False
-                    break
-            if flag:
-                F.append(B)
-
         from sage.topology.simplicial_complex import SimplicialComplex
-        return [frozenset(f) for f in SimplicialComplex(F).face_iterator()]
+        return [frozenset(f) for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced)).face_iterator()]
+
+    cpdef broken_circuit_complex(self, ordering=None, reduced=False):
+        r"""
+        Return the broken circuit complex of ``self``.
+
+        The broken circuit complex of a matroid with a total ordering `<`
+        on the groundset is obtained from the
+        :meth:`NBC sets <no_broken_circuits_sets>` under subset inclusion.
+
+        INPUT:
+
+        - ``ordering`` -- a total ordering of the groundset given as a list
+
+        OUTPUT: a simplicial complex of the NBC sets under inclusion
+
+        EXAMPLES::
+
+            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
+            sage: M.broken_circuit_complex()                                            # needs sage.graphs
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
+            sage: M.broken_circuit_complex([5,4,3,2,1])                                 # needs sage.graphs
+            Simplicial complex with vertex set (1, 2, 3, 4, 5)
+             and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+        """
+        from sage.topology.simplicial_complex import SimplicialComplex
+        return SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced), maximality_check=False)
 
     # properties
 

@@ -18,7 +18,10 @@ cdef class CircuitsMatroid(Matroid):
     cpdef bases(self)
     cpdef circuits(self, k=*)
     cpdef nonspanning_circuits(self)
-    cpdef no_broken_circuits_sets(self, ordering=*)
+    cpdef no_broken_circuits_facets(self, ordering=*, reduced=*)
+    cpdef no_broken_circuits_sets(self, ordering=*, reduced=*)
+    cpdef broken_circuit_complex(self, ordering=*, reduced=*)
+
 
     # properties
     cpdef girth(self)
