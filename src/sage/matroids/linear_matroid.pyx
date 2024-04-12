@@ -1,7 +1,7 @@
 r"""
 Linear matroids
 
-When `A` is an `r` times `E` matrix, the linear matroid `M[A]` has ground set
+When `A` is an `r` times `E` matrix, the linear matroid `M[A]` has groundset
 `E` and, for independent sets, all `F` subset of `E` such that the columns of
 `M[A]` indexed by `F` are linearly independent.
 
@@ -800,14 +800,11 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid instance, assumed to have the same base
-          ring as ``self``.
+        - ``other`` -- matroid; assumed to have the same base ring as ``self``
         - ``morphism`` -- a dictionary mapping the groundset of ``self`` to
-          the groundset of ``other``.
+          the groundset of ``other``
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         .. WARNING::
 
@@ -888,11 +885,9 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         .. SEEALSO::
 
@@ -977,15 +972,13 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
         - ``morphism`` -- A map from the groundset of ``self`` to the
           groundset of ``other``. See documentation of the
           :meth:`M.is_isomorphism() <sage.matroids.matroid.Matroid.is_isomorphism>`
           method for more on what is accepted as input.
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         .. SEEALSO::
 
@@ -1107,11 +1100,9 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         .. SEEALSO::
 
@@ -1322,7 +1313,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         r"""
         Return the dual of the matroid.
 
-        Let `M` be a matroid with ground set `E`. If `B` is the set of bases
+        Let `M` be a matroid with groundset `E`. If `B` is the set of bases
         of `M`, then the set `\{E - b : b \in B\}` is the set of bases of
         another matroid, the *dual* of `M`.
 
@@ -1409,11 +1400,9 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``N`` -- A matroid.
+        - ``N`` -- matroid
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         .. SEEALSO::
 
@@ -1841,13 +1830,11 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         INPUT:
 
-        - ``x`` -- an element of the ground set
+        - ``x`` -- an element of the groundset
         - ``fundamentals`` -- a subset of the base ring
         - ``hyperlines`` (optional) -- a set of flats of rank=full_rank-2
 
-        OUTPUT:
-
-        Boolean. ``True`` if each cross ratio using ``x`` is an element of
+        OUTPUT: boolean ``True`` if each cross ratio using ``x`` is an element of
         ``fundamentals``. If ``hyperlines`` is specified, then the method
         tests if each cross ratio in a minor that arises by contracting a flat
         ``F`` in ``hyperlines`` and uses ``x`` is in ``fundamentals``. If
@@ -1896,7 +1883,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``col`` -- (default: ``None``) a column to be appended to
           ``self.representation()``. Can be any iterable.
         - ``chain`` -- (default: ``None``) a dictionary that maps elements of
-          the ground set to elements of the base ring.
+          the groundset to elements of the base ring.
 
         OUTPUT:
 
@@ -1976,7 +1963,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``row`` -- (default: ``None``) a row to be appended to
           ``self.representation()``. Can be any iterable.
         - ``cochain`` -- (default: ``None``) a dictionary that maps elements
-          of the ground set to elements of the base ring.
+          of the groundset to elements of the base ring.
 
         OUTPUT:
 
@@ -2062,7 +2049,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         - ``element`` -- the name of the new element.
         - ``chains`` -- a list of dictionaries, each of which maps elements of
-          the ground set to elements of the base ring.
+          the groundset to elements of the base ring.
 
         OUTPUT:
 
@@ -2110,7 +2097,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         - ``element`` -- the name of the new element.
         - ``cochains`` -- a list of dictionaries, each of which maps elements
-          of the ground set to elements of the base ring.
+          of the groundset to elements of the base ring.
 
         OUTPUT:
 
@@ -2451,7 +2438,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         - ``element`` -- (default: ``None``) the name of the new element of
           the groundset.
-        - ``F`` -- (default: ``None``) a subset of the ground set.
+        - ``F`` -- (default: ``None``) a subset of the groundset.
         - ``simple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
@@ -2519,7 +2506,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
         - ``element`` -- (default: ``None``) the name of the new element of
           the groundset.
-        - ``F`` -- (default: ``None``) a subset of the ground set.
+        - ``F`` -- (default: ``None``) a subset of the groundset.
         - ``cosimple`` -- (default: ``False``) boolean
         - ``fundamentals`` -- (default: ``None``) a set elements of the base
           ring.
@@ -2826,7 +2813,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         INPUT:
 
         - ``R`` -- (default: the base ring of ``self``) the base ring
-        - ``ordering`` -- (optional) an ordering of the ground set
+        - ``ordering`` -- (optional) an ordering of the groundset
 
         .. SEEALSO::
 
@@ -2985,7 +2972,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -3378,13 +3365,11 @@ cdef class BinaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid,
-        - optional parameter ``certificate`` -- Boolean.
+        - ``other`` -- matroid
+        - ``certificate`` -- boolean (default: ``False``)
 
-        OUTPUT:
-
-        Boolean,
-        and, if certificate = True, a dictionary giving the isomorphism or None
+        OUTPUT: boolean, and, if ``certificate = True``, a dictionary giving
+        the isomorphism or ``None``
 
         .. NOTE::
 
@@ -3427,13 +3412,11 @@ cdef class BinaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid instance.
+        - ``other`` -- matroid
         - ``morphism`` -- a dictionary mapping the groundset of ``self`` to
           the groundset of ``other``
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -3633,7 +3616,7 @@ cdef class BinaryMatroid(LinearMatroid):
         Return the principal tripartition of the binary matroid.
 
         The principal tripartition is a partition `(F_{-1}, F_0, F_{1})` of
-        the ground set. A defining property is the following. It is
+        the groundset. A defining property is the following. It is
         straightforward that if the bicycle dimension of a matroid `M` is `k`,
         then the bicycle dimension of `M\setminus e' is one of `k-1, k, k + 1`
         for each element `e` of `M`. Then if `F_i` denotes the set of elements
@@ -3825,9 +3808,7 @@ cdef class BinaryMatroid(LinearMatroid):
         matroid is independent if and only if the corresponding subgraph is
         acyclic.
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -4086,7 +4067,7 @@ cdef class BinaryMatroid(LinearMatroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -4485,13 +4466,11 @@ cdef class TernaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid,
-        - optional parameter ``certificate`` -- Boolean.
+        - ``other`` -- matroid
+        - ``certificate`` -- boolean (default: ``False``)
 
-        OUTPUT:
-
-        Boolean,
-        and, if certificate = True, a dictionary giving the isomorphism or None
+        OUTPUT: boolean, and, if ``certificate = True``, a dictionary giving
+        the isomorphism or ``None``
 
         .. NOTE::
 
@@ -4605,7 +4584,7 @@ cdef class TernaryMatroid(LinearMatroid):
         - ``(L, La, Lb, Lc)`` is the triple of lengths of the principal
           quadripartition.
         - ``(p0, ..., p5)`` counts of edges in a characteristic graph of the
-          matroid whose vertex set is the ground set of the matroid,
+          matroid whose vertex set is the groundset of the matroid,
           restricted to the sets in the principal quadripartition.
 
         EXAMPLES::
@@ -4669,9 +4648,9 @@ cdef class TernaryMatroid(LinearMatroid):
 
     cpdef _principal_quadripartition(self):
         r"""
-        Return an ordered partition of the ground set.
+        Return an ordered partition of the groundset.
 
-        The partition groups each element `e` of the ground set
+        The partition groups each element `e` of the groundset
         according to the bicycle dimension and the character of `M/e`, where
         `M` is the present matroid.
 
@@ -5017,7 +4996,7 @@ cdef class TernaryMatroid(LinearMatroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -5534,7 +5513,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         Return the principal tripartition of the quaternary matroid.
 
         The principal tripartition is a partition `(F_{-1}, F_0, F_{1})` of
-        the ground set. A defining property is the following. It is
+        the groundset. A defining property is the following. It is
         straightforward that if the bicycle dimension of a matroid `M` is `k`,
         then the bicycle dimension of `M\setminus e' is one of `k-1, k, k + 1`
         for each element `e` of `M`. Then if `F_i` denotes the set of elements
@@ -5778,7 +5757,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -6225,13 +6204,11 @@ cdef class RegularMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``other`` -- A matroid,
-        - optional parameter ``certificate`` -- Boolean.
+        - ``other`` -- matroid
+        - ``certificate`` -- boolean (default: ``False``)
 
-        OUTPUT:
-
-        Boolean,
-        and, if certificate = True, a dictionary giving the isomorphism or None
+        OUTPUT: boolean, and, if ``certificate = True``, a dictionary giving
+        the isomorphism or ``None``
 
         .. NOTE::
 
@@ -6458,9 +6435,7 @@ cdef class RegularMatroid(LinearMatroid):
         matroid is independent if and only if the corresponding subgraph is
         acyclic.
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -6490,9 +6465,7 @@ cdef class RegularMatroid(LinearMatroid):
         representation matrix is *totally unimodular*, i.e. if all square
         submatrices have determinant in `\{-1, 0, 1\}`.
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -6749,7 +6722,7 @@ cdef class RegularMatroid(LinearMatroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 

@@ -251,7 +251,7 @@ def make_regular_matroid_from_matroid(matroid):
 
     INPUT:
 
-    - ``matroid`` -- a matroid.
+    - ``matroid`` -- matroid
 
     OUTPUT:
 

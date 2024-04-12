@@ -30,11 +30,10 @@ AUTHORS:
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
 
-from sage.structure.richcmp cimport rich_to_bool, richcmp
-from sage.matroids.matroid cimport Matroid
-from sage.matroids.set_system cimport SetSystem
 from cpython.object cimport Py_EQ, Py_NE
-
+from sage.structure.richcmp cimport rich_to_bool, richcmp
+from .matroid cimport Matroid
+from .set_system cimport SetSystem
 
 cdef class CircuitsMatroid(Matroid):
     r"""
@@ -42,9 +41,9 @@ cdef class CircuitsMatroid(Matroid):
 
     INPUT:
 
-    - ``M`` -- a matroid (default: ``None``)
-    - ``groundset`` -- a list (default: ``None``); the groundset of the matroid
-    - ``circuits`` -- a list (default: ``None``); the collection of circuits of
+    - ``M`` -- matroid (default: ``None``)
+    - ``groundset`` -- list (default: ``None``); the groundset of the matroid
+    - ``circuits`` -- list (default: ``None``); the collection of circuits of
       the matroid
     - ``nsc_defined`` -- boolean (default: ``False``); whether the matroid was
       defined by its nonspanning circuits
@@ -90,7 +89,7 @@ cdef class CircuitsMatroid(Matroid):
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT: a set
+        OUTPUT: set
 
         EXAMPLES::
 
@@ -111,7 +110,7 @@ cdef class CircuitsMatroid(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT: an integer; the rank of ``X`` in the matroid
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -130,7 +129,7 @@ cdef class CircuitsMatroid(Matroid):
         The *rank* of the matroid is the size of the largest independent
         subset of the groundset.
 
-        OUTPUT: an integer; the rank of the matroid
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -146,7 +145,7 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
         OUTPUT: boolean
@@ -174,10 +173,10 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT: a frozenset; a maximal independent subset of ``X``
+        OUTPUT: frozenset; a maximal independent subset of ``X``
 
         EXAMPLES::
 
@@ -201,10 +200,10 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
-        OUTPUT: a frozenset; a circuit contained in ``X``, if it exists.
+        OUTPUT: frozenset; a circuit contained in ``X``, if it exists.
         Otherwise an error is raised.
 
         EXAMPLES::
@@ -229,7 +228,7 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``certificate`` -- boolean (default: ``False``)
 
         OUTPUT: boolean, and, if ``certificate=True``, a dictionary giving the
@@ -426,7 +425,7 @@ cdef class CircuitsMatroid(Matroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -464,7 +463,7 @@ cdef class CircuitsMatroid(Matroid):
         r"""
         Return the bases of the matroid.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -521,9 +520,9 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``k`` -- an integer (optional); the length of the circuits
+        - ``k`` -- integer (optional); the length of the circuits
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -557,7 +556,7 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``k`` -- an integer (optional); the length of the circuits
+        - ``k`` -- integer (optional); the length of the circuits
 
         EXAMPLES::
 
@@ -586,7 +585,7 @@ cdef class CircuitsMatroid(Matroid):
         """
         Return the nonspanning circuits of the matroid.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -621,12 +620,12 @@ cdef class CircuitsMatroid(Matroid):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
-        An NBC set is a subset `A` of the ground set under some total
+        An NBC set is a subset `A` of the groundset under some total
         ordering `<` such that `A` contains no broken circuit.
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         OUTPUT: a list of frozensets
 
@@ -698,12 +697,12 @@ cdef class CircuitsMatroid(Matroid):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
-        An NBC set is a subset `A` of the ground set under some total
+        An NBC set is a subset `A` of the groundset under some total
         ordering `<` such that `A` contains no broken circuit.
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         OUTPUT: a list of frozensets
 
@@ -754,7 +753,7 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         OUTPUT: a simplicial complex of the NBC sets under inclusion
 

@@ -258,7 +258,7 @@ cdef class LinearSubclasses:
 
     INPUT:
 
-    - ``M`` -- a matroid.
+    - ``M`` -- matroid
     - ``line_length`` -- (default: ``None``) an integer.
     - ``subsets`` -- (default: ``None``) a set of subsets of the groundset of
       ``M``.
@@ -368,7 +368,7 @@ cdef class LinearSubclasses:
             F = frozenset(E - E2)
             F2 = frozenset(E2 - E)
             if len(E) != len(E2) or len(F) != 1:
-                raise ValueError("LinearSubclasses: the ground set of the splice matroid is not of the form E + e-f")
+                raise ValueError("LinearSubclasses: the groundset of the splice matroid is not of the form E + e-f")
 
             for p in range(self._hyperplanes_count):
                 X = self._hyperplanes[p] - F
@@ -416,12 +416,12 @@ cdef class MatroidExtensions(LinearSubclasses):
 
     INPUT:
 
-    - ``M`` -- a matroid
+    - ``M`` -- matroid
     - ``e`` -- an element
-    - ``line_length`` (default: ``None``) -- an integer
+    - ``line_length`` (default: ``None``) -- integer
     - ``subsets`` (default: ``None``) -- a set of subsets of the groundset of
       ``M``
-    - ``splice`` -- a matroid `N` such that for some `f \in E(M)`, we have
+    - ``splice`` -- matroid `N` such that for some `f \in E(M)`, we have
       `N\setminus e= M\setminus f`.
 
     OUTPUT:

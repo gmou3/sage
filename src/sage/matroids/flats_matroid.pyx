@@ -19,7 +19,6 @@ AUTHORS:
 
 - Giorgos Mousa (2024-01-01): initial version
 """
-
 # ****************************************************************************
 #       Copyright (C) 2024 Giorgos Mousa <gmousa@proton.me>
 #
@@ -29,19 +28,17 @@ AUTHORS:
 # (at your option) any later version.
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
-
-from sage.structure.richcmp cimport rich_to_bool, richcmp
-from sage.matroids.matroid cimport Matroid
-from sage.matroids.set_system cimport SetSystem
-from sage.matroids.utilities import setprint_s
 from cpython.object cimport Py_EQ, Py_NE
-
+from sage.structure.richcmp cimport rich_to_bool, richcmp
+from .matroid cimport Matroid
+from .set_system cimport SetSystem
+from .utilities import setprint_s
 
 cdef class FlatsMatroid(Matroid):
     r"""
     INPUT:
 
-    - ``M`` -- a matroid (default: ``None``)
+    - ``M`` -- matroid (default: ``None``)
     - ``groundset`` -- a list (default: ``None``); the groundset of the matroid
     - ``flats`` -- a dictionary (default: ``None``); the lists of `k`-flats of
       the matroid, indexed by their rank `k`
@@ -113,7 +110,7 @@ cdef class FlatsMatroid(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT: an integer; the rank of ``X`` in the matroid
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -145,7 +142,7 @@ cdef class FlatsMatroid(Matroid):
         The *rank* of the matroid is the size of the largest independent
         subset of the groundset.
 
-        OUTPUT: an integer; the rank of the matroid
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -162,7 +159,7 @@ cdef class FlatsMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``certificate`` -- boolean (default: ``False``)
 
 
@@ -360,7 +357,7 @@ cdef class FlatsMatroid(Matroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -401,7 +398,7 @@ cdef class FlatsMatroid(Matroid):
 
         INPUT:
 
-        - ``k`` -- an integer
+        - ``k`` -- integer
 
         OUTPUT: a SetSystem
 
@@ -427,7 +424,7 @@ cdef class FlatsMatroid(Matroid):
 
         INPUT:
 
-        - ``k`` -- an integer
+        - ``k`` -- integer
 
         EXAMPLES::
 

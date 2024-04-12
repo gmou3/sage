@@ -153,7 +153,7 @@ class GraphicMatroid(Matroid):
         True
     """
 
-    # Necessary:
+    # necessary (__init__, groundset, _rank)
 
     def __init__(self, G, groundset=None):
         """
@@ -385,7 +385,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
 
         OUTPUT: ``True`` if ``self`` and ``other`` have the same graph;
         ``False`` otherwise
@@ -433,7 +433,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
 
         OUTPUT: ``False`` if ``self`` and ``other`` have the same graph;
         ``True`` otherwise
@@ -696,7 +696,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an iterable container of ground set elements
+        - ``X`` -- an iterable container of groundset elements
 
         OUTPUT: integer
 
@@ -723,7 +723,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an iterable container of ground set elements
+        - ``X`` -- an iterable container of groundset elements
 
         OUTPUT: boolean
 
@@ -746,7 +746,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an iterable container of ground set elements
+        - ``X`` -- an iterable container of groundset elements
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -797,7 +797,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
@@ -837,7 +837,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an iterable container of ground set elements
+        - ``X`` -- an iterable container of groundset elements
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -876,7 +876,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an iterable container of ground set elements
+        - ``X`` -- an iterable container of groundset elements
 
         OUTPUT:
 
@@ -954,7 +954,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an iterable container of ground set elements
+        - ``X`` -- an iterable container of groundset elements
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -1037,7 +1037,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``certificate`` -- boolean
 
         OUTPUT:
@@ -1132,7 +1132,7 @@ class GraphicMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
 
         OUTPUT: a dictionary, or ``None``
 
@@ -2086,7 +2086,7 @@ class GraphicMatroid(Matroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 

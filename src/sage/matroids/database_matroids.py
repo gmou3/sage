@@ -48,15 +48,12 @@ from sage.rings.integer_ring import ZZ
 from sage.rings.finite_rings.finite_field_constructor import GF
 from sage.schemes.projective.projective_space import ProjectiveSpace
 
-
 # **************************** #
 #  Oxley's matroid collection  #
 #                              #
 # **************************** #
 
-
 # The order is the same as in Oxley.
-
 
 def U24(groundset='abcd'):
     r"""
@@ -108,7 +105,6 @@ def U24(groundset='abcd'):
     M = _rename_and_relabel(M, "U(2, 4)", groundset)
     return M
 
-
 def U25(groundset='abcde'):
     """
     The uniform matroid of rank `2` on `5` elements.
@@ -119,7 +115,7 @@ def U25(groundset='abcde'):
 
         sage: U25 = matroids.catalog.U25(); U25
         U(2, 5): Matroid of rank 2 on 5 elements with circuit-closures
-        {2: {{0, 1, 2, 3, 4}}}
+        {2: {{'a', 'b', 'c', 'd', 'e'}}}
         sage: U25.is_graphic() or U25.is_regular()
         False
         sage: U35 = matroids.catalog.U35()
@@ -140,7 +136,6 @@ def U25(groundset='abcde'):
     M = _rename_and_relabel(M, "U(2, 5)", groundset)
     return M
 
-
 def U35(groundset='abcde'):
     """
     The uniform matroid of rank `3` on `5` elements.
@@ -151,7 +146,7 @@ def U35(groundset='abcde'):
 
         sage: U35 = matroids.catalog.U35(); U35
         U(3, 5): Matroid of rank 3 on 5 elements with circuit-closures
-        {3: {{0, 1, 2, 3, 4}}}
+        {3: {{'a', 'b', 'c', 'd', 'e'}}}
         sage: U35.is_graphic() or U35.is_regular()
         False
         sage: U25 = matroids.catalog.U25()
@@ -171,7 +166,6 @@ def U35(groundset='abcde'):
     M = Uniform(3, 5)
     M = _rename_and_relabel(M, "U(3, 5)", groundset)
     return M
-
 
 def K4(groundset='abcdef'):
     r"""
@@ -215,7 +209,6 @@ def K4(groundset='abcdef'):
     M = _rename_and_relabel(M, "M(K4)", groundset)
     return M
 
-
 def Whirl3(groundset='abcdef'):
     r"""
     The rank-`3` whirl.
@@ -257,7 +250,6 @@ def Whirl3(groundset='abcdef'):
     M = _rename_and_relabel(M, "Whirl(3)", groundset)
     return M
 
-
 def Q6(groundset='abcdef'):
     """
     Return the matroid `Q_6`, represented over `GF(4)`.
@@ -291,7 +283,6 @@ def Q6(groundset='abcdef'):
     M = _rename_and_relabel(M, "Q6")
     return M
 
-
 def P6(groundset=None):
     """
     Return the matroid `P_6`, represented as circuit closures.
@@ -323,7 +314,6 @@ def P6(groundset=None):
     M = Matroid(circuit_closures=CC)
     M = _rename_and_relabel(M, "P6", groundset)
     return M
-
 
 def U36(groundset='abcdef'):
     """
@@ -361,7 +351,6 @@ def U36(groundset='abcdef'):
     M = _rename_and_relabel(M, "U(3, 6)", groundset)
     return M
 
-
 def R6(groundset='abcdef'):
     """
     Return the matroid `R_6`, represented over `GF(3)`.
@@ -393,7 +382,6 @@ def R6(groundset='abcdef'):
     M = TernaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "R6")
     return M
-
 
 def Fano(groundset='abcdefg'):
     r"""
@@ -444,7 +432,6 @@ def Fano(groundset='abcdefg'):
     M = _rename_and_relabel(M, "Fano")
     return M
 
-
 def FanoDual(groundset='abcdefg'):
     """
     Return the dual of the Fano matroid.
@@ -485,7 +472,6 @@ def FanoDual(groundset='abcdefg'):
     M = _rename_and_relabel(M, "F7*", groundset)
     return M
 
-
 def NonFano(groundset='abcdefg'):
     """
     Return the non-Fano matroid, represented over `GF(3)`.
@@ -518,7 +504,6 @@ def NonFano(groundset='abcdefg'):
     M = TernaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "NonFano")
     return M
-
 
 def NonFanoDual(groundset='abcdefg'):
     r"""
@@ -561,7 +546,6 @@ def NonFanoDual(groundset='abcdefg'):
     M = _rename_and_relabel(M, "NonFano*", groundset)
     return M
 
-
 def O7(groundset='abcdefg'):
     """
     Return the matroid `O_7`, represented over `GF(3)`.
@@ -590,7 +574,6 @@ def O7(groundset='abcdefg'):
     M = TernaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "O7")
     return M
-
 
 def P7(groundset='abcdefg'):
     """
@@ -623,7 +606,6 @@ def P7(groundset='abcdefg'):
     M = TernaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "P7")
     return M
-
 
 def AG32(groundset='abcdefgh'):
     """
@@ -667,7 +649,6 @@ def AG32(groundset='abcdefgh'):
     M = AG(3, 2)
     M = _rename_and_relabel(M, "AG(3, 2)", groundset)
     return M
-
 
 def AG32prime(groundset=None):
     """
@@ -734,7 +715,6 @@ def AG32prime(groundset=None):
     M = _rename_and_relabel(M, "AG(3, 2)'", groundset)
     return M
 
-
 def R8(groundset='abcdefgh'):
     """
     Return the matroid `R_8`, represented over `GF(3)`.
@@ -786,7 +766,6 @@ def R8(groundset='abcdefgh'):
     M = _rename_and_relabel(M, "R8")
     return M
 
-
 def F8(groundset=None):
     """
     Return the matroid `F_8`, represented as circuit closures.
@@ -833,7 +812,6 @@ def F8(groundset=None):
     M = Matroid(circuit_closures=CC)
     M = _rename_and_relabel(M, "F8", groundset)
     return M
-
 
 def Q8(groundset=None):
     """
@@ -883,7 +861,6 @@ def Q8(groundset=None):
     M = _rename_and_relabel(M, "Q8", groundset)
     return M
 
-
 def L8(groundset=None):
     """
     Return the matroid `L_8`, represented as circuit closures.
@@ -929,7 +906,6 @@ def L8(groundset=None):
     M = Matroid(circuit_closures=CC)
     M = _rename_and_relabel(M, "L8", groundset)
     return M
-
 
 def S8(groundset='abcdefgh'):
     """
@@ -981,7 +957,6 @@ def S8(groundset='abcdefgh'):
     M = _rename_and_relabel(M, "S8")
     return M
 
-
 def Vamos(groundset=None):
     r"""
     Return the `V\acute{a}mos` matroid, represented as circuit closures.
@@ -1018,7 +993,6 @@ def Vamos(groundset=None):
     M = Matroid(circuit_closures=CC)
     M = _rename_and_relabel(M, "Vamos", groundset)
     return M
-
 
 def T8(groundset='abcdefgh'):
     """
@@ -1060,7 +1034,6 @@ def T8(groundset='abcdefgh'):
     M = _rename_and_relabel(M, "T8")
     return M
 
-
 def J(groundset='abcdefgh'):
     """
     Return the matroid `J`, represented over `GF(3)`.
@@ -1101,7 +1074,6 @@ def J(groundset='abcdefgh'):
     M = _rename_and_relabel(M, "J")
     return M
 
-
 def P8(groundset='abcdefgh'):
     """
     Return the matroid `P_8`, represented over `GF(3)`.
@@ -1139,7 +1111,6 @@ def P8(groundset='abcdefgh'):
     M = _rename_and_relabel(M, "P8")
     return M
 
-
 def P8pp(groundset=None):
     """
     Return the matroid `P_8^=`, represented as circuit closures.
@@ -1170,7 +1141,6 @@ def P8pp(groundset=None):
     M = _rename_and_relabel(M, "P8''", groundset)
     return M
 
-
 def Wheel4(groundset='abcdefgh'):
     """
     Return the rank-`4` wheel.
@@ -1197,7 +1167,6 @@ def Wheel4(groundset='abcdefgh'):
     M = _rename_and_relabel(M, "Wheel(4)", groundset)
     return M
 
-
 def Whirl4(groundset='abcdefgh'):
     """
     Return the rank-`4` whirl.
@@ -1223,7 +1192,6 @@ def Whirl4(groundset='abcdefgh'):
     M = Whirl(4)
     M = _rename_and_relabel(M, "Whirl(4)", groundset)
     return M
-
 
 def K33dual(groundset='abcdefghi'):
     """
@@ -1257,7 +1225,6 @@ def K33dual(groundset='abcdefghi'):
     M = _rename_and_relabel(M, "M*(K3, 3)")
     return M
 
-
 def K33(groundset='abcdefghi'):
     r"""
     Return the graphic matroid `M(K_{3,3})`.
@@ -1285,7 +1252,6 @@ def K33(groundset='abcdefghi'):
     M = Matroid(groundset=groundset, graph=G, regular=True)
     M = _rename_and_relabel(M, "M(K3, 3)")
     return M
-
 
 def AG23(groundset='abcdefghi'):
     """
@@ -1316,7 +1282,6 @@ def AG23(groundset='abcdefghi'):
     M = AG(2, 3)
     M = _rename_and_relabel(M, "AG(2, 3)", groundset)
     return M
-
 
 def TernaryDowling3(groundset='abcdefghi'):
     r"""
@@ -1353,7 +1318,6 @@ def TernaryDowling3(groundset='abcdefghi'):
     M = _rename_and_relabel(M, "Q3(GF(3)x)")
     return M
 
-
 def R9(groundset=None):
     """
     Return the matroid `R_9`.
@@ -1384,7 +1348,6 @@ def R9(groundset=None):
     M = Matroid(rank=3, nonspanning_circuits=NSC)
     M = _rename_and_relabel(M, "R9", groundset)
     return M
-
 
 def Pappus(groundset=None):
     """
@@ -1420,7 +1383,6 @@ def Pappus(groundset=None):
     M = _rename_and_relabel(M, "Pappus", groundset)
     return M
 
-
 def NonPappus(groundset=None):
     """
     Return the non-Pappus matroid.
@@ -1454,7 +1416,6 @@ def NonPappus(groundset=None):
     M = _rename_and_relabel(M, "NonPappus", groundset)
     return M
 
-
 def K5(groundset='abcdefghij'):
     """
     Return the graphic matroid `M(K_5)`.
@@ -1478,7 +1439,6 @@ def K5(groundset='abcdefghij'):
     M = CompleteGraphic(5)
     M = _rename_and_relabel(M, "M(K5)", groundset)
     return M
-
 
 def K5dual(groundset='abcdefghij'):
     """
@@ -1505,7 +1465,6 @@ def K5dual(groundset='abcdefghij'):
     M = Matroid(circuits=list(M.circuits()))
     M = _rename_and_relabel(M, "M*(K5)", groundset)
     return M
-
 
 def R10(groundset='abcdefghij'):
     """
@@ -1566,7 +1525,6 @@ def R10(groundset='abcdefghij'):
     M = _rename_and_relabel(M, "R10")
     return M
 
-
 def NonDesargues(groundset=None):
     """
     Return the NonDesargues matroid.
@@ -1592,7 +1550,6 @@ def NonDesargues(groundset=None):
     M = Matroid(rank=3, nonspanning_circuits=NSC)
     M = _rename_and_relabel(M, "NonDesargues", groundset)
     return M
-
 
 def R12(groundset='abcdefghijkl'):
     """
@@ -1632,7 +1589,6 @@ def R12(groundset='abcdefghijkl'):
     M = RegularMatroid(A, groundset)
     M = _rename_and_relabel(M, "R12")
     return M
-
 
 def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
     """
@@ -1702,7 +1658,6 @@ def ExtendedTernaryGolayCode(groundset='abcdefghijkl'):
     M = _rename_and_relabel(M, "Extended Ternary Golay Code")
     return M
 
-
 def T12(groundset='abcdefghijkl'):
     """
     Return the matroid `T_{12}`.
@@ -1743,7 +1698,6 @@ def T12(groundset='abcdefghijkl'):
     M = _rename_and_relabel(M, "T12")
     return M
 
-
 def PG23(groundset=None):
     """
     Return the matroid `PG23`.
@@ -1768,19 +1722,18 @@ def PG23(groundset=None):
     M = _rename_and_relabel(M, groundset=groundset)
     return M
 
-
 def Wheel(r, field=None, ring=None, groundset=None):
     r"""
     Return the rank-`r` wheel.
 
     INPUT:
 
-    - ``r`` -- a positive integer; the rank of the desired matroid
+    - ``r`` -- positive integer; the rank of the desired matroid
     - ``ring`` -- any ring; if provided, output will be a linear matroid
       over the ring or field ``ring``. If the ring is `\ZZ`, then output
-      will be a regular matroid.
+      will be a regular matroid
     - ``field`` -- any field; same as ``ring``, but only fields are allowed
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
     OUTPUT: the rank-`r` wheel matroid, represented as a regular matroid
 
@@ -1843,7 +1796,6 @@ def Wheel(r, field=None, ring=None, groundset=None):
     M = _rename_and_relabel(M, f'Wheel({r})', groundset)
     return M
 
-
 def Whirl(r, groundset=None):
     r"""
     Return the rank-`r` whirl.
@@ -1852,8 +1804,8 @@ def Whirl(r, groundset=None):
 
     INPUT:
 
-    - ``r`` -- a positive integer; the rank of the desired matroid.
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``r`` -- positive integer; the rank of the desired matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
     OUTPUT: the rank-`r` whirl matroid, represented as a ternary matroid
 
@@ -1912,7 +1864,6 @@ def Whirl(r, groundset=None):
     M = _rename_and_relabel(M, f'Whirl({r})', groundset)
     return M
 
-
 def Uniform(r, n, groundset=None):
     """
     Return the uniform matroid of rank `r` on `n` elements.
@@ -1923,10 +1874,9 @@ def Uniform(r, n, groundset=None):
 
     INPUT:
 
-    - ``r`` -- a nonnegative integer; the rank of the uniform matroid
-    - ``n`` -- a nonnegative integer; the number of elements of the uniform
-      matroid
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``r`` -- nonnegative integer; the rank of the uniform matroid
+    - ``n`` -- nonnegative integer; the number of elements of the uniform matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
     OUTPUT: the uniform matroid `U_{r,n}`
 
@@ -1964,7 +1914,6 @@ def Uniform(r, n, groundset=None):
     M = _rename_and_relabel(M, f'U({r}, {n})', groundset)
     return M
 
-
 def PG(n, q, x=None, groundset=None):
     """
     Return the projective geometry of dimension ``n`` over the finite field
@@ -1972,14 +1921,14 @@ def PG(n, q, x=None, groundset=None):
 
     INPUT:
 
-    - ``n`` -- a positive integer; the dimension of the projective space. This
-      is one less than the rank of the resulting matroid.
-    - ``q`` -- a positive integer that is a prime power; the order of the
+    - ``n`` -- positive integer; the dimension of the projective space. This
+      is one less than the rank of the resulting matroid
+    - ``q`` -- positive integer that is a prime power; the order of the
       finite field
-    - ``x`` -- a string (default: ``None``); the name of the generator of a
+    - ``x`` -- string (default: ``None``); the name of the generator of a
       non-prime field, used for non-prime fields. If not supplied, ``'x'`` is
-      used.
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+      used
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
     OUTPUT: a linear matroid whose elements are the points of `PG(n, q)`
 
@@ -2007,7 +1956,6 @@ def PG(n, q, x=None, groundset=None):
     M = _rename_and_relabel(M, f'PG({n}, {q})', groundset)
     return M
 
-
 def AG(n, q, x=None, groundset=None):
     r"""
     Return the affine geometry of dimension ``n`` over the finite field of
@@ -2018,14 +1966,14 @@ def AG(n, q, x=None, groundset=None):
 
     INPUT:
 
-    - ``n`` -- a positive integer; the dimension of the projective space. This
-      is one less than the rank of the resulting matroid.
-    - ``q`` -- a positive integer that is a prime power; the order of the
+    - ``n`` -- positive integer; the dimension of the projective space. This
+      is one less than the rank of the resulting matroid
+    - ``q`` -- positive integer that is a prime power; the order of the
       finite field
-    - ``x`` -- a string (default: ``None``); the name of the generator of a
+    - ``x`` -- string (default: ``None``); the name of the generator of a
       non-prime field, used for non-prime fields. If not supplied, ``'x'`` is
-      used.
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+      used
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
     OUTPUT: a linear matroid whose elements are the points of `AG(n, q)`
 
@@ -2054,7 +2002,6 @@ def AG(n, q, x=None, groundset=None):
     M = _rename_and_relabel(M, f'AG({n}, {q})', groundset)
     return M
 
-
 def Z(r, t=True, groundset=None):
     r"""
     Return the unique rank-`r` binary spike.
@@ -2063,11 +2010,11 @@ def Z(r, t=True, groundset=None):
 
     INPUT:
 
-    - ``r`` -- an integer (`r \ge 3`); the rank of the spike
+    - ``r`` -- integer (`r \ge 3`); the rank of the spike
     - ``t`` -- boolean (default: ``True``); whether the spike is tipped
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
-    OUTPUT: a matroid; the unique rank-`r` binary spike (tipped or tipless)
+    OUTPUT: matroid; the unique rank-`r` binary spike (tipped or tipless)
 
     EXAMPLES::
 
@@ -2147,7 +2094,6 @@ def Z(r, t=True, groundset=None):
     M = _rename_and_relabel(M, groundset=groundset)
     return M
 
-
 def Spike(r, t=True, C3=[], groundset=None):
     r"""
     Return a rank-`r` spike.
@@ -2167,13 +2113,13 @@ def Spike(r, t=True, C3=[], groundset=None):
 
     INPUT:
 
-    - ``r`` -- an integer (`r \ge 3`); the rank of the spike
+    - ``r`` -- integer (`r \ge 3`); the rank of the spike
     - ``t`` -- boolean (default: ``True``); whether the spike is tipped
-    - ``C3`` -- a list (default: ``[]``); a list of extra nonspanning circuits.
+    - ``C3`` -- list (default: ``[]``); a list of extra nonspanning circuits.
       The default (i.e. the empty list) results in a free `r`-spike
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
-    OUTPUT: a matroid; a rank-`r` spike (tipped or tipless)
+    OUTPUT: matroid; a rank-`r` spike (tipped or tipless)
 
     EXAMPLES::
 
@@ -2275,9 +2221,7 @@ def Spike(r, t=True, C3=[], groundset=None):
     M = _rename_and_relabel(M, f'{free}{r}-spike{tip}', groundset)
     return M
 
-
 # Q_r(A)
-
 
 def Theta(n, groundset=None):
     r"""
@@ -2288,10 +2232,10 @@ def Theta(n, groundset=None):
 
     INPUT:
 
-    - ``n`` -- an integer (`n \ge 2`); the rank of the matroid
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``n`` -- integer (`n \ge 2`); the rank of the matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
-    OUTPUT: a matroid (`\Theta_n`)
+    OUTPUT: matroid (`\Theta_n`)
 
     EXAMPLES::
 
@@ -2352,7 +2296,6 @@ def Theta(n, groundset=None):
     M = _rename_and_relabel(M, f'Theta_{n}', groundset)
     return M
 
-
 def Psi(r, groundset=None):
     r"""
     Return the matroid `\Psi_r`.
@@ -2361,10 +2304,10 @@ def Psi(r, groundset=None):
 
     INPUT:
 
-    - ``r`` -- an integer (`r \ge 3`); the rank of the matroid
-    - ``groundset`` -- a string (optional); the groundset of the matroid
+    - ``r`` -- integer (`r \ge 3`); the rank of the matroid
+    - ``groundset`` -- string (optional); the groundset of the matroid
 
-    OUTPUT: a matroid (`\Psi_r`)
+    OUTPUT: matroid (`\Psi_r`)
 
     EXAMPLES::
 
@@ -2435,15 +2378,12 @@ def Psi(r, groundset=None):
     M = _rename_and_relabel(M, f'Psi_{r}', groundset)
     return M
 
-
 # ******************************* #
 #  Brettell's matroid collection  #
 #                                 #
 # ******************************* #
 
-
 # 7 elements:
-
 
 def RelaxedNonFano(groundset=None):
     """
@@ -2464,7 +2404,6 @@ def RelaxedNonFano(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "F7=", groundset)
     return M
-
 
 def TippedFree3spike(groundset=None):
     """
@@ -2489,9 +2428,7 @@ def TippedFree3spike(groundset=None):
     M = _rename_and_relabel(M, "Tipped rank-3 free spike", groundset)
     return M
 
-
 # 8 elements:
-
 
 def AG23minusDY(groundset=None):
     r"""
@@ -2512,7 +2449,6 @@ def AG23minusDY(groundset=None):
     M = TernaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "Delta-Y of AG(2,3)\\e", groundset)
     return M
-
 
 def TQ8(groundset=None):
     """
@@ -2537,7 +2473,6 @@ def TQ8(groundset=None):
     )
     M = _rename_and_relabel(M, "TQ8", groundset)
     return M
-
 
 def P8p(groundset=None):
     """
@@ -2565,7 +2500,6 @@ def P8p(groundset=None):
     M = _rename_and_relabel(M, "P8-", groundset)
     return M
 
-
 def KP8(groundset=None):
     """
     Return the matroid `KP8`.
@@ -2591,7 +2525,6 @@ def KP8(groundset=None):
     )
     M = _rename_and_relabel(M, "KP8", groundset)
     return M
-
 
 def Sp8(groundset=None):
     """
@@ -2619,7 +2552,6 @@ def Sp8(groundset=None):
     M = _rename_and_relabel(M, "Sp8", groundset)
     return M
 
-
 def Sp8pp(groundset=None):
     """
     Return the matroid `Sp8=`.
@@ -2643,7 +2575,6 @@ def Sp8pp(groundset=None):
     )
     M = _rename_and_relabel(M, "Sp8=", groundset)
     return M
-
 
 def LP8(groundset=None):
     """
@@ -2671,7 +2602,6 @@ def LP8(groundset=None):
     M = _rename_and_relabel(M, "LP8", groundset)
     return M
 
-
 def WQ8(groundset=None):
     r"""
     Return the matroid `WQ8`.
@@ -2698,9 +2628,7 @@ def WQ8(groundset=None):
     M = _rename_and_relabel(M, "WQ8", groundset)
     return M
 
-
 # 9 elements:
-
 
 def BB9(groundset=None):
     """
@@ -2740,7 +2668,6 @@ def BB9(groundset=None):
     M = _rename_and_relabel(M, "BB9", groundset)
     return M
 
-
 def TQ9(groundset=None):
     """
     Return the matroid `TQ9`.
@@ -2774,7 +2701,6 @@ def TQ9(groundset=None):
     )
     M = _rename_and_relabel(M, "TQ9", groundset)
     return M
-
 
 def TQ9p(groundset=None):
     """
@@ -2814,7 +2740,6 @@ def TQ9p(groundset=None):
     M = _rename_and_relabel(M, "TQ9'", groundset)
     return M
 
-
 def M8591(groundset=None):
     r"""
     Return the matroid `M8591`.
@@ -2841,7 +2766,6 @@ def M8591(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "M8591", groundset)
     return M
-
 
 def PP9(groundset=None):
     """
@@ -2882,7 +2806,6 @@ def PP9(groundset=None):
     M = _rename_and_relabel(M, "PP9", groundset)
     return M
 
-
 def BB9gDY(groundset=None):
     r"""
     Return the matroid `BB9gDY`.
@@ -2920,7 +2843,6 @@ def BB9gDY(groundset=None):
     M = _rename_and_relabel(M, "Segment cosegment exchange on BB9", groundset)
     return M
 
-
 def A9(groundset=None):
     """
     Return the matroid `A9`.
@@ -2948,7 +2870,6 @@ def A9(groundset=None):
     )
     M = _rename_and_relabel(M, "A9", groundset)
     return M
-
 
 def FN9(groundset=None):
     """
@@ -2983,7 +2904,6 @@ def FN9(groundset=None):
     M = _rename_and_relabel(M, "FN9", groundset)
     return M
 
-
 def FX9(groundset=None):
     """
     Return the matroid `FX9`.
@@ -3014,7 +2934,6 @@ def FX9(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FX9", groundset)
     return M
-
 
 def KR9(groundset=None):
     """
@@ -3049,7 +2968,6 @@ def KR9(groundset=None):
     )
     M = _rename_and_relabel(M, "KR9", groundset)
     return M
-
 
 def KQ9(groundset=None):
     """
@@ -3089,9 +3007,7 @@ def KQ9(groundset=None):
     M = _rename_and_relabel(M, "KQ9", groundset)
     return M
 
-
 # 10 elements:
-
 
 def UG10(groundset=None):
     """
@@ -3126,7 +3042,6 @@ def UG10(groundset=None):
     M = _rename_and_relabel(M, "UG10", groundset)
     return M
 
-
 def FF10(groundset=None):
     """
     Return the matroid `FF10`.
@@ -3159,7 +3074,6 @@ def FF10(groundset=None):
     M = _rename_and_relabel(M, "FF10", groundset)
     return M
 
-
 def GP10(groundset=None):
     """
     Return the matroid `GP10`.
@@ -3188,7 +3102,6 @@ def GP10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "GP10", groundset)
     return M
-
 
 def FZ10(groundset=None):
     """
@@ -3219,7 +3132,6 @@ def FZ10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FZ10", groundset)
     return M
-
 
 def UQ10(groundset=None):
     """
@@ -3252,7 +3164,6 @@ def UQ10(groundset=None):
     M = _rename_and_relabel(M, "UQ10", groundset)
     return M
 
-
 def FP10(groundset=None):
     """
     Return the matroid `FP10`.
@@ -3282,7 +3193,6 @@ def FP10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FP10", groundset)
     return M
-
 
 def TQ10(groundset=None):
     """
@@ -3320,7 +3230,6 @@ def TQ10(groundset=None):
     M = _rename_and_relabel(M, "TQ10", groundset)
     return M
 
-
 def FY10(groundset=None):
     """
     Return the matroid `FY10`.
@@ -3350,7 +3259,6 @@ def FY10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FY10", groundset)
     return M
-
 
 def PP10(groundset=None):
     """
@@ -3392,7 +3300,6 @@ def PP10(groundset=None):
     M = _rename_and_relabel(M, "PP10", groundset)
     return M
 
-
 def FU10(groundset=None):
     """
     Return the matroid `FU10`.
@@ -3421,7 +3328,6 @@ def FU10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FU10", groundset)
     return M
-
 
 def D10(groundset=None):
     """
@@ -3453,7 +3359,6 @@ def D10(groundset=None):
     M = _rename_and_relabel(M, "D10", groundset)
     return M
 
-
 def UK10(groundset=None):
     """
     Return the matroid `UK10`.
@@ -3483,7 +3388,6 @@ def UK10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "UK10", groundset)
     return M
-
 
 def PK10(groundset=None):
     """
@@ -3515,7 +3419,6 @@ def PK10(groundset=None):
     M = _rename_and_relabel(M, "PK10", groundset)
     return M
 
-
 def GK10(groundset=None):
     """
     Return the matroid `GK10`.
@@ -3545,7 +3448,6 @@ def GK10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "GK10", groundset)
     return M
-
 
 def FT10(groundset=None):
     """
@@ -3577,7 +3479,6 @@ def FT10(groundset=None):
     M = _rename_and_relabel(M, "FT10", groundset)
     return M
 
-
 def TK10(groundset=None):
     """
     Return the matroid `TK10`.
@@ -3607,7 +3508,6 @@ def TK10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "TK10", groundset)
     return M
-
 
 def KT10(groundset=None):
     """
@@ -3639,7 +3539,6 @@ def KT10(groundset=None):
     M = _rename_and_relabel(M, "KT10", groundset)
     return M
 
-
 def TU10(groundset=None):
     """
     Return the matroid `TU10`.
@@ -3669,7 +3568,6 @@ def TU10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "TU10", groundset)
     return M
-
 
 def UT10(groundset=None):
     """
@@ -3701,7 +3599,6 @@ def UT10(groundset=None):
     M = _rename_and_relabel(M, "UT10", groundset)
     return M
 
-
 def FK10(groundset=None):
     """
     Return the matroid `FK10`.
@@ -3731,7 +3628,6 @@ def FK10(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FK10", groundset)
     return M
-
 
 def KF10(groundset=None):
     """
@@ -3763,9 +3659,7 @@ def KF10(groundset=None):
     M = _rename_and_relabel(M, "KF10", groundset)
     return M
 
-
 # 11 elements:
-
 
 def FA11(groundset=None):
     """
@@ -3801,9 +3695,7 @@ def FA11(groundset=None):
     M = _rename_and_relabel(M, "FA11", groundset)
     return M
 
-
 # 12 elements:
-
 
 def FR12(groundset=None):
     """
@@ -3836,7 +3728,6 @@ def FR12(groundset=None):
     M = _rename_and_relabel(M, "FR12", groundset)
     return M
 
-
 def GP12(groundset=None):
     """
     Return the matroid `GP12`.
@@ -3867,7 +3758,6 @@ def GP12(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "GP12", groundset)
     return M
-
 
 def FQ12(groundset=None):
     """
@@ -3909,7 +3799,6 @@ def FQ12(groundset=None):
     M = _rename_and_relabel(M, "FQ12", groundset)
     return M
 
-
 def FF12(groundset=None):
     """
     Return the matroid `FF12`.
@@ -3948,7 +3837,6 @@ def FF12(groundset=None):
     M = _rename_and_relabel(M, "FF12", groundset)
     return M
 
-
 def FZ12(groundset=None):
     """
     Return the matroid `FZ12`.
@@ -3979,7 +3867,6 @@ def FZ12(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FZ12", groundset)
     return M
-
 
 def UQ12(groundset=None):
     """
@@ -4012,7 +3899,6 @@ def UQ12(groundset=None):
     M = _rename_and_relabel(M, "UQ12", groundset)
     return M
 
-
 def FP12(groundset=None):
     """
     Return the matroid `FP12`.
@@ -4044,7 +3930,6 @@ def FP12(groundset=None):
     M = _rename_and_relabel(M, "FP12", groundset)
     return M
 
-
 def FS12(groundset=None):
     """
     Return the matroid `FS12`.
@@ -4074,7 +3959,6 @@ def FS12(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FS12", groundset)
     return M
-
 
 def UK12(groundset=None):
     """
@@ -4107,7 +3991,6 @@ def UK12(groundset=None):
     M = _rename_and_relabel(M, "UK12", groundset)
     return M
 
-
 def UA12(groundset=None):
     """
     Return the matroid `UA12`.
@@ -4138,7 +4021,6 @@ def UA12(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "UA12", groundset)
     return M
-
 
 def AK12(groundset=None):
     """
@@ -4171,7 +4053,6 @@ def AK12(groundset=None):
     M = _rename_and_relabel(M, "AK12", groundset)
     return M
 
-
 def FK12(groundset=None):
     """
     Return the matroid `FK12`.
@@ -4202,7 +4083,6 @@ def FK12(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FK12", groundset)
     return M
-
 
 def KB12(groundset=None):
     """
@@ -4235,7 +4115,6 @@ def KB12(groundset=None):
     M = _rename_and_relabel(M, "KB12", groundset)
     return M
 
-
 def AF12(groundset=None):
     """
     Return the matroid `AF12`.
@@ -4266,7 +4145,6 @@ def AF12(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "AF12", groundset)
     return M
-
 
 def NestOfTwistedCubes(groundset=None):
     r"""
@@ -4332,9 +4210,7 @@ def NestOfTwistedCubes(groundset=None):
     M = _rename_and_relabel(M, "NestOfTwistedCubes", groundset)
     return M
 
-
 # 13 elements:
-
 
 def XY13(groundset=None):
     """
@@ -4367,9 +4243,7 @@ def XY13(groundset=None):
     M = _rename_and_relabel(M, "XY13", groundset)
     return M
 
-
 # 14 elements:
-
 
 def N3(groundset=None):
     """
@@ -4404,7 +4278,6 @@ def N3(groundset=None):
     M = TernaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "N3", groundset)
     return M
-
 
 def N3pp(groundset=None):
     """
@@ -4441,7 +4314,6 @@ def N3pp(groundset=None):
     M = _rename_and_relabel(M, "N3=", groundset)
     return M
 
-
 def UP14(groundset=None):
     """
     Return the matroid `UP14`.
@@ -4473,7 +4345,6 @@ def UP14(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "UP14", groundset)
     return M
-
 
 def VP14(groundset=None):
     """
@@ -4507,7 +4378,6 @@ def VP14(groundset=None):
     M = _rename_and_relabel(M, "VP14", groundset)
     return M
 
-
 def FV14(groundset=None):
     """
     Return the matroid `FV14`
@@ -4539,7 +4409,6 @@ def FV14(groundset=None):
     M = QuaternaryMatroid(reduced_matrix=A)
     M = _rename_and_relabel(M, "FV14", groundset)
     return M
-
 
 def OW14(groundset=None):
     """
@@ -4573,7 +4442,6 @@ def OW14(groundset=None):
     M = _rename_and_relabel(M, "OW14", groundset)
     return M
 
-
 def FM14(groundset=None):
     """
     Return the matroid `FM14`.
@@ -4605,9 +4473,7 @@ def FM14(groundset=None):
     M = _rename_and_relabel(M, "FM14", groundset)
     return M
 
-
 # 15 elements:
-
 
 def FA15(groundset=None):
     """
@@ -4642,9 +4508,7 @@ def FA15(groundset=None):
     M = _rename_and_relabel(M, "FA15", groundset)
     return M
 
-
 # 16 elements:
-
 
 def N4(groundset=None):
     """
@@ -4681,12 +4545,10 @@ def N4(groundset=None):
     M = _rename_and_relabel(M, "N4", groundset)
     return M
 
-
 # ******************************** #
 #  Collection of various matroids  #
 #                                  #
 # ******************************** #
-
 
 def NonVamos(groundset=None):
     r"""
@@ -4724,7 +4586,6 @@ def NonVamos(groundset=None):
     M = _rename_and_relabel(M, "NonVamos", groundset)
     return M
 
-
 def NotP8(groundset='abcdefgh'):
     """
     Return the matroid ``NotP8``.
@@ -4752,7 +4613,6 @@ def NotP8(groundset='abcdefgh'):
     M = TernaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "NotP8")
     return M
-
 
 def AG23minus(groundset=None):
     """
@@ -4782,7 +4642,6 @@ def AG23minus(groundset=None):
     M = _rename_and_relabel(M, "AG23minus", groundset)
     return M
 
-
 def P9(groundset='abcdefghi'):
     """
     Return the matroid `P_9`.
@@ -4809,7 +4668,6 @@ def P9(groundset='abcdefghi'):
     M = _rename_and_relabel(M, "P9")
     return M
 
-
 def R9A(groundset=None):
     """
     Return the matroid `R_9^A`.
@@ -4832,7 +4690,6 @@ def R9A(groundset=None):
     M = _rename_and_relabel(M, "R9A", groundset)
     return M
 
-
 def R9B(groundset=None):
     """
     Return the matroid `R_9^B`.
@@ -4854,7 +4711,6 @@ def R9B(groundset=None):
     M = Matroid(rank=4, nonspanning_circuits=NSC)
     M = _rename_and_relabel(M, "R9B", groundset)
     return M
-
 
 def Block_9_4(groundset=None):
     """
@@ -4879,7 +4735,6 @@ def Block_9_4(groundset=None):
     M = _rename_and_relabel(M, "Block(9, 4)", groundset)
     return M
 
-
 def TicTacToe(groundset=None):
     """
     Return the TicTacToe matroid.
@@ -4903,7 +4758,6 @@ def TicTacToe(groundset=None):
     M = Matroid(rank=5, nonspanning_circuits=NSC)
     M = _rename_and_relabel(M, "TicTacToe", groundset)
     return M
-
 
 def N1(groundset='abcdefghij'):
     r"""
@@ -4935,7 +4789,6 @@ def N1(groundset='abcdefghij'):
     M = _rename_and_relabel(M, "N1")
     return M
 
-
 def Block_10_5(groundset=None):
     """
     Return the paving matroid whose nonspanning circuits form the blocks of a
@@ -4961,7 +4814,6 @@ def Block_10_5(groundset=None):
     M = Matroid(rank=5, nonspanning_circuits=NSC)
     M = _rename_and_relabel(M, "Block(10, 5)", groundset)
     return M
-
 
 def Q10(groundset='abcdefghij'):
     r"""
@@ -5004,7 +4856,6 @@ def Q10(groundset='abcdefghij'):
     M = _rename_and_relabel(M, "Q10")
     return M
 
-
 def BetsyRoss(groundset=None):
     """
     Return the Betsy Ross matroid, represented by circuit closures.
@@ -5029,7 +4880,6 @@ def BetsyRoss(groundset=None):
     M = Matroid(rank=3, nonspanning_circuits=NSC)
     M = _rename_and_relabel(M, "BetsyRoss", groundset)
     return M
-
 
 def N2(groundset='abcdefghijkl'):
     r"""
@@ -5061,7 +4911,6 @@ def N2(groundset='abcdefghijkl'):
     M = TernaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "N2")
     return M
-
 
 def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
     """
@@ -5097,7 +4946,6 @@ def D16(groundset='abcdefghijklmnop'):  # A.K.A. the Carolyn Chun Matroid
     M = _rename_and_relabel(M, "D16")
     return M
 
-
 def Terrahawk(groundset='abcdefghijklmnop'):  # aka the Dillon Mayhew Matroid
     """
     Return the Terrahawk matroid.
@@ -5129,7 +4977,6 @@ def Terrahawk(groundset='abcdefghijklmnop'):  # aka the Dillon Mayhew Matroid
     M = BinaryMatroid(A, groundset)
     M = _rename_and_relabel(M, "Terrahawk")
     return M
-
 
 def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
     """
@@ -5179,18 +5026,16 @@ def ExtendedBinaryGolayCode(groundset='abcdefghijklmnopqrstuvwx'):
     M = _rename_and_relabel(M, "Extended Binary Golay Code")
     return M
 
-
 def CompleteGraphic(n, groundset=None):
     """
     Return the cycle matroid of the complete graph on `n` vertices.
 
     INPUT:
 
-    - ``n`` -- an integer, the number of vertices of the underlying complete
-      graph.
+    - ``n`` -- integer, the number of vertices of the underlying complete graph
 
-    OUTPUT: The graphic matroid associated with the `n`-vertex complete graph.
-    This matroid has rank `n - 1`.
+    OUTPUT: the graphic matroid associated with the `n`-vertex complete graph;
+    this matroid has rank `n - 1`
 
     EXAMPLES::
 
@@ -5217,9 +5062,7 @@ def CompleteGraphic(n, groundset=None):
     M = _rename_and_relabel(M, f'M(K{n})', groundset)
     return M
 
-
 # helper function
-
 
 def _rename_and_relabel(M, name=None, groundset=None):
     """
@@ -5230,11 +5073,11 @@ def _rename_and_relabel(M, name=None, groundset=None):
 
     INPUT:
 
-    - ``M`` -- a matroid
-    - ``name`` -- a string (optional)
-    - ``groundset`` -- a string (optional)
+    - ``M`` -- matroid
+    - ``name`` -- string (optional)
+    - ``groundset`` -- string (optional)
 
-    OUTPUT: a matroid
+    OUTPUT: matroid
     """
     if groundset is not None:
         if len(groundset) != len(M.groundset()):

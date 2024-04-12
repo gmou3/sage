@@ -4,7 +4,7 @@ Dual matroids
 Theory
 ======
 
-Let `M` be a matroid with ground set `E`. If `B` is the set of bases of `M`,
+Let `M` be a matroid with groundset `E`. If `B` is the set of bases of `M`,
 then the set `\{E - b : b \in B\}` is the set of bases of another matroid, the
 dual of `M`.
 
@@ -39,10 +39,8 @@ See also :mod:`sage.matroids.advanced`.
 AUTHORS:
 
 - Rudi Pendavingh, Michael Welsh, Stefan van Zwam (2013-04-01): initial version
-
-Methods
-=======
 """
+
 # ****************************************************************************
 #       Copyright (C) 2013 Rudi Pendavingh <rudi.pendavingh@gmail.com>
 #       Copyright (C) 2013 Michael Welsh <michael@welsh.co.nz>
@@ -57,7 +55,6 @@ Methods
 
 from .matroid import Matroid
 
-
 class DualMatroid(Matroid):
     r"""
     Dual of a matroid.
@@ -69,7 +66,7 @@ class DualMatroid(Matroid):
 
     INPUT:
 
-    - ``matroid`` - a matroid.
+    - ``matroid`` -- matroid
 
     EXAMPLES::
 
@@ -176,8 +173,8 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -203,8 +200,8 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -231,8 +228,8 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -252,8 +249,8 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -279,8 +276,8 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -300,8 +297,8 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -366,16 +363,14 @@ class DualMatroid(Matroid):
         r"""
         Return the dual of the matroid.
 
-        Let `M` be a matroid with ground set `E`. If `B` is the set of bases
+        Let `M` be a matroid with groundset `E`. If `B` is the set of bases
         of `M`, then the set `\{E - b : b \in B\}` is the set of bases of
         another matroid, the *dual* of `M`. Note that the dual of the dual of
         `M` equals `M`, so if this is the
         :class:`DualMatroid` instance
         wrapping `M` then the returned matroid is `M`.
 
-        OUTPUT:
-
-        The dual matroid.
+        OUTPUT: the dual matroid
 
         EXAMPLES::
 
@@ -440,11 +435,9 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -472,11 +465,9 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -579,7 +570,7 @@ class DualMatroid(Matroid):
 
         - ``f`` -- a python object such that `f[e]` is the new label of `e`
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 

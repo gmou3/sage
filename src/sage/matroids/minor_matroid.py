@@ -4,7 +4,7 @@ Minors of matroids
 Theory
 ======
 
-Let `M` be a matroid with ground set `E`. There are two standard ways to
+Let `M` be a matroid with groundset `E`. There are two standard ways to
 remove an element from `E` so that the result is again a matroid, *deletion*
 and *contraction*. Deletion is simply omitting the elements from a set `D`
 from `E` and keeping all remaining independent sets. This is denoted ``M \ D``
@@ -91,7 +91,7 @@ class MinorMatroid(Matroid):
 
     INPUT:
 
-    - ``matroid`` -- a matroid.
+    - ``matroid`` -- matroid
     - ``contractions`` -- An object with Python's ``frozenset`` interface
       containing a subset of ``self.groundset()``.
     - ``deletions`` -- An object with Python's ``frozenset`` interface
@@ -189,8 +189,8 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -212,8 +212,8 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -240,8 +240,8 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -264,8 +264,8 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -292,8 +292,8 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -412,7 +412,7 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
         OUTPUT:
 
@@ -444,7 +444,7 @@ class MinorMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
         OUTPUT:
 

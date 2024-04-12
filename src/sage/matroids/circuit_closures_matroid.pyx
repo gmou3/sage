@@ -46,16 +46,8 @@ Note that the class does not implement custom minor and dual operations::
 AUTHORS:
 
 - Rudi Pendavingh, Stefan van Zwam (2013-04-01): initial version
-
-TESTS::
-
-    sage: from sage.matroids.advanced import *
-    sage: M = CircuitClosuresMatroid(matroids.catalog.Fano())
-    sage: TestSuite(M).run()
-
-Methods
-=======
 """
+
 # ****************************************************************************
 #       Copyright (C) 2013 Rudi Pendavingh <rudi.pendavingh@gmail.com>
 #       Copyright (C) 2013 Stefan van Zwam <stefanvanzwam@gmail.com>
@@ -66,11 +58,11 @@ Methods
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
 
-from sage.structure.richcmp cimport rich_to_bool, richcmp
-from sage.matroids.matroid cimport Matroid
-from sage.matroids.set_system cimport SetSystem
-from sage.matroids.utilities import setprint_s, cmp_elements_key
 from cpython.object cimport Py_EQ, Py_NE
+from sage.structure.richcmp cimport rich_to_bool, richcmp
+from .matroid cimport Matroid
+from .set_system cimport SetSystem
+from .utilities import setprint_s, cmp_elements_key
 
 
 cdef class CircuitClosuresMatroid(Matroid):
@@ -87,7 +79,7 @@ cdef class CircuitClosuresMatroid(Matroid):
     to store, giving an upper bound of `O(2^n)` on the space complexity of the
     entire matroid.
 
-    A subset `X` of the ground set is independent if and only if
+    A subset `X` of the groundset is independent if and only if
 
     `| X \cap ` closure `(C) | \leq k` for all circuits `C` of `M` with
     `r(C)=k`.
@@ -97,11 +89,11 @@ cdef class CircuitClosuresMatroid(Matroid):
 
     INPUT:
 
-    - ``M`` -- (default: ``None``) an arbitrary matroid.
-    - ``groundset`` -- (default: ``None``) the groundset of a matroid.
-    - ``circuit_closures`` -- (default: ``None``) the collection of circuit
-      closures of a matroid, presented as a dictionary whose keys are ranks,
-      and whose values are sets of circuit closures of the specified rank.
+    - ``M`` -- matroid (default: ``None``)
+    - ``groundset`` -- groundset of a matroid (default: ``None``)
+    - ``circuit_closures`` -- dict (default: ``None``); the collection of
+      circuit closures of a matroid presented as a dictionary whose keys are
+      ranks, and whose values are sets of circuit closures of the specified rank
 
     OUTPUT:
 
@@ -131,7 +123,8 @@ cdef class CircuitClosuresMatroid(Matroid):
         True
     """
 
-    # NECESSARY
+    # necessary (__init__, groundset, _rank)
+
     def __init__(self, M=None, groundset=None, circuit_closures=None):
         """
         Initialization of the matroid. See class docstring for full
@@ -154,6 +147,12 @@ cdef class CircuitClosuresMatroid(Matroid):
             ....:                          4: ['abcdefgh']})
             sage: M.equals(matroids.catalog.P8())
             True
+
+        TESTS::
+
+            sage: from sage.matroids.advanced import *
+            sage: M = CircuitClosuresMatroid(matroids.catalog.Fano())
+            sage: TestSuite(M).run()
         """
         if M is not None:
             self._groundset = M.groundset()
@@ -171,9 +170,7 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT:
-
-        A set.
+        OUTPUT: set
 
         EXAMPLES::
 
@@ -192,11 +189,9 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an object with Python's ``frozenset`` interface.
+        - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        The rank of ``X`` in the matroid.
+        OUTPUT: the rank of ``X`` in the matroid
 
         EXAMPLES::
 
@@ -206,7 +201,8 @@ cdef class CircuitClosuresMatroid(Matroid):
         """
         return len(self._max_independent(X))
 
-    # OPTIONAL, OPTIMIZED FOR THIS CLASS
+    # optional
+
     cpdef full_rank(self):
         r"""
         Return the rank of the matroid.
@@ -214,9 +210,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         The *rank* of the matroid is the size of the largest independent
         subset of the groundset.
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -234,12 +228,10 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        Boolean.
+        OUTPUT: boolean
 
         EXAMPLES::
 
@@ -264,12 +256,10 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A maximal independent subset of ``X``.
+        OUTPUT: a maximal independent subset of ``X``
 
         EXAMPLES::
 
@@ -301,13 +291,11 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A circuit contained in ``X``, if it exists. Otherwise an error is
-        raised.
+        OUTPUT: a circuit contained in ``X``, if it exists; otherwise, an error
+        is raised
 
         EXAMPLES::
 
@@ -334,10 +322,8 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         A *circuit closure* is a closed set containing a circuit.
 
-        OUTPUT:
-
-        A dictionary containing the circuit closures of the matroid, indexed
-        by their ranks.
+        OUTPUT: dictionary containing the circuit closures of the matroid,
+        indexed by their ranks
 
         .. SEEALSO::
 
@@ -370,13 +356,11 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid,
-        - optional parameter ``certificate`` -- Boolean.
+        - ``other`` -- matroid
+        - ``certificate`` -- boolean (default: ``False``)
 
-        OUTPUT:
-
-        Boolean,
-        and, if certificate = True, a dictionary giving the isomorphism or None
+        OUTPUT: boolean, and, if ``certificate = True``, a dictionary giving
+        the isomorphism or ``None``
 
         .. NOTE::
 
@@ -464,8 +448,8 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         We take a very restricted view on equality: the objects need to be of
         the exact same type (so no subclassing) and the internal data need to
-        be the same. For BasisMatroids, this means that the groundsets and the
-        sets of bases of the two matroids are equal.
+        be the same. For ``BasisMatroid``s, this means that the groundsets and
+        the sets of bases of the two matroids are equal.
 
         EXAMPLES::
 
@@ -581,7 +565,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -613,4 +597,4 @@ cdef class CircuitClosuresMatroid(Matroid):
         M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
         return M
 
-# todo: customized minor, extend methods.
+# TODO: customized minor, extend methods.

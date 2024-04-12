@@ -14,7 +14,7 @@ AUTHORS:
     the placement of points in $\mathbb{R}^2$ and then draw lines in geometric
     representation through these points. Point placement procedures such as
     ``addtripts``, ``addnontripts`` together produce ``(x,y)`` tuples
-    corresponding to ground set of the matroid in a dictionary.
+    corresponding to groundset of the matroid in a dictionary.
     These methods provide simple but rigid point placement algorithm.
     Alternatively, one can build the point placement dictionary manually or
     via an optimization that gives aesthetically pleasing point placement (in
@@ -24,7 +24,7 @@ AUTHORS:
     :func:`scipy:scipy.interpolate.splprep` and
     :func:`scipy:scipy.interpolate.splev`.  Then one
     can use sage's graphics primitives ``line``, ``point``, ``text`` and
-    ``points`` to produce graphics object containing points (ground set
+    ``points`` to produce graphics object containing points (groundset
     elements) and lines (for a rank 3 matroid, these are flats of rank 2 of
     size greater than equal to 3) of the geometric representation of the
     matroid. Loops and parallel elements are added as per conventions in
@@ -89,12 +89,12 @@ def it(M, B1, nB1, lps):
 
     INPUT:
 
-    - ``M`` -- A matroid.
+    - ``M`` -- matroid
     - ``B1``-- A list of groundset elements of ``M`` that corresponds to a
       basis of matroid ``M``.
-    - ``nB1``-- A list of elements in the ground set of M that corresponds to
+    - ``nB1``-- A list of elements in the groundset of M that corresponds to
       ``M.simplify.groundset() \ B1``.
-    - ``lps``-- A list of elements in the ground set of matroid M that are
+    - ``lps``-- A list of elements in the groundset of matroid M that are
       loops.
 
     OUTPUT:
@@ -229,16 +229,16 @@ def addnontripts(tripts_labels, nontripts_labels, ptsdict):
 
     INPUT:
 
-    - ``tripts`` -- A list of 3 ground set elements that are to be placed on
+    - ``tripts`` -- A list of 3 groundset elements that are to be placed on
       vertices of the triangle.
-    - ``ptsdict`` -- A dictionary (at least) containing ground set elements in
+    - ``ptsdict`` -- A dictionary (at least) containing groundset elements in
       ``tripts`` as keys and their (x,y) position as values.
-    - ``nontripts``-- A list of ground set elements whose corresponding points
+    - ``nontripts``-- A list of groundset elements whose corresponding points
       are to be placed inside the triangle.
 
     OUTPUT:
 
-    A dictionary containing ground set elements in ``tripts`` as keys and
+    A dictionary containing groundset elements in ``tripts`` as keys and
     their (x,y) position as values along with all keys and respective values
     in ``ptsdict``.
 
@@ -379,7 +379,7 @@ def slp(M1, pos_dict=None, B=None):
 
     INPUT:
 
-    - ``M1`` -- A matroid.
+    - ``M1`` -- matroid
     - ``pos_dict`` -- (optional) A dictionary containing non loopy elements of
       ``M`` as keys and their (x,y) positions.
       as keys. While simplifying the matroid, all except one element in a
@@ -393,7 +393,7 @@ def slp(M1, pos_dict=None, B=None):
 
     1. Simple matroid corresponding to ``M1``.
     2. Loops of matroid ``M1``.
-    3. Elements that are in `M1.groundset()` but not in ground set of 1 or
+    3. Elements that are in `M1.groundset()` but not in groundset of 1 or
        in 2
 
     EXAMPLES::
@@ -460,7 +460,7 @@ def addlp(M, M1, L, P, ptsdict, G=None, limits=None):
 
     INPUT:
 
-    - ``M`` -- A matroid.
+    - ``M`` -- matroid
     - ``M1`` -- A simple matroid corresponding to ``M``.
     - ``L`` -- List of elements in ``M.groundset()`` that are loops of matroid
       ``M``.
@@ -568,9 +568,9 @@ def line_hasorder(l, lodrs=None):
 
     INPUT:
 
-    - ``l`` -- A line specified as a list of ground set elements.
+    - ``l`` -- A line specified as a list of groundset elements.
     - ``lordrs`` -- (optional) A list of lists each specifying an order on
-      a subset of ground set elements that may or may not correspond to a
+      a subset of groundset elements that may or may not correspond to a
       line in geometric representation.
 
     OUTPUT:
@@ -607,19 +607,19 @@ def line_hasorder(l, lodrs=None):
 
 def lineorders_union(lineorders1, lineorders2):
     """
-    Return a list of ordered lists of ground set elements that corresponds to
-    union of two sets of ordered lists of ground set elements in a sense.
+    Return a list of ordered lists of groundset elements that corresponds to
+    union of two sets of ordered lists of groundset elements in a sense.
 
     INPUT:
 
     - ``lineorders1`` -- A list of ordered lists specifying orders on subsets
-      of ground set.
+      of groundset.
     - ``lineorders2`` -- A list of ordered lists specifying orders subsets of
-      ground set.
+      groundset.
 
     OUTPUT:
 
-    A list of ordered lists of ground set elements that are (setwise) in only
+    A list of ordered lists of groundset elements that are (setwise) in only
     one of ``lineorders1`` or ``lineorders2`` along with the ones in
     lineorder2 that are setwise equal to any list in lineorders1.
 
@@ -652,8 +652,8 @@ def posdict_is_sane(M1, pos_dict):
 
     INPUT:
 
-    - ``M1`` -- A matroid.
-    - ``posdict`` -- A dictionary mapping ground set elements to (x,y)
+    - ``M1`` -- matroid
+    - ``posdict`` -- A dictionary mapping groundset elements to (x,y)
       positions.
 
     OUTPUT:
@@ -737,7 +737,7 @@ def geomrep(M1, B1=None, lineorders1=None, pd=None, sp=False):
 
     INPUT:
 
-    - ``M1`` -- A matroid.
+    - ``M1`` -- matroid
     - ``B1`` -- (optional) A list of elements in ``M1.groundset()`` that
       correspond to a basis of ``M1`` and will be placed as vertices of the
       triangle in the geometric representation of ``M1``.
@@ -745,7 +745,7 @@ def geomrep(M1, B1=None, lineorders1=None, pd=None, sp=False):
       ``M1.groundset()`` such that if a line in geometric representation is
       setwise same as any of these then points contained will be traversed in
       that order thus overriding internal order deciding heuristic.
-    - ``pd`` - (optional) A dictionary mapping ground set elements to their
+    - ``pd`` - (optional) A dictionary mapping groundset elements to their
       (x,y) positions.
     - ``sp`` -- (optional) If True, a positioning dictionary and line orders
       will be placed in ``M._cached_info``.

@@ -89,11 +89,7 @@ EXAMPLES::
 
 AUTHORS:
 
-- Rudi Pendavingh, Michael Welsh, Stefan van Zwam (2013-04-01): initial
-  version
-
-Functions
-=========
+- Rudi Pendavingh, Michael Welsh, Stefan van Zwam (2013-04-01): initial version
 """
 
 # ****************************************************************************
@@ -376,7 +372,7 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: Matroid(G)                                                            # needs sage.graphs
             Graphic matroid of rank 9 on 15 elements
 
-        If each edge has a unique label, then those are used as the ground set
+        If each edge has a unique label, then those are used as the groundset
         labels::
 
             sage: G = Graph([(0, 1, 'a'), (0, 2, 'b'), (1, 2, 'c')])                    # needs sage.graphs
@@ -384,7 +380,7 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: sorted(M.groundset())                                                 # needs sage.graphs
             ['a', 'b', 'c']
 
-        If there are parallel edges, then integers are used for the ground set.
+        If there are parallel edges, then integers are used for the groundset.
         If there are no edges in parallel, and is not a complete list of
         labels, or the labels are not unique, then vertex tuples are used::
 
@@ -502,7 +498,7 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: Matroid([0, 1, 2], [[1, 0, 1], [0, 1, 1]])
             Traceback (most recent call last):
             ...
-            ValueError: basis has wrong cardinality.
+            ValueError: basis has wrong cardinality
 
         If the groundset size equals number of rows plus number of columns, an
         identity matrix is prepended. Otherwise the groundset size must equal

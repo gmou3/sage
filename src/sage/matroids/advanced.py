@@ -1,5 +1,5 @@
 r"""
-Advanced matroid functionality.
+Advanced matroid functionality
 
 This module collects a number of advanced functions which are not directly
 available to the end user by default. To import them into the main namespace,

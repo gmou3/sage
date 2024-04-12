@@ -21,7 +21,6 @@ AUTHORS:
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
 
-
 def AllMatroids(n, r=None, type="all"):
     r"""
     Return an iterator over all matroids of certain number of elements (and,
@@ -40,8 +39,6 @@ def AllMatroids(n, r=None, type="all"):
         specified; available: (n=7-11, r=3), (n=7-9, r=4)
       * any other type for which there exists an ``is_type`` method;
         availability same as for ``'all'``
-
-    OUTPUT: an iterator over matroids
 
     EXAMPLES::
 
@@ -224,7 +221,6 @@ def AllMatroids(n, r=None, type="all"):
                         yield M
                         cnt += 1
 
-
 def OxleyMatroids():
     """
     Return an iterator over Oxley's matroid collection.
@@ -273,7 +269,6 @@ def OxleyMatroids():
            PG23]  # 13
     for M in lst:
         yield M()
-
 
 def BrettellMatroids():
     """

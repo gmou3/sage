@@ -165,7 +165,7 @@ class RankMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
         OUTPUT: ``True`` if ``self`` and ``other have the same groundset and
         the same rank function; ``False`` otherwise.
@@ -206,7 +206,7 @@ class RankMatroid(Matroid):
 
         INPUT:
 
-        - ``other`` -- A matroid.
+        - ``other`` -- matroid
 
         OUTPUT: ``False`` if ``self`` and ``other have the same groundset and
         the same rank function; ``True`` otherwise.

@@ -531,8 +531,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -561,8 +561,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -620,8 +620,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -646,8 +646,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: an integer
 
@@ -665,8 +665,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -695,8 +695,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT:
 
@@ -754,8 +754,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -783,9 +783,9 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
-        - ``Y`` -- An object with Python's ``frozenset`` interface containing
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
+        - ``Y`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``, and disjoint from ``X``.
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
@@ -818,8 +818,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -839,8 +839,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         .. WARNING::
 
@@ -872,8 +872,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -904,8 +904,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -933,8 +933,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -954,8 +954,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -982,8 +982,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -1014,8 +1014,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
 
         OUTPUT: boolean
 
@@ -1057,7 +1057,7 @@ cdef class Matroid(SageObject):
             - ``deletions`` is coindependent
             - ``contractions`` and ``deletions`` are disjoint.
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -1168,7 +1168,7 @@ cdef class Matroid(SageObject):
         - ``hyperplanes`` -- the set of hyperplanes of a linear subclass of
           ``self``.
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -2278,7 +2278,7 @@ cdef class Matroid(SageObject):
         """
         Return the circuits of the matroid.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -2350,7 +2350,7 @@ cdef class Matroid(SageObject):
         A *nonspanning circuit* is a circuit whose rank is strictly smaller
         than the rank of the matroid.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -2402,7 +2402,7 @@ cdef class Matroid(SageObject):
         """
         Return the cocircuits of the matroid.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -2449,7 +2449,7 @@ cdef class Matroid(SageObject):
         A *noncospanning cocircuit* is a cocircuit whose corank is strictly
         smaller than the corank of the matroid.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -2538,7 +2538,7 @@ cdef class Matroid(SageObject):
         A *nonbasis* is a set with cardinality ``self.full_rank()`` that is
         not a basis.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -2652,7 +2652,7 @@ cdef class Matroid(SageObject):
 
         A *basis* is a maximal independent set.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -2919,7 +2919,7 @@ cdef class Matroid(SageObject):
 
         - ``r`` -- A natural number.
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -2945,7 +2945,7 @@ cdef class Matroid(SageObject):
 
         - ``r`` -- a nonnegative integer
 
-        OUTPUT: a :class:`SetSystem`
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -3091,7 +3091,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         EXAMPLES::
 
@@ -3131,7 +3131,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         OUTPUT: a list of frozensets
 
@@ -3219,7 +3219,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         EXAMPLES::
 
@@ -3248,12 +3248,12 @@ cdef class Matroid(SageObject):
         if self.loops():
             return
 
-            if ordering is None:
-                rev_order = sorted(self.groundset(), key=cmp_elements_key, reverse=True)
-            else:
-                if frozenset(ordering) != self.groundset():
-                    raise ValueError("not an ordering of the groundset")
-                rev_order = list(reversed(ordering))
+        if ordering is None:
+            rev_order = sorted(self.groundset(), key=cmp_elements_key, reverse=True)
+        else:
+            if frozenset(ordering) != self.groundset():
+                raise ValueError("not an ordering of the groundset")
+            rev_order = list(reversed(ordering))
 
         Tmax = len(rev_order)
         reverse_dict = {value: key for key, value in enumerate(rev_order)}
@@ -3449,7 +3449,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``certificate`` -- boolean (default: ``False``)
 
         OUTPUT: boolean, and, if ``certificate=True``, a dictionary or
@@ -3489,7 +3489,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``certificate`` -- boolean (default: ``False``)
 
         OUTPUT: boolean, and, if ``certificate=True``, a dictionary giving the
@@ -3530,7 +3530,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
 
         OUTPUT: a dictionary, or ``None``
 
@@ -3564,7 +3564,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
 
         OUTPUT: a dictionary, or ``None``
 
@@ -3597,7 +3597,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
 
         OUTPUT: boolean
 
@@ -3681,7 +3681,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``morphism`` -- a map; can be, for instance, a dictionary, function,
           or permutation
 
@@ -3818,7 +3818,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid
+        - ``other`` -- matroid
         - ``morphism`` -- a dictionary mapping the groundset of ``self`` to
           the groundset of ``other``.
 
@@ -3945,7 +3945,7 @@ cdef class Matroid(SageObject):
         - ``deletions`` -- (default: ``None``) an element or set of elements
           to be deleted
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         .. NOTE::
 
@@ -4233,7 +4233,7 @@ cdef class Matroid(SageObject):
         can be obtained by adding an element freely to the span of the matroid
         and then contracting that element.
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         .. SEEALSO::
 
@@ -4432,7 +4432,7 @@ cdef class Matroid(SageObject):
           each of these. If not specified, the element is assumed to be in the
           span of the full groundset.
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         .. NOTE::
 
@@ -4509,7 +4509,7 @@ cdef class Matroid(SageObject):
           of each of these. If not specified, the element is assumed to be in
           the cospan of the full groundset.
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         .. SEEALSO::
 
@@ -4838,7 +4838,7 @@ cdef class Matroid(SageObject):
         parallel class (a closed set of rank 1, that is, each pair in it forms
         a circuit of length 2).
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         .. SEEALSO::
 
@@ -4874,7 +4874,7 @@ cdef class Matroid(SageObject):
         element from each series class (a coclosed set of rank 1, that is,
         each pair in it forms a cocircuit of length 2).
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         .. SEEALSO::
 
@@ -5252,7 +5252,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``k`` -- an integer greater or equal to 1
+        - ``k`` -- integer greater or equal to 1
         - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is k-connected,
           and ``False, X`` otherwise, where ``X`` is a `<k`-separation
@@ -7358,7 +7358,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid with the same groundset as ``self``
+        - ``other`` -- matroid with the same groundset as ``self``
         - ``weights`` -- a dictionary specifying a weight for each element of
           the common groundset ``E``
         - ``Y`` -- an extremal common independent set of ``self`` and
@@ -7517,8 +7517,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``other`` -- a matroid with the same groundset as ``self``
-        - ``Y`` -- an common independent set of ``self`` and ``other`` of size `k`
+        - ``other`` -- matroid with the same groundset as ``self``
+        - ``Y`` -- common independent set of ``self`` and ``other`` of size `k`
 
         OUTPUT:
 
@@ -8134,7 +8134,7 @@ cdef class Matroid(SageObject):
           lists specify groundset elements in a certain order which will be
           used to draw the corresponding line in geometric representation (if
           it exists).
-        - ``pos_method`` -- an integer specifying the positioning method
+        - ``pos_method`` -- integer specifying the positioning method
             - ``0``: default positioning
             - ``1``: use pos_dict if it is not ``None``
             - ``2``: Force directed (Not yet implemented).
@@ -8225,7 +8225,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``ordering`` -- a total ordering of the groundset given as a list
+        - ``ordering`` -- list (optional); a total ordering of the groundset
 
         OUTPUT: a simplicial complex of the NBC sets under inclusion
 
@@ -8548,7 +8548,7 @@ cdef class Matroid(SageObject):
         - ``mapping`` -- a python object such that ``mapping[e]`` is the new
           label of ``e``
 
-        OUTPUT: a matroid
+        OUTPUT: matroid
 
         EXAMPLES::
 
@@ -8584,3 +8584,97 @@ cdef class Matroid(SageObject):
 
         M = RankMatroid(groundset=E, rank_function=f_relabel)
         return M
+
+    # printing
+
+    cpdef print_bases(self) noexcept:
+        r"""
+        Return the bases of the matroid.
+
+        OUTPUT: a list of lists (ordered)
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: M.print_bases()
+            [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
+        """
+        return self._subset_sort(self.bases())
+
+    cpdef print_circuits(self, k=None) noexcept:
+        """
+        Return the list of circuits of the matroid.
+
+        OUTPUT: a list of lists (ordered)
+
+        EXAMPLES::
+
+            sage: M = matroids.Theta(4)
+            sage: M.print_circuits()
+            [['x0', 'x1', 'x2'],
+            ['x0', 'x1', 'x3'],
+            ['x0', 'x2', 'x3'],
+            ['x1', 'x2', 'x3'],
+            ['x0', 'y1', 'y2', 'y3'],
+            ['x1', 'y0', 'y2', 'y3'],
+            ['x2', 'y0', 'y1', 'y3'],
+            ['x3', 'y0', 'y1', 'y2'],
+            ['x0', 'x1', 'y0', 'y1', 'y2'],
+            ['x0', 'x1', 'y0', 'y1', 'y3'],
+            ['x0', 'x2', 'y0', 'y1', 'y2'],
+            ['x0', 'x2', 'y0', 'y2', 'y3'],
+            ['x0', 'x3', 'y0', 'y1', 'y3'],
+            ['x0', 'x3', 'y0', 'y2', 'y3'],
+            ['x1', 'x2', 'y0', 'y1', 'y2'],
+            ['x1', 'x2', 'y1', 'y2', 'y3'],
+            ['x1', 'x3', 'y0', 'y1', 'y3'],
+            ['x1', 'x3', 'y1', 'y2', 'y3'],
+            ['x2', 'x3', 'y0', 'y2', 'y3'],
+            ['x2', 'x3', 'y1', 'y2', 'y3']]
+
+        .. SEEALSO::
+
+            :meth:`Matroid.circuit() <sage.matroids.matroid.Matroid.circuit>`,
+            :meth:`Matroid.closure() <sage.matroids.matroid.Matroid.closure>`
+        """
+        if k:
+            return self._subset_sort(self.circuits(k))
+        else:
+            return self._subset_sort(self.circuits())
+
+    cpdef print_nonspanning_circuits(self) noexcept:
+        """
+        Return the list of nonspanning circuits of the matroid.
+
+        OUTPUT: a list of lists (ordered)
+        """
+        return self._subset_sort(self.nonspanning_circuits())
+
+    cpdef _subset_sort(self, subsets) noexcept:
+        from functools import cmp_to_key
+        SS = []
+        for S in subsets:
+            try:
+                SS += [sorted(S)]
+            except TypeError:
+                SS += [sorted(S, str)]
+        return sorted(SS, key=cmp_to_key(self._subset_cmp))
+
+    cpdef _subset_cmp(self, A, B) noexcept:
+        if len(A) > len(B):
+            return 1
+        elif len(A) < len(B):
+            return -1
+        for i in range(len(A)):
+            try:
+                if A[i] > B[i]:
+                    return 1
+                elif A[i] < B[i]:
+                    return -1
+            except AttributeError:
+                if str(A[i]) > str(B[i]):
+                    return 1
+                elif str(A[i]) < str(B[i]):
+                    return -1
+        return 0
