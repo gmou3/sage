@@ -28,8 +28,8 @@ cdef class CircuitsMatroid(Matroid):
     cpdef is_paving(self)
 
     # isomorphism and relabeling
-    cpdef _is_isomorphic(self, other, certificate=*) noexcept
-    cpdef relabel(self, f) noexcept
+    cpdef _is_isomorphic(self, other, certificate=*)
+    cpdef relabel(self, mapping)
 
     # verification
     cpdef is_valid(self)

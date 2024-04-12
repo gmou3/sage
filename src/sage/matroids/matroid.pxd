@@ -135,14 +135,14 @@ cdef class Matroid(SageObject):
     cpdef independence_matroid_polytope(self)
 
     # isomorphism
-    cpdef is_isomorphic(self, other, certificate=*) noexcept
-    cpdef _is_isomorphic(self, other, certificate=*) noexcept
-    cpdef isomorphism(self, other) noexcept
-    cpdef _isomorphism(self, other) noexcept
-    cpdef equals(self, other) noexcept
-    cpdef is_isomorphism(self, other, morphism) noexcept
-    cpdef _is_isomorphism(self, other, morphism) noexcept
-    cpdef _relabel_map(self, f) noexcept
+    cpdef is_isomorphic(self, other, certificate=*)
+    cpdef _is_isomorphic(self, other, certificate=*)
+    cpdef isomorphism(self, other)
+    cpdef _isomorphism(self, other)
+    cpdef equals(self, other)
+    cpdef is_isomorphism(self, other, morphism)
+    cpdef _is_isomorphism(self, other, morphism)
+    cpdef _relabel_map(self, mapping)
 
     # minors, dual, truncation
     cpdef minor(self, contractions=*, deletions=*)

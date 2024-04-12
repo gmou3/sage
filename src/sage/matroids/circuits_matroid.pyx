@@ -269,9 +269,9 @@ cdef class CircuitsMatroid(Matroid):
             NonDesargues: Matroid of rank 3 on 10 elements with 9 nonspanning circuits
         """
         if self._nsc_defined:
-            return Matroid._repr_(self) + " with " + str(len(self.nonspanning_circuits())) + " nonspanning circuits"
+            return f'{Matroid._repr_(self)} with {len(self.nonspanning_circuits())} nonspanning circuits'
         else:
-            return Matroid._repr_(self) + " with " + str(len(self._C)) + " circuits"
+            return f'{Matroid._repr_(self)} with {len(self._C)} circuits'
 
     # comparison
 
@@ -413,17 +413,18 @@ cdef class CircuitsMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_circuits_matroid, (version, data)
 
-    cpdef relabel(self, f) noexcept:
+    cpdef relabel(self, mapping):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``f[e]``,
-        where ``f`` is a given injective map. If ``e not in f`` then the
-        identity map is assumed.
+        The output is obtained by relabeling each element ``e`` by
+        ``mapping[e]``, where ``mapping`` is a given injective map. If
+        ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+        - ``mapping`` -- a python object such that ``mapping[e]`` is the new
+          label of ``e``
 
         OUTPUT: a matroid
 
@@ -433,8 +434,9 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = CircuitsMatroid(matroids.catalog.RelaxedNonFano())
             sage: sorted(M.groundset())
             [0, 1, 2, 3, 4, 5, 6]
-            sage: N = M.relabel({'g':'x', 0:'z'}) # 'g':'x' is ignored
-            sage: sorted(N.groundset(), key=str)
+            sage: N = M.relabel({'g': 'x', 0: 'z'})  # 'g': 'x' is ignored
+            sage: from sage.matroids.utilities import cmp_elements_key
+            sage: sorted(N.groundset(), key=cmp_elements_key)
             [1, 2, 3, 4, 5, 6, 'z']
             sage: M.is_isomorphic(N)
             True
@@ -448,11 +450,11 @@ cdef class CircuitsMatroid(Matroid):
             sage: for S in powerset(M.groundset()):
             ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
-        d = self._relabel_map(f)
+        d = self._relabel_map(mapping)
         E = [d[x] for x in self._groundset]
         C = []
         for i in self._k_C:
-            C += [[d[y] for y in list(x)] for x in self._k_C[i]]
+            C += [[d[y] for y in x] for x in self._k_C[i]]
         M = CircuitsMatroid(groundset=E, circuits=C)
         return M
 

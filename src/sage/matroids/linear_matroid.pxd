@@ -27,8 +27,8 @@ cdef class LinearMatroid(BasisExchangeMatroid):
     cpdef is_field_equivalent(self, other)
     cpdef is_field_isomorphism(self, other, morphism)
     # cpdef is_field_isomorphic(self, other)  # TODO: currently only works as ``def``
-    cpdef _fast_isom_test(self, other) noexcept
-    cpdef relabel(self, f) noexcept
+    cpdef _fast_isom_test(self, other)
+    cpdef relabel(self, mapping)
 
     cpdef _minor(self, contractions, deletions)
     cpdef dual(self)
@@ -81,15 +81,15 @@ cdef class BinaryMatroid(LinearMatroid):
 
     cpdef _minor(self, contractions, deletions)
 
-    cpdef _make_invariant(self) noexcept
-    cpdef _invariant(self) noexcept
-    cpdef bicycle_dimension(self) noexcept
-    cpdef brown_invariant(self) noexcept
-    cpdef _principal_tripartition(self) noexcept
-    cpdef BinaryMatrix _projection(self) noexcept
-    cpdef BinaryMatrix _projection_partition(self) noexcept
-    cpdef _fast_isom_test(self, other) noexcept
-    cpdef relabel(self, f) noexcept
+    cpdef _make_invariant(self)
+    cpdef _invariant(self)
+    cpdef bicycle_dimension(self)
+    cpdef brown_invariant(self)
+    cpdef _principal_tripartition(self)
+    cpdef BinaryMatrix _projection(self)
+    cpdef BinaryMatrix _projection_partition(self)
+    cpdef _fast_isom_test(self, other)
+    cpdef relabel(self, mapping)
 
     cpdef is_graphic(self)
     cpdef is_valid(self)
@@ -113,14 +113,14 @@ cdef class TernaryMatroid(LinearMatroid):
 
     cpdef _minor(self, contractions, deletions)
 
-    cpdef _make_invariant(self) noexcept
-    cpdef _invariant(self) noexcept
-    cpdef bicycle_dimension(self) noexcept
-    cpdef character(self) noexcept
-    cpdef _principal_quadripartition(self) noexcept
-    cpdef TernaryMatrix _projection(self) noexcept
-    cpdef _fast_isom_test(self, other) noexcept
-    cpdef relabel(self, f) noexcept
+    cpdef _make_invariant(self)
+    cpdef _invariant(self)
+    cpdef bicycle_dimension(self)
+    cpdef character(self)
+    cpdef _principal_quadripartition(self)
+    cpdef TernaryMatrix _projection(self)
+    cpdef _fast_isom_test(self, other)
+    cpdef relabel(self, mapping)
 
     cpdef is_valid(self)
 
@@ -142,12 +142,12 @@ cdef class QuaternaryMatroid(LinearMatroid):
 
     cpdef _minor(self, contractions, deletions)
 
-    cpdef _make_invariant(self) noexcept
-    cpdef _invariant(self) noexcept
-    cpdef bicycle_dimension(self) noexcept
-    cpdef _principal_tripartition(self) noexcept
-    cpdef _fast_isom_test(self, other) noexcept
-    cpdef relabel(self, f) noexcept
+    cpdef _make_invariant(self)
+    cpdef _invariant(self)
+    cpdef bicycle_dimension(self)
+    cpdef _principal_tripartition(self)
+    cpdef _fast_isom_test(self, other)
+    cpdef relabel(self, mapping)
 
     cpdef is_valid(self)
 
@@ -161,9 +161,9 @@ cdef class RegularMatroid(LinearMatroid):
 
     cpdef _is_isomorphic(self, other, certificate=*)
 
-    cpdef _invariant(self) noexcept
-    cpdef _fast_isom_test(self, other) noexcept
-    cpdef relabel(self, f) noexcept
+    cpdef _invariant(self)
+    cpdef _fast_isom_test(self, other)
+    cpdef relabel(self, mapping)
 
     cpdef bases_count(self)
     cpdef _projection(self)
