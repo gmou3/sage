@@ -76,9 +76,9 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef dependent_r_sets(self, long r)
     cpdef nonbases(self)
 
-    cpdef nonspanning_circuits(self) noexcept
-    cpdef cocircuits(self) noexcept
-    cpdef circuits(self, k=*) noexcept
+    cpdef nonspanning_circuits(self)
+    cpdef cocircuits(self)
+    cpdef circuits(self, k=*)
 
     cpdef _characteristic_setsystem(self)
     cpdef _weak_invariant(self)

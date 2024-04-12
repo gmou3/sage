@@ -15,12 +15,12 @@ cdef class CircuitsMatroid(Matroid):
     cpdef _circuit(self, F)
 
     # enumeration
-    cpdef bases(self) noexcept
-    cpdef circuits(self, k=*) noexcept
-    cpdef nonspanning_circuits(self) noexcept
-    cpdef no_broken_circuits_facets(self, ordering=*, reduced=*) noexcept
-    cpdef no_broken_circuits_sets(self, ordering=*, reduced=*) noexcept
-    cpdef broken_circuit_complex(self, ordering=*, reduced=*) noexcept
+    cpdef bases(self)
+    cpdef circuits(self, k=*)
+    cpdef nonspanning_circuits(self)
+    cpdef no_broken_circuits_facets(self, ordering=*, reduced=*)
+    cpdef no_broken_circuits_sets(self, ordering=*, reduced=*)
+    cpdef broken_circuit_complex(self, ordering=*, reduced=*)
 
 
     # properties

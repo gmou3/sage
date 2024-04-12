@@ -617,7 +617,7 @@ cdef class CircuitsMatroid(Matroid):
                 for C in self._k_C[i]:
                     yield C
 
-    cpdef no_broken_circuits_facets(self, ordering=None, reduced=False) noexcept:
+    cpdef no_broken_circuits_facets(self, ordering=None, reduced=False):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
@@ -694,7 +694,7 @@ cdef class CircuitsMatroid(Matroid):
 
         return F
 
-    cpdef no_broken_circuits_sets(self, ordering=None, reduced=False) noexcept:
+    cpdef no_broken_circuits_sets(self, ordering=None, reduced=False):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
@@ -744,7 +744,7 @@ cdef class CircuitsMatroid(Matroid):
         from sage.topology.simplicial_complex import SimplicialComplex
         return [frozenset(f) for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced)).face_iterator()]
 
-    cpdef broken_circuit_complex(self, ordering=None, reduced=False) noexcept:
+    cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""
         Return the broken circuit complex of ``self``.
 

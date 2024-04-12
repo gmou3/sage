@@ -108,27 +108,27 @@ cdef class Matroid(SageObject):
     cpdef is_valid(self)
 
     # enumeration
-    cpdef circuits(self, k=*) noexcept
-    cpdef nonspanning_circuits(self) noexcept
-    cpdef cocircuits(self) noexcept
-    cpdef noncospanning_cocircuits(self) noexcept
-    cpdef circuit_closures(self) noexcept
-    cpdef nonspanning_circuit_closures(self) noexcept
-    cpdef bases(self) noexcept
-    cpdef independent_sets(self) noexcept
-    cpdef independent_r_sets(self, long r) noexcept
-    cpdef nonbases(self) noexcept
-    cpdef dependent_r_sets(self, long r) noexcept
-    cpdef _extend_flags(self, flags) noexcept
-    cpdef _flags(self, r) noexcept
-    cpdef flats(self, r) noexcept
-    cpdef coflats(self, r) noexcept
-    cpdef hyperplanes(self) noexcept
-    cpdef f_vector(self) noexcept
-    cpdef whitney_numbers(self) noexcept
-    cpdef whitney_numbers2(self) noexcept
-    cpdef broken_circuits(self, ordering=*) noexcept
-    cpdef no_broken_circuits_sets(self, ordering=*) noexcept
+    cpdef circuits(self, k=*)
+    cpdef nonspanning_circuits(self)
+    cpdef cocircuits(self)
+    cpdef noncospanning_cocircuits(self)
+    cpdef circuit_closures(self)
+    cpdef nonspanning_circuit_closures(self)
+    cpdef bases(self)
+    cpdef independent_sets(self)
+    cpdef independent_r_sets(self, long r)
+    cpdef nonbases(self)
+    cpdef dependent_r_sets(self, long r)
+    cpdef _extend_flags(self, flags)
+    cpdef _flags(self, r)
+    cpdef flats(self, r)
+    cpdef coflats(self, r)
+    cpdef hyperplanes(self)
+    cpdef f_vector(self)
+    cpdef whitney_numbers(self)
+    cpdef whitney_numbers2(self)
+    cpdef broken_circuits(self, ordering=*)
+    cpdef no_broken_circuits_sets(self, ordering=*)
 
     # polytopes
     cpdef matroid_polytope(self)
@@ -228,10 +228,10 @@ cdef class Matroid(SageObject):
     cpdef flat_cover(self, solver=*, verbose=*, integrality_tolerance=*)
 
     # misc
-    cpdef automorphism_group(self) noexcept
-    cpdef bergman_complex(self) noexcept
-    cpdef augmented_bergman_complex(self) noexcept
-    cpdef broken_circuit_complex(self, ordering=*, reduced=*) noexcept
+    cpdef automorphism_group(self)
+    cpdef bergman_complex(self)
+    cpdef augmented_bergman_complex(self)
+    cpdef broken_circuit_complex(self, ordering=*, reduced=*)
 
     # visualization
     cpdef plot(self,B=*,lineorders=*,pos_method=*,pos_dict=*,save_pos=*)
@@ -242,8 +242,8 @@ cdef class Matroid(SageObject):
     cpdef direct_sum(self, matroids)
 
     # printing
-    cpdef print_bases(self) noexcept
-    cpdef print_circuits(self, k=*) noexcept
-    cpdef print_nonspanning_circuits(self) noexcept
-    cpdef _subset_sort(self, subsets) noexcept
-    cpdef _subset_cmp(self, A, B) noexcept
+    cpdef print_bases(self)
+    cpdef print_circuits(self, k=*)
+    cpdef print_nonspanning_circuits(self)
+    cpdef _subset_sort(self, subsets)
+    cpdef _subset_cmp(self, A, B)

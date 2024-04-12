@@ -85,7 +85,7 @@ cdef class FlatsMatroid(Matroid):
                         self._F[i].add(frozenset(F))
         self._matroid_rank = max([0] + list(self._F))
 
-    cpdef groundset(self) noexcept:
+    cpdef groundset(self):
         """
         Return the groundset of the matroid.
 
@@ -102,7 +102,7 @@ cdef class FlatsMatroid(Matroid):
         """
         return self._groundset
 
-    cpdef _rank(self, X) noexcept:
+    cpdef _rank(self, X):
         """
         Return the rank of a set ``X``.
 
@@ -138,7 +138,7 @@ cdef class FlatsMatroid(Matroid):
 
     # optional
 
-    cpdef full_rank(self) noexcept:
+    cpdef full_rank(self):
         r"""
         Return the rank of the matroid.
 
@@ -156,7 +156,7 @@ cdef class FlatsMatroid(Matroid):
         """
         return self._matroid_rank
 
-    cpdef _is_isomorphic(self, other, certificate=False) noexcept:
+    cpdef _is_isomorphic(self, other, certificate=False):
         """
         Test if ``self`` is isomorphic to ``other``.
 
@@ -395,7 +395,7 @@ cdef class FlatsMatroid(Matroid):
 
     # enumeration
 
-    cpdef flats(self, k) noexcept:
+    cpdef flats(self, k):
         r"""
         Return the flats of the matroid of specified rank.
 
@@ -440,7 +440,7 @@ cdef class FlatsMatroid(Matroid):
             for F in self._F[k]:
                 yield F
 
-    cpdef whitney_numbers2(self) noexcept:
+    cpdef whitney_numbers2(self):
         r"""
         Return the Whitney numbers of the second kind of the matroid.
 
@@ -471,7 +471,7 @@ cdef class FlatsMatroid(Matroid):
 
     # verification
 
-    cpdef is_valid(self) noexcept:
+    cpdef is_valid(self):
         r"""
         Test if ``self`` obeys the matroid axioms.
 

@@ -1858,7 +1858,7 @@ cdef class BasisExchangeMatroid(Matroid):
         NSC.resize()
         return NSC
 
-    cpdef circuits(self, k=None) noexcept:
+    cpdef circuits(self, k=None):
         """
         Return the list of circuits of the matroid.
 

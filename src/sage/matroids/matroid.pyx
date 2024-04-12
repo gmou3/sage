@@ -2274,7 +2274,7 @@ cdef class Matroid(SageObject):
 
     # enumeration
 
-    cpdef circuits(self, k=None) noexcept:
+    cpdef circuits(self, k=None):
         """
         Return the circuits of the matroid.
 
@@ -2442,7 +2442,7 @@ cdef class Matroid(SageObject):
             C.update([self._cocircuit(self.groundset().difference(B).union(set([e]))) for e in B])
         return list(C)
 
-    cpdef noncospanning_cocircuits(self) noexcept:
+    cpdef noncospanning_cocircuits(self):
         """
         Return the noncospanning cocircuits of the matroid.
 
@@ -8215,7 +8215,7 @@ cdef class Matroid(SageObject):
                 self._cached_info = {'plot_positions': pos_dict, 'lineorders': lineorders}
         return
 
-    cpdef broken_circuit_complex(self, ordering=None, reduced=False) noexcept:
+    cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""
         Return the broken circuit complex of ``self``.
 
