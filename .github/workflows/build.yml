@@ -45,7 +45,7 @@ jobs:
           if git format-patch --stdout test_base > ci_fixes.patch; then
             cp ci_fixes.patch upstream/
           fi
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: upstream
           name: upstream
@@ -74,7 +74,7 @@ jobs:
           .ci/retrofit-worktree.sh worktree-image /sage
 
       - name: Download upstream artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: upstream
           name: upstream
@@ -106,7 +106,7 @@ jobs:
 
       - name: Static code check with pyright
         if: (success() || failure()) && steps.worktree.outcome == 'success'
-        uses: jakebailey/pyright-action@v1
+        uses: jakebailey/pyright-action@v2
         with:
           version: 1.1.332
           # Many warnings issued by pyright are not yet helpful because there is not yet enough type information.
@@ -115,10 +115,10 @@ jobs:
         env:
           # To avoid out of memory errors
           NODE_OPTIONS: --max-old-space-size=8192
-      
+
       - name: Static code check with pyright (annotated)
         if: (success() || failure()) && steps.worktree.outcome == 'success'
-        uses: jakebailey/pyright-action@v1
+        uses: jakebailey/pyright-action@v2
         with:
           version: 1.1.332
           # Issue errors
@@ -212,6 +212,6 @@ jobs:
 
       - name: Upload coverage to codecov
         if: (success() || failure()) && steps.build.outcome == 'success'
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           directory: ./worktree-image/coverage-report
