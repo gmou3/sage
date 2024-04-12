@@ -189,14 +189,14 @@ cdef class Matroid(SageObject):
     cpdef girth(self)
 
     # representability
-    cpdef _local_binary_matroid(self, basis=*) noexcept
-    cpdef binary_matroid(self, randomized_tests=*, verify=*) noexcept
-    cpdef is_binary(self, randomized_tests=*) noexcept
-    cpdef _local_ternary_matroid(self, basis=*) noexcept
-    cpdef ternary_matroid(self, randomized_tests=*, verify=*) noexcept
-    cpdef is_ternary(self, randomized_tests=*) noexcept
-    cpdef is_regular(self) noexcept
-    cpdef is_graphic(self) noexcept
+    cpdef _local_binary_matroid(self, basis=*)
+    cpdef binary_matroid(self, randomized_tests=*, verify=*)
+    cpdef is_binary(self, randomized_tests=*)
+    cpdef _local_ternary_matroid(self, basis=*)
+    cpdef ternary_matroid(self, randomized_tests=*, verify=*)
+    cpdef is_ternary(self, randomized_tests=*)
+    cpdef is_regular(self)
+    cpdef is_graphic(self)
 
     # matroid k-closed
     cpdef is_k_closed(self, int k)
