@@ -1,3 +1,4 @@
+# sage_setup: distribution = sagemath-modules
 r"""
 Circuit closures matroids
 
@@ -397,7 +398,8 @@ cdef class CircuitClosuresMatroid(Matroid):
                 SN.append(C)
         return SM._isomorphism(SN) is not None
 
-    # REPRESENTATION
+    # representation
+
     def _repr_(self):
         """
         Return a string representation of the matroid.
@@ -414,7 +416,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         """
         return Matroid._repr_(self) + " with circuit-closures\n" + setprint_s(self._circuit_closures)
 
-    # COMPARISON
+    # comparison
 
     def __hash__(self):
         r"""
@@ -474,52 +476,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             return rich_to_bool(op, 1)
         return richcmp(lt._circuit_closures, rt._circuit_closures, op)
 
-    # COPYING, LOADING, SAVING
-
-    def __copy__(self):
-        """
-        Create a shallow copy.
-
-        EXAMPLES::
-
-            sage: M = matroids.catalog.Vamos()
-            sage: N = copy(M)  # indirect doctest
-            sage: M == N
-            True
-            sage: M.groundset() is N.groundset()
-            True
-        """
-        N = CircuitClosuresMatroid(groundset=[], circuit_closures={})
-        N._groundset = self._groundset
-        N._circuit_closures = self._circuit_closures
-        N._matroid_rank = self._matroid_rank
-        N.rename(self.get_custom_name())
-        return N
-
-    def __deepcopy__(self, memo=None):
-        """
-        Create a deep copy.
-
-        .. NOTE::
-
-            Since matroids are immutable, a shallow copy normally suffices.
-
-        EXAMPLES::
-
-            sage: M = matroids.catalog.Vamos()
-            sage: N = deepcopy(M)  # indirect doctest
-            sage: M == N
-            True
-            sage: M.groundset() is N.groundset()
-            False
-        """
-        if memo is None:
-            memo = {}
-        from copy import deepcopy
-        # Since matroids are immutable, N cannot reference itself in correct code, so no need to worry about the recursion.
-        N = CircuitClosuresMatroid(groundset=deepcopy(self._groundset, memo), circuit_closures=deepcopy(self._circuit_closures, memo))
-        N.rename(deepcopy(self.get_custom_name(), memo))
-        return N
+    # copying, loading, saving
 
     def __reduce__(self):
         """
