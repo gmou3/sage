@@ -7,12 +7,12 @@ cdef class CircuitsMatroid(Matroid):
     cdef SetSystem _C  # circuits
     cdef dict _k_C  # k-circuits (k=len)
     cdef bint _nsc_defined
-    cpdef groundset(self) noexcept
-    cpdef _rank(self, X) noexcept
-    cpdef full_rank(self) noexcept
-    cpdef _is_independent(self, F) noexcept
-    cpdef _max_independent(self, F) noexcept
-    cpdef _circuit(self, F) noexcept
+    cpdef groundset(self)
+    cpdef _rank(self, X)
+    cpdef full_rank(self)
+    cpdef _is_independent(self, F)
+    cpdef _max_independent(self, F)
+    cpdef _circuit(self, F)
 
     # enumeration
     cpdef bases(self) noexcept
@@ -24,12 +24,12 @@ cdef class CircuitsMatroid(Matroid):
 
 
     # properties
-    cpdef girth(self) noexcept
-    cpdef is_paving(self) noexcept
+    cpdef girth(self)
+    cpdef is_paving(self)
 
     # isomorphism and relabeling
     cpdef _is_isomorphic(self, other, certificate=*) noexcept
     cpdef relabel(self, f) noexcept
 
     # verification
-    cpdef is_valid(self) noexcept
+    cpdef is_valid(self)
