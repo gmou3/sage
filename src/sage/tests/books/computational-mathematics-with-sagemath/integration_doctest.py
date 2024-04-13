@@ -11,7 +11,6 @@ document.
 Sage example in ./integration.tex, line 73::
 
   sage: x = var('x'); f(x) = exp(-x^2) * log(x)
-  sage: # long time
   sage: result = integrate(f, x, 1, 3)
   ...
   sage: N(result)  # abs tol 1e-14
@@ -45,7 +44,7 @@ Sage example in ./integration.tex, line 162::
 
 Sage example in ./integration.tex, line 522::
 
-  sage: N(integrate(cos(log(cos(x))), x, 0, pi/4))  # rel tol 2e-12, long time
+  sage: N(integrate(cos(log(cos(x))), x, 0, pi/4))  # rel tol 2e-12
   0.7766520331543109
 
 Sage example in ./integration.tex, line 536::
@@ -69,12 +68,12 @@ Sage example in ./integration.tex, line 600::
 
 Sage example in ./integration.tex, line 612::
 
-  sage: integrate(cos(log(cos(x))), x, 0, pi/4)  # long time
+  sage: integrate(cos(log(cos(x))), x, 0, pi/4)
   integrate(cos(log(cos(x))), x, 0, 1/4*pi)
 
 Sage example in ./integration.tex, line 622::
 
-  sage: N(integrate(cos(log(cos(x))), x, 0, pi/4), digits=60) # abs tol 2e-12, long time
+  sage: N(integrate(cos(log(cos(x))), x, 0, pi/4), digits=60) # abs tol 2e-12
   0.7766520331543109
 
 Sage example in ./integration.tex, line 628::
@@ -182,8 +181,8 @@ Sage example in ./integration.tex, line 979::
 
 Sage example in ./integration.tex, line 990::
 
-  sage: f = lambda y: numerical_integral(lambda x: exp(y*sin(x)),
-  ....:                                  0, sqrt(y))[0]
+  sage: f = lambda y: numerical_integral(lambda x: exp(y*sin(x)),  \
+                                         0, sqrt(y))[0]
   sage: f(0.0), f(0.5), f(1.0) # abs tol 2e-15
   (0.0, 0.8414895067661431, 1.6318696084180513)
 
@@ -194,16 +193,15 @@ Sage example in ./integration.tex, line 998::
 
 Sage example in ./integration.tex, line 1008::
 
-  sage: # long time
-  sage: f = lambda y: sage.calculus.calculus.nintegral(exp(y*sin(x)),
-  ....:                                                x, 0, sqrt(y))[0]
+  sage: f = lambda y: sage.calculus.calculus.nintegral(exp(y*sin(x)), \
+                                                       x, 0, sqrt(y))[0]
   sage: numerical_integral(f, 0, 1) # abs tol 2e-16
   (0.8606791942204567, 6.301207560882096e-07)
 
 Sage example in ./integration.tex, line 1016::
 
-  sage: f = lambda y: RDF(mpmath.quad(lambda x: mpmath.exp(y*mpmath.sin(x)),
-  ....:                               [0, sqrt(y)]))
+  sage: f = lambda y: RDF(mpmath.quad(lambda x: mpmath.exp(y*mpmath.sin(x)), \
+                                      [0, sqrt(y)]))
   sage: numerical_integral(f, 0, 1) # abs tol 2e-16
   (0.8606791942204567, 6.301207561187562e-07)
 

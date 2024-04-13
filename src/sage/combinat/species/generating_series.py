@@ -487,11 +487,10 @@ class CycleIndexSeries(LazySymmetricFunction):
         Let `G` be the species of nonempty graphs and  `CG` be the species of nonempty connected
         graphs. Then `G = E^{+} \circ CG`, so `CG = \Omega \circ G`::
 
-            sage: # needs sage.modules
-            sage: G = species.SimpleGraphSpecies().cycle_index_series() - 1
+            sage: G = species.SimpleGraphSpecies().cycle_index_series() - 1             # needs sage.modules
             sage: from sage.combinat.species.generating_series import LogarithmCycleIndexSeries
-            sage: CG = LogarithmCycleIndexSeries()(G)
-            sage: CG.isotype_generating_series()[0:8]  # long time
+            sage: CG = LogarithmCycleIndexSeries()(G)                                   # needs sage.modules
+            sage: CG.isotype_generating_series()[0:8]                                   # needs sage.modules
             [0, 1, 1, 2, 6, 21, 112, 853]
         """
         base_ring = self.parent().base_ring().base_ring()
@@ -558,7 +557,7 @@ class CycleIndexSeriesRing(LazySymmetricFunctions):
             sage: from sage.combinat.species.generating_series import CycleIndexSeriesRing
             sage: CycleIndexSeriesRing.options.halting_precision(12)
             sage: R = CycleIndexSeriesRing(QQ)                                          # needs sage.modules
-            sage: TestSuite(R).run()                                                    # needs sage.modules, long time
+            sage: TestSuite(R).run()                                                    # needs sage.modules
 
             sage: CycleIndexSeriesRing.options._reset()  # reset options
         """

@@ -1117,7 +1117,7 @@ class VermaModuleHomset(Homset):
             sage: v = H.singular_vector()
             sage: pbw = M.pbw_basis()
             sage: E = [pbw(e) for e in L.e()]
-            sage: all(e * v == M.zero() for e in E)  # long time
+            sage: all(e * v == M.zero() for e in E)
             True
 
         When `w \cdot \lambda \notin \lambda + Q^-`, there does not

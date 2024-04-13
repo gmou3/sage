@@ -162,7 +162,7 @@ table lookup!
 
 ::
 
-    sage: enumerate_totallyreal_fields_prim(5,10^5)  # long time
+    sage: enumerate_totallyreal_fields_prim(5,10^5)
     [[14641, x^5 - x^4 - 4*x^3 + 3*x^2 + 3*x - 1],
      [24217, x^5 - 5*x^3 - x^2 + 3*x + 1],
      [36497, x^5 - 2*x^4 - 3*x^3 + 5*x^2 + x - 1],

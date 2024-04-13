@@ -218,9 +218,9 @@ def ascii_art(*obj, **kwds):
 
     EXAMPLES::
 
-        sage: result = ascii_art(integral(exp(x+x^2)/(x+1), x))                         # long time, needs sage.symbolic
+        sage: result = ascii_art(integral(exp(x+x^2)/(x+1), x))                         # needs sage.symbolic
         ...
-        sage: result                                                                    # long time, needs sage.symbolic
+        sage: result                                                                    # needs sage.symbolic
             /
            |
            |   2

@@ -1158,7 +1158,7 @@ class CyclicCover_finite_field(cycliccover_generic.CyclicCover_generic):
             sage: R.<x> = PolynomialRing(K)
             sage: h = s*x^4 + x*3 + 8
             sage: C = CyclicCover(a, h)
-            sage: C.frobenius_polynomial()  # long time
+            sage: C.frobenius_polynomial()
             x^6 + 1563486*x^4 + 893980969482*x^2 + 186940255267540403
 
         Non-superelliptic curves::

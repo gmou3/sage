@@ -220,7 +220,7 @@ class PseudoConwayLattice(WithEqualityById, SageObject):
             x^3 + x + 1
             sage: PCL.polynomial(4)   # random
             x^4 + x^3 + 1
-            sage: PCL.polynomial(60)  # random, long time
+            sage: PCL.polynomial(60)  # random
             x^60 + x^59 + x^58 + x^55 + x^54 + x^53 + x^52 + x^51 + x^48 + x^46 + x^45 + x^42 + x^41 + x^39 + x^38 + x^37 + x^35 + x^32 + x^31 + x^30 + x^28 + x^24 + x^22 + x^21 + x^18 + x^17 + x^16 + x^15 + x^14 + x^10 + x^8 + x^7 + x^5 + x^3 + x^2 + x + 1
         """
         if n in self.nodes:

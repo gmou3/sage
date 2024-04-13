@@ -19,7 +19,7 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Get information about workflow origin
-        uses: potiuk/get-workflow-origin@v1_5
+        uses: potiuk/get-workflow-origin@v1_6
         id: source-run-info
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

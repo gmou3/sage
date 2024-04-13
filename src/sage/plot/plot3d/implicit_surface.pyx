@@ -1160,7 +1160,7 @@ cdef class ImplicitSurface(IndexFaceSet):
             sage: from sage.plot.plot3d.implicit_surface import ImplicitSurface
             sage: _ = var('x,y,z')
             sage: G = ImplicitSurface(x + y + z, (x,-1, 1), (y,-1, 1), (z,-1, 1))
-            sage: G.threejs_repr(G.default_render_params())  # long time
+            sage: G.threejs_repr(G.default_render_params())
             [('surface',
               {'color': '#6666ff',
                'faces': [[0, 1, 2],

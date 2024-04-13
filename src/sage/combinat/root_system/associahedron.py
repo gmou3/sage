@@ -121,9 +121,9 @@ def Associahedron(cartan_type, backend='ppl'):
         sage: p1 = polytopes.associahedron(['A',4], backend='normaliz')   # optional - pynormaliz
         sage: TestSuite(p1).run(skip='_test_pickling')                    # optional - pynormaliz
         sage: p2 = polytopes.associahedron(['A',4], backend='cdd')
-        sage: TestSuite(p2).run()  # long time
+        sage: TestSuite(p2).run()
         sage: p3 = polytopes.associahedron(['A',4], backend='field')
-        sage: TestSuite(p3).run()  # long time
+        sage: TestSuite(p3).run()
     """
     cartan_type = CartanType(cartan_type)
     parent = Associahedra(QQ, cartan_type.rank(), backend)

@@ -2884,7 +2884,7 @@ class RegularPartitionTuples_size(RegularPartitionTuples):
         EXAMPLES::
 
             sage: RPT = PartitionTuples(size=4, regular=3)
-            sage: TestSuite(RPT).run()                                                  # needs sage.libs.flint, long time
+            sage: TestSuite(RPT).run()                                                  # needs sage.libs.flint
         """
         if size not in NN:
             raise ValueError('size must be a non-negative integer')

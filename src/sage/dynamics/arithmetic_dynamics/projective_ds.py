@@ -6728,7 +6728,7 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
         ::
 
             sage: f = P.Lattes_map(EllipticCurve([0, 0, 0, 0, 2]),2)
-            sage: f.is_Lattes()  # long time
+            sage: f.is_Lattes()
             True
 
         ::

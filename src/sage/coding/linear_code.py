@@ -470,7 +470,6 @@ class AbstractLinearCode(AbstractLinearCodeNoMetric):
             sage: libgap.set_seed(0)                                                    # optional - sage.libs.gap
             0
             sage: C = codes.HammingCode(GF(4, 'z'), 3)
-            sage: # long time
             sage: C.automorphism_group_gens()
             ([((1, 1, 1, z, z + 1, 1, 1, 1, 1, z + 1, z, z, z + 1, z + 1,
                 z + 1, 1, z + 1, z, z, 1, z);
@@ -2090,8 +2089,8 @@ class AbstractLinearCode(AbstractLinearCodeNoMetric):
         EXAMPLES::
 
             sage: C = codes.GolayCode(GF(3))
-            sage: G = C.cosetGraph()  # long time
-            sage: G.is_distance_regular()  # long time
+            sage: G = C.cosetGraph()
+            sage: G.is_distance_regular()
             True
             sage: C = codes.KasamiCode(8,2)
             sage: G = C.cosetGraph()

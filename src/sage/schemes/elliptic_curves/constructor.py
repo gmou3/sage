@@ -1446,8 +1446,8 @@ def EllipticCurves_with_good_reduction_outside_S(S=[], proof=None, verbose=False
 
         sage: EllipticCurves_with_good_reduction_outside_S([])
         []
-        sage: # long time
-        sage: elist = EllipticCurves_with_good_reduction_outside_S([2]); elist
+        sage: elist = EllipticCurves_with_good_reduction_outside_S([2])
+        sage: elist
         [Elliptic Curve defined by y^2 = x^3 + 4*x over Rational Field,
          Elliptic Curve defined by y^2 = x^3 - x over Rational Field,
          ...

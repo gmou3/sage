@@ -289,7 +289,7 @@ notation as follows::
     sage: Lambda = L.fundamental_weights()
     sage: delta = L.null_root()
     sage: V = IntegrableRepresentation(Lambda[0])
-    sage: V.strings()  # long time
+    sage: V.strings()
     {Lambda[0]: [1, 2, 7, 14, 35, 66, 140, 252, 485, 840, 1512, 2534]}
     sage: V.to_weight((1,2,0,1,0))
     Lambda[0] - 3*Lambda[1] + 4*Lambda[2] - 2*Lambda[3] + Lambda[4] - delta

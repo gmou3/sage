@@ -722,10 +722,10 @@ cdef class CircuitsMatroid(Matroid):
 
             sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
             sage: M.broken_circuit_complex()
-            Simplicial complex with vertex set () and facets {}
+            Simplicial complex with vertex set () and facets {()}
             sage: for M in matroids.AllMatroids(5):  # optional - matroid_database
             ....:     r = M.rank()
-            ....:     if r > 0:
+            ....:     if r > 0 and not M.dual().loops():
             ....:         C = SimplicialComplex(M.bases(), maximality_check=False)
             ....:         betti = C.betti()
             ....:         betti[0] -= 1  # reduced homology

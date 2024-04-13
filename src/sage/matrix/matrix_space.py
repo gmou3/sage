@@ -2130,7 +2130,6 @@ class MatrixSpace(UniqueRepresentation, Parent):
 
             sage: m = identity_matrix(GF(2), 2000, sparse=True)
             sage: MS = MatrixSpace(GF(2), 2000, sparse=False)
-            sage: # long time
             sage: md = MS(m)
             sage: md.parent() is MS
             True

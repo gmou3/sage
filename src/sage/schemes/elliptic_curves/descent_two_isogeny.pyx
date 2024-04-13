@@ -121,7 +121,7 @@ def test_padic_square(a, p):
     EXAMPLES::
 
         sage: from sage.schemes.elliptic_curves.descent_two_isogeny import test_padic_square as ps
-        sage: for i in [1..300]:  # long time
+        sage: for i in [1..300]:
         ....:     for p in prime_range(100):
         ....:          if Qp(p)(i).is_square() != bool(ps(i,p)):
         ....:              print(i, p)

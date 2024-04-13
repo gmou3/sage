@@ -56,7 +56,7 @@ cdef class MemoryAllocator:
 
         TESTS::
 
-            sage: cython(                                                               # long time, needs sage.misc.cython
+            sage: cython(                                                               # needs sage.misc.cython
             ....: '''
             ....: from sage.ext.memory_allocator cimport MemoryAllocator
             ....: cdef MemoryAllocator mem = MemoryAllocator()
@@ -87,7 +87,6 @@ cdef class MemoryAllocator:
 
         TESTS::
 
-            sage: # long time
             sage: cython(                                                               # needs sage.misc.cython
             ....: '''
             ....: from sage.ext.memory_allocator cimport MemoryAllocator

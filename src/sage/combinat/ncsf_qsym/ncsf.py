@@ -4507,7 +4507,7 @@ class NonCommutativeSymmetricFunctions(UniqueRepresentation, Parent):
                 sage: S = NonCommutativeSymmetricFunctions(QQ).complete()
                 sage: nM = NonCommutativeSymmetricFunctions(QQ).Monomial(); nM
                 Non-Commutative Symmetric Functions over the Rational Field in the Monomial basis
-                sage: all(S(nM(S[comp])) == S[comp] for comp in Compositions(5))  # long time
+                sage: all(S(nM(S[comp])) == S[comp] for comp in Compositions(5))
                 True
                 sage: all(nM(S(nM[comp])) == nM[comp] for comp in Compositions(5))
                 True

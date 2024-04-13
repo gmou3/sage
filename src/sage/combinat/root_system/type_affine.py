@@ -79,7 +79,7 @@ class AmbientSpace(CombinatorialFreeModule):
 
     Systematic checks on all affine types::
 
-        sage: for ct in CartanType.samples(affine=True, crystallographic=True):  # long time
+        sage: for ct in CartanType.samples(affine=True, crystallographic=True):
         ....:     if ct.classical().root_system().ambient_space() is not None:
         ....:         print(ct)
         ....:         L = ct.root_system().ambient_space()

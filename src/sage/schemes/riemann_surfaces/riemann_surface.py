@@ -37,27 +37,25 @@ We compute the Riemann matrix of a genus 3 curve::
     sage: R.<x,y> = QQ[]
     sage: f = x^4-x^3*y+2*x^3+2*x^2*y+2*x^2-2*x*y^2+4*x*y-y^3+3*y^2+2*y+1
     sage: S = RiemannSurface(f, prec=100)
-    sage: M = S.riemann_matrix()  # long time
+    sage: M = S.riemann_matrix()
 
 We test the usual properties, i.e., that the period matrix is symmetric and that
 the imaginary part is positive definite::
 
-    sage: all(abs(a) < 1e-20 for a in (M-M.T).list())  # long time
+    sage: all(abs(a) < 1e-20 for a in (M-M.T).list())
     True
-    sage: iM = Matrix(RDF,3,3,[a.imag_part() for a in M.list()])  # long time
-    sage: iM.is_positive_definite()  # long time
+    sage: iM = Matrix(RDF,3,3,[a.imag_part() for a in M.list()])
+    sage: iM.is_positive_definite()
     True
 
 We compute the endomorphism ring and check it has `\ZZ`-rank 6::
 
-    sage: # long time
     sage: A = S.endomorphism_basis(80,8)
     sage: len(A) == 6
     True
 
 In fact it is an order in a number field::
 
-    sage: # long time
     sage: T.<t> = QQ[]
     sage: K.<a> = NumberField(t^6 - t^5 + 2*t^4 + 8*t^3 - t^2 - 5*t + 7)
     sage: all(len(a.minpoly().roots(K)) == a.minpoly().degree() for a in A)
@@ -580,11 +578,11 @@ class RiemannSurface():
         sage: import time
         sage: nodes.cache.clear()
         sage: ct = time.time()
-        sage: Rh = Sh.riemann_matrix()  # long time
+        sage: Rh = Sh.riemann_matrix()
         sage: ct1 = time.time()-ct
         sage: nodes.cache.clear()
         sage: ct = time.time()
-        sage: Rr = Sr.riemann_matrix()  # long time
+        sage: Rr = Sr.riemann_matrix()
         sage: ct2 = time.time()-ct
         sage: ct2/ct1  # random
         1.2429363969691192
@@ -625,7 +623,6 @@ class RiemannSurface():
         sage: R.<X,Y> = K[]
         sage: f = Y^2+X*Y+phi*Y-(X^3-X^2-2*phi*X+phi)
         sage: S = RiemannSurface(f,prec=prec, differentials=[1])
-        sage: # long time
         sage: tau = S.riemann_matrix()[0, 0]
         sage: tau.algdep(6).degree() == 2
         True
@@ -2387,16 +2384,16 @@ class RiemannSurface():
             sage: R.<z,w> = QQ[]
             sage: f = z^3*w + w^3 + z
             sage: S = RiemannSurface(f, prec=30)
-            sage: M = S.period_matrix()  # long time
+            sage: M = S.period_matrix()
 
         The results are highly arbitrary, so it is hard to check if the result
         produced is correct. The closely related ``riemann_matrix`` is somewhat
         easier to test.::
 
-            sage: parent(M)  # long time
+            sage: parent(M)
             Full MatrixSpace of 3 by 6 dense matrices
              over Complex Field with 30 bits of precision
-            sage: M.rank()  # long time
+            sage: M.rank()
             3
 
         One can check that the two methods give similar answers::
@@ -2428,7 +2425,7 @@ class RiemannSurface():
             sage: R.<z,w> = QQ[]
             sage: f = z^3*w + w^3 + z
             sage: S = RiemannSurface(f, prec=60)
-            sage: M = S.riemann_matrix()  # long time
+            sage: M = S.riemann_matrix()
 
         The Klein quartic has a Riemann matrix with values in a quadratic
         field::
@@ -2461,7 +2458,7 @@ class RiemannSurface():
             sage: from sage.schemes.riemann_surfaces.riemann_surface import RiemannSurface
             sage: R.<x,y> = QQ[]
             sage: S = RiemannSurface(y^2 - x^3 - x)
-            sage: S.plot_paths()                                                        # long time, needs sage.plot
+            sage: S.plot_paths()                                                        # needs sage.plot
             Graphics object consisting of 2 graphics primitives
         """
         from sage.plot.point import point2d
@@ -2608,7 +2605,6 @@ class RiemannSurface():
 
         EXAMPLES::
 
-            sage: # long time
             sage: S1 = EllipticCurve("11a1").riemann_surface()
             sage: S2 = EllipticCurve("11a3").riemann_surface()
             sage: [m.det() for m in S1.homomorphism_basis(S2)]
@@ -2649,7 +2645,6 @@ class RiemannSurface():
             sage: from sage.schemes.riemann_surfaces.riemann_surface import RiemannSurface
             sage: A.<x,y> = QQ[]
             sage: S = RiemannSurface(y^2 - (x^6 + 2*x^4 + 4*x^2 + 8), prec = 100)
-            sage: # long time
             sage: P = S.period_matrix()
             sage: Rs = S.endomorphism_basis()
             sage: Ts = S.tangent_representation_numerical(Rs)
@@ -2821,7 +2816,6 @@ class RiemannSurface():
             sage: R.<x,y> = QQ[]
             sage: f = y^2 - (x^6 + 2*x^4 + 4*x^2 + 8)
             sage: X = RiemannSurface(f, prec=100)
-            sage: # long time
             sage: P = X.period_matrix()
             sage: g = y^2 - (x^6 + x^4 + x^2 + 1)
             sage: Y = RiemannSurface(g, prec=100)
@@ -2899,8 +2893,8 @@ class RiemannSurface():
             sage: from sage.schemes.riemann_surfaces.riemann_surface import RiemannSurface
             sage: A.<x,y> = QQ[]
             sage: S = RiemannSurface(y^2 - (x^6 + 2*x^4 + 4*x^2 + 8), prec = 100)
-            sage: G = S.symplectic_automorphism_group()  # long time
-            sage: G.as_permutation_group().is_isomorphic(DihedralGroup(4))  # long time
+            sage: G = S.symplectic_automorphism_group()
+            sage: G.as_permutation_group().is_isomorphic(DihedralGroup(4))
             True
         """
         RsAut = self.symplectic_isomorphisms(hom_basis=endo_basis, b=b, r=r)

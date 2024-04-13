@@ -304,7 +304,6 @@ cdef class _FreeListProtector:
         """
         TESTS::
 
-            sage: # long time
             sage: s = Sage()
             sage: s.eval("P = DiGraph({1:{1:['x','y','z']}}).path_semigroup().algebra(GF(25,'t'))")
             ''

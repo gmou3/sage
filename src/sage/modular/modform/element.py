@@ -293,7 +293,7 @@ class ModularForm_abstract(ModuleElement):
 
             sage: f = Newforms(Gamma1(30), 2, names='a')[1]
             sage: g = ModularForms(23, 2).0
-            sage: f != g  # long time
+            sage: f != g
             True
             sage: f != f
             False
@@ -2674,7 +2674,7 @@ class ModularFormElement(ModularForm_abstract, element.HeckeModuleElement):
             sage: f = M.gen(0); f
             1 + 60*q^3 - 120*q^4 + 240*q^5 + O(q^6)
             sage: chi = DirichletGroup(2)[0]
-            sage: f.twist(chi)  # long time
+            sage: f.twist(chi)
             60*q^3 + 240*q^5 + O(q^6)
 
         The base field of the twisted form is extended if necessary::

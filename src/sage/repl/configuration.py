@@ -7,13 +7,12 @@ TESTS:
 We check that Sage stdin can be piped in even if stdout is a tty; In that case
 the IPython simple prompt is being used::
 
-    sage: # needs pexpect, long time
     sage: cmd = 'print([sys.stdin.isatty(), sys.stdout.isatty()])'
-    sage: import pexpect
-    sage: output = pexpect.run(
+    sage: import pexpect                                                                # needs pexpect
+    sage: output = pexpect.run(                                                         # needs pexpect
     ....:     'bash -c \'echo "{0}" | sage\''.format(cmd),
     ....: ).decode('utf-8', 'surrogateescape')
-    sage: 'sage: [False, True]' in output
+    sage: 'sage: [False, True]' in output                                               # needs pexpect
     True
 """
 

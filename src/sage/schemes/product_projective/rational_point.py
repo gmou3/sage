@@ -118,7 +118,7 @@ def enum_product_projective_rational_field(X, B):
         sage: X = PP.subscheme([x^2 + x*y + y*z, u*u - v*u])
         sage: from sage.schemes.product_projective.rational_point import \
                 enum_product_projective_rational_field
-        sage: enum_product_projective_rational_field(X, 4)  # long time
+        sage: enum_product_projective_rational_field(X, 4)
         [(-2 : 4 : 1 , 0 : 1), (-2 : 4 : 1 , 1 : 1), (-1 : 1 : 0 , 0 : 1),
          (-1 : 1 : 0 , 1 : 1), (-2/3 : -4/3 : 1 , 0 : 1), (-2/3 : -4/3 : 1 , 1 : 1),
          (-1/2 : -1/2 : 1 , 0 : 1), (-1/2 : -1/2 : 1 , 1 : 1),

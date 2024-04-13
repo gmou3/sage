@@ -699,7 +699,7 @@ class RuleEG(Rule):
 
         sage: f = lambda p: [x for row in reversed(p) for x in row]
         sage: g = lambda wd: RSK(wd, insertion=RSK.rules.EG)[0]
-        sage: all(p == Permutations(n).from_reduced_word(f(g(wd)))  # long time
+        sage: all(p == Permutations(n).from_reduced_word(f(g(wd)))
         ....:     for n in range(6) for p in Permutations(n)
         ....:     for wd in p.reduced_words())
         True
@@ -2607,7 +2607,6 @@ class RuleStar(Rule):
         ....:               for Q in SemistandardTableaux(shape, max_entry=5))]
         sage: all(Checks)
         True
-        sage: # long time
         sage: Checks = []
         sage: for T in FC_tabs:
         ....:    shape = T.shape().conjugate()
@@ -2633,7 +2632,6 @@ class RuleStar(Rule):
         ....:            for w in FC
         ....:                for factors in range(2, 5+1)
         ....:                    for ex in range(4)]
-        sage: # long time
         sage: Checks = []
         sage: for t in Triples:
         ....:     B = crystals.FullyCommutativeStableGrothendieck(*t)
@@ -2650,7 +2648,6 @@ class RuleStar(Rule):
         sage: H = HeckeMonoid(SymmetricGroup(3+1))
         sage: reduce = lambda w: permutation.from_reduced_word(H.from_reduced_word(w).reduced_word())
         sage: fc = lambda w: not reduce(w).has_pattern([3,2,1])
-        sage: # long time
         sage: words = [w for n in range(10) for w in Words(3, n) if fc(w)]
         sage: all([all(w == RSK_inverse(*RSK(w, insertion='Star'),
         ....:          insertion='Star', output='word') for w in words)])

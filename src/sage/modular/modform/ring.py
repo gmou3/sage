@@ -222,7 +222,7 @@ class ModularFormsRing(Parent):
 
             sage: TestSuite(ModularFormsRing(1)).run()
             sage: TestSuite(ModularFormsRing(Gamma0(6))).run()
-            sage: TestSuite(ModularFormsRing(Gamma1(4))).run()  # long time
+            sage: TestSuite(ModularFormsRing(Gamma1(4))).run()
 
         .. TODO::
 

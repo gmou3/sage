@@ -107,7 +107,7 @@ class FiniteMonoids(CategoryWithAxiom):
 
                 sage: Sigma3 = groups.permutation.Symmetric(3)                          # needs sage.groups
                 sage: BSigma3 = Sigma3.nerve()                                          # needs sage.groups
-                sage: BSigma3.homology(range(4), base_ring=GF(3))                       # needs sage.groups, long time
+                sage: BSigma3.homology(range(4), base_ring=GF(3))                       # needs sage.groups
                 {0: Vector space of dimension 0 over Finite Field of size 3,
                  1: Vector space of dimension 0 over Finite Field of size 3,
                  2: Vector space of dimension 0 over Finite Field of size 3,
@@ -123,7 +123,7 @@ class FiniteMonoids(CategoryWithAxiom):
                 sage: BSigma3 = Sigma3.nerve()
                 sage: BSigma3.n_skeleton(3)
                 Simplicial set with 156 non-degenerate simplices
-                sage: BSigma3.n_skeleton(4)  # long time
+                sage: BSigma3.n_skeleton(4)
                 Simplicial set with 781 non-degenerate simplices
 
             Finally, note that the classifying space of the order `p`

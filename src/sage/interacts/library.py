@@ -11,7 +11,7 @@ Invoked in the notebook, the following command will produce the fully formatted
 interactive mathlet.  In the command line, it will simply return the underlying
 HTML and Sage code which creates the mathlet::
 
-    sage: interacts.calculus.taylor_polynomial()  # long time
+    sage: interacts.calculus.taylor_polynomial()
     ...Interactive function <function taylor_polynomial at ...> with 3 widgets
       title: HTMLText(value='<h2>Taylor polynomial</h2>')
       f: EvalText(value='e^(-x)*sin(x)', description='$f(x)=$', layout=Layout(max_width='81em'))
@@ -212,7 +212,7 @@ def taylor_polynomial(title, f, order: int):
     it will simply return the underlying HTML and Sage code which
     creates the mathlet::
 
-        sage: interacts.calculus.taylor_polynomial()  # long time
+        sage: interacts.calculus.taylor_polynomial()
         ...Interactive function <function taylor_polynomial at ...> with 3 widgets
           title: HTMLText(value='<h2>Taylor polynomial</h2>')
           f: EvalText(value='e^(-x)*sin(x)', description='$f(x)=$', layout=Layout(max_width='81em'))
@@ -258,7 +258,7 @@ def definite_integral(title, f, g, interval, x_range, selection):
     it will simply return the underlying HTML and Sage code which
     creates the mathlet::
 
-        sage: interacts.calculus.definite_integral()  # long time
+        sage: interacts.calculus.definite_integral()
         ...Interactive function <function definite_integral at ...> with 6 widgets
           title: HTMLText(value='<h2>Definite integral</h2>')
           f: EvalText(value='3*x', description='$f(x)=$', layout=Layout(max_width='81em'))

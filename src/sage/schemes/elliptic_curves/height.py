@@ -1346,7 +1346,7 @@ class EllipticCurveCanonicalHeight:
 
             sage: H.real_intersection_is_empty([H.B(n,0.07) for n in srange(1,5)], v)  # long time, needs sage.rings.number_field
             True
-            sage: H.real_intersection_is_empty([H.B(n,0.08) for n in srange(1,5)], v)   # long time, needs sage.rings.number_field
+            sage: H.real_intersection_is_empty([H.B(n,0.08) for n in srange(1,5)], v)   # needs sage.rings.number_field
             False
         """
         return UnionOfIntervals.intersection([self.Sn(-B, B, k+1, v) for k,B in enumerate(Bk)]).is_empty()
@@ -1700,7 +1700,7 @@ class EllipticCurveCanonicalHeight:
 
             sage: H.complex_intersection_is_empty([H.B(n,0.02) for n in [1,2,3]], v)  # long time, needs sage.rings.number_field
             False
-            sage: H.complex_intersection_is_empty([H.B(n,0.02) for n in [1,2,3,4]], v)  # long time, needs sage.rings.number_field
+            sage: H.complex_intersection_is_empty([H.B(n,0.02) for n in [1,2,3,4]], v)  # needs sage.rings.number_field
             True
             sage: H.complex_intersection_is_empty([H.B(n,0.03) for n in [1,2,3,4]], v)  # long time, needs sage.rings.number_field
             False
@@ -1709,7 +1709,7 @@ class EllipticCurveCanonicalHeight:
         that it takes longer when the result is ``False`` than when it
         is ``True``::
 
-            sage: H.complex_intersection_is_empty([H.B(n,0.03) for n in [1..6]], v)     # long time, needs sage.rings.number_field
+            sage: H.complex_intersection_is_empty([H.B(n,0.03) for n in [1..6]], v)     # needs sage.rings.number_field
             True
         """
         from sage.schemes.elliptic_curves.period_lattice_region import PeriodicRegion
@@ -2078,7 +2078,7 @@ class EllipticCurveCanonicalHeight:
             sage: h = E.height_function()
             sage: h.min(.01, 5)
             0.03987318057488725
-            sage: E.gen(0).height()  # long time
+            sage: E.gen(0).height()
             0.0511114082399688
 
         After base change the lower bound can decrease::
@@ -2091,7 +2091,7 @@ class EllipticCurveCanonicalHeight:
             sage: h = E.height_function()
             sage: h.min(0.1, 5)
             0.05731275270029196
-            sage: [P.height() for P in E.gens()]  # long time
+            sage: [P.height() for P in E.gens()]
             [0.686667083305587, 0.327000773651605]
         """
         # The lcm of the exponents of all the component groups at

@@ -1125,7 +1125,6 @@ class EllipticCurve_finite_field(EllipticCurve_field):
             Traceback (most recent call last):
             ...
             ValueError: curve does not have full rational 23-torsion
-            sage: # long time
             sage: F = E.division_field(23); F
             Finite Field in t of size 101^11
             sage: EE = E.change_ring(F)

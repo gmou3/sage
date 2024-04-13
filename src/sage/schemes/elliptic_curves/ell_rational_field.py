@@ -2411,14 +2411,14 @@ class EllipticCurve_rational_field(EllipticCurve_number_field):
             Traceback (most recent call last):
             ...
             RuntimeError: generators could not be determined. So far we found []. Hint: increase pari_effort.
-            sage: # long time
-            sage: ge = E.gens(use_database=False, algorithm="pari", pari_effort=10)
-            sage: ge  #random
+            sage: ge = E.gens(use_database=False, algorithm="pari",pari_effort=10)
+            sage: ge   #random
             [(-166136231668185267540804/2825630694251145858025 : 167661624456834335404812111469782006/150201095200135518108761470235125 : 1)]
             sage: P = E.lift_x(-166136231668185267540804/2825630694251145858025)
             sage: set(E.gens(use_database=False, algorithm="pari",pari_effort=4)) <= set([P+T for T
             ....:  in E.torsion_points()] + [-P+T for T in E.torsion_points()])
             True
+
         """
         # If the optional extended database is installed and an
         # isomorphic curve is in the database then its gens will be

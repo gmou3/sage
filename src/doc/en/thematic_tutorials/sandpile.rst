@@ -1454,7 +1454,7 @@ printed string
 
 EXAMPLES::
 
-    sage: Sandpile.help()  # long time
+    sage: Sandpile.help()
     For detailed help with any method FOO listed below,
     enter "Sandpile.FOO?" or enter "S.FOO?" for any Sandpile S.
     <BLANKLINE>

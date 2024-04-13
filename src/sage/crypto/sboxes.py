@@ -148,7 +148,7 @@ EXAMPLES:
 We can print the S-Boxes with differential uniformity 2::
 
     sage: from sage.crypto.sboxes import sboxes
-    sage: sorted(name for name, s in sboxes.items()  # long time
+    sage: sorted(name for name, s in sboxes.items()
     ....:     if s.differential_uniformity() == 2)
     ['APN_6',
      'Fides_5',
@@ -185,7 +185,7 @@ def bracken_leander(n):
     EXAMPLES::
 
         sage: from sage.crypto.sboxes import bracken_leander
-        sage: sbox = bracken_leander(12); [sbox(i) for i in range(8)]  # long time
+        sage: sbox = bracken_leander(12); [sbox(i) for i in range(8)]
         [0, 1, 2742, 4035, 1264, 408, 1473, 1327]
     """
     if n % 4 == 1 or is_even(n / 4):

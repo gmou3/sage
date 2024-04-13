@@ -64,7 +64,7 @@ cdef class Matrix_gap(Matrix_dense):
 
         sage: rings = [ZZ, QQ, UniversalCyclotomicField(), GF(2), GF(3)]
         sage: rings += [UniversalCyclotomicField()]                                     # needs sage.rings.number_field
-        sage: for ring in rings:  # long time
+        sage: for ring in rings:
         ....:     M = MatrixSpace(ring, 2, implementation='gap')
         ....:     TestSuite(M).run(skip=['_test_construction'])
         ....:     M = MatrixSpace(ring, 2, 3, implementation='gap')

@@ -1658,10 +1658,9 @@ class HyperbolicGeodesicUHP(HyperbolicGeodesic):
         expressions do not generate runtime errors. ::
 
             sage: g=HyperbolicPlane().UHP().get_geodesic(-1+I,1+I)
-            sage: # long time
             sage: point = g.midpoint(); point
             Point in UHP -1/2*(sqrt(2)*...
-            sage: QQbar(point.coordinates()).radical_expression()
+            sage: QQbar(point.coordinates()).radical_expression()  # long time
             I*sqrt(2)
 
         Check that floating points remain floating points

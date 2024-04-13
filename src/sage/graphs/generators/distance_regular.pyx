@@ -322,9 +322,8 @@ def LargeWittGraph():
 
     EXAMPLES::
 
-        sage: # needs sage.libs.pari sage.modules, long time
-        sage: g = graphs.LargeWittGraph()
-        sage: g.is_distance_regular(True)
+        sage: g = graphs.LargeWittGraph()                                               # needs sage.libs.pari sage.modules
+        sage: g.is_distance_regular(True)                                               # needs sage.libs.pari sage.modules
         ([30, 28, 24, None], [None, 1, 3, 15])
 
     REFERENCES:
@@ -391,9 +390,8 @@ def DoublyTruncatedWittGraph():
 
     EXAMPLES::
 
-        sage: # needs sage.libs.pari sage.modules, long time
-        sage: G = graphs.DoublyTruncatedWittGraph()
-        sage: G.is_distance_regular(True)
+        sage: G = graphs.DoublyTruncatedWittGraph()                                     # needs sage.libs.pari sage.modules
+        sage: G.is_distance_regular(True)                                               # needs sage.libs.pari sage.modules
         ([7, 6, 4, 4, None], [None, 1, 1, 1, 6])
 
     REFERENCES:
@@ -1425,7 +1423,7 @@ def GeneralisedOctagonGraph(const int s, const int t):
 
     EXAMPLES::
 
-        sage: # needs sage.libs.gap, long time
+        sage: # needs sage.libs.gap
         sage: G = graphs.GeneralisedOctagonGraph(1, 4)
         sage: G.is_distance_regular(True)
         ([5, 4, 4, 4, None], [None, 1, 1, 1, 5])
@@ -2431,7 +2429,7 @@ def is_near_polygon(array):
         ....: is_near_polygon, near_polygon_graph)
         sage: is_near_polygon([7, 6, 6, 4, 4, 1, 1, 3, 3, 7])
         (4, (2, 2))
-        sage: near_polygon_graph(4, (2, 2))  # long time
+        sage: near_polygon_graph(4, (2, 2))
         Double Grassmann graph (5, 2, 2): Graph on 310 vertices
         sage: near_polygon_graph(*is_near_polygon([3, 2, 2, 1, 1, 3]))                  # needs sage.rings.finite_rings
         Generalised hexagon of order (1, 2): Graph on 14 vertices

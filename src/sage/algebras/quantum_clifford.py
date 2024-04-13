@@ -177,7 +177,7 @@ class QuantumCliffordAlgebra(CombinatorialFreeModule):
         EXAMPLES::
 
             sage: Cl = algebras.QuantumClifford(1, 2)
-            sage: TestSuite(Cl).run(elements=Cl.basis())  # long time
+            sage: TestSuite(Cl).run(elements=Cl.basis())
         """
         self._n = n
         self._k = k

@@ -76,7 +76,7 @@ ask for 100000 samples::
     ....:         counter[D()] += 1
     ....:         n += 1
 
-    sage: add_samples(100000)  # long time
+    sage: add_samples(100000)
 
 and check if the proportions fit::
 

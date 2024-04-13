@@ -430,7 +430,7 @@ points!
 
 ::
 
-    sage: plot3d(g,(x,-5,5),(y,-5,5),plot_points=300)  # long time
+    sage: plot3d(g,(x,-5,5),(y,-5,5),plot_points=300)
     Graphics3d Object
 
 As with 2D plots, we can superimpose 3D plots by adding them together.

@@ -1487,7 +1487,6 @@ cpdef analytic_interior(COMPLEX_T z, int n, FLOAT_T epsilon):
         sage: m = Riemann_Map([f],[fp],0,200)
         sage: abs(m.riemann_map(.5)-analytic_interior(.5, 20, .3)) < 10^-4
         True
-        sage: # long time
         sage: m = Riemann_Map([f],[fp],0,2000)
         sage: abs(m.riemann_map(.5)-analytic_interior(.5, 20, .3)) < 10^-6
         True

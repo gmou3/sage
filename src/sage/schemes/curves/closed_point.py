@@ -364,7 +364,6 @@ class IntegralProjectiveCurveClosedPoint(IntegralCurveClosedPoint):
             sage: F.<a> = GF(4)
             sage: P.<x,y,z> = ProjectiveSpace(F, 2)
             sage: C = Curve(x^3*y + y^3*z + x*z^3)
-            sage: # long time
             sage: C.closed_points()
             [Point (x, z),
              Point (x, y),

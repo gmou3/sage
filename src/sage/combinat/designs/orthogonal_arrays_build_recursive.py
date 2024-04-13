@@ -306,7 +306,7 @@ def construction_3_6(k,n,m,i,explain_construction=False):
         sage: is_orthogonal_array(construction_3_6(*find_construction_3_6(k,n)[1]),k,n,2)           # needs sage.schemes
         True
 
-        sage: print(designs.orthogonal_arrays.explain_construction(10,756))  # long time
+        sage: print(designs.orthogonal_arrays.explain_construction(10,756))
         Construction 3.6 with n=16,m=47,i=4 from:
            Julian R. Abel, Nicholas Cavenagh
            Concerning eight mutually orthogonal latin squares,
@@ -673,7 +673,7 @@ def thwart_lemma_3_5(k,n,m,a,b,c,d=0,complement=False,explain_construction=False
         ....:     OA = thwart_lemma_3_5(k,n,m,a,b,c,d,complement=True)
         ....:     assert is_orthogonal_array(OA,k,n*m+a+b+c+d,verbose=True)
 
-        sage: print(designs.orthogonal_arrays.explain_construction(10,1046))  # long time
+        sage: print(designs.orthogonal_arrays.explain_construction(10,1046))
         Lemma 3.5 with n=13,m=79,a=9,b=1,c=0,d=9 from:
            Charles J.Colbourn, Jeffrey H. Dinitz, Mieczyslaw Wojtas,
            Thwarts in transversal designs,

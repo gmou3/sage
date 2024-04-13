@@ -1677,7 +1677,7 @@ class FPModuleMorphism(Morphism):
             Traceback (most recent call last):
             ...
             ValueError: a top dimension must be specified for this calculation to terminate
-            sage: f._resolve_kernel(top_dim=10)  # long time
+            sage: f._resolve_kernel(top_dim=10)
             Module morphism:
               From: Free graded left module on 2 generators over Symmetric Functions over Rational Field in the Schur basis
               To:   Free graded left module on 2 generators over Symmetric Functions over Rational Field in the Schur basis

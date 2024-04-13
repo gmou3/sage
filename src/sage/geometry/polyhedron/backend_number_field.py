@@ -70,7 +70,7 @@ class Polyhedron_number_field(Polyhedron_field, Polyhedron_base_number_field):
         sage: p = Polyhedron(vertices=[(0,0),(AA(2).sqrt(),0),(0,AA(3).sqrt())],        # needs sage.rings.number_field
         ....:                rays=[(1,1)], lines=[], backend='number_field',
         ....:                base_ring=AA)
-        sage: TestSuite(p).run()                                                        # needs sage.rings.number_field, long time
+        sage: TestSuite(p).run()                                                        # needs sage.rings.number_field
 
         sage: K.<sqrt3> = QuadraticField(3)                                             # needs sage.rings.number_field
         sage: p = Polyhedron([(0,0), (1,0), (1/2, sqrt3/2)], backend='number_field')    # needs sage.rings.number_field

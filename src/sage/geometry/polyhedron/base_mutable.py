@@ -44,9 +44,9 @@ class Polyhedron_mutable(Polyhedron_base):
             sage: p = polytopes.permutahedron(4)
             sage: P = p.parent()
             sage: q = P._element_constructor_(p, mutable=True)
-            sage: TestSuite(q).run()  # long time
+            sage: TestSuite(q).run()
             sage: q._clear_cache()
-            sage: TestSuite(q).run()  # long time
+            sage: TestSuite(q).run()
 
         ::
 

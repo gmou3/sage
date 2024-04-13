@@ -248,7 +248,7 @@ class QuasiModularForms(Parent, UniqueRepresentation):
 
             sage: TestSuite(QuasiModularForms(1)).run()
             sage: TestSuite(QuasiModularForms(Gamma0(3))).run()
-            sage: TestSuite(QuasiModularForms(Gamma1(3))).run()  # long time
+            sage: TestSuite(QuasiModularForms(Gamma1(3))).run()
         """
         if not isinstance(name, str):
             raise TypeError("`name` must be a string")

@@ -293,7 +293,6 @@ Sage example in ./mpoly.tex, line 1469::
 
   sage: R.<x,y,t> = QQ[]
   sage: eq = x^2 + (y-t)^2 - 1/2*(t^2+1)
-  sage: # long time
   sage: fig = add((eq(t=k/5)*QQ[x,y]).plot() for k in (-15..15))
   sage: fig.show(aspect_ratio=1, xmin=-2, xmax=2, ymin=-3, ymax=3)
 

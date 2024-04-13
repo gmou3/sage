@@ -975,7 +975,7 @@ class _SplitOffSimpleInequalities(_TransformHrepresentation):
         ([(9, 2, 1, 3)], y0^2*y2^4, {y2: y2, y1: y0*y1*y2, y0: y0*y2})
         sage: T.apply_rules(*gf(T.inequalities, B))
         (y0^2*y2^4, (y2, y0*y2, y0*y1*y2))
-        sage: eq2(_, gf(ieqs, B))  # long time
+        sage: eq2(_, gf(ieqs, B))
         True
 
         sage: B = LaurentPolynomialRing(ZZ, 'y', 4)

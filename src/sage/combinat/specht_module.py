@@ -1372,7 +1372,7 @@ def simple_module_rank(la, base_ring):
     EXAMPLES::
 
         sage: from sage.combinat.specht_module import simple_module_rank
-        sage: simple_module_rank([3,2,1,1], GF(3))  # long time
+        sage: simple_module_rank([3,2,1,1], GF(3))
         13
 
     TESTS::

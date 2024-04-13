@@ -1319,7 +1319,7 @@ cdef class OrePolynomial(AlgebraElement):
 
         TESTS::
 
-            sage: # needs sage.misc.cython sage.rings.finite_rings, long time
+            sage: # needs sage.misc.cython sage.rings.finite_rings
             sage: cython(
             ....: '''
             ....: from sage.rings.polynomial.ore_polynomial_element cimport OrePolynomial
@@ -1397,7 +1397,7 @@ cdef class OrePolynomial(AlgebraElement):
 
         TESTS::
 
-            sage: # needs sage.misc.cython sage.rings.finite_rings, long time
+            sage: # needs sage.misc.cython sage.rings.finite_rings
             sage: cython(
             ....: '''
             ....: from sage.rings.polynomial.ore_polynomial_element cimport OrePolynomial

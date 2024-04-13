@@ -11,7 +11,6 @@ cdef class MemoryAllocator:
 
     EXAMPLES::
 
-        sage: # long time
         sage: cython(
         ....: '''
         ....: from sage.ext.memory_allocator cimport MemoryAllocator

@@ -463,7 +463,7 @@ class HyperellipticCurve_finite_field(hyperelliptic_generic.HyperellipticCurve_g
             sage: K = GF(2003)
             sage: R.<t> = PolynomialRing(K)
             sage: H = HyperellipticCurve(t^7 + 487*t^5 + 9*t + 1)
-            sage: H.frobenius_polynomial_pari()  # long time
+            sage: H.frobenius_polynomial_pari()
             x^6 - 14*x^5 + 1512*x^4 - 66290*x^3 + 3028536*x^2 - 56168126*x + 8036054027
 
         Curves defined over a non-prime field are supported as well::
@@ -886,7 +886,7 @@ class HyperellipticCurve_finite_field(hyperelliptic_generic.HyperellipticCurve_g
             sage: K = GF(49999)
             sage: R.<t> = PolynomialRing(K)
             sage: H = HyperellipticCurve(t^19 + t + 1)
-            sage: H.count_points_matrix_traces(3)  # long time
+            sage: H.count_points_matrix_traces(3)
             [49491, 2500024375, 124992509154249]
 
         TESTS:
@@ -1048,7 +1048,7 @@ class HyperellipticCurve_finite_field(hyperelliptic_generic.HyperellipticCurve_g
             sage: H = HyperellipticCurve(t^21 + 3*t^5 + 5)
             sage: H.count_points_hypellfrob()
             [49804]
-            sage: H.count_points_hypellfrob(2)  # long time
+            sage: H.count_points_hypellfrob(2)
             [49804, 2499799038]
 
             sage: K = GF(2**7-1)
@@ -1367,7 +1367,7 @@ class HyperellipticCurve_finite_field(hyperelliptic_generic.HyperellipticCurve_g
             40
             sage: H.cardinality(2)
             1408
-            sage: H.cardinality(3)  # long time
+            sage: H.cardinality(3)
             50116
 
         The following example shows that :issue:`20391` has been resolved::

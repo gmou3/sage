@@ -45,7 +45,7 @@ factor.
 
 ::
 
-    sage: for N in range(1,38):  # long time
+    sage: for N in range(1,38):
     ....:    for A in J0(N).new_subvariety().decomposition():
     ....:        T = A.rational_torsion_subgroup()
     ....:        print('%-5s%-5s%-5s%-5s'%(N, A.dimension(), T.divisor_of_order(), T.multiple_of_order()))

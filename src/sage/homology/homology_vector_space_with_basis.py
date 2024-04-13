@@ -85,10 +85,10 @@ class HomologyVectorSpaceWithBasis(CombinatorialFreeModule):
 
         sage: RP2 = cubical_complexes.RealProjectivePlane()
         sage: RP2.homology_with_basis(GF(2))
-        Homology module of Cubical complex with 21 vertices and 82 cubes
+        Homology module of Cubical complex with 21 vertices and 81 cubes
          over Finite Field of size 2
         sage: RP2.cohomology_ring(GF(2))
-        Cohomology ring of Cubical complex with 21 vertices and 82 cubes
+        Cohomology ring of Cubical complex with 21 vertices and 81 cubes
          over Finite Field of size 2
         sage: simplicial_complexes.Torus().homology_with_basis(QQ)
         Homology module of Minimal triangulation of the torus
@@ -1065,7 +1065,8 @@ class CohomologyRing_mod2(CohomologyRing):
                 sage: y.Sq(1)
                 h^{3,0}
 
-                sage: # long time, needs sage.groups
+                sage: # long time
+                sage: # needs sage.groups
                 sage: RP4 = simplicial_complexes.RealProjectiveSpace(4)
                 sage: H = RP4.cohomology_ring(GF(2))
                 sage: x = H.basis()[1,0]

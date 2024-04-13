@@ -3738,7 +3738,7 @@ class QuaternionFractionalIdeal_rational(QuaternionFractionalIdeal):
 
         Check that randomly generated ideals decompose as expected::
 
-            sage: for d in ( m for m in range(400, 750) if is_squarefree(m) ):  # long time
+            sage: for d in ( m for m in range(400, 750) if is_squarefree(m) ):
             ....:     A = QuaternionAlgebra(d)
             ....:     O = A.maximal_order()
             ....:     for _ in range(10):

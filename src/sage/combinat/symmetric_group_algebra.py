@@ -2933,7 +2933,6 @@ class KLCellularBasis(SGACellularBasis):
     EXAMPLES::
 
         sage: SGA = SymmetricGroupAlgebra(GF(3), 5)
-        sage: # long time
         sage: KL = SGA.kazhdan_lusztig_cellular_basis()
         sage: for la in KL.simple_module_parameterization():
         ....:     CM = KL.cell_module(la)

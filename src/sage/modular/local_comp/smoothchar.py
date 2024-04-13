@@ -1409,7 +1409,7 @@ class SmoothCharacterGroupUnramifiedQuadratic(SmoothCharacterGroupQuadratic):
         Group of smooth characters of unramified extension Q_3(s)* (s^2 + 2*s + 2 = 0) with values in Rational Field
         sage: G.unit_gens(3)
         [-11*s, 4, 3*s + 1, 3]
-        sage: TestSuite(G).run()  # long time
+        sage: TestSuite(G).run()
         sage: TestSuite(SmoothCharacterGroupUnramifiedQuadratic(2, QQ)).run()
     """
 

@@ -116,7 +116,7 @@ class FriezePattern(PathTableau, metaclass=InheritComparisonClasscallMetaclass):
         [       ,        ,        ,        ,        ,        ,        ,        ,       0,       1, 3*sqrt2,      11, 8*sqrt2,       5, 2*sqrt2,       3,   sqrt2,       1,       0]
         [       ,        ,        ,        ,        ,        ,        ,        ,        ,       0,       1, 2*sqrt2,       3,   sqrt2,       1,   sqrt2,       1,   sqrt2,       1,       0]
         [       ,        ,        ,        ,        ,        ,        ,        ,        ,        ,       0,       1,   sqrt2,       1,   sqrt2,       3, 2*sqrt2,       5, 3*sqrt2,       1,       0]
-        sage: TestSuite(t).run()  # long time
+        sage: TestSuite(t).run()
     """
     @staticmethod
     def __classcall_private__(cls, fp, field=QQ):

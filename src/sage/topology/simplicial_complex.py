@@ -80,7 +80,7 @@ EXAMPLES::
     sage: SimplicialComplex([[1], [3, 7]])
     Simplicial complex with vertex set (1, 3, 7) and facets {(1,), (3, 7)}
     sage: SimplicialComplex()   # the empty simplicial complex
-    Simplicial complex with vertex set () and facets {}
+    Simplicial complex with vertex set () and facets {()}
     sage: X = SimplicialComplex([[0,1], [1,2], [2,3], [3,0]])
     sage: X
     Simplicial complex with vertex set (0, 1, 2, 3) and
@@ -893,7 +893,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
         sage: SimplicialComplex(S) == S
         True
         sage: Tc = cubical_complexes.Torus(); Tc
-        Cubical complex with 16 vertices and 65 cubes
+        Cubical complex with 16 vertices and 64 cubes
         sage: Ts = SimplicialComplex(Tc); Ts
         Simplicial complex with 16 vertices and 32 facets
         sage: Ts.homology()                                                             # needs sage.modules
@@ -1092,6 +1092,9 @@ class SimplicialComplex(Parent, GenericCellComplex):
             face = Simplex(sorted(face.tuple(), key=vertex_to_index.__getitem__))
             good_faces.append(face)
 
+        # if no maximal faces, add the empty face as a facet
+        if len(maximal_simplices) == 0:
+            good_faces.append(Simplex(-1))
         # now record the attributes for self
         # self._vertex_to_index: dictionary to convert vertices to integers
         self._vertex_to_index = vertex_to_index
@@ -1234,12 +1237,11 @@ class SimplicialComplex(Parent, GenericCellComplex):
 
         EXAMPLES::
 
-            sage: SimplicialComplex()._an_element_()  # no element/output
+            sage: SimplicialComplex()._an_element_()
+            ()
             sage: simplicial_complexes.Sphere(3)._an_element_()
             (0, 1, 2, 3)
         """
-        if len(self.facets()) == 0:
-            return
         try:
             return sorted(self.facets())[0]
         except TypeError:
@@ -1340,7 +1342,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             Faces = {}
             # sub_facets is the dictionary of facets in the subcomplex
             sub_facets = {}
-            dimension = max([face.dimension() for face in self._facets], default=-1)
+            dimension = max([face.dimension() for face in self._facets])
             for i in range(-1, dimension + 1):
                 Faces[i] = set()
                 sub_facets[i] = set()
@@ -1354,7 +1356,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
                     sub_facets[dim].add(g)
             # bad_faces is the set of faces in the subcomplex in the
             # current dimension
-            bad_faces = sub_facets[dimension] if dimension >= -1 else []
+            bad_faces = sub_facets[dimension]
             for dim in range(dimension, -1, -1):
                 # bad_bdries = boundaries of bad_faces: things to be
                 # discarded in dim-1
@@ -1617,7 +1619,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
 
         TESTS::
 
-            sage: S = SimplicialComplex([[]])
+            sage: S = SimplicialComplex([])
             sage: S.F_triangle(S.facets()[0])                                           # needs sage.combinat
             F: 1
         """
@@ -2568,7 +2570,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             sage: X.add_face([0,1,2,]); X
             Simplicial complex with vertex set (0, 1, 2) and facets {(0, 1, 2)}
             sage: Y = SimplicialComplex(); Y
-            Simplicial complex with vertex set () and facets {}
+            Simplicial complex with vertex set () and facets {()}
             sage: Y.add_face([0,1])
             sage: Y.add_face([1,2,3])
             sage: Y
@@ -3893,8 +3895,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             sage: L.homology()                                                          # needs sage.modules
             {0: 0, 1: 0, 2: 0}
         """
-        L = sorted(self._facets, key=str)
-        facets = [L[0]] if len(L) > 0 else []
+        facets = [sorted(self._facets, key=str)[0]]
         return self._enlarge_subcomplex(SimplicialComplex(facets, is_mutable=False), verbose=verbose)
 
     def _enlarge_subcomplex(self, subcomplex, verbose=False):
@@ -4020,7 +4021,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
             {0: 0, 1: Z x Z, 2: Z}
             sage: Tc = T._cubical_()
             sage: Tc
-            Cubical complex with 42 vertices and 169 cubes
+            Cubical complex with 42 vertices and 168 cubes
             sage: Tc.homology()                                                         # needs sage.modules
             {0: 0, 1: Z x Z, 2: Z}
         """
@@ -4656,7 +4657,7 @@ class SimplicialComplex(Parent, GenericCellComplex):
         EXAMPLES::
 
             sage: SimplicialComplex([[1,2,3]]).decone()
-            Simplicial complex with vertex set () and facets {}
+            Simplicial complex with vertex set () and facets {()}
             sage: SimplicialComplex([[1,2,3], [1,3,4], [1,5,6]]).decone()
             Simplicial complex with vertex set (2, 3, 4, 5, 6)
              and facets {(2, 3), (3, 4), (5, 6)}

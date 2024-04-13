@@ -45,7 +45,7 @@ class SuperHopfAlgebrasWithBasis(SuperModulesCategory):
 
                 sage: A = SteenrodAlgebra(7)                                            # needs sage.combinat sage.modules
                 sage: a = A.an_element()                                                # needs sage.combinat sage.modules
-                sage: a, A.antipode(a)                                                  # needs sage.combinat sage.modules, long time
+                sage: a, A.antipode(a)                                                  # needs sage.combinat sage.modules
                 (6 Q_1 Q_3 P(2,1), Q_1 Q_3 P(2,1))
 
             TESTS::

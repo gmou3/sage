@@ -2428,7 +2428,6 @@ class EllipticCurve_generic(WithEqualityById, plane_curve.ProjectivePlaneCurve):
             sage: K.<a> = GF(p^2)
             sage: E = EllipticCurve(K, [a + 3, 5 - a])
             sage: k = p^2 * 3
-            sage: # long time
             sage: f, g = E.multiplication_by_m(k)
             sage: for _ in range(100):
             ....:     P = E.random_point()

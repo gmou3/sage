@@ -707,7 +707,6 @@ class mwrank_MordellWeil(SageObject):
 
         sage: E = mwrank_EllipticCurve([0,0,1,-7,6])
         sage: EQ = mwrank_MordellWeil(E)
-        sage: # long time
         sage: EQ.search(2)
         P1 = [0:1:0]     is torsion point, order 1
         P1 = [-3:0:1]     is generator number 1
@@ -720,13 +719,11 @@ class mwrank_MordellWeil(SageObject):
 
         sage: E = mwrank_EllipticCurve([0,0,1,-7,6])
         sage: EQ = mwrank_MordellWeil(E, verbose=False)
-        sage: # long time
         sage: EQ.search(1)
         sage: EQ
         Subgroup of Mordell-Weil group: [[1:-1:1], [-2:3:1], [-14:25:8]]
 
         sage: EQ = mwrank_MordellWeil(E, verbose=True)
-        sage: # long time
         sage: EQ.search(1)
         P1 = [0:1:0]     is torsion point, order 1
         P1 = [-3:0:1]     is generator number 1
@@ -782,11 +779,10 @@ class mwrank_MordellWeil(SageObject):
 
         sage: E = mwrank_EllipticCurve([0,0,1,-7,6])
         sage: EQ = mwrank_MordellWeil(E, verbose=False, pp=1)
-        sage: # long time
-        sage: EQ.search(1); EQ  # generators only
+        sage: EQ.search(1); EQ # generators only
         Subgroup of Mordell-Weil group: [[1:-1:1], [-2:3:1], [-14:25:8]]
         sage: EQ = mwrank_MordellWeil(E, verbose=False, pp=0)
-        sage: EQ.search(1); EQ  # all points found
+        sage: EQ.search(1); EQ # all points found
         Subgroup of Mordell-Weil group: [[-3:0:1], [-2:3:1], [-14:25:8], [-1:3:1], [0:2:1], [2:13:8], [1:0:1], [2:0:1], [18:7:8], [3:3:1], [4:6:1], [36:69:64], [68:-25:64], [12:35:27]]
     """
 
@@ -842,7 +838,6 @@ class mwrank_MordellWeil(SageObject):
             sage: EQ = mwrank_MordellWeil(E, verbose=False)
             sage: EQ.__repr__()
             'Subgroup of Mordell-Weil group: []'
-            sage: # long time
             sage: EQ.search(1)
             sage: EQ.__repr__()
             'Subgroup of Mordell-Weil group: [[1:-1:1], [-2:3:1], [-14:25:8]]'
@@ -1059,7 +1054,6 @@ class mwrank_MordellWeil(SageObject):
 
         Now we do a very small search::
 
-            sage: # long time
             sage: EQ.search(1)
             P1 = [0:1:0]         is torsion point, order 1
             P1 = [-3:0:1]         is generator number 1
@@ -1278,7 +1272,6 @@ class mwrank_MordellWeil(SageObject):
 
             sage: E = mwrank_EllipticCurve([0,0,1,-7,6])
             sage: EQ = mwrank_MordellWeil(E)
-            sage: # long time
             sage: EQ.search(1)
             P1 = [0:1:0]         is torsion point, order 1
             P1 = [-3:0:1]         is generator number 1
@@ -1329,7 +1322,6 @@ class mwrank_MordellWeil(SageObject):
 
             sage: E = mwrank_EllipticCurve([0,0,1,-7,6])
             sage: EQ = mwrank_MordellWeil(E)
-            sage: # long time
             sage: EQ.search(1)
             P1 = [0:1:0]         is torsion point, order 1
             P1 = [-3:0:1]         is generator number 1

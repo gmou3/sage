@@ -902,8 +902,8 @@ class AbstractLinearCodeNoMetric(AbstractCode, Module):
         EXAMPLES::
 
             sage: C = codes.HammingCode(GF(3), 3)
-            sage: g = SymmetricGroup(13).random_element()  # long time
-            sage: C.is_permutation_automorphism(g)  # long time
+            sage: g = SymmetricGroup(13).random_element()
+            sage: C.is_permutation_automorphism(g)
             0
             sage: MS = MatrixSpace(GF(2),4,8)
             sage: G  = MS([[1,0,0,0,1,1,1,0], [0,1,1,1,0,0,0,0],

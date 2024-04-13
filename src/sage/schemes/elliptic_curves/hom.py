@@ -873,8 +873,8 @@ class EllipticCurveHom(Morphism):
             sage: phi.is_injective()
             False
             sage: E = EllipticCurve_from_j(GF(3).algebraic_closure()(0))
-            sage: # long time
-            sage: nu = EllipticCurveHom_composite.from_factors(E.automorphisms()); nu
+            sage: nu = EllipticCurveHom_composite.from_factors(E.automorphisms())
+            sage: nu
             Composite morphism of degree 1 = 1^12:
               From: Elliptic Curve defined by y^2 = x^3 + x
                     over Algebraic closure of Finite Field of size 3
@@ -1339,7 +1339,7 @@ def compute_trace_generic(phi):
         sage: F.<t> = GF((p, e))
         sage: E = choice(EllipticCurve(j=F.random_element()).twists())
         sage: pi = E.frobenius_endomorphism()
-        sage: compute_trace_generic(pi) == E.trace_of_frobenius()  # long time
+        sage: compute_trace_generic(pi) == E.trace_of_frobenius()
         True
 
     Check that the nonexistence of `p`-torsion for supersingular curves

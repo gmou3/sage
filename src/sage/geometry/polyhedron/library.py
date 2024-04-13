@@ -614,7 +614,7 @@ class Polytopes:
 
             sage: b4norm = polytopes.Birkhoff_polytope(4,backend='normaliz')    # optional - pynormaliz
             sage: TestSuite(b4norm).run()                                       # optional - pynormaliz
-            sage: TestSuite(polytopes.Birkhoff_polytope(3)).run()  # long time
+            sage: TestSuite(polytopes.Birkhoff_polytope(3)).run()
         """
         from itertools import permutations
         verts = []
@@ -689,7 +689,7 @@ class Polytopes:
 
             sage: s6norm = polytopes.simplex(6,backend='normaliz')      # optional - pynormaliz
             sage: TestSuite(s6norm).run()                               # optional - pynormaliz
-            sage: TestSuite(polytopes.simplex(5)).run()  # long time
+            sage: TestSuite(polytopes.simplex(5)).run()
         """
         verts = list((ZZ**(dim + 1)).basis())
         if project:
@@ -2493,7 +2493,7 @@ class Polytopes:
             (1, 6, 12, 8, 1)
             sage: h_4_2.ehrhart_polynomial()                            # optional - latte_int
             2/3*t^3 + 2*t^2 + 7/3*t + 1
-            sage: TestSuite(h_4_2).run()  # long time
+            sage: TestSuite(h_4_2).run()
 
             sage: # needs sage.combinat
             sage: h_7_3 = polytopes.hypersimplex(7, 3, project=True)
@@ -3233,7 +3233,7 @@ class Polytopes:
             sage: ls = [randint(-100,100) for _ in range(4)]
             sage: intervals = [[x, x+randint(1,50)] for x in ls]
             sage: P = polytopes.hypercube(4, intervals, backend='field')
-            sage: TestSuite(P).run()  # long time
+            sage: TestSuite(P).run()
 
         Check that :issue:`29904` is fixed::
 
@@ -3472,7 +3472,7 @@ class Polytopes:
 
         TESTS::
 
-            sage: TestSuite(P).run()                                                    # needs sage.rings.number_field, long time
+            sage: TestSuite(P).run()                                                    # needs sage.rings.number_field
         """
         from sage.modules.free_module_element import vector
         generators = [vector(v) for v in generators]

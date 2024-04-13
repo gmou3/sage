@@ -119,7 +119,7 @@ probability matrix::
 Since the `x_i` are formal variables, we need to compute the eigenvalues and
 eigenvectors in the symbolic ring ``SR``::
 
-    sage: Mt.change_ring(SR).eigenvalues()  # long time
+    sage: Mt.change_ring(SR).eigenvalues()
     [x2, x1, x0, x0 + x1 + x2, 0, 0]
 
 Do you see any pattern? In fact, if you start playing with bigger values of `n` (the size

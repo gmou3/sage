@@ -2515,10 +2515,10 @@ class IntegralAffineCurve(AffineCurve_field):
             sage: A.<x,y> = AffineSpace(GF(4), 2)
             sage: C = Curve(x^5 + y^5 + x*y + 1)
             sage: F = C.function_field()
-            sage: pls = F.places(1)  # long time
-            sage: C.place_to_closed_point(pls[-1])  # long time
+            sage: pls = F.places(1)
+            sage: C.place_to_closed_point(pls[-1])
             Point (x + 1, y + 1)
-            sage: C.place_to_closed_point(pls[-2])  # long time
+            sage: C.place_to_closed_point(pls[-2])
             Point (x + 1, y + 1)
         """
         F = self.function_field()

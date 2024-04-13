@@ -541,7 +541,7 @@ class TraceMonoid(UniqueRepresentation, Monoid_class):
 
             sage: from sage.monoids.trace_monoid import TraceMonoid
             sage: M.<a,b,c> = TraceMonoid(I=(('a','c'), ('c','a')))
-            sage: TestSuite(M).run()  # long time
+            sage: TestSuite(M).run()
         """
         self._free_monoid = M
         self._independence = I

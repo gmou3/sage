@@ -209,7 +209,7 @@ class AlgebraicScheme_subscheme_product_projective(AlgebraicScheme_subscheme_pro
         ::
 
             sage: PP = ProductProjectiveSpaces([2, 1, 3], CC, 't')                      # needs sage.rings.real_mpfr
-            sage: PP.subscheme([]).dimension()  # long time                             # needs sage.libs.singular sage.rings.real_mpfr
+            sage: PP.subscheme([]).dimension()                                          # needs sage.libs.singular sage.rings.real_mpfr
             6
 
         ::

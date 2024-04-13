@@ -143,7 +143,7 @@ class OrlikTeraoAlgebra(CombinatorialFreeModule):
             sage: OT = M.orlik_terao_algebra()
             sage: OT.dimension()
             672
-            sage: TestSuite(OT).run(elements=list(OT.basis()))  # long time
+            sage: TestSuite(OT).run(elements=list(OT.basis()))
 
         We check on the matroid associated to the graph with 3 vertices and
         2 edges between each vertex::

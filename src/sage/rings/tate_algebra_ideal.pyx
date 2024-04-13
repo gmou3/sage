@@ -624,7 +624,7 @@ cdef TateAlgebraElement regular_reduce(sgb, TateAlgebraTerm s, TateAlgebraElemen
 
     TESTS::
 
-        sage: cython(                                                                   # needs sage.misc.cython, long time
+        sage: cython(                                                                   # needs sage.misc.cython
         ....: '''
         ....: from sage.rings.tate_algebra_ideal cimport regular_reduce
         ....: def python_regular_reduce(gb, s, v, stopval):
@@ -639,10 +639,10 @@ cdef TateAlgebraElement regular_reduce(sgb, TateAlgebraTerm s, TateAlgebraElemen
         sage: p1 = (tx, x^3 + 9*x*y)
         sage: p2 = (ty, x*y + 3*x^2*y)
 
-        sage: python_regular_reduce([p1,p2], tx*ty, v, 8)   # indirect doctest          # needs sage.misc.cython, long time
+        sage: python_regular_reduce([p1,p2], tx*ty, v, 8)   # indirect doctest          # needs sage.misc.cython
         (2 + O(3^8))*x^2*y + (1 + O(3^8))*x + (1 + O(3^8))*y + O(3^8 * <x, y>)
 
-        sage: python_regular_reduce([p1,p2], tx, v, 8)      # indirect doctest          # needs sage.misc.cython, long time
+        sage: python_regular_reduce([p1,p2], tx, v, 8)      # indirect doctest          # needs sage.misc.cython
         (2 + 2*3 + 2*3^2 + 2*3^3 + 2*3^4 + 2*3^5 + 2*3^6 + 2*3^7 + O(3^8))*x^3
         + (2 + O(3^8))*x^2*y + (1 + O(3^8))*x + (1 + O(3^8))*y + O(3^8 * <x, y>)
     """

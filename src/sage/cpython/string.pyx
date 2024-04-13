@@ -6,7 +6,7 @@ TESTS:
 
 Check that this can be used outside of Sage (see :issue:`25549`)::
 
-    sage: cython(                                                                       # needs sage.misc.cython, long time
+    sage: cython(                                                                       # needs sage.misc.cython
     ....: '''
     ....: from sage.cpython.string cimport char_to_str
     ....: print(char_to_str("hello world!"))

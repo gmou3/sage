@@ -269,7 +269,7 @@ def to_graphics_array(graph_list, **kwds):
         sage: glist = []
         sage: for _ in range(10):                                                       # needs networkx
         ....:     glist.append(graphs.RandomLobster(41, .3, .4))
-        sage: graphs_list.to_graphics_array(glist, layout='spring', vertex_size=20)     # needs networkx sage.plot, long time
+        sage: graphs_list.to_graphics_array(glist, layout='spring', vertex_size=20)     # needs networkx sage.plot
         Graphics Array of size 3 x 4
     """
     from sage.graphs import graph
@@ -351,7 +351,7 @@ def show_graphs(graph_list, **kwds):
         sage: g = gq.get_graphs_list()
         sage: len(g)
         34
-        sage: graphs_list.show_graphs(g)                                                # needs sage.plot, long time
+        sage: graphs_list.show_graphs(g)                                                # needs sage.plot
 
     See the .plot() or .show() documentation for an individual graph for
     options, all of which are available from :func:`to_graphics_array`::

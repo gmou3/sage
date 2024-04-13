@@ -865,7 +865,7 @@ class SuperPartitions(UniqueRepresentation, Parent):
         EXAMPLES::
 
             sage: SP = SuperPartitions()
-            sage: TestSuite(SP).run()  # long time
+            sage: TestSuite(SP).run()
         """
         cat = EnumeratedSets()
         if is_infinite:
@@ -1153,7 +1153,7 @@ class SuperPartitions_all(SuperPartitions):
         TESTS::
 
             sage: SP = SuperPartitions()
-            sage: TestSuite(SP).run()  # long time
+            sage: TestSuite(SP).run()
         """
         SuperPartitions.__init__(self, True)
 

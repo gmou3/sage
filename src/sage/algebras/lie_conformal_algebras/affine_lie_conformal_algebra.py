@@ -59,7 +59,6 @@ class AffineLieConformalAlgebra(GradedLieConformalAlgebra):
 
     EXAMPLES::
 
-        sage: # long time
         sage: R = lie_conformal_algebras.Affine(QQ, 'A1')
         sage: R
         The affine Lie conformal algebra of type ['A', 1] over Rational Field

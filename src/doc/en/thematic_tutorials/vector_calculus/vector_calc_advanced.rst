@@ -196,7 +196,6 @@ The metric `g` is a *flat*: its Riemann curvature tensor
 :meth:`~sage.manifolds.differentiable.metric.PseudoRiemannianMetric.riemann`)
 is zero::
 
-    sage: # long time
     sage: g.riemann()
     Tensor field Riem(g) of type (1,3) on the Euclidean space E^3
     sage: g.riemann().display()

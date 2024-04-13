@@ -1159,7 +1159,7 @@ class VermaModule(CombinatorialFreeModule):
 
                 sage: it = iter(M.basis())
                 sage: B = [next(it) for _ in range(10)]
-                sage: all(d[i]*(d[j]*v) - d[j]*(d[i]*v) == d[i].bracket(d[j])*v  # long time
+                sage: all(d[i]*(d[j]*v) - d[j]*(d[i]*v) == d[i].bracket(d[j])*v
                 ....:     for i in range(-5, 5) for j in range(-5, 5) for v in B)
                 True
             """

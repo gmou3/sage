@@ -56,12 +56,12 @@ def _cubical_complex_union(c1, c2):
         ....: )
         sage: C1 = CubicalComplex([([0,0], [2,3]), ([0,1], [3,3]),
         ....:                      ([0,1], [2,2]), ([1,1], [2,3])]); C1
-        Cubical complex with 4 vertices and 9 cubes
+        Cubical complex with 4 vertices and 8 cubes
         sage: C2 = CubicalComplex([([0,0], [2,3]), ([0,1], [3,3]),
         ....:                      ([0,1], [2,2]), ([2,2], [2,3])]); C2
-        Cubical complex with 6 vertices and 11 cubes
+        Cubical complex with 6 vertices and 10 cubes
         sage: union(C1, C2)
-        Cubical complex with 6 vertices and 12 cubes
+        Cubical complex with 6 vertices and 11 cubes
         sage: union(C1, C1) == C1
         True
     """
@@ -615,7 +615,7 @@ class MomentAngleComplex(UniqueRepresentation, SageObject):
             {0: 0, 1: 0, 2: 0, 3: Z x Z x Z x Z, 4: Z x Z}
             sage: Z.homology(dim=range(0,5), reduced=False)
             {0: Z, 1: 0, 2: 0, 3: Z x Z x Z x Z, 4: Z x Z}
-            sage: all(Z.homology(i,reduced=True) == Z.homology(i,reduced=False)  # long time
+            sage: all(Z.homology(i,reduced=True) == Z.homology(i,reduced=False)
             ....:     for i in range(1, dim(Z)))
             True
             sage: all(Z.homology(i,reduced=True) == Z.homology(i,reduced=False)

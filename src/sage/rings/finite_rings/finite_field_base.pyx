@@ -1221,7 +1221,7 @@ cdef class FiniteField(Field):
             (0, 1)
             sage: all(from_V(to_V(e)) == e for e in E)
             True
-            sage: all(to_V(e1 + e2) == to_V(e1) + to_V(e2) for e1 in E for e2 in E)  # long time
+            sage: all(to_V(e1 + e2) == to_V(e1) + to_V(e2) for e1 in E for e2 in E)
             True
             sage: all(to_V(c * e) == c * to_V(e) for e in E for c in F)
             True
@@ -1251,7 +1251,7 @@ cdef class FiniteField(Field):
             True
             sage: all(from_V(to_V(e)) == e for e in E)
             True
-            sage: all(to_V(e1 + e2) == to_V(e1) + to_V(e2) for e1 in E for e2 in E)  # long time
+            sage: all(to_V(e1 + e2) == to_V(e1) + to_V(e2) for e1 in E for e2 in E)
             True
             sage: all(to_V(h(c) * e) == c * to_V(e) for e in E for c in F)
             True

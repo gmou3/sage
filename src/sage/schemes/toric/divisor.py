@@ -1356,7 +1356,7 @@ class ToricDivisor_generic(Divisor_generic):
 
             sage: dP6 = toric_varieties.dP6()
             sage: D = dP6.divisor(1)
-            sage: D._sheaf_cohomology( SimplicialComplex([[]]) )
+            sage: D._sheaf_cohomology( SimplicialComplex() )
             (1, 0, 0)
             sage: D._sheaf_cohomology( SimplicialComplex([[1,2],[2,3],[3,1]]) )
             (0, 0, 1)

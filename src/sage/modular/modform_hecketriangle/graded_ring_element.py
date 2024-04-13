@@ -2026,7 +2026,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation,
             sage: abs(aut_fact2 - f_rho.parent().aut_factor(A, z)) < 1e-12
             True
             sage: cor_term = (4 * G.n() / (G.n()-2) * A.c() * (A.c()*z+A.d())) / (2*pi*i).n(1000) * G.lam()
-            sage: aut_fact*f(z) + cor_term*aut_fact2*f_rho(z)  # long time
+            sage: aut_fact*f(z) + cor_term*aut_fact2*f_rho(z)
             -15.9978074989... - 29.2775758341...*I
 
             sage: f.parent().default_num_prec(1000)
@@ -2113,7 +2113,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation,
             sage: abs(aut_fact2 - f_i.parent().aut_factor(A, z)) < 1e-12
             True
             sage: cor_term = (4 * A.c() * (A.c()*z+A.d())) / (2*pi*i).n(1000) * G.lam()
-            sage: aut_fact*f(z) + cor_term*aut_fact2*f_i(z)  # long time
+            sage: aut_fact*f(z) + cor_term*aut_fact2*f_i(z)
             -140.4711702... + 469.0793692...*I
 
             sage: f.parent().default_num_prec(1000)

@@ -864,7 +864,7 @@ class EndomorphismSubring(Homspace):
         EXAMPLES::
 
             sage: R = J0(33).endomorphism_ring()
-            sage: R.index_in(R)  # long time
+            sage: R.index_in(R)
             1
             sage: J = J0(37) ; E = J.endomorphism_ring() ; T = E.image_of_hecke_algebra()
             sage: T.index_in(E)

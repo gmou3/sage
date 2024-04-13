@@ -10392,7 +10392,6 @@ class NumberField_absolute(NumberField_generic):
             sage: K.<d> = CyclotomicField(11)
             sage: S = [K.primes_above(2)[0], K.primes_above(11)[0]]
             sage: b = d + 5
-            sage: # long time
             sage: a = K.hilbert_symbol_negative_at_S(S, b)
             sage: [K.hilbert_symbol(a,b,p) for p in S]
             [-1, -1]
@@ -10407,7 +10406,7 @@ class NumberField_absolute(NumberField_generic):
         Note that the closely related Hilbert conductor
         takes only the finite places into account::
 
-            sage: k.hilbert_conductor(a, b)  # long time
+            sage: k.hilbert_conductor(a, b)
             Fractional ideal (15)
 
 
@@ -12753,7 +12752,7 @@ def _splitting_classes_gens_(K, m, d):
         sage: from sage.rings.number_field.number_field import _splitting_classes_gens_
         sage: K = CyclotomicField(101)
         sage: L = K.subfields(20)[0][0]
-        sage: L.conductor()                                                             # needs sage.groups, long time
+        sage: L.conductor()                                                             # needs sage.groups
         101
         sage: _splitting_classes_gens_(L,101,20)                                        # needs sage.libs.gap  # optional - gap_package_polycyclic
         [95]

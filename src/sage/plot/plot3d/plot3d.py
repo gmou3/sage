@@ -1053,8 +1053,8 @@ def plot3d(f, urange, vrange, adaptive=False, transformation=None, **kwds):
 
     Make sure the transformation plots work::
 
-        sage: show(A + B + C + D + E)  # long time
-        sage: show(F + G + H + I + J)  # long time
+        sage: show(A + B + C + D + E)
+        sage: show(F + G + H + I + J)
 
     Listing the same plot variable twice gives an error::
 

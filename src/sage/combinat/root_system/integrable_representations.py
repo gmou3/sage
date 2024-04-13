@@ -86,7 +86,7 @@ class IntegrableRepresentation(UniqueRepresentation, CategoryObject):
     EXAMPLES::
 
          sage: Lambda = RootSystem(['A',3,1]).weight_lattice(extended=true).fundamental_weights()
-         sage: IntegrableRepresentation(Lambda[1]+Lambda[2]+Lambda[3]).print_strings()  # long time
+         sage: IntegrableRepresentation(Lambda[1]+Lambda[2]+Lambda[3]).print_strings()
          2*Lambda[0] + Lambda[2]: 4 31 161 665 2380 7658 22721 63120 166085 417295 1007601 2349655
          Lambda[0] + 2*Lambda[1]: 2 18 99 430 1593 5274 16005 45324 121200 308829 754884 1779570
          Lambda[0] + 2*Lambda[3]: 2 18 99 430 1593 5274 16005 45324 121200 308829 754884 1779570

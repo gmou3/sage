@@ -765,7 +765,7 @@ class OctonionAlgebra(UniqueRepresentation, Parent):
 
             sage: R.<a, b, c> = QQ[]
             sage: O = OctonionAlgebra(R, a, b, c)
-            sage: TestSuite(O).run()  # long time
+            sage: TestSuite(O).run()
         """
         self._params = (a, b, c)
         self._module = FreeModule(R, 8)

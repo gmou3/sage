@@ -202,7 +202,6 @@ In case ``dot2tex`` is not available, you can use instead::
 
 Here is an overview of all categories in Sage::
 
-    sage: # long time
     sage: g = sage.categories.category.category_graph()                                 # needs sage.graphs sage.modules
     sage: g.set_latex_options(format="dot2tex")                                         # needs sage.graphs sage.modules
     sage: view(g)                               # not tested                            # needs sage.graphs sage.modules sage.plot

@@ -57,7 +57,7 @@ class NeveuSchwarzLieConformalAlgebra(GradedLieConformalAlgebra):
         TESTS::
 
             sage: V = lie_conformal_algebras.NeveuSchwarz(QQ)
-            sage: TestSuite(V).run()  # long time
+            sage: TestSuite(V).run()
         """
         nsdict = {('L', 'L'): {0: {('L', 1): 1},
                                1: {('L', 0): 2},

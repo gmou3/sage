@@ -580,7 +580,7 @@ def symbolic_sum(expression, v, a, b, algorithm='maxima', hold=False):
     SymPy and Maxima 5.39.0 can do the following (see
     :issue:`22005`)::
 
-        sage: sum(1/((2*n+1)^2-4)^2, n, 0, Infinity, algorithm='sympy')  # long time
+        sage: sum(1/((2*n+1)^2-4)^2, n, 0, Infinity, algorithm='sympy')
         1/64*pi^2
         sage: sum(1/((2*n+1)^2-4)^2, n, 0, Infinity)
         1/64*pi^2
@@ -1724,7 +1724,6 @@ def laplace(ex, t, s, algorithm='maxima'):
 
     Check that :issue:`24212` is fixed::
 
-        sage: # long time
         sage: F, a, cond = laplace(cos(t^2), t, s, algorithm='sympy')
         sage: a, cond
         (0, True)

@@ -61,7 +61,7 @@ class InducedCrystal(UniqueRepresentation, Parent):
         sage: phi = lambda x: D(x.to_tableau())
         sage: phi_inv = lambda x: G(x.to_tableau())
         sage: I = crystals.Induced(G, phi, phi_inv)
-        sage: I.digraph().is_isomorphic(D.digraph(), edge_labels=True)  # long time
+        sage: I.digraph().is_isomorphic(D.digraph(), edge_labels=True)
         True
 
     Now we construct the above example but inducing the structure going the

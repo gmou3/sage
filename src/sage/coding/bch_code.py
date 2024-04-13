@@ -448,7 +448,6 @@ class BCHUnderlyingGRSDecoder(Decoder):
             ....:                    1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0])
             sage: print (c in C and (c-y).hamming_weight() == 8)
             True
-            sage: # long time
             sage: Dgrs.decode_to_code(y)
             [(1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1,
                  0, 1, 1, 0, 1, 0, 0),

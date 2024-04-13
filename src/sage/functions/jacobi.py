@@ -740,7 +740,7 @@ class InverseJacobi(BuiltinFunction):
             sage: a = 0.130103220857094
             sage: b = 0.437176765041986
             sage: m = var('m')
-            sage: almosteq(abs((diff(jacobi_cd(x, m), x) *  # long time
+            sage: almosteq(abs((diff(jacobi_cd(x, m), x) *
             ....:               diff(inverse_jacobi_cd(x, m), x).subs(x=jacobi_cd(x, m))).subs(x=a, m=b)),
             ....:          1, abs_eps=1e-14)
             True
