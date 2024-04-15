@@ -640,13 +640,6 @@ cdef class CircuitsMatroid(Matroid):
             sage: C1 == C2
             True
         """
-        from sage.matroids.utilities import cmp_elements_key
-        if ordering is None:
-            ordering = sorted(self.groundset(), key=cmp_elements_key)
-        else:
-            if frozenset(ordering) != self.groundset():
-                raise ValueError("not an ordering of the groundset")
-
         from sage.topology.simplicial_complex import SimplicialComplex
         return [frozenset(f) for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced)).face_iterator()]
 
@@ -667,14 +660,25 @@ cdef class CircuitsMatroid(Matroid):
         EXAMPLES::
 
             sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
-            sage: M.broken_circuit_complex()                                            # needs sage.graphs
+            sage: M.broken_circuit_complex()
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
-            sage: M.broken_circuit_complex([5,4,3,2,1])                                 # needs sage.graphs
+            sage: M.broken_circuit_complex([5,4,3,2,1])
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+
+        For a matroid with loops, the broken circuit complex is not defined,
+        and the method yields an error::
+
+            sage: M = Matroid(groundset=[0,1,2], circuits=[[0]])
+            sage: M.broken_circuit_complex()
+            Traceback (most recent call last):
+            ...
+            ValueError
         """
         from sage.topology.simplicial_complex import SimplicialComplex
+        if self.loops():
+            raise ValueError
         return SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced), maximality_check=False)
 
     # properties
@@ -695,7 +699,8 @@ cdef class CircuitsMatroid(Matroid):
 
         [Oxl2011]_, p. 327.
         """
-        return min(self._k_C, default=float('inf'))
+        from sage.rings.infinity import infinity
+        return min(self._k_C, default=infinity)
 
     cpdef is_paving(self):
         """
