@@ -8325,18 +8325,24 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
-            sage: M.broken_circuit_complex()                                            # needs sage.graphs
+            sage: M.broken_circuit_complex()
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
-            sage: M.broken_circuit_complex([5,4,3,2,1])                                 # needs sage.graphs
+            sage: M.broken_circuit_complex([5,4,3,2,1])
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
 
-        TESTS::
+        For a matroid with loops, the broken circuit complex is not defined,
+        and the method yields an error::
 
             sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
             sage: M.broken_circuit_complex()
-            Simplicial complex with vertex set () and facets {()}
+            Traceback (most recent call last):
+            ...
+            ValueError
+
+        TESTS::
+
             sage: for M in matroids.AllMatroids(5):  # optional - matroid_database
             ....:     r = M.rank()
             ....:     if r > 0 and not M.dual().loops():
@@ -8348,6 +8354,8 @@ cdef class Matroid(SageObject):
         from sage.topology.simplicial_complex import SimplicialComplex
         cdef int r = self.rank()
         cdef list facets = []
+        if self.loops():
+            raise ValueError
         for S in self.no_broken_circuits_sets_iterator(ordering):
             if len(S) == r:
                 if not reduced:
