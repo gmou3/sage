@@ -45,7 +45,7 @@ jobs:
           if git format-patch --stdout test_base > ci_fixes.patch; then
             cp ci_fixes.patch upstream/
           fi
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           path: upstream
           name: upstream
@@ -74,7 +74,7 @@ jobs:
           .ci/retrofit-worktree.sh worktree-image /sage
 
       - name: Download upstream artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           path: upstream
           name: upstream
