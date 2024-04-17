@@ -489,9 +489,9 @@ cdef class Matroid(SageObject):
             sage: M.groundset()
             Traceback (most recent call last):
             ...
-            NotImplementedError: subclasses need to implement this.
+            NotImplementedError: subclasses need to implement this
         """
-        raise NotImplementedError("subclasses need to implement this.")
+        raise NotImplementedError("subclasses need to implement this")
 
     cpdef _rank(self, X):
         r"""
@@ -516,9 +516,9 @@ cdef class Matroid(SageObject):
             sage: M._rank([0, 1, 2])
             Traceback (most recent call last):
             ...
-            NotImplementedError: subclasses need to implement this.
+            NotImplementedError: subclasses need to implement this
         """
-        raise NotImplementedError("subclasses need to implement this.")
+        raise NotImplementedError("subclasses need to implement this")
 
     # copying
 
