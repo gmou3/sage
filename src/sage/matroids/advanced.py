@@ -65,4 +65,4 @@ from .extension import LinearSubclasses, MatroidExtensions
 from .union_matroid import MatroidUnion, MatroidSum, PartitionMatroid
 
 from sage.misc.lazy_import import lazy_import
-lazy_import('sage.matroids.graphic_matroid', 'GraphicMatroid')
+from sage.matroids.graphic_matroid import GraphicMatroid

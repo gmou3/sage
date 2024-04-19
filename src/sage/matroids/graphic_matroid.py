@@ -88,15 +88,16 @@ Methods
 #  the License, or (at your option) any later version.
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
-from .matroid import Matroid
+from .matroid cimport Matroid
 
 from copy import copy, deepcopy
 from .utilities import newlabel, split_vertex, sanitize_contractions_deletions
 from itertools import combinations
 from sage.rings.integer import Integer
+from sage.sets.disjoint_set cimport DisjointSet_of_hashables
 
 
-class GraphicMatroid(Matroid):
+cdef class GraphicMatroid(Matroid):
     r"""
     The graphic matroid class.
 
@@ -218,16 +219,16 @@ class GraphicMatroid(Matroid):
                               self._vertex_map[e[1]], groundset[i]))
         # If the matroid is empty, have the internal graph be a single vertex
         if edge_list:
-            self._G = Graph(edge_list, loops=True, multiedges=True, weighted=True,
-                            data_structure='static_sparse')
+            self._G = <GenericGraph_pyx?> Graph(edge_list, loops=True, multiedges=True,
+                                                weighted=True, data_structure='static_sparse')
         else:
-            self._G = Graph(1, loops=True, multiedges=True, weighted=True,
-                            data_structure='static_sparse')
+            self._G = <GenericGraph_pyx?> Graph(1, loops=True, multiedges=True,
+                                                weighted=True, data_structure='static_sparse')
         # Map groundset elements to graph edges:
         # The edge labels should already be the elements.
         self._groundset_edge_map = ({l: (u, v) for (u, v, l) in self._G.edge_iterator()})
 
-    def groundset(self):
+    cpdef groundset(self):
         """
         Return the groundset of the matroid as a frozenset.
 
@@ -246,7 +247,7 @@ class GraphicMatroid(Matroid):
         """
         return self._groundset
 
-    def _rank(self, X):
+    cpdef _rank(self, X):
         """
         Return the rank of a set ``X``.
 
@@ -282,13 +283,12 @@ class GraphicMatroid(Matroid):
             sage: M.rank([0,3])
             1
         """
-        from sage.sets.disjoint_set import DisjointSet
-
-        edges = self.groundset_to_edges(X)
-        vertices = set([u for (u, v, ll) in edges]).union(
-            [v for (u, v, ll) in edges])
+        cdef DisjointSet_of_hashables DS_vertices
+        cdef list edges = self.groundset_to_edges(X)
+        cdef set vertices = set([u for (u, v, ll) in edges]).union(
+                                [v for (u, v, ll) in edges])
         # This counts components:
-        DS_vertices = DisjointSet(vertices)
+        DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, ll) in edges:
             DS_vertices.union(u, v)
         return (len(vertices) - DS_vertices.number_of_subsets())
@@ -316,7 +316,7 @@ class GraphicMatroid(Matroid):
 
     # Comparison:
 
-    def _vertex_stars(self):
+    cpdef _vertex_stars(self):
         """
         Compute the set of edge labels around each vertex.
 
@@ -474,7 +474,7 @@ class GraphicMatroid(Matroid):
 
     # Overrides:
 
-    def _minor(self, contractions=frozenset([]), deletions=frozenset([])):
+    cpdef _minor(self, contractions, deletions):
         """
         Return a minor.
 
@@ -493,9 +493,9 @@ class GraphicMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.CompleteGraphic(5)
-            sage: M._minor(deletions=frozenset([0,1,2]))
+            sage: M._minor(deletions=frozenset([0,1,2]), contractions=frozenset([]))
             Graphic matroid of rank 4 on 7 elements
-            sage: M._minor(contractions=frozenset([0,1,2]))
+            sage: M._minor(deletions=frozenset([]), contractions=frozenset([0,1,2]))
             Graphic matroid of rank 1 on 7 elements
             sage: M = Matroid(range(15), graphs.PetersenGraph())
             sage: N = M._minor(deletions=frozenset([0, 3, 5, 9]),
@@ -503,16 +503,16 @@ class GraphicMatroid(Matroid):
             sage: N
             Graphic matroid of rank 6 on 8 elements
         """
-        g = self.graph()
-        cont_edges = self._groundset_to_edges(contractions)
-        del_edges = self._groundset_to_edges(deletions)
+        cdef GenericGraph_pyx g = self.graph()
+        cdef list cont_edges = self._groundset_to_edges(contractions)
+        cdef list del_edges = self._groundset_to_edges(deletions)
         # deletions first so contractions don't mess up the vertices
         g.delete_edges(del_edges)
         g.contract_edges(cont_edges)
 
         return GraphicMatroid(g)
 
-    def _has_minor(self, N, certificate=False):
+    cpdef _has_minor(self, N, bint certificate=False):
         """
         Check if the matroid has a minor isomorphic to M(H).
 
@@ -649,7 +649,7 @@ class GraphicMatroid(Matroid):
                 N = N.regular_matroid()
             return M._has_minor(N, certificate=certificate)
 
-    def _corank(self, X):
+    cpdef _corank(self, X):
         """
         Return the corank of the set `X` in the matroid.
 
@@ -669,16 +669,15 @@ class GraphicMatroid(Matroid):
             sage: M._corank([1,2,3])
             3
         """
-        from sage.sets.disjoint_set import DisjointSet
-
-        all_vertices = self._G.vertices(sort=False)
-        not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
-        DS_vertices = DisjointSet(all_vertices)
+        cdef DisjointSet_of_hashables DS_vertices
+        cdef list all_vertices = self._G.vertices(sort=False)
+        cdef list not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
+        DS_vertices = DisjointSet_of_hashables(all_vertices)
         for u, v, ll in not_our_edges:
             DS_vertices.union(u, v)
         return len(X) - (DS_vertices.number_of_subsets() - Integer(1))
 
-    def _is_circuit(self, X):
+    cpdef _is_circuit(self, X):
         """
         Test if input is a circuit.
 
@@ -698,10 +697,10 @@ class GraphicMatroid(Matroid):
             sage: M._is_circuit([0,1,3])
             False
         """
-        g = self._subgraph_from_set(X)
+        cdef GenericGraph_pyx g = self._subgraph_from_set(X)
         return g.is_cycle()
 
-    def _closure(self, X):
+    cpdef _closure(self, X):
         """
         Return the closure of a set.
 
@@ -733,26 +732,26 @@ class GraphicMatroid(Matroid):
             sage: sorted(M._closure([4]))
             [0, 4, 5]
         """
-        X = set(X)
-        Y = self.groundset().difference(X)
-        edgelist = self._groundset_to_edges(Y)
-        g = self._subgraph_from_set(X)
-        V = g.vertices(sort=False)
-        components = g.connected_components_number()
+        cdef set XX = set(X)
+        cdef frozenset Y = self.groundset().difference(XX)
+        cdef list edgelist = self._groundset_to_edges(Y)
+        cdef GenericGraph_pyx g = self._subgraph_from_set(XX)
+        cdef list V = g.vertices(sort=False)
+        cdef int components = g.connected_components_number()
         for e in edgelist:
             # a non-loop edge is in the closure iff both its vertices are
             # in the induced subgraph, and the edge doesn't connect components
             if e[0] in V and e[1] in V:
                 g.add_edge(e)
                 if g.connected_components_number() >= components:
-                    X.add(e[2])
+                    XX.add(e[2])
                 else:
                     g.delete_edge(e)
         # add all loops
-        X.update(set([ll for (u, v, ll) in self._G.loops()]))
-        return frozenset(X)
+        XX.update(set([ll for (u, v, ll) in self._G.loops()]))
+        return frozenset(XX)
 
-    def _max_independent(self, X):
+    cpdef _max_independent(self, X):
         """
         Compute a maximal independent subset.
 
@@ -778,21 +777,20 @@ class GraphicMatroid(Matroid):
             sage: sorted(N._max_independent(frozenset(['a'])))
             []
         """
-        from sage.sets.disjoint_set import DisjointSet
-
-        edges = self.groundset_to_edges(X)
-        vertices = set([u for (u, v, ll) in edges])
+        cdef DisjointSet_of_hashables DS_vertices
+        cdef list edges = self.groundset_to_edges(X)
+        cdef set vertices = set([u for (u, v, ll) in edges])
         vertices.update([v for (u, v, ll) in edges])
 
-        our_set = set()
-        DS_vertices = DisjointSet(vertices)
+        cdef set our_set = set()
+        DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, ll) in edges:
             if DS_vertices.find(u) != DS_vertices.find(v):
                 DS_vertices.union(u, v)
                 our_set.add(ll)
         return frozenset(our_set)
 
-    def _max_coindependent(self, X):
+    cpdef _max_coindependent(self, X):
         """
         Compute a maximal coindependent subset.
 
@@ -813,14 +811,13 @@ class GraphicMatroid(Matroid):
             sage: sorted(N.max_coindependent([0,1,2,5]))
             [1, 2, 5]
         """
-        from sage.sets.disjoint_set import DisjointSet
+        cdef DisjointSet_of_hashables DS_vertices
+        cdef list edges = self.groundset_to_edges(X)
+        cdef list all_vertices = self._G.vertices(sort=False)
+        cdef list not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
 
-        edges = self.groundset_to_edges(X)
-        all_vertices = self._G.vertices(sort=False)
-        not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
-
-        our_set = set()
-        DS_vertices = DisjointSet(all_vertices)
+        cdef set our_set = set()
+        DS_vertices = DisjointSet_of_hashables(all_vertices)
         for (u, v, ll) in not_our_edges:
             DS_vertices.union(u, v)
 
@@ -831,7 +828,7 @@ class GraphicMatroid(Matroid):
                 DS_vertices.union(u, v)
         return frozenset(our_set)
 
-    def _circuit(self, X):
+    cpdef _circuit(self, X):
         """
         Return a minimal dependent subset.
 
@@ -877,14 +874,17 @@ class GraphicMatroid(Matroid):
             sage: sorted(M._circuit(M.groundset()))
             [4, 5]
         """
-        from sage.sets.disjoint_set import DisjointSet
+        cdef list edges = self.groundset_to_edges(X)
+        cdef set vertices = set()
+        cdef list vertex_list, leaves
+        cdef set edge_set = set()
+        cdef DisjointSet_of_hashables DS_vertices
 
-        edges = self.groundset_to_edges(X)
-        vertices = set([u for (u, v, ll) in edges]).union(
-            set([v for (u, v, ll) in edges]))
-        edge_set = set()
-        DS_vertices = DisjointSet(vertices)
-        for u, v, ll in edges:
+        for (u, v, ll) in edges:
+            vertices.add(u)
+            vertices.add(v)
+        DS_vertices = DisjointSet_of_hashables(vertices)
+        for (u, v, ll) in edges:
             edge_set.add((u, v, ll))
             if DS_vertices.find(u) != DS_vertices.find(v):
                 DS_vertices.union(u, v)
@@ -909,7 +909,7 @@ class GraphicMatroid(Matroid):
 
         return frozenset([ll for (u, v, ll) in edge_set])
 
-    def _coclosure(self, X):
+    cpdef _coclosure(self, X):
         """
         Return the coclosure of a set.
 
@@ -933,19 +933,19 @@ class GraphicMatroid(Matroid):
             sage: sorted(N._coclosure([3]))
             [3, 4, 5]
         """
-        g = self.graph()
+        cdef GenericGraph_pyx g = self.graph()
         g.delete_edges(self._groundset_to_edges(X))
-        components = g.connected_components_number()
-        X = set(X)
-        Y = self.groundset().difference(X)
+        cdef int components = g.connected_components_number()
+        cdef set XX = set(X)
+        cdef frozenset Y = self.groundset().difference(XX)
         for e in self._groundset_to_edges(Y):
             g.delete_edge(e)
             if g.connected_components_number() > components:
-                X.add(e[2])
+                XX.add(e[2])
             g.add_edge(e)
-        return frozenset(X)
+        return frozenset(XX)
 
-    def _is_closed(self, X):
+    cpdef _is_closed(self, X):
         """
         Test if input is a closed set.
 
@@ -971,19 +971,19 @@ class GraphicMatroid(Matroid):
         # Take the set of vertices of the edges corresponding to the elements,
         # and check if there are other edges incident with two of those vertices.
         # Also, there must not be loops outside of X.
-        X = set(X)
-        loop_labels = set([ll for (u, v, ll) in self._G.loops()])
-        if not loop_labels.issubset(X):
+        cdef set XX = set(X)
+        cdef set loop_labels = set([ll for (u, v, ll) in self._G.loops()])
+        if not loop_labels.issubset(XX):
             return False
 
         # Remove loops from input since we don't want to count them as
         # components
-        X.difference_update(loop_labels)
-        edge_list = self._groundset_to_edges(X)
+        XX.difference_update(loop_labels)
+        cdef list edge_list = self._groundset_to_edges(XX)
 
-        vertex_set = set()
-        Y = self.groundset().difference(X)
-        edge_list2 = self._groundset_to_edges(Y)
+        cdef set vertex_set = set()
+        cdef frozenset Y = self.groundset().difference(XX)
+        cdef list edge_list2 = self._groundset_to_edges(Y)
         for e in edge_list:
             vertex_set.add(e[0])
             vertex_set.add(e[1])
@@ -992,7 +992,7 @@ class GraphicMatroid(Matroid):
                 return False
         return True
 
-    def _is_isomorphic(self, other, certificate=False):
+    cpdef _is_isomorphic(self, other, certificate=False):
         """
         Test if ``self`` is isomorphic to ``other``.
 
@@ -1084,7 +1084,7 @@ class GraphicMatroid(Matroid):
                 return (True, {e: iso2[iso1[e]] for e in iso1})
             return M._is_isomorphic(other)
 
-    def _isomorphism(self, other):
+    cpdef _isomorphism(self, other):
         """
         Return isomorphism from ``self`` to ``other``, if such an isomorphism
         exists.
@@ -1123,7 +1123,7 @@ class GraphicMatroid(Matroid):
         """
         return self.is_isomorphic(other, certificate=True)[1]
 
-    def is_valid(self):
+    cpdef is_valid(self):
         """
         Test if the data obey the matroid axioms.
 
@@ -1140,7 +1140,7 @@ class GraphicMatroid(Matroid):
         """
         return True
 
-    def is_graphic(self):
+    cpdef is_graphic(self):
         r"""
         Return if ``self`` is graphic.
 
@@ -1154,7 +1154,7 @@ class GraphicMatroid(Matroid):
         """
         return True
 
-    def is_regular(self):
+    cpdef is_regular(self):
         r"""
         Return if ``self`` is regular.
 
@@ -1170,7 +1170,7 @@ class GraphicMatroid(Matroid):
 
     # Graphic methods:
 
-    def graph(self):
+    cpdef graph(self):
         """
         Return the graph that represents the matroid.
 
@@ -1190,7 +1190,7 @@ class GraphicMatroid(Matroid):
         # Return a mutable graph
         return self._G.copy(data_structure='sparse')
 
-    def vertex_map(self):
+    cpdef vertex_map(self):
         """
         Return a dictionary mapping the input vertices to the current vertices.
 
@@ -1225,7 +1225,7 @@ class GraphicMatroid(Matroid):
         """
         return copy(self._vertex_map)
 
-    def groundset_to_edges(self, X):
+    cpdef groundset_to_edges(self, X):
         """
         Return a list of edges corresponding to a set of groundset elements.
 
@@ -1250,7 +1250,7 @@ class GraphicMatroid(Matroid):
                 raise ValueError("input must be a subset of the groundset")
         return self._groundset_to_edges(X)
 
-    def _groundset_to_edges(self, X):
+    cpdef _groundset_to_edges(self, X):
         """
         Return a list of edges corresponding to a set of groundset elements.
 
@@ -1271,7 +1271,7 @@ class GraphicMatroid(Matroid):
             for x in X
         ]
 
-    def subgraph_from_set(self, X):
+    cpdef subgraph_from_set(self, X):
         """
         Return the subgraph corresponding to the matroid restricted to `X`.
 
@@ -1296,7 +1296,7 @@ class GraphicMatroid(Matroid):
                 raise ValueError("input must be a subset of the groundset")
         return self._subgraph_from_set(X)
 
-    def _subgraph_from_set(self, X):
+    cpdef _subgraph_from_set(self, X):
         """
         Return the subgraph corresponding to `M` restricted to `X`.
 
@@ -1317,7 +1317,7 @@ class GraphicMatroid(Matroid):
         edge_list = self._groundset_to_edges(X)
         return Graph(edge_list, loops=True, multiedges=True)
 
-    def graphic_extension(self, u, v=None, element=None):
+    cpdef graphic_extension(self, u, v=None, element=None):
         """
         Return a graphic matroid extended by a new element.
 
@@ -1469,7 +1469,7 @@ class GraphicMatroid(Matroid):
                 yield GraphicMatroid(G)
                 G.delete_edge(p[0], p[1], element)
 
-    def graphic_coextension(self, u, v=None, X=None, element=None):
+    cpdef graphic_coextension(self, u, v=None, X=None, element=None):
         """
         Return a matroid coextended by a new element.
 
@@ -1757,7 +1757,7 @@ class GraphicMatroid(Matroid):
                         yield self.graphic_coextension(
                             X=g, u=u, v=v, element=element)
 
-    def twist(self, X):
+    cpdef twist(self, X):
         """
         Perform a Whitney twist on the graph.
 
@@ -1869,7 +1869,7 @@ class GraphicMatroid(Matroid):
             G.add_edge(u, v, ll)
         return GraphicMatroid(G)
 
-    def one_sum(self, X, u, v):
+    cpdef one_sum(self, X, u, v):
         """
         Arrange matroid components in the graph.
 
@@ -2004,7 +2004,7 @@ class GraphicMatroid(Matroid):
 
         return GraphicMatroid(G)
 
-    def regular_matroid(self):
+    cpdef regular_matroid(self):
         """
         Return an instance of RegularMatroid isomorphic to this GraphicMatroid.
 
@@ -2034,7 +2034,7 @@ class GraphicMatroid(Matroid):
         X = [ll for u, v, ll in self._G.edge_iterator()]
         return ConstructorMatroid(groundset=X, graph=self._G, regular=True)
 
-    def relabel(self, mapping):
+    cpdef relabel(self, mapping):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 

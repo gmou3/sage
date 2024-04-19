@@ -637,14 +637,14 @@ cdef class Matroid(SageObject):
             sage: all(M.is_dependent(X.union([y])) for y in M.groundset() if y not in X)
             True
         """
-        res = set([])
-        r = 0
+        cdef list res = []
+        cdef int r = 0
         for e in X:
-            res.add(e)
+            res.append(e)
             if self._rank(res) > r:
                 r += 1
             else:
-                res.discard(e)
+                res.pop()
         return frozenset(res)
 
     cpdef _circuit(self, X):
@@ -673,10 +673,10 @@ cdef class Matroid(SageObject):
             ...
             ValueError: no circuit in independent set.
         """
-        Z = set(X)
+        cdef set Z = set(X)
         if self._is_independent(X):
             raise ValueError("no circuit in independent set.")
-        l = len(X) - 1
+        cdef int l = len(X) - 1
         for x in X:
             Z.discard(x)
             if self._rank(Z) == l:
@@ -723,14 +723,14 @@ cdef class Matroid(SageObject):
             sage: sorted(M._closure(set(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
         """
-        X = set(X)
-        Y = self.groundset().difference(X)
-        r = self._rank(X)
+        cdef list XX = list(X)
+        cdef frozenset Y = self.groundset().difference(frozenset(X))
+        cdef int r = self._rank(X)
         for y in Y:
-            X.add(y)
-            if self._rank(X) > r:
-                X.discard(y)
-        return frozenset(X)
+            XX.append(y)
+            if self._rank(XX) > r:
+                XX.pop()
+        return frozenset(XX)
 
     cpdef _corank(self, X):
         """
@@ -2386,21 +2386,24 @@ cdef class Matroid(SageObject):
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
         """
+        cdef SetSystem C
+        cdef frozenset E = self.groundset()
+        cdef set C_set = set()
+        cdef set B_ext = set()
         if k is None:
-            C = set()
-            B_ext = set()
             for B in self.bases_iterator():
-                for e in B ^ self.groundset():
+                for e in B ^ E:
                     B_ext.add(B | set([e]))
             for S in B_ext:
-                C.add(self._circuit(S))
+                C_set.add(self._circuit(S))
+            return SetSystem(list(E), C_set)
         else:
-            C = []
-            for X in combinations(self.groundset(), k):
+            C = SetSystem(list(E))
+            for X in combinations(E, k):
                 X = frozenset(X)
                 if self._is_circuit(X):
-                        C.append(X)
-        return SetSystem(list(self.groundset()), C)
+                    C.append(X)
+                return C
 
     def circuits_iterator(self, k=None):
         """
