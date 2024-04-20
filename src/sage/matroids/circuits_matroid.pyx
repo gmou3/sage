@@ -546,8 +546,9 @@ cdef class CircuitsMatroid(Matroid):
             Iterator over a system of subsets
         """
         cdef list NSC = []
+        cdef r = self.rank()
         for i in self._k_C:
-            if i <= self.rank():
+            if i <= r:
                 NSC.extend(self._k_C[i])
         return SetSystem(list(self.groundset()), NSC)
 
@@ -562,8 +563,9 @@ cdef class CircuitsMatroid(Matroid):
             sage: list(M.nonspanning_circuits_iterator())
             []
         """
+        cdef r = self.rank()
         for i in self._k_C:
-            if i <= self.rank():
+            if i <= r:
                 for C in self._k_C[i]:
                     yield C
 
@@ -685,7 +687,10 @@ cdef class CircuitsMatroid(Matroid):
             True
         """
         from sage.topology.simplicial_complex import SimplicialComplex
-        return [frozenset(f) for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced)).face_iterator()]
+        return [frozenset(f) for f in SimplicialComplex(
+                    self.no_broken_circuits_facets(ordering, reduced),
+                    maximality_check=False
+                ).face_iterator()]
 
     cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""

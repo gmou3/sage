@@ -897,7 +897,7 @@ cdef class Matroid(SageObject):
         r = self._rank(X)
         for e in Y:
             X.add(e)
-            if self.rank(X) > r:
+            if self._rank(X) > r:
                 r += 1
                 res.add(e)
         return frozenset(res)
@@ -5088,7 +5088,7 @@ cdef class Matroid(SageObject):
         B = self.basis()
         components = [frozenset([e]) for e in self.groundset()]
         for e in self.groundset() - B:
-            C = self.circuit(B | set([e]))
+            C = self._circuit(B | set([e]))
             components2 = []
             for comp in components:
                 if (C & comp):
@@ -6017,8 +6017,8 @@ cdef class Matroid(SageObject):
 
         Y = self.groundset()-X
         # Returns true if there is a m-separator
-        if (self.rank(Y_2|(X-X_1)) - len(X-X_1)
-            + self.rank(Y_1|(X-X_2)) - len(X-X_2) != m-1):
+        if (self._rank(Y_2|(X-X_1)) - len(X-X_1)
+            + self._rank(Y_1|(X-X_2)) - len(X-X_2) != m-1):
             return False, None
         if len(X_1|Y_1) < m:
             return False, None
@@ -6028,16 +6028,16 @@ cdef class Matroid(SageObject):
             #rowshifts
             rowshift = False
             for x in set(remainX):
-                if (self.rank(Y_1|(X-(X_2|set([x])))) - len(X-(X_2|set([x])))
-                    > self.rank(Y_1|(X-X_2)) - len(X-X_2)):
+                if (self._rank(Y_1|(X-(X_2|set([x])))) - len(X-(X_2|set([x])))
+                    > self._rank(Y_1|(X-X_2)) - len(X-X_2)):
                     X_1.add(x)
                     remainX.remove(x)
                     rowshift = True
             #colshifts
             colshift = False
             for y in set(remainY):
-                if (self.rank(Y_2|set([y])|(X-X_1)) - len(X-X_1)
-                    > self.rank(Y_2|(X-X_1)) - len(X-X_1)):
+                if (self._rank(Y_2|set([y])|(X-X_1)) - len(X-X_1)
+                    > self._rank(Y_2|(X-X_1)) - len(X-X_1)):
                     Y_1.add(y)
                     remainY.remove(y)
                     colshift = True
@@ -8046,7 +8046,7 @@ cdef class Matroid(SageObject):
         f = MIP.new_variable(binary=True)
         MIP.set_objective(sum([f[F] for F in FF]))
         for N in NB:
-            MIP.add_constraint(sum([f[F] for F in FF if len(F.intersection(N)) > self.rank(F)]), min=1)
+            MIP.add_constraint(sum([f[F] for F in FF if len(F.intersection(N)) > self._rank(F)]), min=1)
         _ = MIP.solve(log=verbose)
 
         fsol = MIP.get_values(f, convert=bool, tolerance=integrality_tolerance)
@@ -8510,7 +8510,7 @@ cdef class Matroid(SageObject):
         for c in LM.chains(exclude=LM.maximal_elements()):
             if c: # the facets of IM are already present
                 # get the cardinality of intersection of facet with IM
-                r = self.rank() - len(c)
+                r = self._rank(self.groundset()) - len(c)
 
                 # get candidate independent_sets
                 for I in self.independent_r_sets_iterator(r):
@@ -8684,7 +8684,7 @@ cdef class Matroid(SageObject):
         def f_relabel(X):
             d_inv = {d[x]: x for x in self.groundset()}
             X_inv = [d_inv[x] for x in X]
-            return self.rank(X_inv)
+            return self._rank(X_inv)
 
         M = RankMatroid(groundset=E, rank_function=f_relabel)
         return M

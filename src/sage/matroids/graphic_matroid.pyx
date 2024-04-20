@@ -290,7 +290,7 @@ cdef class GraphicMatroid(Matroid):
         # This counts components:
         DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, ll) in edges:
-            DS_vertices.union(u, v)
+            DS_vertices._union(u, v)
         return (len(vertices) - DS_vertices.number_of_subsets())
 
     # Representation:
@@ -310,9 +310,9 @@ cdef class GraphicMatroid(Matroid):
             sage: M
             Graphic matroid of rank 2 on 5 elements
         """
-        self._mrank = str(self._rank(self._groundset))
-        self._elts = str(len(self._groundset))
-        return f'Graphic matroid of rank {self._mrank} on {self._elts} elements'
+        r = self._rank(self._groundset)
+        n = len(self._groundset)
+        return f'Graphic matroid of rank {r} on {n} elements'
 
     # Comparison:
 
@@ -674,7 +674,7 @@ cdef class GraphicMatroid(Matroid):
         cdef list not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
         DS_vertices = DisjointSet_of_hashables(all_vertices)
         for u, v, ll in not_our_edges:
-            DS_vertices.union(u, v)
+            DS_vertices._union(u, v)
         return len(X) - (DS_vertices.number_of_subsets() - Integer(1))
 
     cpdef _is_circuit(self, X):
@@ -785,8 +785,8 @@ cdef class GraphicMatroid(Matroid):
         cdef set our_set = set()
         DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, ll) in edges:
-            if DS_vertices.find(u) != DS_vertices.find(v):
-                DS_vertices.union(u, v)
+            if DS_vertices._find(u) != DS_vertices._find(v):
+                DS_vertices._union(u, v)
                 our_set.add(ll)
         return frozenset(our_set)
 
@@ -819,13 +819,13 @@ cdef class GraphicMatroid(Matroid):
         cdef set our_set = set()
         DS_vertices = DisjointSet_of_hashables(all_vertices)
         for (u, v, ll) in not_our_edges:
-            DS_vertices.union(u, v)
+            DS_vertices._union(u, v)
 
         for (u, v, ll) in edges:
-            if DS_vertices.find(u) == DS_vertices.find(v):
+            if DS_vertices._find(u) == DS_vertices._find(v):
                 our_set.add(ll)
             else:
-                DS_vertices.union(u, v)
+                DS_vertices._union(u, v)
         return frozenset(our_set)
 
     cpdef _circuit(self, X):
@@ -876,7 +876,9 @@ cdef class GraphicMatroid(Matroid):
         """
         cdef list edges = self.groundset_to_edges(X)
         cdef set vertices = set()
-        cdef list vertex_list, leaves
+        cdef list vertex_list = []
+        cdef list leaves
+        cdef tuple leaf
         cdef set edge_set = set()
         cdef DisjointSet_of_hashables DS_vertices
 
@@ -886,15 +888,15 @@ cdef class GraphicMatroid(Matroid):
         DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, ll) in edges:
             edge_set.add((u, v, ll))
-            if DS_vertices.find(u) != DS_vertices.find(v):
-                DS_vertices.union(u, v)
+            if DS_vertices._find(u) != DS_vertices._find(v):
+                DS_vertices._union(u, v)
             else:
                 break
         else:
             raise ValueError("no circuit in independent set")
 
-        vertex_list = [u for u, v, ll in edge_set]
-        vertex_list += [v for u, v, ll in edge_set]
+        for (u, v, ll) in edge_set:
+            vertex_list.extend([u, v])
         leaves = [(u, v, ll) for (u, v, ll) in edge_set
                   if vertex_list.count(u) == 1 or vertex_list.count(v) == 1]
         while leaves:

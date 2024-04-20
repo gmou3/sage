@@ -2,12 +2,10 @@ from .matroid cimport Matroid
 from sage.graphs.generic_graph_pyx cimport GenericGraph_pyx
 
 cdef class GraphicMatroid(Matroid):
-    cdef str _mrank
-    cdef str _elts
     cdef frozenset _groundset
+    cdef readonly GenericGraph_pyx _G
     cdef dict _vertex_map
     cdef dict _groundset_edge_map
-    cdef readonly GenericGraph_pyx _G
     cpdef groundset(self)
     cpdef _rank(self, X)
     cpdef _vertex_stars(self)
