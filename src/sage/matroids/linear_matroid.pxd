@@ -175,3 +175,4 @@ cdef class RegularMatroid(LinearMatroid):
 
     cpdef is_graphic(self)
     cpdef is_valid(self)
+    cpdef is_regular(self)

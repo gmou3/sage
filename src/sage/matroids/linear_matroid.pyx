@@ -6298,7 +6298,7 @@ cdef class RegularMatroid(LinearMatroid):
 
     # representation
 
-    def is_regular(self):
+    cpdef is_regular(self):
         r"""
         Return if ``self`` is regular.
 
