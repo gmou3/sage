@@ -12657,7 +12657,7 @@ class GenericGraph(GenericGraph_pyx):
         DS = DisjointSet(self.vertex_iterator())
 
         for u, v, label in edge_list:
-            DS._union(u, v)
+            DS.join(u, v)
 
         self.delete_edges(edge_list)
         edges_incident = []

@@ -335,9 +335,9 @@ def is_partial_cube(G, certificate=False):
             if diff not in neighbors:
                 return fail
             neighbor = neighbors[diff]
-            unionfind._union(contracted.edge_label(v, w),
+            unionfind.join(contracted.edge_label(v, w),
                             contracted.edge_label(root, neighbor))
-            unionfind._union(contracted.edge_label(w, v),
+            unionfind.join(contracted.edge_label(w, v),
                             contracted.edge_label(neighbor, root))
             labeled.add_edge(v, w)
 
@@ -356,7 +356,7 @@ def is_partial_cube(G, certificate=False):
                 if vi == wi:
                     return fail
                 if newgraph.has_edge(vi, wi):
-                    unionfind._union(newgraph.edge_label(vi, wi), t)
+                    unionfind.join(newgraph.edge_label(vi, wi), t)
                 else:
                     newgraph.add_edge(vi, wi, t)
         contracted = newgraph

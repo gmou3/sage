@@ -345,17 +345,17 @@ def kruskal_iterator(G, by_weight=True, weight_function=None, check_weight=False
             yield from G.edge_iterator()
             return
 
-    cdef DisjointSet_of_hashables union_find = DisjointSet_of_hashables(G)
+    cdef DisjointSet_of_hashables disjointset = DisjointSet_of_hashables(G)
     by_weight, weight_function = G._get_weight_function(by_weight=by_weight,
                                                         weight_function=weight_function,
                                                         check_weight=check_weight)
-    yield from kruskal_iterator_from_edges(G.edge_iterator(), union_find,
+    yield from kruskal_iterator_from_edges(G.edge_iterator(), disjointset,
                                            by_weight=by_weight,
                                            weight_function=weight_function,
                                            check_weight=False)
 
 
-def kruskal_iterator_from_edges(edges, union_find, by_weight=True,
+def kruskal_iterator_from_edges(edges, disjointset, by_weight=True,
                                 weight_function=None, check_weight=False):
     """
     Return an iterator implementation of Kruskal algorithm on list of edges.
@@ -364,7 +364,7 @@ def kruskal_iterator_from_edges(edges, union_find, by_weight=True,
 
     - ``edges`` -- list of edges
 
-    - ``union_find`` -- a
+    - ``disjointset`` -- a
       :class:`~sage.sets.disjoint_set.DisjointSet_of_hashables` encoding a
       forest
 
@@ -416,13 +416,13 @@ def kruskal_iterator_from_edges(edges, union_find, by_weight=True,
     # Kruskal's algorithm
     for e in edges:
         # acyclic test via union-find
-        u = union_find._find(e[0])
-        v = union_find._find(e[1])
+        u = disjointset.find(e[0])
+        v = disjointset.find(e[1])
         if u != v:
             yield e
             # merge the trees
-            union_find._union(u, v)
-            if union_find.number_of_subsets() == 1:
+            disjointset.join(u, v)
+            if disjointset.number_of_subsets() == 1:
                 return
 
 
@@ -657,7 +657,7 @@ def filter_kruskal_iterator(G, threshold=10000, by_weight=True, weight_function=
     # Parameter to  equally divide edges with weight equal the to pivot
     cdef bint ch = True
     # Data structure to record the vertices in each tree of the forest
-    cdef DisjointSet_of_hashables union_find = DisjointSet_of_hashables(g)
+    cdef DisjointSet_of_hashables disjointset = DisjointSet_of_hashables(g)
 
     #
     # Iteratively partition the list of edges
@@ -668,12 +668,12 @@ def filter_kruskal_iterator(G, threshold=10000, by_weight=True, weight_function=
         if end - begin < threshold:
             # Filter edges connecting vertices of a same tree
             L = [edges[e_index[i]] for i in range(begin, end + 1)
-                 if union_find._find(edges[e_index[i]][0]) != union_find._find(edges[e_index[i]][1])]
-            yield from kruskal_iterator_from_edges(L, union_find,
+                 if disjointset.find(edges[e_index[i]][0]) != disjointset.find(edges[e_index[i]][1])]
+            yield from kruskal_iterator_from_edges(L, disjointset,
                                                    by_weight=by_weight,
                                                    weight_function=weight_function,
                                                    check_weight=False)
-            if union_find.number_of_subsets() == 1:
+            if disjointset.number_of_subsets() == 1:
                 return
             continue
 
@@ -908,7 +908,7 @@ def boruvka(G, by_weight=True, weight_function=None, check_weight=True, check=Fa
             component2 = partitions._find(e[1])
 
             if component1 != component2:
-                partitions._union(component1, component2)
+                partitions.join(component1, component2)
                 T.append(e)
                 numConComp = numConComp - 1
 
@@ -1436,7 +1436,7 @@ def edge_disjoint_spanning_trees(G, k, by_weight=False, weight_function=None, ch
 
         if augmenting_sequence_found:
             # We perform the corresponding augmentation
-            partition[i]._union(v, w)
+            partition[i].join(v, w)
 
             while fe in edge_label:
                 F[edge_index[fe]].delete_edge(fe)
@@ -1450,7 +1450,7 @@ def edge_disjoint_spanning_trees(G, k, by_weight=False, weight_function=None, ch
 
         else:
             # x and y are in a same tree in every Fi, so in a same clump
-            partition[0]._union(x, y)
+            partition[0].join(x, y)
 
     res = [F[i] for i in range(1, k + 1) if F[i].size() == G.order() - 1]
     if len(res) != k:

@@ -3230,7 +3230,7 @@ class HasseDiagram(DiGraph):
                 if part:  # Skip empty parts
                     c = part[0]
                     for e in fill_to_interval(part):
-                        cong._union(e, c)
+                        cong.join(e, c)
             t = cong.number_of_subsets()
 
             # Following is needed for cases like
@@ -3238,7 +3238,7 @@ class HasseDiagram(DiGraph):
             for c in list(cong):
                 r = c[0]
                 for v in fill_to_interval(c):
-                    cong._union(r, v)
+                    cong.join(r, v)
 
         todo = {cong._find(e) for part in parts for e in part}
 
@@ -3291,8 +3291,8 @@ class HasseDiagram(DiGraph):
             while c is not None:
                 newblock = cong._find(c)
                 for i in self.interval(c, d):
-                    cong._union(newblock, i)
-                C = cong.root_to_elements_dict()[cong._find(newblock)]
+                    cong.join(newblock, i)
+                C = cong.root_to_elements_dict()[cong.find(newblock)]
                 mins = [i for i in C if all(i_ not in C for i_ in self.neighbor_in_iterator(i))]
                 maxs = [i for i in C if all(i_ not in C for i_ in self.neighbor_out_iterator(i))]
                 c = None  # To stop loop, if this is not changed below.

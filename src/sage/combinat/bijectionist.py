@@ -614,7 +614,7 @@ class Bijectionist(SageObject):
         P = sorted(self._sorter["A"](p) for p in P)
         for p in P:
             for a in p:
-                self._P._union(p[0], a)
+                self._P.join(p[0], a)
 
         self._compute_possible_block_values()
 
@@ -1678,7 +1678,7 @@ class Bijectionist(SageObject):
                         try:
                             solution = different_values(tP[i1], tP[i2])
                         except StopIteration:
-                            tmp_P._union(tP[i1], tP[i2])
+                            tmp_P.join(tP[i1], tP[i2])
                             if len(multiple_preimages[tZ]) == 2:
                                 del multiple_preimages[tZ]
                             else:
@@ -2198,7 +2198,7 @@ class Bijectionist(SageObject):
             for a_tuple, image_set in updated_images.items():
                 image = image_set.pop()
                 while image_set:
-                    P._union(image, image_set.pop())
+                    P.join(image, image_set.pop())
                     something_changed = True
                 # we keep a representative
                 image_set.add(image)

@@ -1062,7 +1062,7 @@ class PolynomialSequence_generic(Sequence_generic):
         DS = DisjointSet(set().union(*vss))
         for u, *vs in vss:
             for v in vs:
-                DS._union(u, v)
+                DS.join(u, v)
 
         Ps = {}  # map root element -> polynomials in this component
         for f, vs in zip(self, vss):

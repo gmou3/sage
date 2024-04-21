@@ -297,7 +297,7 @@ class TensorFreeSubmodule_sym(TensorFreeModule):
             for index_set in self_sym_list:
                 i = index_set[0]
                 for j in index_set[1:]:
-                    S._union(i, j)
+                    S.join(i, j)
             for index_set in other_sym_list:
                 i = S._find(index_set[0])
                 for j in index_set[1:]:
