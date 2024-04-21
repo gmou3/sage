@@ -288,7 +288,7 @@ cdef class GraphicMatroid(Matroid):
         cdef set vertices = set([u for (u, v, ll) in edges]).union(
                                 [v for (u, v, ll) in edges])
         # This counts components:
-        DS_vertices = DisjointSet(vertices)
+        DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, l) in edges:
             DS_vertices.join(u, v)
         return (len(vertices) - DS_vertices.number_of_subsets())
@@ -669,11 +669,9 @@ cdef class GraphicMatroid(Matroid):
             sage: M._corank([1,2,3])
             3
         """
-        from sage.sets.disjoint_set import DisjointSet
-
         all_vertices = self._G.vertices(sort=False)
         not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
-        DS_vertices = DisjointSet(all_vertices)
+        DS_vertices = DisjointSet_of_hashables(all_vertices)
         for u, v, l in not_our_edges:
             DS_vertices.join(u, v)
         return len(X) - (DS_vertices.number_of_subsets() - Integer(1))
@@ -788,7 +786,7 @@ cdef class GraphicMatroid(Matroid):
         vertices.update([v for (u, v, l) in edges])
 
         our_set = set()
-        DS_vertices = DisjointSet(vertices)
+        DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, l) in edges:
             if DS_vertices.find(u) != DS_vertices.find(v):
                 DS_vertices.join(u, v)
@@ -827,7 +825,7 @@ cdef class GraphicMatroid(Matroid):
             DS_vertices._union(u, v)
 
         our_set = set()
-        DS_vertices = DisjointSet(all_vertices)
+        DS_vertices = DisjointSet_of_hashables(all_vertices)
         for (u, v, l) in not_our_edges:
             DS_vertices.join(u, v)
 
@@ -896,7 +894,7 @@ cdef class GraphicMatroid(Matroid):
         vertices = set([u for (u, v, l) in edges]).union(
             set([v for (u, v, l) in edges]))
         edge_set = set()
-        DS_vertices = DisjointSet(vertices)
+        DS_vertices = DisjointSet_of_hashables(vertices)
         for u, v, l in edges:
             edge_set.add((u, v, l))
             if DS_vertices.find(u) != DS_vertices.find(v):
