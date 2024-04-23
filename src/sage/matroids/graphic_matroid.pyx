@@ -150,7 +150,7 @@ cdef class GraphicMatroid(Matroid):
         sage: M = Matroid(G)
         sage: H = M.graph()
         sage: vm = M.vertex_map()
-        sage: (u, v, ll) = G.random_edge()
+        sage: (u, v, l) = G.random_edge()
         sage: H.has_edge(vm[u], vm[v])
         True
     """
@@ -285,12 +285,12 @@ cdef class GraphicMatroid(Matroid):
         """
         cdef DisjointSet_of_hashables DS_vertices
         cdef list edges = self.groundset_to_edges(X)
-        cdef set vertices = set([u for (u, v, ll) in edges]).union(
-                                [v for (u, v, ll) in edges])
+        cdef set vertices = set([u for (u, v, l) in edges]).union(
+                                [v for (u, v, l) in edges])
         # This counts components:
         DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, l) in edges:
-            DS_vertices.join(u, v)
+            DS_vertices.union(u, v)
         return (len(vertices) - DS_vertices.number_of_subsets())
 
     # Representation:
@@ -344,7 +344,7 @@ cdef class GraphicMatroid(Matroid):
         """
         star_list = []
         for v in self._G.vertices(sort=False):
-            star = [ll for (_, _, ll) in self._G.edges_incident(v)]
+            star = [l for (_, _, l) in self._G.edges_incident(v)]
             star_list.append(frozenset(star))
         return frozenset(star_list)
 
@@ -620,19 +620,13 @@ cdef class GraphicMatroid(Matroid):
                 big_vertex_list = list(chain.from_iterable(vertices_for_minor))
                 for v in G.vertices(sort=False):
                     if v not in big_vertex_list:
-                        deletions.extend(
-                            [ll for (u0, v0, ll) in G.edges_incident(v)]
-                        )
+                        deletions.extend([l for (u0, v0, l) in G.edges_incident(v)])
 
                 # take contractions and deletions with what we have so far
                 # then use method from abstract matroid class
-                conset, delset = sanitize_contractions_deletions(
-                    self, contractions, deletions
-                )
+                conset, delset = sanitize_contractions_deletions(self, contractions, deletions)
                 M = self.minor(contractions=conset, deletions=delset)
-                should_be_true, elements = Matroid._has_minor(
-                    M, N, certificate=True
-                )
+                should_be_true, elements = Matroid._has_minor(M, N, certificate=True)
 
                 # elements is a tuple (contractions, deletions, dict)
                 # There should be no more contractions
@@ -669,11 +663,12 @@ cdef class GraphicMatroid(Matroid):
             sage: M._corank([1,2,3])
             3
         """
-        all_vertices = self._G.vertices(sort=False)
-        not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
+        cdef DisjointSet_of_hashables DS_vertices
+        cdef list all_vertices = self._G.vertices(sort=False)
+        cdef list not_our_edges = self.groundset_to_edges(self._groundset.difference(X))
         DS_vertices = DisjointSet_of_hashables(all_vertices)
         for u, v, l in not_our_edges:
-            DS_vertices.join(u, v)
+            DS_vertices.union(u, v)
         return len(X) - (DS_vertices.number_of_subsets() - Integer(1))
 
     cpdef _is_circuit(self, X):
@@ -747,7 +742,7 @@ cdef class GraphicMatroid(Matroid):
                 else:
                     g.delete_edge(e)
         # add all loops
-        XX.update(set([ll for (u, v, ll) in self._G.loops()]))
+        XX.update(set([l for (u, v, l) in self._G.loops()]))
         return frozenset(XX)
 
     cpdef _max_independent(self, X):
@@ -778,18 +773,14 @@ cdef class GraphicMatroid(Matroid):
         """
         cdef DisjointSet_of_hashables DS_vertices
         cdef list edges = self.groundset_to_edges(X)
-        cdef set vertices = set([u for (u, v, ll) in edges])
-        vertices.update([v for (u, v, ll) in edges])
-
-        edges = self.groundset_to_edges(X)
-        vertices = set([u for (u, v, l) in edges])
+        cdef set vertices = set([u for (u, v, l) in edges])
         vertices.update([v for (u, v, l) in edges])
 
-        our_set = set()
+        cdef set our_set = set()
         DS_vertices = DisjointSet_of_hashables(vertices)
         for (u, v, l) in edges:
             if DS_vertices.find(u) != DS_vertices.find(v):
-                DS_vertices.join(u, v)
+                DS_vertices.union(u, v)
                 our_set.add(l)
         return frozenset(our_set)
 
@@ -821,19 +812,14 @@ cdef class GraphicMatroid(Matroid):
 
         cdef set our_set = set()
         DS_vertices = DisjointSet_of_hashables(all_vertices)
-        for (u, v, ll) in not_our_edges:
-            DS_vertices._union(u, v)
-
-        our_set = set()
-        DS_vertices = DisjointSet_of_hashables(all_vertices)
         for (u, v, l) in not_our_edges:
-            DS_vertices.join(u, v)
+            DS_vertices.union(u, v)
 
         for (u, v, l) in edges:
             if DS_vertices.find(u) == DS_vertices.find(v):
                 our_set.add(l)
             else:
-                DS_vertices.join(u, v)
+                DS_vertices.union(u, v)
         return frozenset(our_set)
 
     cpdef _circuit(self, X):
@@ -890,35 +876,32 @@ cdef class GraphicMatroid(Matroid):
         cdef set edge_set = set()
         cdef DisjointSet_of_hashables DS_vertices
 
-        edges = self.groundset_to_edges(X)
-        vertices = set([u for (u, v, l) in edges]).union(
-            set([v for (u, v, l) in edges]))
-        edge_set = set()
+        for (u, v, l) in edges:
+            vertices.add(u)
+            vertices.add(v)
         DS_vertices = DisjointSet_of_hashables(vertices)
-        for u, v, l in edges:
+        for (u, v, l) in edges:
             edge_set.add((u, v, l))
             if DS_vertices.find(u) != DS_vertices.find(v):
-                DS_vertices.join(u, v)
+                DS_vertices.union(u, v)
             else:
                 break
         else:
             raise ValueError("no circuit in independent set")
 
-        for (u, v, ll) in edge_set:
+        for (u, v, l) in edge_set:
             vertex_list.extend([u, v])
-        leaves = [(u, v, ll) for (u, v, ll) in edge_set
+        leaves = [(u, v, l) for (u, v, l) in edge_set
                   if vertex_list.count(u) == 1 or vertex_list.count(v) == 1]
         while leaves:
             for leaf in leaves:
                 edge_set.remove(leaf)
                 vertex_list.remove(leaf[0])
                 vertex_list.remove(leaf[1])
-            leaves = [
-                (u, v, ll) for (u, v, ll) in edge_set
-                if vertex_list.count(u) == 1 or vertex_list.count(v) == 1
-            ]
+            leaves = [(u, v, l) for (u, v, l) in edge_set
+                      if vertex_list.count(u) == 1 or vertex_list.count(v) == 1]
 
-        return frozenset([ll for (u, v, ll) in edge_set])
+        return frozenset([l for (u, v, l) in edge_set])
 
     cpdef _coclosure(self, X):
         """
@@ -983,7 +966,7 @@ cdef class GraphicMatroid(Matroid):
         # and check if there are other edges incident with two of those vertices.
         # Also, there must not be loops outside of X.
         cdef set XX = set(X)
-        cdef set loop_labels = set([ll for (u, v, ll) in self._G.loops()])
+        cdef set loop_labels = set([l for (u, v, l) in self._G.loops()])
         if not loop_labels.issubset(XX):
             return False
 
@@ -1070,9 +1053,9 @@ cdef class GraphicMatroid(Matroid):
             # We need to translate this to edge labels.
             vertex_certif = result[1]
             elt_certif = {}
-            for (u, v, ll) in G.edge_iterator():
+            for (u, v, l) in G.edge_iterator():
                 l_maps_to = H.edge_label(vertex_certif[u], vertex_certif[v])
-                elt_certif[ll] = l_maps_to
+                elt_certif[l] = l_maps_to
             return (True, elt_certif)
 
         else:
@@ -1277,10 +1260,7 @@ cdef class GraphicMatroid(Matroid):
             sage: M._groundset_to_edges([2,3,4])
             [(1, 2, 2), (1, 3, 3), (2, 3, 4)]
         """
-        return [
-            (self._groundset_edge_map[x][0], self._groundset_edge_map[x][1], x)
-            for x in X
-        ]
+        return [(self._groundset_edge_map[x][0], self._groundset_edge_map[x][1], x) for x in X]
 
     cpdef subgraph_from_set(self, X):
         """
@@ -1738,27 +1718,25 @@ cdef class GraphicMatroid(Matroid):
             # Next add an edge in series, for every series class in the input
             edges = set(G.edges_incident(vertices))
             while edges:
-                u0, v0, ll = edges.pop()
-                G.delete_edge(u0, v0, ll)
+                u0, v0, l = edges.pop()
+                G.delete_edge(u0, v0, l)
                 # place the new element on v0 if v0 is a vertex from input
                 if v0 in vertices:
-                    G.add_edge(u0, v, ll)
+                    G.add_edge(u0, v, l)
                     G.add_edge(v, v0, element)
                 else:
                     G.add_edge(u0, v, element)
-                    G.add_edge(v, v0, ll)
+                    G.add_edge(v, v0, l)
                 yield GraphicMatroid(G)
                 G.delete_vertex(v)
-                G.add_edge(u0, v0, ll)
+                G.add_edge(u0, v0, l)
 
-                edges.difference_update(
-                    self.groundset_to_edges(self.coclosure([ll]))
-                )
+                edges.difference_update(self.groundset_to_edges(self.coclosure([l])))
 
         # If a vertex has degree 1, or 2, or 3, we already handled it.
         for u in vertices:
             if G.degree(u) > 3:
-                elts_incident = [ll for (_, _, ll) in G.edges_incident(u)]
+                elts_incident = [l for (_, _, l) in G.edges_incident(u)]
                 x = elts_incident.pop()
                 for i in range(1, (len(elts_incident) - Integer(1))):
                     groups = combinations(elts_incident, i)
@@ -1864,11 +1842,11 @@ cdef class GraphicMatroid(Matroid):
         a = list(vertices)[0]
         b = list(vertices)[1]
 
-        edges = [(u, v, ll) for (u, v, ll) in X_edges
+        edges = [(u, v, l) for (u, v, l) in X_edges
                  if u in vertices or v in vertices]
         G = self.graph()
-        for (u, v, ll) in edges:
-            G.delete_edge(u, v, ll)
+        for (u, v, l) in edges:
+            G.delete_edge(u, v, l)
             if u == a:
                 u = b
             elif u == b:
@@ -1877,7 +1855,7 @@ cdef class GraphicMatroid(Matroid):
                 v = b
             elif v == b:
                 v = a
-            G.add_edge(u, v, ll)
+            G.add_edge(u, v, l)
         return GraphicMatroid(G)
 
     cpdef one_sum(self, X, u, v):
@@ -2042,7 +2020,7 @@ cdef class GraphicMatroid(Matroid):
             True
         """
         from sage.matroids.constructor import Matroid as ConstructorMatroid
-        X = [ll for u, v, ll in self._G.edge_iterator()]
+        X = [l for u, v, l in self._G.edge_iterator()]
         return ConstructorMatroid(groundset=X, graph=self._G, regular=True)
 
     cpdef relabel(self, mapping):

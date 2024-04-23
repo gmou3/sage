@@ -186,12 +186,11 @@ cdef class CircuitsMatroid(Matroid):
         """
         cdef set I = set(F)
         for i in self._k_C:
-            for C in self._k_C[i]:
-                if i <= len(I) and i > 0:
+            if i <= len(I) and i > 0:
+                for C in self._k_C[i]:
                     if C <= I:
                         e = next(iter(C))
                         I.remove(e)
-
         return frozenset(I)
 
     cpdef _circuit(self, F):
@@ -627,12 +626,11 @@ cdef class CircuitsMatroid(Matroid):
                     break
 
         cdef list F = []  # broken circuit complex facets
-        if not reduced:
-            BB = self.bases()
-        else:
-            BB = combinations(self.groundset().difference([ordering[0]]), self.rank()-1)
-            BB = [set([ordering[0]]) | set(B) for B in BB]
-        for B in BB:
+        cdef set B
+        cdef bint flag
+        BB = combinations(self.groundset().difference([ordering[0]]), self.rank()-1)
+        for bb in BB:
+            B = set([ordering[0]]) | set(bb)
             flag = True
             for bc in BC:
                 if bc <= B:
@@ -642,7 +640,7 @@ cdef class CircuitsMatroid(Matroid):
                 if not reduced:
                     F.append(B)
                 else:
-                    F.append(frozenset(B).difference([ordering[0]]))
+                    F.append(bb)
 
         return F
 
