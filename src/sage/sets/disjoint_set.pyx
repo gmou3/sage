@@ -73,7 +73,7 @@ cpdef DisjointSet(arg):
     - :meth:`~sage.sets.disjoint_set.DisjointSet_of_hashables.find` --
       Determine which set a particular element is in.
 
-    - :meth:`~sage.sets.disjoint_set.DisjointSet_of_hashables.join` --
+    - :meth:`~sage.sets.disjoint_set.DisjointSet_of_hashables.union` --
       Combine or merge two sets into a single set.
 
     REFERENCES:
@@ -285,13 +285,13 @@ cdef class DisjointSet_class(SageObject):
             sage: d = DisjointSet(5)
             sage: d.cardinality()
             5
-            sage: d.join(2, 4)
+            sage: d.union(2, 4)
             sage: d.cardinality()
             5
             sage: d = DisjointSet(range(5))
             sage: d.cardinality()
             5
-            sage: d.join(2, 4)
+            sage: d.union(2, 4)
             sage: d.cardinality()
             5
         """
@@ -306,13 +306,13 @@ cdef class DisjointSet_class(SageObject):
             sage: d = DisjointSet(5)
             sage: d.number_of_subsets()
             5
-            sage: d.join(2, 4)
+            sage: d.union(2, 4)
             sage: d.number_of_subsets()
             4
             sage: d = DisjointSet(range(5))
             sage: d.number_of_subsets()
             5
-            sage: d.join(2, 4)
+            sage: d.union(2, 4)
             sage: d.number_of_subsets()
             4
         """
@@ -400,7 +400,7 @@ cdef class DisjointSet_of_integers(DisjointSet_class):
 
     def __setstate__(self, l):
         r"""
-        Merge the nodes ``i`` and ``l[i]`` (using join) for ``i`` in
+        Merge the nodes ``i`` and ``l[i]`` (using union) for ``i`` in
         ``range(len(l))``.
 
         INPUT:
@@ -433,7 +433,7 @@ cdef class DisjointSet_of_integers(DisjointSet_class):
         """
         cdef int i, parent
         for i, parent in enumerate(l):
-            self.join(parent, i)
+            self.union(parent, i)
 
     cpdef int find(self, int i):
         r"""
@@ -441,7 +441,7 @@ cdef class DisjointSet_of_integers(DisjointSet_class):
 
         INPUT:
 
-        - ``i`` -- element in ``self`` (no input checking)
+        - ``i`` -- element in ``self``
 
         EXAMPLES::
 
@@ -581,7 +581,7 @@ cdef class DisjointSet_of_integers(DisjointSet_class):
             sage: g.edges(sort=True)                                                    # needs sage.graphs
             [(0, 0, None), (1, 2, None), (2, 2, None), (3, 2, None), (4, 2, None)]
 
-        The result depends on the ordering of the join::
+        The result depends on the ordering of the union::
 
             sage: d = DisjointSet(5)
             sage: d.union(1, 2)
@@ -603,7 +603,7 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
 
         sage: d = DisjointSet('abcde'); d
         {{'a'}, {'b'}, {'c'}, {'d'}, {'e'}}
-        sage: d.join('a', 'c'); d
+        sage: d.union('a', 'c'); d
         {{'a', 'c'}, {'b'}, {'d'}, {'e'}}
         sage: d.find('a')
         'a'
@@ -731,7 +731,7 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
             {{'a', 'b', 'c', 'd', 'e'}}
         """
         for a, b in l:
-            self.join(a, b)
+            self.union(a, b)
 
     cpdef find(self, e):
         r"""
@@ -739,7 +739,7 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
 
         INPUT:
 
-        - ``e`` -- element in ``self`` (no input checking)
+        - ``e`` -- element in ``self``
 
         EXAMPLES::
 
@@ -750,7 +750,7 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
             4
             sage: e.find(4)
             4
-            sage: e.join(1,3); e
+            sage: e.union(1,3); e
             {{0}, {1, 3}, {2, 4}}
             sage: e.find(1)
             1
@@ -860,7 +860,7 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
             sage: g.edges(sort=True)                                                    # needs sage.graphs
             [(0, 0, None), (1, 2, None), (2, 2, None), (3, 2, None), (4, 2, None)]
 
-        The result depends on the ordering of the join::
+        The result depends on the ordering of the union::
 
             sage: d = DisjointSet(range(5))
             sage: d.union(1, 2)

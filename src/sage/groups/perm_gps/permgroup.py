@@ -5306,7 +5306,7 @@ class PermutationGroup_action(PermutationGroup_generic):
             for g_orbit in g_orbits:
                 for o in g_orbit:
                     for i in range(1, len(o)):
-                        D._union(o[0], o[i])
+                        D.union(o[0], o[i])
             self._orbits = tuple(tuple(o) for o in D)
 
         PermutationGroup_generic.__init__(self, gens=gens,
