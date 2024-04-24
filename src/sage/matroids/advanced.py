@@ -14,6 +14,7 @@ This adds the following to the main namespace:
         - :class:`MinorMatroid <sage.matroids.minor_matroid.MinorMatroid>`
         - :class:`DualMatroid <sage.matroids.dual_matroid.DualMatroid>`
         - :class:`RankMatroid <sage.matroids.rank_matroid.RankMatroid>`
+        - :class:`RankMatroid <sage.matroids.circuits_matroid.CircuitsMatroid>`
         - :class:`CircuitClosuresMatroid <sage.matroids.circuit_closures_matroid.CircuitClosuresMatroid>`
         - :class:`BasisMatroid <sage.matroids.basis_matroid.BasisMatroid>`
         - :class:`FlatsMatroid <sage.matroids.flats_matroid.FlatsMatroid>`
@@ -49,6 +50,7 @@ AUTHORS:
 
 - Stefan van Zwam (2013-04-01): initial version
 """
+
 import sage.matroids.matroid
 import sage.matroids.basis_exchange_matroid
 from .minor_matroid import MinorMatroid
@@ -63,6 +65,4 @@ from .utilities import setprint, newlabel, get_nonisomorphic_matroids, lift_cros
 from . import lean_matrix
 from .extension import LinearSubclasses, MatroidExtensions
 from .union_matroid import MatroidUnion, MatroidSum, PartitionMatroid
-
-from sage.misc.lazy_import import lazy_import
-from sage.matroids.graphic_matroid import GraphicMatroid
+from .graphic_matroid import GraphicMatroid

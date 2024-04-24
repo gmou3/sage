@@ -15,10 +15,8 @@ See also :mod:`sage.matroids.advanced`.
 AUTHORS:
 
 - Rudi Pendavingh, Stefan van Zwam (2013-04-01): initial version
-
-Methods
-=======
 """
+
 # ****************************************************************************
 #       Copyright (C) 2013 Rudi Pendavingh <rudi.pendavingh@gmail.com>
 #       Copyright (C) 2013 Stefan van Zwam <stefanvanzwam@gmail.com>
@@ -32,7 +30,6 @@ Methods
 
 from sage.data_structures.bitset_base cimport *
 from sage.matroids.basis_matroid cimport BasisMatroid
-
 
 cdef class CutNode:
     """
@@ -246,7 +243,6 @@ cdef class LinearSubclassesIter:
                 if res is not None:
                     return res
 
-
 cdef class LinearSubclasses:
     r"""
     An iterable set of linear subclasses of a matroid.
@@ -409,7 +405,6 @@ cdef class LinearSubclasses:
         """
         cdef long p
         return [self._hyperplanes[p] for p in node.planes()]
-
 
 cdef class MatroidExtensions(LinearSubclasses):
     r"""

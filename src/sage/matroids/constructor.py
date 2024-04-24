@@ -105,7 +105,6 @@ AUTHORS:
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
 
-
 from itertools import combinations
 from sage.matrix.constructor import Matrix
 from sage.structure.element import is_Matrix
@@ -130,7 +129,6 @@ from .linear_matroid import (
 )
 from .graphic_matroid import GraphicMatroid
 import sage.matroids.utilities
-
 
 def Matroid(groundset=None, data=None, **kwds):
     r"""

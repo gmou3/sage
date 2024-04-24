@@ -19,6 +19,7 @@ AUTHORS:
 
 - Giorgos Mousa (2024-01-01): initial version
 """
+
 # ****************************************************************************
 #       Copyright (C) 2024 Giorgos Mousa <gmousa@proton.me>
 #
@@ -28,11 +29,11 @@ AUTHORS:
 # (at your option) any later version.
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
+
 from cpython.object cimport Py_EQ, Py_NE
 from sage.structure.richcmp cimport rich_to_bool, richcmp
 from .matroid cimport Matroid
 from .set_system cimport SetSystem
-from .utilities import setprint_s
 
 cdef class FlatsMatroid(Matroid):
     r"""

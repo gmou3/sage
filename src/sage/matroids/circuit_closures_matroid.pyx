@@ -65,7 +65,6 @@ from .matroid cimport Matroid
 from .set_system cimport SetSystem
 from .utilities import setprint_s, cmp_elements_key
 
-
 cdef class CircuitClosuresMatroid(Matroid):
     r"""
     A general matroid `M` is characterized by its rank `r(M)` and the set of

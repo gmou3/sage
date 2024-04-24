@@ -502,7 +502,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- an object with Python's ``frozenset`` interface.
+        - ``X`` -- an object with Python's ``frozenset`` interface
 
         OUTPUT: an integer
 
@@ -1135,10 +1135,10 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``contractions`` -- An object with Python's ``frozenset`` interface
-          containing a subset of ``self.groundset()``.
-        - ``deletions`` -- An object with Python's ``frozenset`` interface
-          containing a subset of ``self.groundset()``.
+        - ``contractions`` -- an object with Python's ``frozenset`` interface
+          containing a subset of ``self.groundset()``
+        - ``deletions`` -- an object with Python's ``frozenset`` interface
+          containing a subset of ``self.groundset()``
 
         .. NOTE::
 
@@ -3627,7 +3627,7 @@ cdef class Matroid(SageObject):
 
         - ``other`` -- matroid
 
-        OUTPUT: a dictionary, or ``None``
+        OUTPUT: dictionary or ``None``
 
         EXAMPLES::
 
@@ -3661,7 +3661,7 @@ cdef class Matroid(SageObject):
 
         - ``other`` -- matroid
 
-        OUTPUT: a dictionary, or ``None``
+        OUTPUT: dictionary or ``None``
 
         EXAMPLES::
 
@@ -3951,9 +3951,9 @@ cdef class Matroid(SageObject):
 
         .. WARNING::
 
-            This method is linked to ``__richcmp__`` (in Cython) and
-            ``__cmp__`` or ``__eq__``/``__ne__`` (in Python). If you override
-            one, you should (and in Cython: MUST) override the other!
+            This method is linked to __richcmp__ (in Cython) and __cmp__ or
+            __eq__/__ne__ (in Python). If you override one, you should (and in
+            Cython: MUST) override the other!
 
         EXAMPLES::
 

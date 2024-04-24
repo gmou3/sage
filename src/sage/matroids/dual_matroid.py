@@ -112,9 +112,7 @@ class DualMatroid(Matroid):
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT:
-
-        A set.
+        OUTPUT: set
 
         EXAMPLES::
 
@@ -133,11 +131,9 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an object with Python's ``frozenset`` interface.
+        - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        The rank of ``X`` in the matroid.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -153,12 +149,10 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- An object with Python's ``frozenset`` interface
-          containing a subset of ``self.groundset()``.
+        - ``X`` -- an object with Python's ``frozenset`` interface
+          containing a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        The corank of ``X``.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -177,9 +171,7 @@ class DualMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A maximal independent subset of ``X``.
+        OUTPUT: a maximal independent subset of ``X``
 
         EXAMPLES::
 
@@ -204,10 +196,8 @@ class DualMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A circuit contained in ``X``, if it exists. Otherwise an error is
-        raised.
+        OUTPUT: a circuit contained in ``X``, if it exists; otherwise, an error is
+        raised
 
         EXAMPLES::
 
@@ -232,9 +222,7 @@ class DualMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        The smallest closed set containing ``X``.
+        OUTPUT: the smallest closed set containing ``X``
 
         EXAMPLES::
 
@@ -253,9 +241,7 @@ class DualMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A maximal coindependent subset of ``X``.
+        OUTPUT: a maximal coindependent subset of ``X``
 
         EXAMPLES::
 
@@ -280,9 +266,7 @@ class DualMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        The smallest coclosed set containing ``X``.
+        OUTPUT: the smallest coclosed set containing ``X``
 
         EXAMPLES::
 
@@ -301,10 +285,8 @@ class DualMatroid(Matroid):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A cocircuit contained in ``X``, if it exists. Otherwise an error is
-        raised.
+        OUTPUT: a cocircuit contained in ``X``, if it exists; otherwise, an error is
+        raised
 
         EXAMPLES::
 
@@ -324,14 +306,12 @@ class DualMatroid(Matroid):
 
         INPUT:
 
-        - ``contractions`` -- An object with Python's ``frozenset`` interface
-          containing a subset of ``self.groundset()``.
-        - ``deletions`` -- An object with Python's ``frozenset`` interface
-          containing a subset of ``self.groundset()``.
+        - ``contractions`` -- an object with Python's ``frozenset`` interface
+          containing a subset of ``self.groundset()``
+        - ``deletions`` -- an object with Python's ``frozenset`` interface
+          containing a subset of ``self.groundset()``
 
-        OUTPUT:
-
-        A ``DualMatroid`` instance representing
+        OUTPUT: a class:`DualMatroid` representing
         `(``self._matroid`` / ``deletions`` \ ``contractions``)^*`
 
         .. NOTE::
@@ -339,8 +319,8 @@ class DualMatroid(Matroid):
             This method does NOT do any checks. Besides the assumptions above,
             we assume the following:
 
-            - ``contractions`` is independent
-            - ``deletions`` is coindependent
+            - ``contractions`` is independent;
+            - ``deletions`` is coindependent;
             - ``contractions`` and ``deletions`` are disjoint.
 
         EXAMPLES::
@@ -367,8 +347,7 @@ class DualMatroid(Matroid):
         Let `M` be a matroid with groundset `E`. If `B` is the set of bases
         of `M`, then the set `\{E - b : b \in B\}` is the set of bases of
         another matroid, the *dual* of `M`. Note that the dual of the dual of
-        `M` equals `M`, so if this is the
-        :class:`DualMatroid` instance
+        `M` equals `M`, so if this is the :class:`DualMatroid` instance
         wrapping `M` then the returned matroid is `M`.
 
         OUTPUT: the dual matroid
@@ -521,17 +500,18 @@ class DualMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_dual_matroid, (version, data)
 
-    def relabel(self, f):
+    def relabel(self, mapping):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by ``f[e]``,
-        where ``f`` is a given injective map. If ``e not in f`` then the
-        identity map is assumed.
+        The output is obtained by relabeling each element ``e`` by
+        ``mapping[e]``, where ``mapping`` is a given injective map. If
+        ``e not in mapping`` then the identity map is assumed.
 
         INPUT:
 
-        - ``f`` -- a python object such that `f[e]` is the new label of `e`
+        - ``mapping`` -- a python object such that `mapping[e]` is the new
+          label of `e`
 
         OUTPUT: matroid
 
@@ -554,5 +534,5 @@ class DualMatroid(Matroid):
             sage: for S in powerset(M.groundset()):
             ....:     assert M.rank(S) == N.rank([f[x] for x in S])
         """
-        M = self._matroid.relabel(f).dual()
+        M = self._matroid.relabel(mapping).dual()
         return M

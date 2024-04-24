@@ -159,14 +159,14 @@ def AllMatroids(n, r=None, type="all"):
         ....:             for M in matroids.AllMatroids(n+7, r+3, "unorientable"):
         ....:                 assert M.is_valid()
     """
-    from sage.matroids.constructor import Matroid
+    from .basis_matroid import BasisMatroid
     from sage.features.databases import DatabaseMatroids
     DatabaseMatroids().require()
     import matroid_database
 
     if type != "all" and type != "unorientable":
         try:
-            getattr(Matroid(bases=[[1, 2], [1, 3]]), "is_" + type)
+            getattr(BasisMatroid(groundset=[0], bases=[[0]]), "is_" + type)
         except AttributeError:
             raise AttributeError(
                 "The type \"%s\" is not available. " % type +
@@ -184,7 +184,7 @@ def AllMatroids(n, r=None, type="all"):
 
     for r in rng:
         if (r == 0 or r == n) and type != "unorientable":
-            M = Matroid(groundset=range(n), bases=[range(r)])
+            M = BasisMatroid(groundset=range(n), bases=[range(r)])
             M.rename(type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#" + "0" + ": " + repr(M))
             if type == "all":
                 yield M
@@ -207,7 +207,7 @@ def AllMatroids(n, r=None, type="all"):
 
             cnt = 0
             for B in matroids_bases(n, rp):
-                M = Matroid(groundset=range(n), bases=B)
+                M = BasisMatroid(groundset=range(n), bases=B)
 
                 if type != "unorientable" and n - r < r:
                     M = M.dual()

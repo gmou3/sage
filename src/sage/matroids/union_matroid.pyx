@@ -82,7 +82,7 @@ cdef class MatroidUnion(Matroid):
 
         INPUT:
 
-        - ``X`` -- an object with Python's ``frozenset`` interface.
+        - ``X`` -- an object with Python's ``frozenset`` interface
 
         OUTPUT:
 
@@ -215,7 +215,7 @@ cdef class MatroidSum(Matroid):
 
         INPUT:
 
-        - ``X`` -- an object with Python's ``frozenset`` interface.
+        - ``X`` -- an object with Python's ``frozenset`` interface
 
         OUTPUT:
 
@@ -314,7 +314,7 @@ cdef class PartitionMatroid(Matroid):
 
         INPUT:
 
-        - ``X`` -- an object with Python's ``frozenset`` interface.
+        - ``X`` -- an object with Python's ``frozenset`` interface
 
         OUTPUT:
 
