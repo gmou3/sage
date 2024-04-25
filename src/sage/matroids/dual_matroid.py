@@ -536,3 +536,24 @@ class DualMatroid(Matroid):
         """
         M = self._matroid.relabel(mapping).dual()
         return M
+
+    def is_valid(self):
+        """
+        Test if ``self`` obeys the matroid axioms.
+
+        For a class:`DualMatroid`, we check its dual.
+
+        OUTPUT: boolean
+
+        EXAMPLES::
+
+            sage: M = matroids.catalog.K5dual()
+            sage: type(M)
+            <class 'sage.matroids.dual_matroid.DualMatroid'>
+            sage: M.is_valid()
+            True
+            sage: M = Matroid([[0, 1], [2, 3]])
+            sage: M.dual().is_valid()
+            False
+        """
+        return self._matroid.is_valid()
