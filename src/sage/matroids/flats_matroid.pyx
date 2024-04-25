@@ -525,7 +525,7 @@ cdef class FlatsMatroid(Matroid):
             False
         """
         cdef int i, j, k
-        cdef frozenset F1, F2, F3, I12
+        cdef frozenset F1, F2, I12
         cdef list ranks, cover, flats_lst
         cdef bint flag
 
@@ -566,10 +566,9 @@ cdef class FlatsMatroid(Matroid):
                         I12 = F1 & F2
                         for k in self._F:
                             if k <= i:
-                                for F3 in self._F[k]:
-                                    if F3 == I12:
-                                        flag = True
-                                        break
+                                if I12 in self._F[k]:
+                                    flag = True
+                                    break
                                 if flag:
                                     break
                         if not flag:
