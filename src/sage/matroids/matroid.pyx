@@ -2514,7 +2514,7 @@ cdef class Matroid(SageObject):
         C = set()
         for B in self.bases_iterator():
             C.update([self._cocircuit(self.groundset().difference(B).union(set([e]))) for e in B])
-        return list(C)
+        return SetSystem(list(self.groundset()), C)
 
     def cocircuits_iterator(self):
         """

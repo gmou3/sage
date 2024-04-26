@@ -335,8 +335,7 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: M1 == M2
             True
 
-            sage: M = Matroid(groundset='abcd', circuits=['abc', 'abd', 'acd',
-            ....:                                         'bcd'])
+            sage: M = Matroid(groundset='abcd', circuits=['abc', 'abd', 'acd', 'bcd'])
             sage: type(M)
             <class 'sage.matroids.circuits_matroid.CircuitsMatroid'>
 
@@ -841,9 +840,7 @@ def Matroid(groundset=None, data=None, **kwds):
             if flag:
                 SC += [list(S)]
         # Define as CircuitsMatroid using spanning and nonspanning circuits
-        M = CircuitsMatroid(
-            groundset=groundset, circuits=data+SC, nsc_defined=True
-        )
+        M = CircuitsMatroid(groundset=groundset, circuits=data+SC, nsc_defined=True)
 
     # Flats
     elif key == 'flats':

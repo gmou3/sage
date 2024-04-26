@@ -6302,7 +6302,7 @@ cdef class RegularMatroid(LinearMatroid):
         r"""
         Return if ``self`` is regular.
 
-        This is trivially ``True`` for a class:`RegularMatroid`.
+        This is trivially ``True`` for a :class:`RegularMatroid`.
 
         EXAMPLES::
 

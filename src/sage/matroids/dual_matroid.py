@@ -311,7 +311,7 @@ class DualMatroid(Matroid):
         - ``deletions`` -- an object with Python's ``frozenset`` interface
           containing a subset of ``self.groundset()``
 
-        OUTPUT: a class:`DualMatroid` representing
+        OUTPUT: a :class:`DualMatroid` representing
         `(``self._matroid`` / ``deletions`` \ ``contractions``)^*`
 
         .. NOTE::
@@ -541,7 +541,7 @@ class DualMatroid(Matroid):
         """
         Test if ``self`` obeys the matroid axioms.
 
-        For a class:`DualMatroid`, we check its dual.
+        For a :class:`DualMatroid`, we check its dual.
 
         OUTPUT: boolean
 

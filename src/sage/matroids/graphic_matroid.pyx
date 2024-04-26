@@ -25,7 +25,7 @@ Graphic matroids do not have a representation matrix or any of the
 functionality of regular matroids. It is possible to get an instance of the
 :class:`~sage.matroids.linear_matroid.RegularMatroid` class by using the
 ``regular`` keyword when constructing the matroid. It is also possible to cast
-a class:`GraphicMatroid` as a class:`RegularMatroid` with the
+a :class:`GraphicMatroid` as a :class:`RegularMatroid` with the
 :meth:`~sage.matroids.graphic_matroids.GraphicMatroid.regular_matroid`
 method::
 
@@ -100,14 +100,14 @@ cdef class GraphicMatroid(Matroid):
 
     INPUT:
 
-    - ``G`` -- class:`Graph`
+    - ``G`` -- :class:`Graph`
     - ``groundset`` -- list (optional); in 1-1 correspondence with ``G.edge_iterator()``
 
-    OUTPUT: class:`GraphicMatroid` where the groundset elements are the edges of `G`
+    OUTPUT: :class:`GraphicMatroid` where the groundset elements are the edges of `G`
 
     .. NOTE::
 
-        If a disconnected graph is given as input, the instance of class:`GraphicMatroid`
+        If a disconnected graph is given as input, the instance of :class:`GraphicMatroid`
         will connect the graph components and store this as its graph.
 
     EXAMPLES::
@@ -472,7 +472,7 @@ cdef class GraphicMatroid(Matroid):
         Assumptions: contractions are independent, deletions are coindependent,
         contractions and deletions are disjoint.
 
-        OUTPUT: class:`GraphicMatroid`
+        OUTPUT: :class:`GraphicMatroid`
 
         EXAMPLES::
 
@@ -1115,7 +1115,7 @@ cdef class GraphicMatroid(Matroid):
         r"""
         Return if ``self`` is graphic.
 
-        This is trivially ``True`` for a class:`GraphicMatroid`.
+        This is trivially ``True`` for a :class:`GraphicMatroid`.
 
         EXAMPLES::
 
@@ -1129,7 +1129,7 @@ cdef class GraphicMatroid(Matroid):
         r"""
         Return if ``self`` is regular.
 
-        This is always ``True`` for a class:`GraphicMatroid`.
+        This is always ``True`` for a :class:`GraphicMatroid`.
 
         EXAMPLES::
 
@@ -1298,7 +1298,7 @@ cdef class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        A class:`GraphicMatroid` with the specified element added. Note that if
+        A :class:`GraphicMatroid` with the specified element added. Note that if
         ``v`` is not specified or if ``v`` is ``u``, then the new element will
         be a loop. If the new element's label is not specified, it will be
         generated automatically.
@@ -1370,7 +1370,7 @@ cdef class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        An iterable containing instances of class:`GraphicMatroid`. If
+        An iterable containing instances of :class:`GraphicMatroid`. If
         ``vertices`` is not specified, every vertex is used.
 
         .. NOTE::
@@ -1445,7 +1445,7 @@ cdef class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        An instance of class:`GraphicMatroid` coextended by the new element.
+        An instance of :class:`GraphicMatroid` coextended by the new element.
         If ``X`` is not specified, the new element will be a coloop.
 
         .. NOTE::
@@ -1579,7 +1579,7 @@ cdef class GraphicMatroid(Matroid):
 
         OUTPUT:
 
-        An iterable containing instances of class:`GraphicMatroid`. If
+        An iterable containing instances of :class:`GraphicMatroid`. If
         ``vertices`` is not specified, the method iterates over all vertices.
 
         EXAMPLES::
@@ -1721,7 +1721,7 @@ cdef class GraphicMatroid(Matroid):
         - ``X`` -- the set of elements to be twisted with respect
           to the rest of the matroid
 
-        OUTPUT: class:`GraphicMatroid` isomorphic to this matroid but
+        OUTPUT: :class:`GraphicMatroid` isomorphic to this matroid but
         with a graph that is not necessarily isomorphic
 
         EXAMPLES::
@@ -1831,7 +1831,7 @@ cdef class GraphicMatroid(Matroid):
         - ``u`` -- vertex spanned by the edges of the elements in ``X``
         - ``v`` -- vertex spanned by the edges of the elements not in ``X``
 
-        OUTPUT: class:`GraphicMatroid` isomorphic to this matroid but
+        OUTPUT: :class:`GraphicMatroid` isomorphic to this matroid but
         with a graph that is not necessarily isomorphic
 
         EXAMPLES::
@@ -1950,8 +1950,8 @@ cdef class GraphicMatroid(Matroid):
 
     cpdef regular_matroid(self):
         """
-        Return an instance of class:`RegularMatroid` isomorphic to this
-        class:`GraphicMatroid`.
+        Return an instance of :class:`RegularMatroid` isomorphic to this
+        :class:`GraphicMatroid`.
 
         EXAMPLES::
 

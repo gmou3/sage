@@ -158,18 +158,13 @@ cdef class CircuitsMatroid(Matroid):
             sage: M._is_independent(['y0', 'y2', 'y3', 'x2'])
             True
         """
-        cdef int i
-        cdef l = len(X)
-        if 2 ** l > len(self._C):
-            for i in self._k_C:
-                if i <= l:
-                    for C in self._k_C[i]:
-                        if C <= X:
-                            return False
-        else:
-            from sage.combinat.subset import powerset
-            for S in powerset(X):
-                if frozenset(S) in self._C:
+        cdef set XX = set(X)
+        cdef int i, l = len(XX)
+        for i in sorted(self._k_C):
+            if i > l:
+                break
+            for C in self._k_C[i]:
+                if C <= XX:
                     return False
         return True
 
@@ -190,15 +185,16 @@ cdef class CircuitsMatroid(Matroid):
             sage: len(M._max_independent(M.groundset()))
             6
         """
-        cdef set I = set(X)
+        cdef set XX = set(X)
         cdef int i
-        for i in self._k_C:
-            if i <= len(I):
-                for C in self._k_C[i]:
-                    if C <= I and len(C):
-                        e = next(iter(C))
-                        I.remove(e)
-        return frozenset(I)
+        cdef frozenset C
+        while True:
+            try:
+                C = self._circuit(XX)
+                e = next(iter(C))
+                XX.remove(e)
+            except (ValueError, StopIteration):
+                return frozenset(XX)
 
     cpdef _circuit(self, X):
         """
@@ -222,10 +218,14 @@ cdef class CircuitsMatroid(Matroid):
             ...
             ValueError: no circuit in independent set
         """
-        cdef set I = set(X)
-        for C in self._C:
-            if C <= I:
-                return C
+        cdef set XX = set(X)
+        cdef int i, l = len(XX)
+        for i in sorted(self._k_C):
+            if i > l:
+                break
+            for C in self._k_C[i]:
+                if C <= XX:
+                    return C
         raise ValueError("no circuit in independent set")
 
     cpdef _is_isomorphic(self, other, certificate=False):
