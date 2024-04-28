@@ -3228,7 +3228,7 @@ cdef class Matroid(SageObject):
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
 
-        OUTPUT: a list of frozensets
+        OUTPUT: list of frozensets
 
         EXAMPLES::
 
