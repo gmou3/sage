@@ -228,6 +228,35 @@ cdef class CircuitsMatroid(Matroid):
                     return C
         raise ValueError("no circuit in independent set")
 
+    cpdef _closure(self, X):
+        """
+        Return the closure of a set.
+
+        INPUT:
+
+        - ``X`` -- an object with Python's ``frozenset`` interface containing
+          a subset of ``self.groundset()``
+
+        OUTPUT: :class:`frozenset`
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Vamos())
+            sage: sorted(M._closure(set(['a', 'b', 'c'])))
+            ['a', 'b', 'c', 'd']
+        """
+        cdef set XX = set(X)
+        cdef frozenset S
+        cdef int i
+        for i in sorted(self._k_C):
+            if i > len(XX) + 1: break
+            for C in self._k_C[i]:
+                S = C - XX
+                if len(S) == 1:
+                    XX.add(next(iter(S)))
+        return frozenset(XX)
+
     cpdef _is_isomorphic(self, other, certificate=False):
         """
         Test if ``self`` is isomorphic to ``other``.
@@ -463,15 +492,15 @@ cdef class CircuitsMatroid(Matroid):
         from itertools import combinations
         cdef set B = set()
         cdef set NB = set(self.nonbases())
-        cdef frozenset SS
-        for S in combinations(self._groundset, self._matroid_rank):
-            SS = frozenset(S)
-            if SS not in NB:
-                yield SS
+        cdef frozenset S
+        for SS in combinations(self._groundset, self._matroid_rank):
+            S = frozenset(SS)
+            if S not in NB:
+                yield S
 
     cpdef nonbases(self):
         r"""
-        Return an iterator over the nonbases of the matroid.
+        Return the nonbases of the matroid.
 
         OUTPUT: :class:`SetSystem`
 
@@ -479,24 +508,24 @@ cdef class CircuitsMatroid(Matroid):
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
-            sage: sum(1 for nb in M.nonbases_iterator())
+            sage: len(M.nonbases())
             0
+            sage: M = CircuitsMatroid(matroids.CompleteGraphic(6))
+            sage: len(M.nonbases())
+            1707
         """
-        cdef set NSC = set(self.nonspanning_circuits())
+        cdef int i, r = self._matroid_rank
         cdef set NB = set()
-        cdef int r = self._matroid_rank
-        cdef bint flag = True
-        while NSC:
-            for S in NSC.copy():
-                if len(S) == r:
+        cdef frozenset S
+        for i in range(min(self._k_C), r + 1):
+            if i in self._k_C:
+                for S in self._k_C[i]:
                     NB.add(S)
-                elif len(S) == r - 1:
-                    for e in S ^ self._groundset:
-                        NB.add(S | set([e]))
-                else:
-                    for e in S ^ self._groundset:
-                        NSC.add(S | set([e]))
-                NSC.remove(S)
+            if i == r: break
+            for S in NB.copy():
+                NB.remove(S)
+                for e in S ^ self._groundset:
+                    NB.add(S | set([e]))
         return SetSystem(list(self._groundset), NB)
 
     cpdef circuits(self, k=None):
@@ -666,11 +695,10 @@ cdef class CircuitsMatroid(Matroid):
                     break
 
         for i in range(r):
-            while BC[i]:
-                for S in BC[i].copy():
-                    for e in self._groundset ^ S:
-                        BC[i+1].add(S | set([e]))
-                    BC[i].remove(S)
+            for S in BC[i].copy():
+                BC[i].remove(S)
+                for e in self._groundset ^ S:
+                    BC[i+1].add(S | set([e]))
 
         cdef set B = set()
         for SS in combinations(ordering[1:], self._matroid_rank - 1):

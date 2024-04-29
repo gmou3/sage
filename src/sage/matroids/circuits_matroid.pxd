@@ -13,6 +13,7 @@ cdef class CircuitsMatroid(Matroid):
     cpdef _is_independent(self, X)
     cpdef _max_independent(self, X)
     cpdef _circuit(self, X)
+    cpdef _closure(self, X)
 
     # enumeration
     cpdef bases(self)
