@@ -2697,7 +2697,7 @@ cdef class Matroid(SageObject):
 
             sage: M = matroids.catalog.Vamos()
             sage: M.dependent_r_sets(3)
-            []
+            SetSystem of 0 sets over 8 elements
             sage: sorted([sorted(X) for X in
             ....: matroids.catalog.Vamos().dependent_r_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
@@ -2707,12 +2707,13 @@ cdef class Matroid(SageObject):
 
         Test all subsets of the groundset of cardinality ``r``
         """
-        res = []
-        for X in combinations(self.groundset(), r):
-            X = frozenset(X)
-            if self._rank(X) < len(X):
-                res.append(X)
-        return res
+        cdef set D = set()
+        cdef frozenset X
+        for XX in combinations(self.groundset(), r):
+            X = frozenset(XX)
+            if not self._is_independent(X):
+                D.add(X)
+        return SetSystem(list(self.groundset()), D)
 
     def dependent_r_sets_iterator(self, long r):
         r"""
@@ -2873,11 +2874,13 @@ cdef class Matroid(SageObject):
 
     cpdef independent_r_sets(self, long r):
         r"""
-        Return the list of size-``r`` independent subsets of the matroid.
+        Return the size-``r`` independent subsets of the matroid.
 
         INPUT:
 
         - ``r`` -- a nonnegative integer
+
+        OUTPUT: :class:`SetSystem`
 
         ALGORITHM:
 
@@ -2887,7 +2890,7 @@ cdef class Matroid(SageObject):
 
             sage: M = matroids.catalog.Pappus()
             sage: M.independent_r_sets(4)
-            []
+            SetSystem of 0 sets over 9 elements
             sage: S = M.independent_r_sets(3)
             sage: len(S)
             75
@@ -2899,12 +2902,13 @@ cdef class Matroid(SageObject):
             :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
             :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
         """
-        cdef list res = []
-        for X in combinations(self.groundset(), r):
-            X = frozenset(X)
-            if self._rank(X) == len(X):
-                res.append(X)
-        return res
+        cdef set I = set()
+        cdef frozenset X
+        for XX in combinations(self.groundset(), r):
+            X = frozenset(XX)
+            if self._is_independent(X):
+                I.add(X)
+        return SetSystem(list(self.groundset()), I)
 
     def independent_r_sets_iterator(self, r):
         r"""

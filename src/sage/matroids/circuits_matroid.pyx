@@ -514,7 +514,72 @@ cdef class CircuitsMatroid(Matroid):
             sage: len(M.nonbases())
             1707
         """
-        cdef int i, r = self._matroid_rank
+        return self.dependent_r_sets(self._matroid_rank)
+
+    cpdef independent_r_sets(self, long r):
+        r"""
+        Return the size-``r`` independent subsets of the matroid.
+
+        INPUT:
+
+        - ``r`` -- a nonnegative integer
+
+        OUTPUT: :class:`SetSystem`
+
+        ALGORITHM:
+
+        Test all subsets of the groundset of cardinality ``r``.
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Pappus())
+            sage: M.independent_r_sets(4)
+            SetSystem of 0 sets over 9 elements
+            sage: S = M.independent_r_sets(3)
+            sage: len(S)
+            75
+            sage: frozenset({'a', 'c', 'e'}) in S
+            True
+
+        .. SEEALSO::
+
+            :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
+            :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
+        """
+        from itertools import combinations
+        cdef set I_r = set()
+        cdef set D_r = set(self.dependent_r_sets(r))
+        cdef frozenset SS
+        for S in combinations(self._groundset, r):
+            SS = frozenset(S)
+            if SS not in D_r:
+                I_r.add(SS)
+        return SetSystem(list(self._groundset), I_r)
+
+    cpdef dependent_r_sets(self, long r):
+        r"""
+        Return the list of dependent subsets of fixed size.
+
+        INPUT:
+
+        - ``r`` -- a nonnegative integer
+
+        EXAMPLES::
+
+            sage: from sage.matroids.advanced import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Vamos())
+            sage: M.dependent_r_sets(3)
+            SetSystem of 0 sets over 8 elements
+            sage: sorted([sorted(X) for X in M.dependent_r_sets(4)])
+            [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
+            ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
+
+        ALGORITHM:
+
+        Test all subsets of the groundset of cardinality ``r``
+        """
+        cdef int i
         cdef set NB = set()
         cdef frozenset S
         for i in range(min(self._k_C), r + 1):

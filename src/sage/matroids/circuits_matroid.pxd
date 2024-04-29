@@ -18,6 +18,8 @@ cdef class CircuitsMatroid(Matroid):
     # enumeration
     cpdef bases(self)
     cpdef nonbases(self)
+    cpdef independent_r_sets(self, long r)
+    cpdef dependent_r_sets(self, long r)
     cpdef circuits(self, k=*)
     cpdef nonspanning_circuits(self)
     cpdef no_broken_circuits_facets(self, ordering=*, reduced=*)
