@@ -543,7 +543,7 @@ cdef class CircuitsMatroid(Matroid):
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
             sage: M.circuits()
-            Iterator over a system of subsets
+            SetSystem of 4 sets over 4 elements
             sage: list(M.circuits(0))
             []
             sage: sorted(M.circuits(3), key=str)
@@ -605,7 +605,7 @@ cdef class CircuitsMatroid(Matroid):
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
             sage: M.nonspanning_circuits()
-            Iterator over a system of subsets
+            SetSystem of 0 sets over 4 elements
         """
         cdef set NSC = set()
         cdef int i
