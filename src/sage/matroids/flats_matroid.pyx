@@ -446,7 +446,7 @@ cdef class FlatsMatroid(Matroid):
         `(W_0, ..., W_r)`, where `W_i` is the number of flats of rank `i`, and
         `r` is the rank of the matroid.
 
-        OUTPUT: a list of integers
+        OUTPUT: list of integers
 
         EXAMPLES::
 

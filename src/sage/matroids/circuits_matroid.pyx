@@ -707,7 +707,7 @@ cdef class CircuitsMatroid(Matroid):
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
 
-        OUTPUT: list of frozensets
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -774,7 +774,7 @@ cdef class CircuitsMatroid(Matroid):
                 else:
                     B.add(S)
 
-        return list(B)
+        return SetSystem(list(self.groundset()), B)
 
     cpdef no_broken_circuits_sets(self, ordering=None, reduced=False):
         r"""
@@ -787,7 +787,7 @@ cdef class CircuitsMatroid(Matroid):
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
 
-        OUTPUT: list of frozensets
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -817,10 +817,11 @@ cdef class CircuitsMatroid(Matroid):
             True
         """
         from sage.topology.simplicial_complex import SimplicialComplex
-        return [frozenset(f) for f in SimplicialComplex(
-                    self.no_broken_circuits_facets(ordering, reduced),
-                    maximality_check=False
-                ).face_iterator()]
+        cdef set NBC = set()
+        for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced),
+                                   maximality_check=False).face_iterator():
+            NBC.add(frozenset(f))
+        return SetSystem(list(self.groundset()), NBC)
 
     cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""

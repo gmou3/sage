@@ -3104,7 +3104,7 @@ cdef class Matroid(SageObject):
         number of independent sets of rank `i`, and `r` is the rank of the
         matroid.
 
-        OUTPUT: a list of integers
+        OUTPUT: list of integers
 
         EXAMPLES::
 
@@ -3136,7 +3136,7 @@ cdef class Matroid(SageObject):
         matroid's characteristic polynomial. Moreover, `|w_i|` is the number of
         `(i-1)`-dimensional faces of the broken circuit complex of the matroid.
 
-        OUTPUT: a list of integers
+        OUTPUT: list of integers
 
         EXAMPLES::
 
@@ -3163,7 +3163,7 @@ cdef class Matroid(SageObject):
         `(W_0, \ldots, W_r)`, where `W_i` is the number of flats of rank `i`,
         and `r` is the rank of the matroid.
 
-        OUTPUT: a list of integers
+        OUTPUT: list of integers
 
         EXAMPLES::
 
@@ -3232,7 +3232,7 @@ cdef class Matroid(SageObject):
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
 
-        OUTPUT: list of frozensets
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -3307,7 +3307,7 @@ cdef class Matroid(SageObject):
                 if is_indep:
                     B.append(frozenset(H))
                     next_level.extend(Ht)
-        return B
+        return SetSystem(list(self.groundset()), B)
 
     def no_broken_circuits_sets_iterator(self, ordering=None):
         r"""
@@ -7733,7 +7733,7 @@ cdef class Matroid(SageObject):
                         exist = False
                         if ((u in Y) and
                             (v in E-Y) and
-                            (not self.is_independent(Y|set([v]))) and
+                            (self.is_dependent(Y|set([v]))) and
                             (self.is_independent((Y|set([v])) - set([u])))):
                             exist = True
                         if ((u in E-Y) and
@@ -8363,6 +8363,8 @@ cdef class Matroid(SageObject):
         cdef list facets = []
         if self.loops():
             raise ValueError
+        if ordering is None:
+            ordering = sorted(self.groundset(), key=cmp_elements_key)
         for S in self.no_broken_circuits_sets_iterator(ordering):
             if len(S) == r:
                 if not reduced:
