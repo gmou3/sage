@@ -2880,8 +2880,8 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: # needs sage.groups
             sage: G = SymmetricGroup(4)
             sage: action = lambda g, x: g(x + 1) - 1
-            sage: OTG1 = M.orlik_terao_algebra(QQ, invariant=(G,action))
-            sage: OTG2 = M.orlik_terao_algebra(QQ, invariant=(action,G))
+            sage: OTG1 = M.orlik_terao_algebra(QQ, invariant=(G, action))
+            sage: OTG2 = M.orlik_terao_algebra(QQ, invariant=(action, G))
             sage: OTG1 is OTG2
             True
         """

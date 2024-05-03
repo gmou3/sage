@@ -2691,7 +2691,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
 
         EXAMPLES::
 
@@ -2721,7 +2721,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
 
         ALGORITHM:
 
@@ -2878,7 +2878,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
 
         OUTPUT: :class:`SetSystem`
 
@@ -2917,7 +2917,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
 
         EXAMPLES::
 
@@ -3042,7 +3042,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
 
         OUTPUT: :class:`SetSystem`
 
@@ -8346,7 +8346,7 @@ cdef class Matroid(SageObject):
             sage: M.broken_circuit_complex()
             Traceback (most recent call last):
             ...
-            ValueError
+            ValueError: raise ValueError("broken circuit complex of matroid with loops is not defined")
 
         TESTS::
 
@@ -8362,7 +8362,7 @@ cdef class Matroid(SageObject):
         cdef int r = self.rank()
         cdef list facets = []
         if self.loops():
-            raise ValueError
+            raise ValueError("broken circuit complex of matroid with loops is not defined")
         if ordering is None:
             ordering = sorted(self.groundset(), key=cmp_elements_key)
         for S in self.no_broken_circuits_sets_iterator(ordering):

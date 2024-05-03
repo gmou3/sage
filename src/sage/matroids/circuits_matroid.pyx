@@ -241,7 +241,7 @@ cdef class CircuitsMatroid(Matroid):
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import CircuitsMatroid
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.catalog.Vamos())
             sage: sorted(M._closure(set(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
@@ -456,9 +456,9 @@ cdef class CircuitsMatroid(Matroid):
         EXAMPLES::
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: M = CircuitsMatroid(matroids.CompleteGraphic(4))
             sage: len(M.bases())
-            6
+            16
         """
         from itertools import combinations
         cdef set B = set()
@@ -522,30 +522,24 @@ cdef class CircuitsMatroid(Matroid):
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
 
         OUTPUT: :class:`SetSystem`
 
-        ALGORITHM:
-
-        Test all subsets of the groundset of cardinality ``r``.
-
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import CircuitsMatroid
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.catalog.Pappus())
             sage: M.independent_r_sets(4)
             SetSystem of 0 sets over 9 elements
-            sage: S = M.independent_r_sets(3)
-            sage: len(S)
-            75
-            sage: frozenset({'a', 'c', 'e'}) in S
+            sage: M.independent_r_sets(3)
+            SetSystem of 75 sets over 9 elements
+            sage: frozenset({'a', 'c', 'e'}) in _
             True
 
         .. SEEALSO::
 
-            :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
-            :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
+            :meth:`M.bases() <sage.matroids.circuits_matroid.bases>`
         """
         from itertools import combinations
         cdef set I_r = set()
@@ -559,25 +553,23 @@ cdef class CircuitsMatroid(Matroid):
 
     cpdef dependent_r_sets(self, long r):
         r"""
-        Return the list of dependent subsets of fixed size.
+        Return the dependent subsets of fixed size.
 
         INPUT:
 
-        - ``r`` -- a nonnegative integer
+        - ``r`` -- nonnegative integer
+
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
-            sage: from sage.matroids.advanced import CircuitsMatroid
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.catalog.Vamos())
             sage: M.dependent_r_sets(3)
             SetSystem of 0 sets over 8 elements
             sage: sorted([sorted(X) for X in M.dependent_r_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
             ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
-
-        ALGORITHM:
-
-        Test all subsets of the groundset of cardinality ``r``
         """
         cdef int i
         cdef set NB = set()
@@ -671,6 +663,9 @@ cdef class CircuitsMatroid(Matroid):
             sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
             sage: M.nonspanning_circuits()
             SetSystem of 0 sets over 4 elements
+            sage: M = matroids.Theta(5)
+            sage: M.nonspanning_circuits()
+            SetSystem of 15 sets over 10 elements
         """
         cdef set NSC = set()
         cdef int i
@@ -698,43 +693,26 @@ cdef class CircuitsMatroid(Matroid):
 
     cpdef no_broken_circuits_facets(self, ordering=None, reduced=False):
         r"""
-        Return the no broken circuits (NBC) sets of ``self``.
-
-        An NBC set is a subset `A` of the groundset under some total
-        ordering `<` such that `A` contains no broken circuit.
+        Return the no broken circuits (NBC) facets of ``self``.
 
         INPUT:
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
+        - ``reduced`` -- boolean (default: ``False``)
 
         OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
-            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
-            sage: SimplicialComplex(M.no_broken_circuits_sets())
-            Simplicial complex with vertex set (1, 2, 3, 4, 5)
-             and facets {(1, 2, 4), (1, 2, 5), (1, 3, 4), (1, 3, 5)}
-            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
-            Simplicial complex with vertex set (1, 2, 3, 4, 5)
-             and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
-
-        ::
-
-            sage: M = Matroid(circuits=[[1,2,3], [1,4,5], [2,3,4,5]])
-            sage: SimplicialComplex(M.no_broken_circuits_sets([5,4,3,2,1]))
-            Simplicial complex with vertex set (1, 2, 3, 4, 5)
-             and facets {(1, 3, 5), (2, 3, 5), (2, 4, 5), (3, 4, 5)}
-
-        TESTS::
-
-            sage: M = Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]])
-            sage: C1 = SimplicialComplex(M.no_broken_circuits_sets())
-            sage: from sage.matroids.basis_matroid import BasisMatroid
-            sage: M = BasisMatroid(Matroid(circuits=[[1,2,3], [3,4,5], [1,2,4,5]]))
-            sage: C2 = SimplicialComplex(M.no_broken_circuits_sets())
-            sage: C1 == C2
-            True
+            sage: M = Matroid(circuits=[[0, 1, 2]])
+            sage: M.no_broken_circuits_facets(ordering=[1, 0, 2])
+            SetSystem of 2 sets over 3 elements
+            sage: sorted([sorted(X) for X in _])
+            [[0, 1], [1, 2]]
+            sage: M.no_broken_circuits_facets(ordering=[1, 0, 2], reduced=True)
+            SetSystem of 2 sets over 3 elements
+            sage: sorted([sorted(X) for X in _])
+            [[0], [2]]
         """
         from itertools import combinations
         from sage.matroids.utilities import cmp_elements_key
@@ -786,6 +764,7 @@ cdef class CircuitsMatroid(Matroid):
         INPUT:
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
+        - ``reduced`` -- boolean (default: ``False``)
 
         OUTPUT: :class:`SetSystem`
 
@@ -834,6 +813,8 @@ cdef class CircuitsMatroid(Matroid):
         INPUT:
 
         - ``ordering`` -- list (optional); a total ordering of the groundset
+        - ``reduced`` -- boolean (default: ``False``); whether to return the
+          reduced broken circuit complex (the link at the smallest element)
 
         OUTPUT: a simplicial complex of the NBC sets under inclusion
 
@@ -846,6 +827,9 @@ cdef class CircuitsMatroid(Matroid):
             sage: M.broken_circuit_complex([5,4,3,2,1])
             Simplicial complex with vertex set (1, 2, 3, 4, 5)
              and facets {(1, 3, 5), (1, 4, 5), (2, 3, 5), (2, 4, 5)}
+            sage: M.broken_circuit_complex([5,4,3,2,1], reduced=True)
+            Simplicial complex with vertex set (1, 2, 3, 4)
+             and facets {(1, 3), (1, 4), (2, 3), (2, 4)}
 
         For a matroid with loops, the broken circuit complex is not defined,
         and the method yields an error::
@@ -854,11 +838,11 @@ cdef class CircuitsMatroid(Matroid):
             sage: M.broken_circuit_complex()
             Traceback (most recent call last):
             ...
-            ValueError
+            ValueError: broken circuit complex of matroid with loops is not defined
         """
         from sage.topology.simplicial_complex import SimplicialComplex
         if self.loops():
-            raise ValueError
+            raise ValueError("broken circuit complex of matroid with loops is not defined")
         return SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced), maximality_check=False)
 
     # properties
