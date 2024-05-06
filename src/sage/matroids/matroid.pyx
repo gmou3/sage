@@ -2891,9 +2891,8 @@ cdef class Matroid(SageObject):
             sage: M = matroids.catalog.Pappus()
             sage: M.independent_r_sets(4)
             SetSystem of 0 sets over 9 elements
-            sage: S = M.independent_r_sets(3)
-            sage: len(S)
-            75
+            sage: S = M.independent_r_sets(3); S
+            SetSystem of 75 sets over 9 elements
             sage: frozenset({'a', 'c', 'e'}) in S
             True
 
@@ -8342,11 +8341,11 @@ cdef class Matroid(SageObject):
         For a matroid with loops, the broken circuit complex is not defined,
         and the method yields an error::
 
-            sage: M = Matroid(flats={0:['a'], 1:['ab', 'ac'], 2:['abc']})
+            sage: M = Matroid(flats={0: ['a'], 1: ['ab', 'ac'], 2: ['abc']})
             sage: M.broken_circuit_complex()
             Traceback (most recent call last):
             ...
-            ValueError: raise ValueError("broken circuit complex of matroid with loops is not defined")
+            ValueError: broken circuit complex of matroid with loops is not defined
 
         TESTS::
 
