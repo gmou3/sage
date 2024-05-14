@@ -504,7 +504,8 @@ cdef class DisjointSet_of_integers(DisjointSet_class):
 
         EXAMPLES::
 
-            sage: d = DisjointSet(5); d
+            sage: d = DisjointSet(5)
+            sage: d
             {{0}, {1}, {2}, {3}, {4}}
             sage: d.union(0, 1)
             sage: d
@@ -620,9 +621,11 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
 
     EXAMPLES::
 
-        sage: d = DisjointSet('abcde'); d
+        sage: d = DisjointSet('abcde')
+        sage: d
         {{'a'}, {'b'}, {'c'}, {'d'}, {'e'}}
-        sage: d.union('a', 'c'); d
+        sage: d.union('a', 'c')
+        sage: d
         {{'a', 'c'}, {'b'}, {'d'}, {'e'}}
         sage: d.find('a')
         'a'
@@ -770,7 +773,8 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
             4
             sage: e.find(4)
             4
-            sage: e.union(1,3); e
+            sage: e.union(1,3)
+            sage: e
             {{0}, {1, 3}, {2, 4}}
             sage: e.find(1)
             1
@@ -805,7 +809,8 @@ cdef class DisjointSet_of_hashables(DisjointSet_class):
 
         EXAMPLES::
 
-            sage: e = DisjointSet('abcde'); e
+            sage: e = DisjointSet('abcde')
+            sage: e
             {{'a'}, {'b'}, {'c'}, {'d'}, {'e'}}
             sage: e.union('a', 'b')
             sage: e
