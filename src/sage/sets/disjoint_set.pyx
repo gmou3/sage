@@ -20,11 +20,13 @@ EXAMPLES:
 
 Disjoint set of integers from ``0`` to ``n - 1``::
 
-    sage: s = DisjointSet(6); s
+    sage: s = DisjointSet(6)
+    sage: s
     {{0}, {1}, {2}, {3}, {4}, {5}}
     sage: s.union(2, 4)
     sage: s.union(1, 3)
-    sage: s.union(5, 1); s
+    sage: s.union(5, 1)
+    sage: s
     {{0}, {1, 3, 5}, {2, 4}}
     sage: s.find(3)
     1
@@ -35,7 +37,8 @@ Disjoint set of integers from ``0`` to ``n - 1``::
 
 Disjoint set of hashables objects::
 
-    sage: d = DisjointSet('abcde'); d
+    sage: d = DisjointSet('abcde')
+    sage: d
     {{'a'}, {'b'}, {'c'}, {'d'}, {'e'}}
     sage: d.union('a', 'b')
     sage: d.union('b', 'c')
@@ -329,7 +332,8 @@ cdef class DisjointSet_of_integers(DisjointSet_class):
 
     EXAMPLES::
 
-        sage: d = DisjointSet(5); d
+        sage: d = DisjointSet(5)
+        sage: d
         {{0}, {1}, {2}, {3}, {4}}
         sage: d.union(2, 4)
         sage: d.union(0, 2)

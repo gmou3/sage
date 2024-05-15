@@ -83,13 +83,13 @@ cdef class FlatsMatroid(Matroid):
                         self._F[i].add(frozenset(F))
         self._matroid_rank = max([0] + list(self._F))
 
-    cpdef groundset(self):
+    cpdef frozenset groundset(self):
         """
         Return the groundset of the matroid.
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT: a set
+        OUTPUT: :class:`frozenset`
 
         EXAMPLES::
 
@@ -100,7 +100,7 @@ cdef class FlatsMatroid(Matroid):
         """
         return self._groundset
 
-    cpdef _rank(self, X):
+    cpdef int _rank(self, frozenset X):
         """
         Return the rank of a set ``X``.
 
@@ -117,7 +117,7 @@ cdef class FlatsMatroid(Matroid):
 
             sage: from sage.matroids.flats_matroid import FlatsMatroid
             sage: M = FlatsMatroid(matroids.Theta(3))
-            sage: M._rank(['x1', 'y0', 'y2'])
+            sage: M._rank(frozenset(['x1', 'y0', 'y2']))
             2
 
         TESTS::
@@ -128,10 +128,9 @@ cdef class FlatsMatroid(Matroid):
             sage: for S in powerset(M.groundset()):
             ....:     assert M.rank(S) == F.rank(S)
         """
-        cdef frozenset XX = frozenset(X)
-        for i in range(self.rank() + 1):
+        for i in range(self._matroid_rank + 1):
             for f in self._F[i]:
-                if f >= XX:
+                if f >= X:
                     return i
 
     # optional
@@ -270,53 +269,6 @@ cdef class FlatsMatroid(Matroid):
 
     # copying, loading, saving
 
-    def __copy__(self):
-        """
-        Create a shallow copy.
-
-        EXAMPLES::
-
-            sage: from sage.matroids.flats_matroid import FlatsMatroid
-            sage: M = FlatsMatroid(matroids.catalog.Vamos())
-            sage: N = copy(M)  # indirect doctest
-            sage: M == N
-            True
-            sage: M.groundset() is N.groundset()
-            True
-        """
-        N = FlatsMatroid(groundset=[], flats={})
-        N._groundset = self._groundset
-        N._F = self._F
-        N._matroid_rank = self._matroid_rank
-        N.rename(self.get_custom_name())
-        return N
-
-    def __deepcopy__(self, memo=None):
-        """
-        Create a deep copy.
-
-        .. NOTE::
-
-            Since matroids are immutable, a shallow copy normally suffices.
-
-        EXAMPLES::
-
-            sage: from sage.matroids.flats_matroid import FlatsMatroid
-            sage: M = FlatsMatroid(matroids.catalog.Vamos())
-            sage: N = deepcopy(M)  # indirect doctest
-            sage: M == N
-            True
-            sage: M.groundset() is N.groundset()
-            False
-        """
-        if memo is None:
-            memo = {}
-        from copy import deepcopy
-        # Since matroids are immutable, N cannot reference itself in correct code, so no need to worry about the recursion.
-        N = FlatsMatroid(groundset=deepcopy(self._groundset, memo), flats=deepcopy(self._F, memo))
-        N.rename(deepcopy(self.get_custom_name(), memo))
-        return N
-
     def __reduce__(self):
         """
         Save the matroid for later reloading.
@@ -401,7 +353,7 @@ cdef class FlatsMatroid(Matroid):
 
         - ``k`` -- integer
 
-        OUTPUT: a SetSystem
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -469,7 +421,7 @@ cdef class FlatsMatroid(Matroid):
 
     # verification
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if ``self`` obeys the matroid axioms.
 

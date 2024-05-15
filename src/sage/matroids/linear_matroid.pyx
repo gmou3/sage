@@ -2286,7 +2286,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         C = self.components()
         if len(C) == 1:
             for f in F:
-                sf = set([f])
+                sf = frozenset([f])
                 ff = self._closure(sf)
                 M = self._minor(contractions=sf, deletions=ff - sf)
                 if M.is_connected():
@@ -2611,7 +2611,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         cochains = self.linear_coextension_cochains(F, cosimple=cosimple, fundamentals=fundamentals)
         return self._linear_coextensions(element, cochains)
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data represent an actual matroid.
 
@@ -2710,7 +2710,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
                 return False, self.components()[0]
             else:
                 return False
-        if self.rank()>self.size()-self.rank():
+        if self.rank() > self.size()-self.rank():
             return self.dual()._is_3connected_shifting(certificate)
 
         # the partial matrix
@@ -2719,10 +2719,10 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         X, Y = self._current_rows_cols()
 
         # create mapping between elements and columns
-        dX = dict(zip(range(len(X)),X))
-        dY = dict(zip(range(len(Y)),Y))
+        dX = dict(zip(range(len(X)), X))
+        dY = dict(zip(range(len(Y)), Y))
 
-        for (x,y) in spanning_forest(M):
+        for (x, y) in spanning_forest(M):
             P_rows=[x]
             P_cols=[y]
             Q_rows=[]
@@ -3869,7 +3869,7 @@ cdef class BinaryMatroid(LinearMatroid):
         # now self is graphic iff there is a binary vector x so that M*x = 0 and x_0 = 1, so:
         return BinaryMatroid(m).corank(frozenset([0])) > 0
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data obey the matroid axioms.
 
@@ -4745,7 +4745,7 @@ cdef class TernaryMatroid(LinearMatroid):
                              basis=bas,
                              keep_initial_representation=False)
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data obey the matroid axioms.
 
@@ -5521,7 +5521,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
                              basis=bas,
                              keep_initial_representation=False)
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data obey the matroid axioms.
 
@@ -6311,7 +6311,7 @@ cdef class RegularMatroid(LinearMatroid):
         """
         return BinaryMatroid(reduced_matrix=self._reduced_representation()).is_graphic()
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data obey the matroid axioms.
 

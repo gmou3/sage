@@ -470,13 +470,13 @@ cdef class Matroid(SageObject):
 
     # virtual methods
 
-    cpdef groundset(self):
+    cpdef frozenset groundset(self):
         """
         Return the groundset of the matroid.
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT: a set
+        OUTPUT: :class:`frozenset`
 
         .. NOTE::
 
@@ -493,7 +493,7 @@ cdef class Matroid(SageObject):
         """
         raise NotImplementedError("subclasses need to implement this")
 
-    cpdef _rank(self, X):
+    cpdef int _rank(self, frozenset X):
         r"""
         Return the rank of a set ``X``.
 
@@ -504,7 +504,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         .. NOTE::
 
@@ -513,10 +513,9 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = sage.matroids.matroid.Matroid()
-            sage: M._rank([0, 1, 2])
-            Traceback (most recent call last):
-            ...
+            sage: M._rank(frozenset([0, 1, 2]))
             NotImplementedError: subclasses need to implement this
+            ...
         """
         raise NotImplementedError("subclasses need to implement this")
 
@@ -533,6 +532,7 @@ cdef class Matroid(SageObject):
             ....:     BasisMatroid(matroids.catalog.Vamos()),
             ....:     CircuitsMatroid(matroids.catalog.Vamos()),
             ....:     CircuitClosuresMatroid(matroids.catalog.Vamos()),
+            ....:     FlatsMatroid(matroids.catalog.Vamos()),
             ....:     Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4)),
             ....:     Matroid(Matrix(GF(7), [[1,0,0,1,1],[0,1,0,1,2],[0,0,1,1,3]])),
             ....:     Matroid(Matrix(GF(2), [[1,0,0,1,1],[0,1,0,1,2],[0,0,1,1,3]])),
@@ -578,6 +578,7 @@ cdef class Matroid(SageObject):
             ....:     BasisMatroid(matroids.catalog.Vamos()),
             ....:     CircuitsMatroid(matroids.catalog.Vamos()),
             ....:     CircuitClosuresMatroid(matroids.catalog.Vamos()),
+            ....:     FlatsMatroid(matroids.catalog.Vamos()),
             ....:     Matroid(groundset=range(10), rank_function=lambda X: min(len(X), 4)),
             ....:     Matroid(Matrix(GF(7), [[1,0,0,1,1],[0,1,0,1,2],[0,0,1,1,3]])),
             ....:     Matroid(Matrix(GF(2), [[1,0,0,1,1],[0,1,0,1,2],[0,0,1,1,3]])),
@@ -617,7 +618,7 @@ cdef class Matroid(SageObject):
     # for better efficiency, its best to override the following methods in
     # each derived class
 
-    cpdef _max_independent(self, X):
+    cpdef frozenset _max_independent(self, frozenset X):
         """
         Compute a maximal independent subset.
 
@@ -631,7 +632,7 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: X = M._max_independent(set(['a', 'c', 'd', 'e', 'f']))
+            sage: X = M._max_independent(frozenset(['a', 'c', 'd', 'e', 'f']))
             sage: M.is_independent(X)
             True
             sage: all(M.is_dependent(X.union([y])) for y in M.groundset() if y not in X)
@@ -647,7 +648,7 @@ cdef class Matroid(SageObject):
                 res.pop()
         return frozenset(res)
 
-    cpdef _circuit(self, X):
+    cpdef frozenset _circuit(self, frozenset X):
         """
         Return a minimal dependent subset.
 
@@ -665,10 +666,10 @@ cdef class Matroid(SageObject):
 
             sage: M = matroids.catalog.Vamos()
             sage: sorted(sage.matroids.matroid.Matroid._circuit(M,
-            ....:                             set(['a', 'c', 'd', 'e', 'f'])))
+            ....:                             frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
             sage: sorted(sage.matroids.matroid.Matroid._circuit(M,
-            ....:                                       set(['a', 'c', 'd'])))
+            ....:                                       frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no circuit in independent set.
@@ -679,7 +680,7 @@ cdef class Matroid(SageObject):
         cdef int l = len(X) - 1
         for x in X:
             Z.discard(x)
-            if self._rank(Z) == l:
+            if self._rank(frozenset(Z)) == l:
                 Z.add(x)
             else:
                 l -= 1
@@ -720,15 +721,15 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: sorted(M._closure(set(['a', 'b', 'c'])))
+            sage: sorted(M._closure(frozenset(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
         """
         cdef list XX = list(X)
         cdef frozenset Y = self.groundset().difference(frozenset(X))
-        cdef int r = self._rank(X)
+        cdef int r = self._rank(frozenset(X))
         for y in Y:
             XX.append(y)
-            if self._rank(XX) > r:
+            if self._rank(frozenset(XX)) > r:
                 XX.pop()
         return frozenset(XX)
 
@@ -741,7 +742,7 @@ cdef class Matroid(SageObject):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -885,26 +886,26 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: X = set(['a']); Y = set(['e', 'f', 'g', 'h'])
+            sage: X = frozenset(['a']); Y = frozenset(['e', 'f', 'g', 'h'])
             sage: Z = M._augment(X, Y)
             sage: M.is_independent(Z.union(X))
             True
             sage: all(M.is_dependent(Z.union([y])) for y in Y if y not in Z)
             True
         """
-        X = set(X)
-        res = set([])
-        r = self._rank(X)
+        cdef set XX = set(X)
+        cdef set res = set([])
+        cdef int r = self._rank(frozenset(X))
         for e in Y:
-            X.add(e)
-            if self._rank(X) > r:
+            XX.add(e)
+            if self._rank(frozenset(XX)) > r:
                 r += 1
                 res.add(e)
         return frozenset(res)
 
     # override the following methods for even better efficiency
 
-    cpdef _is_independent(self, X):
+    cpdef bint _is_independent(self, X):
         """
         Test if input is independent.
 
@@ -953,7 +954,7 @@ cdef class Matroid(SageObject):
         If ``X`` does not have the right size, behavior can become
         unpredictable::
 
-            sage: M._is_basis(set(['a', 'b', 'c']))
+            sage: M._is_basis(frozenset(['a', 'b', 'c']))
             True
         """
         return self._is_independent(X)
@@ -972,11 +973,11 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_circuit(set(['a', 'b', 'c', 'd']))
+            sage: M._is_circuit(frozenset(['a', 'b', 'c', 'd']))
             True
-            sage: M._is_circuit(set(['a', 'b', 'c', 'e']))
+            sage: M._is_circuit(frozenset(['a', 'b', 'c', 'e']))
             False
-            sage: M._is_circuit(set(['a', 'b', 'c', 'd', 'e']))
+            sage: M._is_circuit(frozenset(['a', 'b', 'c', 'd', 'e']))
             False
         """
         l = len(X) - 1
@@ -1004,14 +1005,14 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_closed(set(['a', 'b', 'c', 'd']))
+            sage: M._is_closed(frozenset(['a', 'b', 'c', 'd']))
             True
-            sage: M._is_closed(set(['a', 'b', 'c', 'e']))
+            sage: M._is_closed(frozenset(['a', 'b', 'c', 'e']))
             False
         """
         X = set(X)
         Y = self.groundset().difference(X)
-        r = self._rank(X)
+        r = self._rank(frozenset(X))
         for y in Y:
             X.add(y)
             if self._rank(frozenset(X)) == r:
@@ -1233,7 +1234,7 @@ cdef class Matroid(SageObject):
         - ``F`` -- a subset of the groundset, assumed to be a closed set of
           rank `r(M) - 2`.
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -1314,7 +1315,7 @@ cdef class Matroid(SageObject):
         """
         Return the size of the groundset.
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -1399,7 +1400,7 @@ cdef class Matroid(SageObject):
         - ``X`` -- (default: the groundset) a subset (or any iterable)
           of the groundset
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -1424,7 +1425,7 @@ cdef class Matroid(SageObject):
         The *rank* of the matroid is the size of the largest independent
         subset of the groundset.
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -1637,7 +1638,7 @@ cdef class Matroid(SageObject):
             cur = len(S)
             cl = frozenset([])
             for T in combinations(S, min(k, cur)):
-                cl = cl.union(self._closure(set(T)))
+                cl = cl.union(self._closure(frozenset(T)))
             S = cl
         return S
 
@@ -1691,7 +1692,7 @@ cdef class Matroid(SageObject):
         - ``X`` -- (default: the groundset) a subset (or any iterable)
           of the groundset
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         .. SEEALSO::
 
@@ -1719,7 +1720,7 @@ cdef class Matroid(SageObject):
         The *corank* of the matroid equals the rank of the dual matroid. It is
         given by ``M.size() - M.full_rank()``.
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         .. SEEALSO::
 
@@ -1934,7 +1935,7 @@ cdef class Matroid(SageObject):
             sage: (M / ['a', 'b']).loops()
             frozenset({'f'})
         """
-        return self._closure(set())
+        return self._closure(frozenset())
 
     cpdef is_independent(self, X):
         r"""
@@ -2308,7 +2309,7 @@ cdef class Matroid(SageObject):
 
     # verification
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data obey the matroid axioms.
 
@@ -2653,7 +2654,9 @@ cdef class Matroid(SageObject):
         """
         cdef SetSystem res
         res = SetSystem(list(self.groundset()))
-        for X in combinations(self.groundset(), self.full_rank()):
+        cdef frozenset X
+        for XX in combinations(self.groundset(), self.full_rank()):
+            X = frozenset(XX)
             if self._rank(X) < len(X):
                 res.append(X)
         return res
@@ -2681,7 +2684,9 @@ cdef class Matroid(SageObject):
             sage: [sorted(X) for X in matroids.catalog.P6().nonbases_iterator()]
             [['a', 'b', 'c']]
         """
-        for X in combinations(self.groundset(), self.full_rank()):
+        cdef frozenset X
+        for XX in combinations(self.groundset(), self.full_rank()):
+            X = frozenset(XX)
             if self._rank(X) < len(X):
                 yield frozenset(X)
 
@@ -2961,7 +2966,7 @@ cdef class Matroid(SageObject):
                 # TODO: Alert: this sort of thing will break in
                 # Python 3, I think. --SvZ
                 newbase = B | set([x])
-                newflat = self._closure(newbase)
+                newflat = self._closure(frozenset(newbase))
                 newX = X - newflat
                 if max(newbase) == x:
                     if min(newflat - F) == x:
@@ -3001,7 +3006,7 @@ cdef class Matroid(SageObject):
         """
         if r < 0:
             return []
-        loops = self._closure(set())
+        loops = self._closure(frozenset())
         flags = [[loops, set(), self.groundset() - loops]]
         for r in range(r):
             flags = self._extend_flags(flags)
@@ -5160,7 +5165,7 @@ cdef class Matroid(SageObject):
         - ``T`` -- (optional) a subset (or any iterable) of the groundset
           disjoint from ``S``
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -5200,7 +5205,7 @@ cdef class Matroid(SageObject):
         - ``S`` -- a subset of the groundset
         - ``T`` -- (optional) a subset of the groundset disjoint from ``S``
 
-        OUTPUT: an integer
+        OUTPUT: integer
 
         ALGORITHM:
 
@@ -5293,8 +5298,8 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.BetsyRoss()
-            sage: S = set('ab')
-            sage: T = set('cd')
+            sage: S = frozenset('ab')
+            sage: T = frozenset('cd')
             sage: I, X = M._link(S, T)
             sage: M.connectivity(X)
             2
@@ -6010,10 +6015,10 @@ cdef class Matroid(SageObject):
             True
         """
 
-        X_1 = set(X_1)
-        X_2 = set(X_2)
-        Y_1 = set(Y_1)
-        Y_2 = set(Y_2)
+        X_1 = frozenset(X_1)
+        X_2 = frozenset(X_2)
+        Y_1 = frozenset(Y_1)
+        Y_2 = frozenset(Y_2)
 
         lX_2 = len(X_2)
         lY_2 = len(Y_2)
@@ -6033,7 +6038,7 @@ cdef class Matroid(SageObject):
             for x in set(remainX):
                 if (self._rank(Y_1|(X-(X_2|set([x])))) - len(X-(X_2|set([x])))
                     > self._rank(Y_1|(X-X_2)) - len(X-X_2)):
-                    X_1.add(x)
+                    X_1 = X_1 | {x}
                     remainX.remove(x)
                     rowshift = True
             #colshifts
@@ -6041,18 +6046,18 @@ cdef class Matroid(SageObject):
             for y in set(remainY):
                 if (self._rank(Y_2|set([y])|(X-X_1)) - len(X-X_1)
                     > self._rank(Y_2|(X-X_1)) - len(X-X_1)):
-                    Y_1.add(y)
+                    Y_1 = Y_1 | {y}
                     remainY.remove(y)
                     colshift = True
             if not colshift and not rowshift:
                 break
-        X_2 = X-X_1
-        Y_2 = Y-Y_1
-        S_2 = X_2|Y_2
+        X_2 = X - X_1
+        Y_2 = Y - Y_1
+        S_2 = X_2 | Y_2
 
         if len(S_2) < m:
             return False, None
-        if (lX_2==len(X_2) and lY_2==len(Y_2)):
+        if (lX_2 == len(X_2) and lY_2 == len(Y_2)):
             return False, None
         return True, S_2
 
@@ -6734,11 +6739,11 @@ cdef class Matroid(SageObject):
             sage: M._is_circuit_chordal(frozenset(['a','b','d','e']))
             True
         """
-        cdef set X
-        cdef frozenset Ax, Bx
+        cdef set XX = set(C)
+        cdef frozenset Ax, Bx, X
 
-        X = set(C)
-        _ = X.pop()
+        _ = XX.pop()
+        X = frozenset(XX)
         # cl(X) = cl(C), and to be a chord x must be spanned by C
         for x in self._closure(X)-C:
             Ax = self._circuit(X.union([x]))
@@ -6958,7 +6963,7 @@ cdef class Matroid(SageObject):
         r = 0
         for e in Y:
             res.add(e)
-            if self._rank(res) > r:
+            if self._rank(frozenset(res)) > r:
                 r += 1
             else:
                 res.discard(e)
@@ -7129,11 +7134,11 @@ cdef class Matroid(SageObject):
             Y = list(X)
             for e in Y:
                 res.append(e)
-                if self._rank(res) > r:
+                if self._rank(frozenset(res)) > r:
                     r += 1
                 else:
                     del res[-1]
-                    if self._rank([e]) >= 1:
+                    if self._rank(frozenset({e})) >= 1:
                         return False
             return True
 
@@ -7191,11 +7196,11 @@ cdef class Matroid(SageObject):
                 if wt_dic[e] < wt_dic[res[-1]]:
                     smres=res[:]
             res.append(e)
-            if self._rank(res) > r:
+            if self._rank(frozenset(res)) > r:
                 r += 1
             else:
                 smres.append(e)
-                if self._rank(smres) >= len(smres):
+                if self._rank(frozenset(smres)) >= len(smres):
                     return False
                 del smres[-1]
                 del res[-1]
@@ -7245,8 +7250,8 @@ cdef class Matroid(SageObject):
             sage: M.is_max_weight_coindependent_generic()
             False
 
-            sage: M=matroids.Uniform(2,5)
-            sage: wt={0: 1, 1: 1, 2: 1, 3: 2, 4: 2}
+            sage: M = matroids.Uniform(2, 5)
+            sage: wt = {0: 1, 1: 1, 2: 1, 3: 2, 4: 2}
             sage: M.is_max_weight_independent_generic(weights=wt)
             True
             sage: M.dual().is_max_weight_coindependent_generic(weights=wt)
@@ -7284,11 +7289,11 @@ cdef class Matroid(SageObject):
             Y = list(X)
             for e in Y:
                 res.append(e)
-                if self._corank(res) > r:
+                if self._corank(frozenset(res)) > r:
                     r += 1
                 else:
                     del res[-1]
-                    if self._corank([e]) >= 1:
+                    if self._corank(frozenset([e])) >= 1:
                         return False
             return True
 
@@ -7346,11 +7351,11 @@ cdef class Matroid(SageObject):
                 if wt_dic[e] < wt_dic[res[-1]]:
                     smres=res[:]
             res.append(e)
-            if self._corank(res) > r:
+            if self._corank(frozenset(res)) > r:
                 r += 1
             else:
                 smres.append(e)
-                if self._corank(smres) >= len(smres):
+                if self._corank(frozenset(smres)) >= len(smres):
                     return False
                 del smres[-1]
                 del res[-1]
@@ -7443,7 +7448,7 @@ cdef class Matroid(SageObject):
             sage: sum([w[y] for y in Y])
             330
         """
-        Y = set()
+        Y = frozenset()
         U = self._intersection_augmentation(other, weights, Y)
         while U[0] and sum([weights[x] for x in U[1] - Y]) > sum([weights[y] for y in U[1].intersection(Y)]):
             Y = Y.symmetric_difference(U[1])
@@ -7602,7 +7607,7 @@ cdef class Matroid(SageObject):
             sage: len(M._intersection_unweighted(N))
             6
         """
-        Y = set()
+        Y = frozenset()
         U = self._intersection_augmentation_unweighted(other, Y)
         while U[0]:
             Y = U[1]
@@ -7636,10 +7641,10 @@ cdef class Matroid(SageObject):
             sage: Y = M.intersection(N)
             sage: M._intersection_augmentation_unweighted(N, Y)[0]
             False
-            sage: Y = M._intersection_augmentation_unweighted(N,set())
+            sage: Y = M._intersection_augmentation_unweighted(N, set())
             sage: Y[0]
             True
-            sage: len(Y[1])>0
+            sage: len(Y[1]) > 0
             True
         """
         E = self.groundset()
@@ -7784,7 +7789,7 @@ cdef class Matroid(SageObject):
         X = set()
         # doubling step
         while True:
-            p = PartitionMatroid([[(i,x) for i in range(hi)] for x in self.groundset()])
+            p = PartitionMatroid([[(i, x) for i in range(hi)] for x in self.groundset()])
             X = MatroidSum([self]*hi)._intersection_unweighted(p)
             if len(X)==self.size():
                 break
@@ -7793,7 +7798,7 @@ cdef class Matroid(SageObject):
         # binary search step
         while lo < hi:
             mid = (lo+hi)//2
-            p = PartitionMatroid([[(i,x) for i in range(mid)] for x in self.groundset()])
+            p = PartitionMatroid([[(i, x) for i in range(mid)] for x in self.groundset()])
             X = MatroidSum([self]*mid)._intersection_unweighted(p)
             if len(X) != self.size():
                 lo = mid + 1
@@ -7871,9 +7876,9 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Fano()
-            sage: sorted(M._external({'a', 'b', 'c'}))
+            sage: sorted(M._external(frozenset(['a', 'b', 'c'])))
             []
-            sage: sorted(M._external({'e', 'f', 'g'}))
+            sage: sorted(M._external(frozenset(['e', 'f', 'g'])))
             ['a', 'b', 'c', 'd']
         """
         N = self.groundset() - B
@@ -8688,7 +8693,7 @@ cdef class Matroid(SageObject):
 
         def f_relabel(X):
             d_inv = {d[x]: x for x in self.groundset()}
-            X_inv = [d_inv[x] for x in X]
+            X_inv = frozenset([d_inv[x] for x in X])
             return self._rank(X_inv)
 
         M = RankMatroid(groundset=E, rank_function=f_relabel)

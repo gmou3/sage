@@ -886,7 +886,7 @@ def geomrep(M1, B1=None, lineorders1=None, pd=None, sp=False):
                 lims = tracklims(lims, x_i, y_i)
                 G += line(zip(x_i, y_i), color='black', thickness=3, zorder=1)
         pels = [p for p in pts2
-                if any(M1._rank([p, q]) == 1 for q in P)]
+                if any(M1._rank(frozenset([p, q])) == 1 for q in P)]
         allpts = [list(pts2[i]) for i in M.groundset()]
         xpts = [float(k[0]) for k in allpts]
         ypts = [float(k[1]) for k in allpts]

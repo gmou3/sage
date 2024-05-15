@@ -4,10 +4,10 @@ cdef class FlatsMatroid(Matroid):
     cdef frozenset _groundset  # _E
     cdef int _matroid_rank  # _R
     cdef dict _F  # flats
-    cpdef groundset(self)
-    cpdef _rank(self, X)
+    cpdef frozenset groundset(self)
+    cpdef int _rank(self, frozenset X)
     cpdef full_rank(self)
-    cpdef _is_independent(self, F)
+    cpdef bint _is_independent(self, X)
 
     # enumeration
     cpdef flats(self, k)
@@ -18,4 +18,4 @@ cdef class FlatsMatroid(Matroid):
     cpdef relabel(self, mapping)
 
     # verification
-    cpdef is_valid(self)
+    cpdef bint is_valid(self)

@@ -466,7 +466,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
     # groundset and full_rank
 
-    cpdef groundset(self):
+    cpdef frozenset groundset(self):
         """
         Return the groundset of the matroid.
 
@@ -482,7 +482,7 @@ cdef class BasisExchangeMatroid(Matroid):
         """
         return self._groundset
 
-    cpdef groundset_list(self):
+    cpdef list groundset_list(self):
         """
         Return a list of elements of the groundset of the matroid.
 
@@ -624,7 +624,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self._pack(self._input2, Y)
         self.__move_current_basis(self._input, self._input2)
 
-    cpdef _max_independent(self, F):
+    cpdef frozenset _max_independent(self, frozenset F):
         """
         Compute a maximal independent subset.
 
@@ -639,7 +639,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: sorted(M._max_independent(set(['a', 'c', 'd', 'e', 'f'])))
+            sage: sorted(M._max_independent(frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['a', 'c', 'd', 'e']
 
         .. NOTE::
@@ -652,7 +652,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__max_independent(self._output, self._input)
         return self.__unpack(self._output)
 
-    cpdef _rank(self, F):
+    cpdef int _rank(self, frozenset F):
         """
         Compute the rank of a subset of the groundset.
 
@@ -667,7 +667,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: M._rank(set(['a', 'c', 'd', 'e', 'f']))
+            sage: M._rank(frozenset(['a', 'c', 'd', 'e', 'f']))
             4
 
         .. NOTE::
@@ -680,7 +680,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__max_independent(self._output, self._input)
         return bitset_len(self._output)
 
-    cpdef _circuit(self, F):
+    cpdef frozenset _circuit(self, frozenset F):
         """
         Return a minimal dependent subset.
 
@@ -697,10 +697,10 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
             sage: sorted(sage.matroids.matroid.Matroid._circuit(M,
-            ....:                             set(['a', 'c', 'd', 'e', 'f'])))
+            ....:                             frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
             sage: sorted(sage.matroids.matroid.Matroid._circuit(M,
-            ....:                                       set(['a', 'c', 'd'])))
+            ....:                                       frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no circuit in independent set.
@@ -940,7 +940,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__augment(self._output, self._input, self._input2)
         return self.__unpack(self._output)
 
-    cpdef _is_independent(self, F):
+    cpdef bint _is_independent(self, F):
         """
         Test if input is independent.
 
@@ -2268,7 +2268,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
         return self._characteristic_setsystem()._isomorphism(other._characteristic_setsystem(), PS, PO) is not None
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         r"""
         Test if the data obey the matroid axioms.
 

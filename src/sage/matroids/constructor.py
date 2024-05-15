@@ -795,8 +795,9 @@ def Matroid(groundset=None, data=None, **kwds):
     if data is None:
         for k in ['bases', 'independent_sets', 'circuits',
                   'nonspanning_circuits', 'flats', 'graph', 'matrix',
-                  'reduced_matrix', 'rank_function', 'lex', 'revlex',
-                  'circuit_closures', 'matroid']:
+                  'reduced_matrix', 'morphism', 'reduced_morphism',
+                  'rank_function', 'lex', 'revlex', 'circuit_closures',
+                  'matroid']:
             if k in kwds:
                 data = kwds.pop(k)
                 key = k

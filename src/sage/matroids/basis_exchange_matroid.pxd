@@ -37,17 +37,17 @@ cdef class BasisExchangeMatroid(Matroid):
 
     cdef bint _set_current_basis(self, F) noexcept
 
-    cpdef groundset(self)
-    cpdef groundset_list(self)
+    cpdef frozenset groundset(self)
+    cpdef list groundset_list(self)
     cpdef full_rank(self)
     cpdef full_corank(self)
 
     cpdef basis(self)
     cpdef _move_current_basis(self, X, Y)
 
-    cpdef _max_independent(self, F)
-    cpdef _rank(self, F)
-    cpdef _circuit(self, F)
+    cpdef frozenset _max_independent(self, frozenset F)
+    cpdef int _rank(self, frozenset F)
+    cpdef frozenset _circuit(self, frozenset F)
     cpdef _fundamental_circuit(self, B, e)
     cpdef _closure(self, F)
 
@@ -58,7 +58,7 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef _coclosure(self, F)
 
     cpdef _augment(self, X, Y)
-    cpdef _is_independent(self, F)
+    cpdef bint _is_independent(self, F)
 
     cpdef whitney_numbers2(self)
     cdef  _whitney_numbers2_rec(self, object f_vec, bitset_t* flats, bitset_t* todo, long elt, long rnk)
@@ -94,6 +94,6 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef _is_isomorphism(self, other, morphism)
     cdef bint __is_isomorphism(self, BasisExchangeMatroid other, morphism) noexcept
 
-    cpdef is_valid(self)
+    cpdef bint is_valid(self)
 
 cdef bint nxksrd(bitset_s *b, long n, long k, bint succ) noexcept

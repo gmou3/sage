@@ -156,7 +156,7 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos().dual()
-            sage: M._corank(set(['a', 'e', 'g', 'd', 'h']))
+            sage: M._corank(frozenset(['a', 'e', 'g', 'd', 'h']))
             4
         """
         return self._matroid._rank(X)
@@ -175,7 +175,7 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos().dual()
-            sage: X = M._max_independent(set(['a', 'c', 'd', 'e', 'f']))
+            sage: X = M._max_independent(frozenset(['a', 'c', 'd', 'e', 'f']))
             sage: sorted(X) # random
             ['a', 'c', 'd', 'e']
             sage: M.is_independent(X)
@@ -202,10 +202,10 @@ class DualMatroid(Matroid):
 
             sage: M = matroids.catalog.Vamos().dual()
             sage: sorted(sage.matroids.matroid.Matroid._circuit(M,
-            ....:                             set(['a', 'c', 'd', 'e', 'f'])))
+            ....:                             frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
             sage: sorted(sage.matroids.matroid.Matroid._circuit(M,
-            ....:                                       set(['a', 'c', 'd'])))
+            ....:                                       frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no circuit in independent set.
@@ -226,7 +226,7 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos().dual()
-            sage: sorted(M._closure(set(['a', 'b', 'c'])))
+            sage: sorted(M._closure(frozenset(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
         """
         return self._matroid._coclosure(X)
@@ -245,7 +245,7 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos().dual()
-            sage: X = M._max_coindependent(set(['a', 'c', 'd', 'e', 'f']))
+            sage: X = M._max_coindependent(frozenset(['a', 'c', 'd', 'e', 'f']))
             sage: sorted(X) # random
             ['a', 'd', 'e', 'f']
             sage: M.is_coindependent(X)
@@ -270,7 +270,7 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos().dual()
-            sage: sorted(M._coclosure(set(['a', 'b', 'c'])))
+            sage: sorted(M._coclosure(frozenset(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
         """
         return self._matroid._closure(X)
@@ -290,9 +290,9 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos().dual()
-            sage: sorted(M._cocircuit(set(['a', 'c', 'd', 'e', 'f'])))
+            sage: sorted(M._cocircuit(frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
-            sage: sorted(M._cocircuit(set(['a', 'c', 'd'])))
+            sage: sorted(M._cocircuit(frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no circuit in independent set

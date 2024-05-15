@@ -8,12 +8,12 @@ cdef class Matroid(SageObject):
     cdef int _stored_size
 
     # virtual methods
-    cpdef groundset(self)
-    cpdef _rank(self, X)
+    cpdef frozenset groundset(self)
+    cpdef int _rank(self, frozenset X)
 
     # internal methods, assuming verified input
-    cpdef _max_independent(self, X)
-    cpdef _circuit(self, X)
+    cpdef frozenset _max_independent(self, frozenset X)
+    cpdef frozenset _circuit(self, frozenset X)
     cpdef _fundamental_circuit(self, B, e)
     cpdef _closure(self, X)
     cpdef _corank(self, X)
@@ -23,7 +23,7 @@ cdef class Matroid(SageObject):
     cpdef _coclosure(self, X)
     cpdef _augment(self, X, Y)
 
-    cpdef _is_independent(self, X)
+    cpdef bint _is_independent(self, X)
     cpdef _is_basis(self, X)
     cpdef _is_circuit(self, X)
     cpdef _is_closed(self, X)
@@ -105,7 +105,7 @@ cdef class Matroid(SageObject):
     cpdef is_coclosed(self, X)
 
     # verification
-    cpdef is_valid(self)
+    cpdef bint is_valid(self)
 
     # enumeration
     cpdef circuits(self, k=*)

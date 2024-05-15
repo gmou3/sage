@@ -220,7 +220,7 @@ cdef class GraphicMatroid(Matroid):
         # The edge labels should already be the elements.
         self._groundset_edge_map = ({l: (u, v) for (u, v, l) in self._G.edge_iterator()})
 
-    cpdef groundset(self):
+    cpdef frozenset groundset(self):
         """
         Return the groundset of the matroid as a frozenset.
 
@@ -238,7 +238,7 @@ cdef class GraphicMatroid(Matroid):
         """
         return self._groundset
 
-    cpdef _rank(self, X):
+    cpdef int _rank(self, frozenset X):
         """
         Return the rank of a set ``X``.
 
@@ -726,7 +726,7 @@ cdef class GraphicMatroid(Matroid):
         XX.update(set([l for (u, v, l) in self._G.loops()]))
         return frozenset(XX)
 
-    cpdef _max_independent(self, X):
+    cpdef frozenset _max_independent(self, frozenset X):
         """
         Compute a maximal independent subset.
 
@@ -803,7 +803,7 @@ cdef class GraphicMatroid(Matroid):
                 DS_vertices.union(u, v)
         return frozenset(our_set)
 
-    cpdef _circuit(self, X):
+    cpdef frozenset _circuit(self, frozenset X):
         """
         Return a minimal dependent subset.
 
@@ -820,9 +820,9 @@ cdef class GraphicMatroid(Matroid):
             sage: sorted(M._circuit(M.groundset()))
             [0, 1, 2]
             sage: N = Matroid(range(9), graphs.CompleteBipartiteGraph(3,3))
-            sage: sorted(N._circuit([0, 1, 2, 6, 7, 8]))
+            sage: sorted(N._circuit(frozenset([0, 1, 2, 6, 7, 8])))
             [0, 1, 6, 7]
-            sage: N._circuit([0, 1, 2])
+            sage: N._circuit(frozenset([0, 1, 2]))
             Traceback (most recent call last):
             ...
             ValueError: no circuit in independent set
@@ -1093,7 +1093,7 @@ cdef class GraphicMatroid(Matroid):
         """
         return self.is_isomorphic(other, certificate=True)[1]
 
-    cpdef is_valid(self):
+    cpdef bint is_valid(self):
         """
         Test if the data obey the matroid axioms.
 
@@ -1194,7 +1194,7 @@ cdef class GraphicMatroid(Matroid):
         """
         return copy(self._vertex_map)
 
-    cpdef groundset_to_edges(self, X):
+    cpdef list groundset_to_edges(self, X):
         """
         Return a list of edges corresponding to a set of groundset elements.
 

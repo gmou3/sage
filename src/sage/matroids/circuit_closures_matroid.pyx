@@ -163,7 +163,7 @@ cdef class CircuitClosuresMatroid(Matroid):
                 self._circuit_closures[k] = frozenset([frozenset(X) for X in circuit_closures[k]])
         self._matroid_rank = self.rank(self._groundset)
 
-    cpdef groundset(self):
+    cpdef frozenset groundset(self):
         """
         Return the groundset of the matroid.
 
@@ -179,7 +179,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         """
         return frozenset(self._groundset)
 
-    cpdef _rank(self, X):
+    cpdef int _rank(self, frozenset X):
         """
         Return the rank of a set ``X``.
 
@@ -195,7 +195,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.NonPappus()
-            sage: M._rank('abc')
+            sage: M._rank(frozenset('abc'))
             2
         """
         return len(self._max_independent(X))
@@ -221,7 +221,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         """
         return self._matroid_rank
 
-    cpdef _is_independent(self, F):
+    cpdef bint _is_independent(self, F):
         """
         Test if input is independent.
 
@@ -249,7 +249,7 @@ cdef class CircuitClosuresMatroid(Matroid):
                     return False
         return True
 
-    cpdef _max_independent(self, F):
+    cpdef frozenset _max_independent(self, frozenset F):
         """
         Compute a maximal independent subset.
 
@@ -263,7 +263,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: X = M._max_independent(set(['a', 'c', 'd', 'e', 'f']))
+            sage: X = M._max_independent(frozenset(['a', 'c', 'd', 'e', 'f']))
             sage: sorted(X)  # random
             ['a', 'd', 'e', 'f']
             sage: M.is_independent(X)
@@ -284,7 +284,7 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         return frozenset(I)
 
-    cpdef _circuit(self, F):
+    cpdef frozenset _circuit(self, frozenset F):
         """
         Return a minimal dependent subset.
 
@@ -299,9 +299,9 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: sorted(M._circuit(set(['a', 'c', 'd', 'e', 'f'])))
+            sage: sorted(M._circuit(frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
-            sage: sorted(M._circuit(set(['a', 'c', 'd'])))
+            sage: sorted(M._circuit(frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no circuit in independent set

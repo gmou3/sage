@@ -8,12 +8,12 @@ cdef class CircuitsMatroid(Matroid):
     cdef dict _k_C  # k-circuits (k=len)
     cdef list _sorted_C_lens
     cdef bint _nsc_defined
-    cpdef groundset(self)
-    cpdef _rank(self, X)
+    cpdef frozenset groundset(self)
+    cpdef int _rank(self, frozenset X)
     cpdef full_rank(self)
-    cpdef _is_independent(self, X)
-    cpdef _max_independent(self, X)
-    cpdef _circuit(self, X)
+    cpdef bint _is_independent(self, X)
+    cpdef frozenset _max_independent(self, frozenset X)
+    cpdef frozenset _circuit(self, frozenset X)
     cpdef _closure(self, X)
 
     # enumeration
@@ -36,4 +36,4 @@ cdef class CircuitsMatroid(Matroid):
     cpdef relabel(self, mapping)
 
     # verification
-    cpdef is_valid(self)
+    cpdef bint is_valid(self)
