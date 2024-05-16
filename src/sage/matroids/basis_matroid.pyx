@@ -566,7 +566,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             self._bcount = bitset_len(self._bb)
         return self._bcount
 
-    cpdef bases(self):
+    cpdef SetSystem bases(self):
         r"""
         Return the list of bases of the matroid.
 

@@ -14,8 +14,8 @@ cdef class Matroid(SageObject):
     # internal methods, assuming verified input
     cpdef frozenset _max_independent(self, frozenset X)
     cpdef frozenset _circuit(self, frozenset X)
-    cpdef _fundamental_circuit(self, B, e)
-    cpdef _closure(self, X)
+    cpdef frozenset _fundamental_circuit(self, frozenset B, e)
+    cpdef frozenset _closure(self, frozenset X)
     cpdef _corank(self, X)
     cpdef _max_coindependent(self, X)
     cpdef _cocircuit(self, X)
@@ -108,13 +108,13 @@ cdef class Matroid(SageObject):
     cpdef bint is_valid(self)
 
     # enumeration
-    cpdef circuits(self, k=*)
+    cpdef SetSystem circuits(self, k=*)
     cpdef nonspanning_circuits(self)
     cpdef cocircuits(self)
     cpdef noncospanning_cocircuits(self)
     cpdef circuit_closures(self)
     cpdef nonspanning_circuit_closures(self)
-    cpdef bases(self)
+    cpdef SetSystem bases(self)
     cpdef independent_sets(self)
     cpdef independent_r_sets(self, long r)
     cpdef nonbases(self)
@@ -124,11 +124,11 @@ cdef class Matroid(SageObject):
     cpdef flats(self, r)
     cpdef coflats(self, r)
     cpdef hyperplanes(self)
-    cpdef f_vector(self)
-    cpdef whitney_numbers(self)
-    cpdef whitney_numbers2(self)
+    cpdef list f_vector(self)
+    cpdef list whitney_numbers(self)
+    cpdef list whitney_numbers2(self)
     cpdef broken_circuits(self, ordering=*)
-    cpdef no_broken_circuits_sets(self, ordering=*)
+    cpdef SetSystem no_broken_circuits_sets(self, ordering=*)
 
     # polytopes
     cpdef matroid_polytope(self)
@@ -240,10 +240,3 @@ cdef class Matroid(SageObject):
 
     # construction
     cpdef direct_sum(self, matroids)
-
-    # printing
-    cpdef print_bases(self)
-    cpdef print_circuits(self, k=*)
-    cpdef print_nonspanning_circuits(self)
-    cpdef _subset_sort(self, subsets)
-    cpdef _subset_cmp(self, A, B)

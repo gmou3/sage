@@ -227,7 +227,7 @@ cdef class CircuitsMatroid(Matroid):
                     return C
         raise ValueError("no circuit in independent set")
 
-    cpdef _closure(self, X):
+    cpdef frozenset _closure(self, frozenset X):
         """
         Return the closure of a set.
 
@@ -447,7 +447,7 @@ cdef class CircuitsMatroid(Matroid):
 
     # enumeration
 
-    cpdef bases(self):
+    cpdef SetSystem bases(self):
         r"""
         Return the bases of the matroid.
 
@@ -586,7 +586,7 @@ cdef class CircuitsMatroid(Matroid):
                     NB.add(S | set([e]))
         return SetSystem(list(self._groundset), NB)
 
-    cpdef circuits(self, k=None):
+    cpdef SetSystem circuits(self, k=None):
         """
         Return the circuits of the matroid.
 
@@ -755,7 +755,7 @@ cdef class CircuitsMatroid(Matroid):
 
         return SetSystem(list(self.groundset()), B)
 
-    cpdef no_broken_circuits_sets(self, ordering=None, reduced=False):
+    cpdef SetSystem no_broken_circuits_sets(self, ordering=None, reduced=False):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 

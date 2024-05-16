@@ -686,7 +686,7 @@ cdef class Matroid(SageObject):
                 l -= 1
         return frozenset(Z)
 
-    cpdef _fundamental_circuit(self, B, e):
+    cpdef frozenset _fundamental_circuit(self, frozenset B, e):
         r"""
         Return the `B`-fundamental circuit using `e`.
 
@@ -707,7 +707,7 @@ cdef class Matroid(SageObject):
         """
         return self._circuit(B.union([e]))
 
-    cpdef _closure(self, X):
+    cpdef frozenset _closure(self, frozenset X):
         """
         Return the closure of a set.
 
@@ -2145,7 +2145,7 @@ cdef class Matroid(SageObject):
             sage: (M.delete(['a', 'b'])).coloops()
             frozenset({'f'})
         """
-        return self._coclosure(set())
+        return self._coclosure(frozenset())
 
     cpdef is_coindependent(self, X):
         r"""
@@ -2367,7 +2367,7 @@ cdef class Matroid(SageObject):
 
     # enumeration
 
-    cpdef circuits(self, k=None):
+    cpdef SetSystem circuits(self, k=None):
         """
         Return the circuits of the matroid.
 
@@ -2747,7 +2747,7 @@ cdef class Matroid(SageObject):
             if self._rank(X) < len(X):
                 yield X
 
-    cpdef bases(self):
+    cpdef SetSystem bases(self):
         r"""
         Return the bases of the matroid.
 
@@ -3100,7 +3100,7 @@ cdef class Matroid(SageObject):
         """
         return self.flats(self.full_rank() - 1)
 
-    cpdef f_vector(self):
+    cpdef list f_vector(self):
         r"""
         Return the `f`-vector of the matroid.
 
@@ -3130,7 +3130,7 @@ cdef class Matroid(SageObject):
             f.append(ZZ(s))
         return f
 
-    cpdef whitney_numbers(self):
+    cpdef list whitney_numbers(self):
         r"""
         Return the Whitney numbers of the first kind of the matroid.
 
@@ -3159,7 +3159,7 @@ cdef class Matroid(SageObject):
             abs_w[len(S)] += 1
         return [ZZ((-1)**i * val) for i, val in enumerate(abs_w) if val != 0]
 
-    cpdef whitney_numbers2(self):
+    cpdef list whitney_numbers2(self):
         r"""
         Return the Whitney numbers of the second kind of the matroid.
 
@@ -3175,7 +3175,7 @@ cdef class Matroid(SageObject):
             sage: M.whitney_numbers2()
             [1, 11, 20, 1]
         """
-        loops = self._closure(set())
+        loops = self._closure(frozenset())
         flags = [[loops, set(), self.groundset() - loops]]
         W = [ZZ.one()]
         for r in range(self.full_rank()):
@@ -3225,7 +3225,7 @@ cdef class Matroid(SageObject):
                     break
         return frozenset(ret)
 
-    cpdef no_broken_circuits_sets(self, ordering=None):
+    cpdef SetSystem no_broken_circuits_sets(self, ordering=None):
         r"""
         Return the no broken circuits (NBC) sets of ``self``.
 
@@ -3271,7 +3271,7 @@ cdef class Matroid(SageObject):
             modified from the published algorithm.
         """
         if self.loops():
-            return []
+            return SetSystem()
 
         cdef list rev_order
         if ordering is None:
@@ -5215,7 +5215,7 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.BetsyRoss()
-            sage: M._connectivity(set('ab'), set('cd'))
+            sage: M._connectivity(frozenset('ab'), frozenset('cd'))
             2
         """
         return len(self._link(S,T)[0]) - self.full_rank() + self.rank(S) + self.rank(T)
@@ -5309,7 +5309,7 @@ cdef class Matroid(SageObject):
             2
         """
         # compute maximal common independent set of self\S/T and self/T\S
-        F = set(self.groundset()) - (S | T)
+        F = self.groundset() - (S | T)
         I = self._augment(S|T, F)
         found_path = True
         while found_path:
@@ -5398,72 +5398,72 @@ cdef class Matroid(SageObject):
             True
         """
         # base case
-        if k<1:
+        if k < 1:
             raise ValueError("k is less than 1")
-        if k<=2:
+        if k <= 2:
             return self.is_connected(certificate)
-        if k==3:
+        if k == 3:
             return self.is_3connected(certificate)
         # recursive case
-        sol,cert = self.is_kconnected(k-1, True)
+        sol, cert = self.is_kconnected(k - 1, True)
         if not sol:
             if certificate:
                 return False, cert
             return False
-        m = k-1
+        m = k - 1
         E = set(self.groundset())
         Q = set(list(E)[:m])
         E = E-Q
-        for r in range(len(Q)/2+1):
+        for r in range(len(Q)/2 + 1):
             R = set(list(E)[:r])
-            for Q1 in map(set,combinations(Q, r)):
+            for Q1 in map(set, combinations(Q, r)):
                 Q2 = Q-Q1
                 # optimization, ignore half of the {Q1,Q2}
-                if (len(Q2)==r and min(Q1)!=min(Q)):
+                if (len(Q2) == r and min(Q1) != min(Q)):
                     continue
                 # Given Q1, Q2 partition of Q, find all extensions
                 for r2 in range(r+1):
                     for R1 in map(set,combinations(R, r2)):
-                        R2 = R-R1
+                        R2 = R - R1
                         # F is the set of elements cannot be in the extension of Q1
                         F = set([])
-                        U = E-R
+                        U = E - R
                         # if Q1|R1 is full
                         if m-len(Q1)-len(R1) == 0:
-                            T=Q1|R1
+                            T = frozenset(Q1 | R1)
                             for B in map(set,combinations(U, m-len(Q2)-len(R2))):
-                                S = Q2|R2|B
+                                S = frozenset(Q2 | R2 | B)
                                 _, X = self._link(S, T)
-                                if self.connectivity(X)<m:
+                                if self.connectivity(X) < m:
                                     if certificate:
                                         return False, X
                                     return False
                             continue
                         # pick an element and assume it's an extension of Q1
                         for e in U:
-                            U = U-F
+                            U = U - F
                             # not enough elements
                             if len(U-set([e]))<m-len(Q1)-len(R1)-1:
                                 break
                             # extension of Q2 is full
-                            if len(F)==m-len(Q2)-len(R2):
-                                S = Q2|R2|F
-                                for A in map(set,combinations(U,m-len(Q1)-len(R1))):
-                                    T = Q1|R1|A
+                            if len(F) == m-len(Q2)-len(R2):
+                                S = frozenset(Q2 | R2 | F)
+                                for A in map(set, combinations(U,m-len(Q1)-len(R1))):
+                                    T = frozenset(Q1 | R1 | A)
                                     _, X = self._link(S, T)
-                                    if self.connectivity(X)<m:
+                                    if self.connectivity(X) < m:
                                         if certificate:
                                             return False, X
                                         return False
                                 break
-                            for A in map(set,combinations(U-set([e]),m-len(Q1)-len(R1)-1)):
+                            for A in map(set, combinations(U-set([e]), m-len(Q1)-len(R1)-1)):
                                 A.add(e)
-                                T = Q1|R1|A
-                                for B in map(set,combinations(U-A, m-len(Q2)-len(R2)-len(F))):
+                                T = frozenset(Q1 | R1 | A)
+                                for B in map(set, combinations(U-A, m-len(Q2)-len(R2)-len(F))):
                                     B |= F
-                                    S = Q2|R2|B
+                                    S = frozenset(Q2 | R2 | B)
                                     _, X = self._link(S, T)
-                                    if self.connectivity(X)<m:
+                                    if self.connectivity(X) < m:
                                         if certificate:
                                             return False, X
                                         return False
@@ -5642,11 +5642,11 @@ cdef class Matroid(SageObject):
             sage: M.connectivity(X)
             1
         """
-        cdef set E, G, H, S, T
-        cdef frozenset I, X
+        cdef set E, G, H,
+        cdef frozenset I, X, S, T
         # test (2-)connectedness
         C = self.components()
-        if len(C)>1:
+        if len(C) > 1:
             if certificate:
                 for X in C:
                     return False, X
@@ -5655,7 +5655,7 @@ cdef class Matroid(SageObject):
         # now 2-separations are exact
         # test if groundset size is at least 4
         E = set(self.groundset())
-        if len(E)<4:
+        if len(E) < 4:
             if certificate:
                 return True, None
                 # there is no partition A,B of the groundset such that |A|, |B| >= 2
@@ -5664,7 +5664,7 @@ cdef class Matroid(SageObject):
         # now there exist two disjoint pairs
         # test if there are any parallel pairs
         for e in E:
-            X = self._closure([e])
+            X = self._closure(frozenset([e]))
             if len(X)>1:
                 if certificate:
                     return False, self._circuit(X)
@@ -5675,14 +5675,14 @@ cdef class Matroid(SageObject):
         e = E.pop()
         f = E.pop()
         # check 2-separations with e,f on the same side
-        S = {e, f}
+        S = frozenset([e, f])
         G = set(E)
         while G:
             g = G.pop()
             H = set(G)
             while H:
                 h = H.pop()
-                T = {g, h}
+                T = frozenset([g, h])
                 I, X = self._link(S, T)
                 # check if connectivity between S,T is < 2
                 if len(I) + 2 < self.full_rank(): # note: rank(S) = rank(T) = 2
@@ -5694,11 +5694,11 @@ cdef class Matroid(SageObject):
                 H.intersection_update(self._closure(I.union([g])))
         g = E.pop()
         # check 2-separations with e,g on one side, f on the other
-        S = {e, g}
+        S = frozenset([e, g])
         H = set(E)
         while H:
             h = H.pop()
-            T = {f, h}
+            T = frozenset([f, h])
             I, X = self._link(S, T)
             # check if connectivity between S,T is < 2
             if len(I) + 2 < self.full_rank(): # note: rank(S) = rank(T) = 2
@@ -5709,11 +5709,11 @@ cdef class Matroid(SageObject):
             # if h' is not spanned by I + f, then I is a connector for {e, g}, {f, h'}
             H.intersection_update(self._closure(I.union([f])))
         # check all 2-separations with f,g on one side, e on the other
-        S = {f, g}
+        S = frozenset([f, g])
         H = set(E)
         while H:
             h = H.pop()
-            T = {e, h}
+            T = frozenset([e, h])
             I, X = self._link(S, T)
             # check if connectivity between S,T is < 2
             if len(I) + 2 < self.full_rank(): # note: rank(S) = rank(T) = 2
@@ -7641,7 +7641,7 @@ cdef class Matroid(SageObject):
             sage: Y = M.intersection(N)
             sage: M._intersection_augmentation_unweighted(N, Y)[0]
             False
-            sage: Y = M._intersection_augmentation_unweighted(N, set())
+            sage: Y = M._intersection_augmentation_unweighted(N, frozenset())
             sage: Y[0]
             True
             sage: len(Y[1]) > 0
@@ -8698,97 +8698,3 @@ cdef class Matroid(SageObject):
 
         M = RankMatroid(groundset=E, rank_function=f_relabel)
         return M
-
-    # printing
-
-    cpdef print_bases(self) noexcept:
-        r"""
-        Return the bases of the matroid.
-
-        OUTPUT: a list of lists (ordered)
-
-        EXAMPLES::
-
-            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
-            sage: M.print_bases()
-            [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
-        """
-        return self._subset_sort(self.bases())
-
-    cpdef print_circuits(self, k=None) noexcept:
-        """
-        Return the list of circuits of the matroid.
-
-        OUTPUT: a list of lists (ordered)
-
-        EXAMPLES::
-
-            sage: M = matroids.Theta(4)
-            sage: M.print_circuits()
-            [['x0', 'x1', 'x2'],
-            ['x0', 'x1', 'x3'],
-            ['x0', 'x2', 'x3'],
-            ['x1', 'x2', 'x3'],
-            ['x0', 'y1', 'y2', 'y3'],
-            ['x1', 'y0', 'y2', 'y3'],
-            ['x2', 'y0', 'y1', 'y3'],
-            ['x3', 'y0', 'y1', 'y2'],
-            ['x0', 'x1', 'y0', 'y1', 'y2'],
-            ['x0', 'x1', 'y0', 'y1', 'y3'],
-            ['x0', 'x2', 'y0', 'y1', 'y2'],
-            ['x0', 'x2', 'y0', 'y2', 'y3'],
-            ['x0', 'x3', 'y0', 'y1', 'y3'],
-            ['x0', 'x3', 'y0', 'y2', 'y3'],
-            ['x1', 'x2', 'y0', 'y1', 'y2'],
-            ['x1', 'x2', 'y1', 'y2', 'y3'],
-            ['x1', 'x3', 'y0', 'y1', 'y3'],
-            ['x1', 'x3', 'y1', 'y2', 'y3'],
-            ['x2', 'x3', 'y0', 'y2', 'y3'],
-            ['x2', 'x3', 'y1', 'y2', 'y3']]
-
-        .. SEEALSO::
-
-            :meth:`Matroid.circuit() <sage.matroids.matroid.Matroid.circuit>`,
-            :meth:`Matroid.closure() <sage.matroids.matroid.Matroid.closure>`
-        """
-        if k:
-            return self._subset_sort(self.circuits(k))
-        else:
-            return self._subset_sort(self.circuits())
-
-    cpdef print_nonspanning_circuits(self) noexcept:
-        """
-        Return the list of nonspanning circuits of the matroid.
-
-        OUTPUT: a list of lists (ordered)
-        """
-        return self._subset_sort(self.nonspanning_circuits())
-
-    cpdef _subset_sort(self, subsets) noexcept:
-        from functools import cmp_to_key
-        SS = []
-        for S in subsets:
-            try:
-                SS += [sorted(S)]
-            except TypeError:
-                SS += [sorted(S, str)]
-        return sorted(SS, key=cmp_to_key(self._subset_cmp))
-
-    cpdef _subset_cmp(self, A, B) noexcept:
-        if len(A) > len(B):
-            return 1
-        elif len(A) < len(B):
-            return -1
-        for i in range(len(A)):
-            try:
-                if A[i] > B[i]:
-                    return 1
-                elif A[i] < B[i]:
-                    return -1
-            except AttributeError:
-                if str(A[i]) > str(B[i]):
-                    return 1
-                elif str(A[i]) < str(B[i]):
-                    return -1
-        return 0

@@ -390,7 +390,7 @@ cdef class FlatsMatroid(Matroid):
             for F in self._F[k]:
                 yield F
 
-    cpdef whitney_numbers2(self):
+    cpdef list whitney_numbers2(self):
         r"""
         Return the Whitney numbers of the second kind of the matroid.
 

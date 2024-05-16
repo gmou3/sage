@@ -715,7 +715,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__circuit(self._output, self._input)
         return self.__unpack(self._output)
 
-    cpdef _fundamental_circuit(self, B, e):
+    cpdef frozenset _fundamental_circuit(self, frozenset B, e):
         r"""
         Return the `B`-fundamental circuit using `e`.
 
@@ -731,7 +731,7 @@ cdef class BasisExchangeMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.P8()
-            sage: sorted(M._fundamental_circuit('abcd', 'e'))
+            sage: sorted(M._fundamental_circuit(frozenset('abcd'), 'e'))
             ['a', 'b', 'c', 'e']
         """
         self._pack(self._input, B)
@@ -740,7 +740,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__fundamental_circuit(self._output, self._idx[e])
         return self.__unpack(self._output)
 
-    cpdef _closure(self, F):
+    cpdef frozenset _closure(self, frozenset F):
         """
         Return the closure of a set.
 
@@ -755,7 +755,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: sorted(M._closure(set(['a', 'b', 'c'])))
+            sage: sorted(M._closure(frozenset(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
 
         .. NOTE::
@@ -1084,13 +1084,13 @@ cdef class BasisExchangeMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.BetsyRoss()
-            sage: S = set('ab')
-            sage: T = set('cd')
+            sage: S = frozenset('ab')
+            sage: T = frozenset('cd')
             sage: I, X = M._link(S, T)
             sage: M.connectivity(X)
             2
-            sage: J = M.groundset()-(S|T|I)
-            sage: N = (M/I).delete(J)
+            sage: J = M.groundset() - (S | T | I)
+            sage: N = (M / I).delete(J)
             sage: N.connectivity(S)
             2
         """
@@ -1198,7 +1198,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
     # enumeration
 
-    cpdef whitney_numbers2(self):
+    cpdef list whitney_numbers2(self):
         r"""
         Return the Whitney numbers of the second kind of the matroid.
 
@@ -1580,7 +1580,7 @@ cdef class BasisExchangeMatroid(Matroid):
             repeat = nxksrd(self._input, self._groundset_size, r, True)
         return BB
 
-    cpdef bases(self):
+    cpdef SetSystem bases(self):
         """
         Return the list of bases of the matroid.
 
@@ -1799,7 +1799,7 @@ cdef class BasisExchangeMatroid(Matroid):
         NSC.resize()
         return NSC
 
-    cpdef circuits(self, k=None):
+    cpdef SetSystem circuits(self, k=None):
         """
         Return the list of circuits of the matroid.
 

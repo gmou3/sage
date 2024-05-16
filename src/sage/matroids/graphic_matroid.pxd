@@ -13,7 +13,7 @@ cdef class GraphicMatroid(Matroid):
     cpdef _has_minor(self, N, bint certificate=*)
     cpdef _corank(self, X)
     cpdef _is_circuit(self, X)
-    cpdef _closure(self, X)
+    cpdef frozenset _closure(self, frozenset X)
     cpdef frozenset _max_independent(self, frozenset X)
     cpdef _max_coindependent(self, X)
     cpdef frozenset _circuit(self, frozenset X)

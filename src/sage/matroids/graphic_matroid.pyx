@@ -676,7 +676,7 @@ cdef class GraphicMatroid(Matroid):
         cdef GenericGraph_pyx g = self._subgraph_from_set(X)
         return g.is_cycle()
 
-    cpdef _closure(self, X):
+    cpdef frozenset _closure(self, frozenset X):
         """
         Return the closure of a set.
 
@@ -689,9 +689,9 @@ cdef class GraphicMatroid(Matroid):
         EXAMPLES::
 
             sage: M = Matroid(range(5), graphs.DiamondGraph())
-            sage: sorted(M._closure([0]))
+            sage: sorted(M._closure(frozenset([0])))
             [0]
-            sage: sorted(M._closure([0,1]))
+            sage: sorted(M._closure(frozenset([0,1])))
             [0, 1, 2]
             sage: sorted(M._closure(M.groundset()))
             [0, 1, 2, 3, 4]
@@ -704,7 +704,7 @@ cdef class GraphicMatroid(Matroid):
             sage: M = Matroid(range(6), Graph(edgelist, loops=True, multiedges=True))
             sage: M.graph().edges(sort=True)
             [(0, 0, 0), (0, 1, 1), (0, 2, 2), (0, 3, 3), (1, 2, 4), (1, 2, 5)]
-            sage: sorted(M._closure([4]))
+            sage: sorted(M._closure(frozenset([4])))
             [0, 4, 5]
         """
         cdef set XX = set(X)

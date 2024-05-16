@@ -48,8 +48,8 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef frozenset _max_independent(self, frozenset F)
     cpdef int _rank(self, frozenset F)
     cpdef frozenset _circuit(self, frozenset F)
-    cpdef _fundamental_circuit(self, B, e)
-    cpdef _closure(self, F)
+    cpdef frozenset _fundamental_circuit(self, frozenset B, e)
+    cpdef frozenset _closure(self, frozenset F)
 
     cpdef _max_coindependent(self, F)
     cpdef _corank(self, F)
@@ -60,7 +60,7 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef _augment(self, X, Y)
     cpdef bint _is_independent(self, F)
 
-    cpdef whitney_numbers2(self)
+    cpdef list whitney_numbers2(self)
     cdef  _whitney_numbers2_rec(self, object f_vec, bitset_t* flats, bitset_t* todo, long elt, long rnk)
     cpdef flats(self, R)
     cdef  _flats_rec(self, SetSystem Rflats, long R, bitset_t* flats, bitset_t* todo, long elt, long rnk)
@@ -71,13 +71,13 @@ cdef class BasisExchangeMatroid(Matroid):
 
     cpdef bases_count(self)
     cpdef independent_r_sets(self, long r)
-    cpdef bases(self)
+    cpdef SetSystem bases(self)
     cpdef dependent_r_sets(self, long r)
     cpdef nonbases(self)
 
     cpdef nonspanning_circuits(self)
     cpdef cocircuits(self)
-    cpdef circuits(self, k=*)
+    cpdef SetSystem circuits(self, k=*)
 
     cpdef _characteristic_setsystem(self)
     cpdef _weak_invariant(self)

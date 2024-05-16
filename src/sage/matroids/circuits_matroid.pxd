@@ -14,17 +14,17 @@ cdef class CircuitsMatroid(Matroid):
     cpdef bint _is_independent(self, X)
     cpdef frozenset _max_independent(self, frozenset X)
     cpdef frozenset _circuit(self, frozenset X)
-    cpdef _closure(self, X)
+    cpdef frozenset _closure(self, frozenset X)
 
     # enumeration
-    cpdef bases(self)
+    cpdef SetSystem bases(self)
     cpdef nonbases(self)
     cpdef independent_r_sets(self, long r)
     cpdef dependent_r_sets(self, long r)
-    cpdef circuits(self, k=*)
+    cpdef SetSystem circuits(self, k=*)
     cpdef nonspanning_circuits(self)
     cpdef no_broken_circuits_facets(self, ordering=*, reduced=*)
-    cpdef no_broken_circuits_sets(self, ordering=*, reduced=*)
+    cpdef SetSystem no_broken_circuits_sets(self, ordering=*, reduced=*)
     cpdef broken_circuit_complex(self, ordering=*, reduced=*)
 
     # properties

@@ -19,7 +19,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
     cpdef _is_basis(self, X)
 
     cpdef bases_count(self)
-    cpdef bases(self)
+    cpdef SetSystem bases(self)
     cpdef nonbases(self)
 
     cpdef truncation(self)
