@@ -733,7 +733,7 @@ cdef class Matroid(SageObject):
                 XX.pop()
         return frozenset(XX)
 
-    cpdef _corank(self, X):
+    cpdef int _corank(self, frozenset X):
         """
         Return the corank of a set.
 
@@ -747,12 +747,12 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._corank(set(['a', 'e', 'g', 'd', 'h']))
+            sage: M._corank(frozenset(['a', 'e', 'g', 'd', 'h']))
             4
         """
         return len(X) + self._rank(self.groundset().difference(X)) - self.full_rank()
 
-    cpdef _max_coindependent(self, X):
+    cpdef frozenset _max_coindependent(self, frozenset X):
         """
         Compute a maximal coindependent subset.
 
@@ -766,23 +766,23 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: X = M._max_coindependent(set(['a', 'c', 'd', 'e', 'f']))
+            sage: X = M._max_coindependent(frozenset(['a', 'c', 'd', 'e', 'f']))
             sage: M.is_coindependent(X)
             True
             sage: all(M.is_codependent(X.union([y])) for y in M.groundset() if y not in X)
             True
         """
-        res = set([])
-        r = 0
+        cdef set res = set()
+        cdef int r = 0
         for e in X:
             res.add(e)
-            if self._corank(res) > r:
+            if self._corank(frozenset(res)) > r:
                 r += 1
             else:
                 res.discard(e)
         return frozenset(res)
 
-    cpdef _cocircuit(self, X):
+    cpdef frozenset _cocircuit(self, frozenset X):
         """
         Return a minimal codependent subset.
 
@@ -800,27 +800,27 @@ cdef class Matroid(SageObject):
 
             sage: M = matroids.catalog.Vamos()
             sage: sorted(sage.matroids.matroid.Matroid._cocircuit(M,
-            ....:                             set(['a', 'c', 'd', 'e', 'f'])))
+            ....:                             frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
             sage: sorted(sage.matroids.matroid.Matroid._cocircuit(M,
-            ....:                                       set(['a', 'c', 'd'])))
+            ....:                                       frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no cocircuit in coindependent set.
         """
-        Z = set(X)
+        cdef set Z = set(X)
         if self._is_coindependent(X):
             raise ValueError("no cocircuit in coindependent set.")
-        l = len(X) - 1
+        cdef int l = len(X) - 1
         for x in X:
             Z.discard(x)
-            if self._corank(Z) == l:
+            if self._corank(frozenset(Z)) == l:
                 Z.add(x)
             else:
                 l -= 1
         return frozenset(Z)
 
-    cpdef _fundamental_cocircuit(self, B, e):
+    cpdef frozenset _fundamental_cocircuit(self, frozenset B, e):
         r"""
         Return the `B`-fundamental circuit using `e`.
 
@@ -836,12 +836,12 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: sorted(M._fundamental_cocircuit('abch', 'c'))
+            sage: sorted(M._fundamental_cocircuit(frozenset('abch'), 'c'))
             ['c', 'd', 'e', 'f']
         """
         return self._cocircuit(self.groundset().difference(B).union([e]))
 
-    cpdef _coclosure(self, X):
+    cpdef frozenset _coclosure(self, frozenset X):
         """
         Return the coclosure of a set.
 
@@ -855,19 +855,19 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: sorted(M._coclosure(set(['a', 'b', 'c'])))
+            sage: sorted(M._coclosure(frozenset(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
         """
-        X = set(X)
-        Y = self.groundset().difference(X)
-        r = self._corank(X)
+        cdef set XX = set(X)
+        cdef frozenset Y = self.groundset().difference(X)
+        cdef int r = self._corank(X)
         for y in Y:
-            X.add(y)
-            if self._corank(X) > r:
-                X.discard(y)
-        return frozenset(X)
+            XX.add(y)
+            if self._corank(frozenset(XX)) > r:
+                XX.discard(y)
+        return frozenset(XX)
 
-    cpdef _augment(self, X, Y):
+    cpdef frozenset _augment(self, frozenset X, frozenset Y):
         r"""
         Return a maximal subset `I` of `Y` such that `r(X + I)=r(X) + r(I)`.
 
@@ -1034,9 +1034,9 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_coindependent(set(['a', 'b', 'c']))
+            sage: M._is_coindependent(frozenset(['a', 'b', 'c']))
             True
-            sage: M._is_coindependent(set(['a', 'b', 'c', 'd']))
+            sage: M._is_coindependent(frozenset(['a', 'b', 'c', 'd']))
             False
         """
         return self._corank(X) == len(X)
@@ -1083,11 +1083,11 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_cocircuit(set(['a', 'b', 'c', 'd']))
+            sage: M._is_cocircuit(frozenset(['a', 'b', 'c', 'd']))
             True
-            sage: M._is_cocircuit(set(['a', 'b', 'c', 'e']))
+            sage: M._is_cocircuit(frozenset(['a', 'b', 'c', 'e']))
             False
-            sage: M._is_cocircuit(set(['a', 'b', 'c', 'd', 'e']))
+            sage: M._is_cocircuit(frozenset(['a', 'b', 'c', 'd', 'e']))
             False
         """
         l = len(X) - 1
@@ -1101,7 +1101,7 @@ cdef class Matroid(SageObject):
             Z.add(x)
         return True
 
-    cpdef _is_coclosed(self, X):
+    cpdef frozenset _is_coclosed(self, frozenset X):
         """
         Test if input is a coclosed set.
 
@@ -1115,19 +1115,19 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_coclosed(set(['a', 'b', 'c', 'd']))
+            sage: M._is_coclosed(frozenset(['a', 'b', 'c', 'd']))
             True
-            sage: M._is_coclosed(set(['a', 'b', 'c', 'e']))
+            sage: M._is_coclosed(frozenset(['a', 'b', 'c', 'e']))
             False
         """
-        X = set(X)
-        Y = self.groundset().difference(X)
-        r = self._corank(X)
+        cdef set XX = set(X)
+        cdef frozenset Y = self.groundset().difference(X)
+        cdef int r = self._corank(X)
         for y in Y:
-            X.add(y)
-            if self._corank(frozenset(X)) == r:
+            XX.add(y)
+            if self._corank(frozenset(XX)) == r:
                 return False
-            X.discard(y)
+            XX.discard(y)
         return True
 
     cpdef _minor(self, contractions, deletions):
@@ -6300,11 +6300,9 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``basis`` -- (optional) a set; the basis `B` as above
+        - ``basis`` -- set (optional); the basis `B` as above
 
-        OUTPUT:
-
-        A :class:`BinaryMatroid <sage.matroids.linear_matroid.BinaryMatroid>`.
+        OUTPUT: :class:`BinaryMatroid <sage.matroids.linear_matroid.BinaryMatroid>`
 
         EXAMPLES::
 
@@ -6319,8 +6317,7 @@ cdef class Matroid(SageObject):
         """
         if basis is None:
             basis = self.basis()
-        basis = list(basis)
-        E = list(self.groundset())
+        cdef list E = list(self.groundset())
         idx = {Ei: i for i, Ei in enumerate(E)}
         A = BinaryMatrix(len(basis), len(E))
         i = 0
@@ -6330,7 +6327,7 @@ cdef class Matroid(SageObject):
                 A.set(i, idx[e])
             i += 1
         from sage.matroids.linear_matroid import BinaryMatroid
-        return BinaryMatroid(groundset=E, matrix=A, basis=basis, keep_initial_representation=False)
+        return BinaryMatroid(groundset=E, matrix=A, basis=list(basis), keep_initial_representation=False)
 
     cpdef binary_matroid(self, randomized_tests=1, verify = True):
         r"""
@@ -6467,6 +6464,8 @@ cdef class Matroid(SageObject):
 
         if basis is None:
             basis = self.basis()
+        entries = [(e, f, (e, f)) for e in basis for f in self._fundamental_cocircuit(basis, e).difference([e])]
+        G = Graph(entries)
         basis = sorted(basis, key=cmp_elements_key)
         bdx = {basis[i]: i for i in range(len(basis))}
         E = sorted(self.groundset(), key=cmp_elements_key)
@@ -6474,8 +6473,6 @@ cdef class Matroid(SageObject):
         A = TernaryMatrix(len(basis), len(E))
         for e in basis:
             A.set(bdx[e], idx[e], 1)
-        entries = [(e, f, (e, f)) for e in basis for f in self._fundamental_cocircuit(basis, e).difference([e])]
-        G = Graph(entries)
         T = set()
         for C in G.connected_components_subgraphs():
             T.update(C.min_spanning_tree())
@@ -7049,11 +7046,11 @@ cdef class Matroid(SageObject):
             if nonneg_error:
                 raise ValueError("nonnegative weights were expected.")
             Y = [e for (w, e) in wt]
-        res = set([])
-        r = 0
+        cdef set res = set()
+        cdef int r = 0
         for e in Y:
             res.add(e)
-            if self._corank(res) > r:
+            if self._corank(frozenset(res)) > r:
                 r += 1
             else:
                 res.discard(e)

@@ -137,7 +137,7 @@ class DualMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.NonPappus().dual()
-            sage: M._rank(['a', 'b', 'c'])
+            sage: M._rank(frozenset(['a', 'b', 'c']))
             3
         """
         return self._matroid._corank(X)

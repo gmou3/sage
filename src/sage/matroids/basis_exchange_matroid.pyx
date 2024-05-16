@@ -768,7 +768,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__closure(self._output, self._input)
         return self.__unpack(self._output)
 
-    cpdef _max_coindependent(self, F):
+    cpdef frozenset _max_coindependent(self, frozenset F):
         """
         Compute a maximal coindependent subset.
 
@@ -783,7 +783,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: sorted(M._max_coindependent(set(['a', 'c', 'd', 'e', 'f'])))
+            sage: sorted(M._max_coindependent(frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['a', 'c', 'd', 'f']
 
         .. NOTE::
@@ -796,7 +796,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__max_coindependent(self._output, self._input)
         return self.__unpack(self._output)
 
-    cpdef _corank(self, F):
+    cpdef int _corank(self, frozenset F):
         """
         Return the corank of a set.
 
@@ -811,7 +811,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: M._corank(set(['a', 'e', 'g', 'd', 'h']))
+            sage: M._corank(frozenset(['a', 'e', 'g', 'd', 'h']))
             4
 
         .. NOTE::
@@ -824,7 +824,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__max_coindependent(self._output, self._input)
         return bitset_len(self._output)
 
-    cpdef _cocircuit(self, F):
+    cpdef frozenset _cocircuit(self, frozenset F):
         """
         Return a minimal codependent subset.
 
@@ -841,10 +841,10 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
             sage: sorted(sage.matroids.matroid.Matroid._cocircuit(M,
-            ....:                             set(['a', 'c', 'd', 'e', 'f'])))
+            ....:                             frozenset(['a', 'c', 'd', 'e', 'f'])))
             ['c', 'd', 'e', 'f']
             sage: sorted(sage.matroids.matroid.Matroid._cocircuit(M,
-            ....:                                       set(['a', 'c', 'd'])))
+            ....:                                       frozenset(['a', 'c', 'd'])))
             Traceback (most recent call last):
             ...
             ValueError: no cocircuit in coindependent set.
@@ -859,7 +859,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__cocircuit(self._output, self._input)
         return self.__unpack(self._output)
 
-    cpdef _fundamental_cocircuit(self, B, e):
+    cpdef frozenset _fundamental_cocircuit(self, frozenset B, e):
         r"""
         Return the `B`-fundamental circuit using `e`.
 
@@ -875,7 +875,7 @@ cdef class BasisExchangeMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.P8()
-            sage: sorted(M._fundamental_cocircuit('efgh', 'e'))
+            sage: sorted(M._fundamental_cocircuit(frozenset('efgh'), 'e'))
             ['b', 'c', 'd', 'e']
         """
         self._pack(self._input, B)
@@ -884,7 +884,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__fundamental_cocircuit(self._output, self._idx[e])
         return self.__unpack(self._output)
 
-    cpdef _coclosure(self, F):
+    cpdef frozenset _coclosure(self, frozenset F):
         """
         Return the coclosure of a set.
 
@@ -899,7 +899,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: sorted(M._coclosure(set(['a', 'b', 'c'])))
+            sage: sorted(M._coclosure(frozenset(['a', 'b', 'c'])))
             ['a', 'b', 'c', 'd']
 
         .. NOTE::
@@ -912,7 +912,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self._coclosure_internal(self._output, self._input)
         return self.__unpack(self._output)
 
-    cpdef _augment(self, X, Y):
+    cpdef frozenset _augment(self, frozenset X, frozenset Y):
         r"""
         Return a maximal subset `I` of `Y` such that `r(X + I)=r(X) + r(I)`.
 
@@ -932,7 +932,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: sorted(M._augment(set(['a']), set(['e', 'f', 'g', 'h'])))
+            sage: sorted(M._augment(frozenset(['a']), frozenset(['e', 'f', 'g', 'h'])))
             ['e', 'f', 'g']
         """
         self._pack(self._input, X)

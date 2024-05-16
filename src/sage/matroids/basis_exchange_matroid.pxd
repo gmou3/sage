@@ -51,13 +51,13 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef frozenset _fundamental_circuit(self, frozenset B, e)
     cpdef frozenset _closure(self, frozenset F)
 
-    cpdef _max_coindependent(self, F)
-    cpdef _corank(self, F)
-    cpdef _cocircuit(self, F)
-    cpdef _fundamental_cocircuit(self, B, e)
-    cpdef _coclosure(self, F)
+    cpdef frozenset _max_coindependent(self, frozenset F)
+    cpdef int _corank(self, frozenset F)
+    cpdef frozenset _cocircuit(self, frozenset F)
+    cpdef frozenset _fundamental_cocircuit(self, frozenset B, e)
+    cpdef frozenset _coclosure(self, frozenset F)
 
-    cpdef _augment(self, X, Y)
+    cpdef frozenset _augment(self, frozenset X, frozenset Y)
     cpdef bint _is_independent(self, F)
 
     cpdef list whitney_numbers2(self)

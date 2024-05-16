@@ -224,7 +224,7 @@ class MinorMatroid(Matroid):
             sage: from sage.matroids.advanced import *
             sage: M = MinorMatroid(matroids.catalog.Vamos(),
             ....:                 contractions=set('c'), deletions={'b', 'f'})
-            sage: X = M._max_independent(set(['a', 'd', 'e', 'g']))
+            sage: X = M._max_independent(frozenset(['a', 'd', 'e', 'g']))
             sage: sorted(X) # random
             ['a', 'd', 'e']
             sage: M.is_independent(X)
@@ -252,7 +252,7 @@ class MinorMatroid(Matroid):
             sage: from sage.matroids.advanced import *
             sage: M = MinorMatroid(matroids.catalog.Vamos(),
             ....:                 contractions=set('c'), deletions={'b', 'f'})
-            sage: sorted(M._closure(set(['a', 'e', 'd'])))
+            sage: sorted(M._closure(frozenset(['a', 'e', 'd'])))
             ['a', 'd', 'e', 'g', 'h']
 
         """
@@ -276,7 +276,7 @@ class MinorMatroid(Matroid):
             sage: from sage.matroids.advanced import *
             sage: M = MinorMatroid(matroids.catalog.Vamos(),
             ....:                 contractions=set('c'), deletions={'b', 'f'})
-            sage: X = M._max_coindependent(set(['a', 'd', 'e', 'g']))
+            sage: X = M._max_coindependent(frozenset(['a', 'd', 'e', 'g']))
             sage: sorted(X) # random
             ['d', 'g']
             sage: M.is_coindependent(X)
@@ -304,7 +304,7 @@ class MinorMatroid(Matroid):
             sage: from sage.matroids.advanced import *
             sage: M = MinorMatroid(matroids.catalog.Vamos(),
             ....:                 contractions=set('c'), deletions={'b', 'f'})
-            sage: sorted(M._coclosure(set(['a', 'b', 'c'])))
+            sage: sorted(M._coclosure(frozenset(['a', 'b', 'c'])))
             ['a', 'd', 'e', 'g', 'h']
 
         """

@@ -625,7 +625,7 @@ cdef class GraphicMatroid(Matroid):
                 N = N.regular_matroid()
             return M._has_minor(N, certificate=certificate)
 
-    cpdef _corank(self, X):
+    cpdef int _corank(self, frozenset X):
         """
         Return the corank of the set `X` in the matroid.
 
@@ -640,9 +640,9 @@ cdef class GraphicMatroid(Matroid):
         EXAMPLES::
 
             sage: M = Matroid(range(9), graphs.CompleteBipartiteGraph(3,3))
-            sage: M._corank([0,1,2])
+            sage: M._corank(frozenset([0,1,2]))
             2
-            sage: M._corank([1,2,3])
+            sage: M._corank(frozenset([1,2,3]))
             3
         """
         cdef DisjointSet_of_hashables DS_vertices
@@ -765,7 +765,7 @@ cdef class GraphicMatroid(Matroid):
                 our_set.add(l)
         return frozenset(our_set)
 
-    cpdef _max_coindependent(self, X):
+    cpdef frozenset _max_coindependent(self, frozenset X):
         """
         Compute a maximal coindependent subset.
 
@@ -780,10 +780,10 @@ cdef class GraphicMatroid(Matroid):
             sage: M = Matroid(range(5), graphs.DiamondGraph())
             sage: sorted(M._max_coindependent(M.groundset()))
             [2, 4]
-            sage: sorted(M._max_coindependent([2,3,4]))
+            sage: sorted(M._max_coindependent(frozenset([2,3,4])))
             [2, 4]
             sage: N = M.graphic_extension(0, element=5)
-            sage: sorted(N.max_coindependent([0,1,2,5]))
+            sage: sorted(N.max_coindependent(frozenset([0,1,2,5])))
             [1, 2, 5]
         """
         cdef DisjointSet_of_hashables DS_vertices
@@ -882,7 +882,7 @@ cdef class GraphicMatroid(Matroid):
 
         return frozenset([l for (u, v, l) in edge_set])
 
-    cpdef _coclosure(self, X):
+    cpdef frozenset _coclosure(self, frozenset X):
         """
         Return the coclosure of a set.
 
@@ -895,15 +895,15 @@ cdef class GraphicMatroid(Matroid):
         EXAMPLES::
 
             sage: M = Matroid(range(5), graphs.DiamondGraph())
-            sage: sorted(M._coclosure([0]))
+            sage: sorted(M._coclosure(frozenset([0])))
             [0, 1]
-            sage: sorted(M._coclosure([0,1]))
+            sage: sorted(M._coclosure(frozenset([0,1])))
             [0, 1]
             sage: N = M.graphic_extension(0, element=5)
-            sage: sorted(N._coclosure([3]))
+            sage: sorted(N._coclosure(frozenset([3])))
             [3, 4]
             sage: N = M.graphic_coextension(0, element=5)
-            sage: sorted(N._coclosure([3]))
+            sage: sorted(N._coclosure(frozenset([3])))
             [3, 4, 5]
         """
         cdef GenericGraph_pyx g = self.graph()
