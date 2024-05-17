@@ -274,7 +274,7 @@ def make_regular_matroid_from_matroid(matroid):
 
     from sage.graphs.bipartite_graph import BipartiteGraph
 
-    rk = M.full_rank()
+    r = M.full_rank()
     # First create a reduced 0-1 matrix
     B = list(M.basis())
     NB = list(M.groundset().difference(B))
@@ -307,12 +307,12 @@ def make_regular_matroid_from_matroid(matroid):
             rows = []
             cols = []
             for i in S:
-                if i < rk:
+                if i < r:
                     rows.append(i)
                 else:
-                    cols.append(i - rk)
+                    cols.append(i - r)
             if A[rows, cols].det() != 0:
-                A[entries[mindex][0], entries[mindex][1] - rk] = -1
+                A[entries[mindex][0], entries[mindex][1] - r] = -1
         G.add_edge(entries[mindex][0], entries[mindex][1])
         entries.pop(mindex)
     return sage.matroids.linear_matroid.RegularMatroid(groundset=B + NB, reduced_matrix=A)

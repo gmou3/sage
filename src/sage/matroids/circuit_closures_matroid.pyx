@@ -315,7 +315,7 @@ cdef class CircuitClosuresMatroid(Matroid):
                     return frozenset(S)
         raise ValueError("no circuit in independent set")
 
-    cpdef circuit_closures(self):
+    cpdef dict circuit_closures(self):
         """
         Return the list of closures of circuits of the matroid.
 

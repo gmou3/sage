@@ -1255,7 +1255,7 @@ cdef class BasisExchangeMatroid(Matroid):
                 self._whitney_numbers2_rec(f_vec, flats, todo, e + 1, i + 1)
             e = bitset_next(todo[i], e)
 
-    cpdef flats(self, r):
+    cpdef SetSystem flats(self, long k):
         """
         Return the collection of flats of the matroid of specified rank.
 
@@ -1263,9 +1263,9 @@ cdef class BasisExchangeMatroid(Matroid):
 
         INPUT:
 
-        - ``r`` -- natural number
+        - ``k`` -- integer
 
-        OUTPUT: iterable containing all flats of rank ``r``
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -1285,14 +1285,14 @@ cdef class BasisExchangeMatroid(Matroid):
         """
         cdef bitset_t *flats
         cdef bitset_t *todo
-        if r < 0 or r > self.full_rank():
+        if k < 0 or k > self.full_rank():
             return SetSystem(self._E)
-        if r == self.full_rank():
+        if k == self.full_rank():
             return SetSystem(self._E, subsets=[self.groundset()])
-        flats = <bitset_t*>sig_malloc((r + 1) * sizeof(bitset_t))
-        todo = <bitset_t*>sig_malloc((r + 1) * sizeof(bitset_t))
+        flats = <bitset_t*>sig_malloc((k + 1) * sizeof(bitset_t))
+        todo = <bitset_t*>sig_malloc((k + 1) * sizeof(bitset_t))
 
-        for i in range(r + 1):
+        for i in range(k + 1):
             bitset_init(flats[i], self._bitset_size)
             bitset_init(todo[i], self._bitset_size)
         Rflats = SetSystem(self._E)
@@ -1300,8 +1300,8 @@ cdef class BasisExchangeMatroid(Matroid):
         bitset_clear(todo[0])
         self.__closure(flats[0], todo[0])
         bitset_complement(todo[0], flats[0])
-        self._flats_rec(Rflats, r, flats, todo, 0, 0)
-        for i in range(r + 1):
+        self._flats_rec(Rflats, k, flats, todo, 0, 0)
+        for i in range(k + 1):
             bitset_free(flats[i])
             bitset_free(todo[i])
         sig_free(flats)
@@ -1328,7 +1328,7 @@ cdef class BasisExchangeMatroid(Matroid):
                 self._flats_rec(Rflats, R, flats, todo, e + 1, i + 1)
             e = bitset_next(todo[i], e)
 
-    cpdef coflats(self, r):
+    cpdef SetSystem coflats(self, long k):
         """
         Return the collection of coflats of the matroid of specified corank.
 
@@ -1336,9 +1336,9 @@ cdef class BasisExchangeMatroid(Matroid):
 
         INPUT:
 
-        - ``r`` -- natural number
+        - ``k`` -- integer
 
-        OUTPUT: iterable containing all coflats of corank ``r``
+        OUTPUT: iterable containing all coflats of corank `k`
 
         .. SEEALSO::
 
@@ -1358,14 +1358,14 @@ cdef class BasisExchangeMatroid(Matroid):
         """
         cdef bitset_t *coflats
         cdef bitset_t *todo
-        if r < 0 or r > self.full_corank():
+        if k < 0 or k > self.full_corank():
             return SetSystem(self._E)
-        if r == self.full_corank():
+        if k == self.full_corank():
             return SetSystem(self._E, subsets=[self.groundset()])
-        coflats = <bitset_t*>sig_malloc((r + 1) * sizeof(bitset_t))
-        todo = <bitset_t*>sig_malloc((r + 1) * sizeof(bitset_t))
+        coflats = <bitset_t*>sig_malloc((k + 1) * sizeof(bitset_t))
+        todo = <bitset_t*>sig_malloc((k + 1) * sizeof(bitset_t))
 
-        for i in range(r + 1):
+        for i in range(k + 1):
             bitset_init(coflats[i], self._bitset_size)
             bitset_init(todo[i], self._bitset_size)
         Rcoflats = SetSystem(self._E)
@@ -1373,8 +1373,8 @@ cdef class BasisExchangeMatroid(Matroid):
         bitset_clear(todo[0])
         self._coclosure_internal(coflats[0], todo[0])
         bitset_complement(todo[0], coflats[0])
-        self._coflats_rec(Rcoflats, r, coflats, todo, 0, 0)
-        for i in range(r + 1):
+        self._coflats_rec(Rcoflats, k, coflats, todo, 0, 0)
+        for i in range(k + 1):
             bitset_free(coflats[i])
             bitset_free(todo[i])
         sig_free(coflats)
@@ -1494,7 +1494,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self._bcount = res
         return self._bcount
 
-    cpdef independent_sets(self):
+    cpdef SetSystem independent_sets(self):
         r"""
         Return the list of independent subsets of the matroid.
 
@@ -1548,36 +1548,36 @@ cdef class BasisExchangeMatroid(Matroid):
         sig_free(T)
         return res
 
-    cpdef independent_r_sets(self, long r):
+    cpdef SetSystem independent_k_sets(self, long k):
         """
-        Return the list of size-``r`` independent subsets of the matroid.
+        Return the list of size-`k` independent subsets of the matroid.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- nonnegative integer
 
         OUTPUT: iterable containing all independent subsets of the matroid of
-        cardinality ``r``
+        cardinality ``k``
 
         EXAMPLES::
 
             sage: M = matroids.catalog.N1()
             sage: M.bases_count()
             184
-            sage: [len(M.independent_r_sets(r)) for r in range(M.full_rank() + 1)]
+            sage: [len(M.independent_k_sets(k)) for k in range(M.full_rank() + 1)]
             [1, 10, 45, 120, 201, 184]
         """
         cdef SetSystem BB
         BB = SetSystem(self._E)
-        if r < 0 or r > self.full_rank():
+        if k < 0 or k > self.full_rank():
             return BB
         bitset_clear(self._input)
-        bitset_set_first_n(self._input, r)
+        bitset_set_first_n(self._input, k)
         repeat = True
         while repeat:
             if self.__is_independent(self._input):
                 BB._append(self._input)
-            repeat = nxksrd(self._input, self._groundset_size, r, True)
+            repeat = nxksrd(self._input, self._groundset_size, k, True)
         return BB
 
     cpdef SetSystem bases(self):
@@ -1596,46 +1596,46 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: len([B for B in M.bases()])
             184
         """
-        return self.independent_r_sets(self.full_rank())
+        return self.independent_k_sets(self.full_rank())
 
-    cpdef dependent_r_sets(self, long r):
+    cpdef SetSystem dependent_k_sets(self, long k):
         """
         Return the list of dependent subsets of fixed size.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- nonnegative integer
 
-        OUTPUT: iterable containing all dependent subsets of size ``r``
+        OUTPUT: iterable containing all dependent subsets of size ``k``
 
         EXAMPLES::
 
             sage: M = matroids.catalog.N1()
             sage: len(M.nonbases())
             68
-            sage: [len(M.dependent_r_sets(r)) for r in range(M.full_rank() + 1)]
+            sage: [len(M.dependent_k_sets(k)) for k in range(M.full_rank() + 1)]
             [0, 0, 0, 0, 9, 68]
         """
         cdef SetSystem NB
         NB = SetSystem(self._E)
-        if r < 0 or r > self.size():
+        if k < 0 or k > self.size():
             return NB
         bitset_clear(self._input)
-        bitset_set_first_n(self._input, r)
+        bitset_set_first_n(self._input, k)
         repeat = True
-        if r > self.full_rank():
+        if k > self.full_rank():
             while repeat:
                 NB._append(self._input)
-                repeat = nxksrd(self._input, self._groundset_size, r, True)
+                repeat = nxksrd(self._input, self._groundset_size, k, True)
         else:
             while repeat:
                 if not self.__is_independent(self._input):
                     NB._append(self._input)
-                repeat = nxksrd(self._input, self._groundset_size, r, True)
+                repeat = nxksrd(self._input, self._groundset_size, k, True)
         NB.resize()
         return NB
 
-    cpdef nonbases(self):
+    cpdef SetSystem nonbases(self):
         """
         Return the list of nonbases of the matroid.
 
@@ -1656,9 +1656,9 @@ cdef class BasisExchangeMatroid(Matroid):
             sage: len([B for B in M.nonbases()])
             68
         """
-        return self.dependent_r_sets(self.full_rank())
+        return self.dependent_k_sets(self.full_rank())
 
-    cpdef nonspanning_circuits(self):
+    cpdef SetSystem nonspanning_circuits(self):
         """
         Return the list of nonspanning circuits of the matroid.
 
@@ -1705,7 +1705,7 @@ cdef class BasisExchangeMatroid(Matroid):
         NSC.resize()
         return NSC
 
-    cpdef noncospanning_cocircuits(self):
+    cpdef SetSystem noncospanning_cocircuits(self):
         """
         Return the list of noncospanning cocircuits of the matroid.
 
@@ -1753,7 +1753,7 @@ cdef class BasisExchangeMatroid(Matroid):
         NSC.resize()
         return NSC
 
-    cpdef cocircuits(self):
+    cpdef SetSystem cocircuits(self):
         """
         Return the list of cocircuits of the matroid.
 

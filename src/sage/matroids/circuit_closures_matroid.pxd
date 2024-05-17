@@ -10,6 +10,6 @@ cdef class CircuitClosuresMatroid(Matroid):
     cpdef bint _is_independent(self, frozenset F)
     cpdef frozenset _max_independent(self, frozenset F)
     cpdef frozenset _circuit(self, frozenset F)
-    cpdef circuit_closures(self)
+    cpdef dict circuit_closures(self)
     cpdef _is_isomorphic(self, other, certificate=*)
     cpdef relabel(self, mapping)

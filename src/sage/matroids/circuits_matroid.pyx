@@ -67,8 +67,8 @@ cdef class CircuitsMatroid(Matroid):
             sage: TestSuite(M).run()
         """
         if M is not None:
-            self._groundset = frozenset(M.groundset())
-            self._C = set([C for C in M.circuits()])
+            self._groundset = M.groundset()
+            self._C = set(M.circuits())
         else:
             self._groundset = frozenset(groundset)
             self._C = set([frozenset(C) for C in circuits])
@@ -460,15 +460,7 @@ cdef class CircuitsMatroid(Matroid):
             sage: len(M.bases())
             16
         """
-        from itertools import combinations
-        cdef set B = set()
-        cdef set NB = set(self.nonbases())
-        cdef frozenset S
-        for SS in combinations(self._groundset, self._matroid_rank):
-            S = frozenset(SS)
-            if S not in NB:
-                B.add(S)
-        return SetSystem(list(self._groundset), B)
+        return self.independent_k_sets(self._matroid_rank)
 
     def bases_iterator(self):
         r"""
@@ -493,12 +485,12 @@ cdef class CircuitsMatroid(Matroid):
         cdef set B = set()
         cdef set NB = set(self.nonbases())
         cdef frozenset S
-        for SS in combinations(self._groundset, self._matroid_rank):
-            S = frozenset(SS)
+        for St in combinations(self._groundset, self._matroid_rank):
+            S = frozenset(St)
             if S not in NB:
                 yield S
 
-    cpdef nonbases(self):
+    cpdef SetSystem nonbases(self):
         r"""
         Return the nonbases of the matroid.
 
@@ -514,15 +506,15 @@ cdef class CircuitsMatroid(Matroid):
             sage: len(M.nonbases())
             1707
         """
-        return self.dependent_r_sets(self._matroid_rank)
+        return self.dependent_k_sets(self._matroid_rank)
 
-    cpdef independent_r_sets(self, long r):
+    cpdef SetSystem independent_k_sets(self, long k):
         r"""
-        Return the size-``r`` independent subsets of the matroid.
+        Return the size-`k` independent subsets of the matroid.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         OUTPUT: :class:`SetSystem`
 
@@ -530,9 +522,9 @@ cdef class CircuitsMatroid(Matroid):
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.catalog.Pappus())
-            sage: M.independent_r_sets(4)
+            sage: M.independent_k_sets(4)
             SetSystem of 0 sets over 9 elements
-            sage: M.independent_r_sets(3)
+            sage: M.independent_k_sets(3)
             SetSystem of 75 sets over 9 elements
             sage: frozenset({'a', 'c', 'e'}) in _
             True
@@ -543,21 +535,21 @@ cdef class CircuitsMatroid(Matroid):
         """
         from itertools import combinations
         cdef set I_r = set()
-        cdef set D_r = set(self.dependent_r_sets(r))
-        cdef frozenset SS
-        for S in combinations(self._groundset, r):
-            SS = frozenset(S)
-            if SS not in D_r:
-                I_r.add(SS)
+        cdef set D_r = set(self.dependent_k_sets(k))
+        cdef frozenset S
+        for St in combinations(self._groundset, k):
+            S = frozenset(St)
+            if S not in D_r:
+                I_r.add(S)
         return SetSystem(list(self._groundset), I_r)
 
-    cpdef dependent_r_sets(self, long r):
+    cpdef SetSystem dependent_k_sets(self, long k):
         r"""
         Return the dependent subsets of fixed size.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         OUTPUT: :class:`SetSystem`
 
@@ -565,20 +557,20 @@ cdef class CircuitsMatroid(Matroid):
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid
             sage: M = CircuitsMatroid(matroids.catalog.Vamos())
-            sage: M.dependent_r_sets(3)
+            sage: M.dependent_k_sets(3)
             SetSystem of 0 sets over 8 elements
-            sage: sorted([sorted(X) for X in M.dependent_r_sets(4)])
+            sage: sorted([sorted(X) for X in M.dependent_k_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
              ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
         """
         cdef int i
         cdef set NB = set()
         cdef frozenset S
-        for i in range(min(self._k_C), r + 1):
+        for i in range(min(self._k_C), k + 1):
             if i in self._k_C:
                 for S in self._k_C[i]:
                     NB.add(S)
-            if i == r:
+            if i == k:
                 break
             for S in NB.copy():
                 NB.remove(S)
@@ -652,7 +644,7 @@ cdef class CircuitsMatroid(Matroid):
                 for C in self._k_C[i]:
                     yield C
 
-    cpdef nonspanning_circuits(self):
+    cpdef SetSystem nonspanning_circuits(self):
         """
         Return the nonspanning circuits of the matroid.
 
@@ -745,8 +737,8 @@ cdef class CircuitsMatroid(Matroid):
                     BC[i+1].add(S | set([e]))
 
         cdef set B = set()
-        for SS in combinations(ordering[1:], self._matroid_rank - 1):
-            S = frozenset(SS)
+        for St in combinations(ordering[1:], self._matroid_rank - 1):
+            S = frozenset(St)
             if S | min_e not in BC[r]:
                 if not reduced:
                     B.add(S | min_e)

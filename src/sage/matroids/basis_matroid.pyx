@@ -427,7 +427,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         """
         if self.full_rank() == 0:
             return None
-        return BasisMatroid(groundset=self._E, nonbases=self.dependent_r_sets(self.full_rank() - 1), rank=self.full_rank() - 1)
+        return BasisMatroid(groundset=self._E, nonbases=self.dependent_k_sets(self.full_rank() - 1), rank=self.full_rank() - 1)
 
     cpdef _extension(self, e, H):
         r"""
@@ -464,7 +464,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             return BasisMatroid(groundset=self._E + (e,), bases=[set()])
 
         BB = self.bases()
-        BT = self.independent_r_sets(self.full_rank() - 1)
+        BT = self.independent_k_sets(self.full_rank() - 1)
         se = set([e])
         BE = []
         for B in BT:
@@ -595,7 +595,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
             b = bitset_next(self._bb, b + 1)
         return BB
 
-    cpdef nonbases(self):
+    cpdef SetSystem nonbases(self):
         r"""
         Return the list of nonbases of the matroid.
 

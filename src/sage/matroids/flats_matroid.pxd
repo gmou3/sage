@@ -1,4 +1,5 @@
-from sage.matroids.matroid cimport Matroid
+from .matroid cimport Matroid
+from .set_system cimport SetSystem
 
 cdef class FlatsMatroid(Matroid):
     cdef frozenset _groundset  # _E
@@ -10,7 +11,7 @@ cdef class FlatsMatroid(Matroid):
     cpdef bint _is_independent(self, frozenset X)
 
     # enumeration
-    cpdef flats(self, k)
+    cpdef SetSystem flats(self, long k)
     cpdef list whitney_numbers2(self)
 
     # isomorphism and relabeling

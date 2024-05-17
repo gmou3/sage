@@ -62,21 +62,19 @@ cdef class BasisExchangeMatroid(Matroid):
 
     cpdef list whitney_numbers2(self)
     cdef  _whitney_numbers2_rec(self, object f_vec, bitset_t* flats, bitset_t* todo, long elt, long rnk)
-    cpdef flats(self, R)
     cdef  _flats_rec(self, SetSystem Rflats, long R, bitset_t* flats, bitset_t* todo, long elt, long rnk)
-    cpdef coflats(self, R)
     cdef  _coflats_rec(self, SetSystem Rcoflats, long R, bitset_t* coflats, bitset_t* todo, long elt, long cornk)
     cdef _flat_element_inv(self, long k)
     cdef  _flat_element_inv_rec(self, object f_inc, long R, bitset_t* flats, bitset_t* todo, long elt, long i)
 
     cpdef bases_count(self)
-    cpdef independent_r_sets(self, long r)
+    cpdef SetSystem independent_k_sets(self, long k)
     cpdef SetSystem bases(self)
-    cpdef dependent_r_sets(self, long r)
-    cpdef nonbases(self)
+    cpdef SetSystem dependent_k_sets(self, long k)
+    cpdef SetSystem nonbases(self)
 
-    cpdef nonspanning_circuits(self)
-    cpdef cocircuits(self)
+    cpdef SetSystem nonspanning_circuits(self)
+    cpdef SetSystem cocircuits(self)
     cpdef SetSystem circuits(self, k=*)
 
     cpdef _characteristic_setsystem(self)

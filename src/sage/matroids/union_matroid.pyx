@@ -228,10 +228,10 @@ cdef class MatroidSum(Matroid):
             if i not in partition:
                 partition[i] = set()
             partition[i].add(x)
-        rk = 0
+        r = 0
         for (i, Xi) in partition.iteritems():
-            rk += self.summands[i]._rank(frozenset(Xi))
-        return rk
+            r += self.summands[i]._rank(frozenset(Xi))
+        return r
 
 cdef class PartitionMatroid(Matroid):
     r"""

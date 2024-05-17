@@ -64,9 +64,9 @@ additional functionality (e.g. linear extensions).
     - :meth:`circuit_closures() <sage.matroids.matroid.Matroid.circuit_closures>`
     - :meth:`nonspanning_circuit_closures() <sage.matroids.matroid.Matroid.nonspanning_circuit_closures>`
     - :meth:`bases() <sage.matroids.matroid.Matroid.bases>`
-    - :meth:`independent_r_sets() <sage.matroids.matroid.Matroid.independent_r_sets>`
+    - :meth:`independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
     - :meth:`nonbases() <sage.matroids.matroid.Matroid.nonbases>`
-    - :meth:`dependent_r_sets() <sage.matroids.matroid.Matroid.dependent_r_sets>`
+    - :meth:`dependent_k_sets() <sage.matroids.matroid.Matroid.dependent_k_sets>`
     - :meth:`flats() <sage.matroids.matroid.Matroid.flats>`
     - :meth:`coflats() <sage.matroids.matroid.Matroid.coflats>`
     - :meth:`hyperplanes() <sage.matroids.matroid.Matroid.hyperplanes>`
@@ -213,16 +213,16 @@ in which the partition is specified as a list of lists::
     ....:     def _rank(self, X):
     ....:         X2 = set(X)
     ....:         used_indices = set()
-    ....:         rk = 0
+    ....:         r = 0
     ....:         while X2:
     ....:             e = X2.pop()
     ....:             for i in range(len(self.partition)):
     ....:                 if e in self.partition[i]:
     ....:                     if i not in used_indices:
     ....:                         used_indices.add(i)
-    ....:                         rk = rk + 1
+    ....:                         r = r + 1
     ....:                     break
-    ....:         return rk
+    ....:         return r
     ....:
     sage: M = PartitionMatroid([[1, 2], [3, 4, 5], [6, 7]])
     sage: M.full_rank()
@@ -394,16 +394,16 @@ cdef class Matroid(SageObject):
         ....:     def _rank(self, X):
         ....:         X2 = set(X)
         ....:         used_indices = set()
-        ....:         rk = 0
+        ....:         r = 0
         ....:         while X2:
         ....:             e = X2.pop()
         ....:             for i in range(len(self.partition)):
         ....:                 if e in self.partition[i]:
         ....:                     if i not in used_indices:
         ....:                         used_indices.add(i)
-        ....:                         rk = rk + 1
+        ....:                         r = r + 1
         ....:                     break
-        ....:         return rk
+        ....:         return r
         ....:
         sage: M = PartitionMatroid([[1, 2], [3, 4, 5], [6, 7]])
         sage: M.full_rank()
@@ -1211,8 +1211,8 @@ cdef class Matroid(SageObject):
             if certificate:
                 return False, None
             return False
-        YY = self.dual().independent_r_sets(cd)
-        for X in self.independent_r_sets_iterator(rd):
+        YY = self.dual().independent_k_sets(cd)
+        for X in self.independent_k_sets_iterator(rd):
             for Y in YY:
                 if X.isdisjoint(Y):
                     if N._is_isomorphic(self._minor(contractions=X, deletions=Y)):
@@ -2347,21 +2347,22 @@ cdef class Matroid(SageObject):
             sage: M.is_valid()
             False
         """
-        E = list(self.groundset())
+        cdef int i, j, rX, rY
+        cdef frozenset X, Y, E = self.groundset()
         for i in range(len(E) + 1):
-            for X in combinations(E, i):
-                XX = frozenset(X)
-                rX = self._rank(XX)
+            for Xt in combinations(E, i):
+                X = frozenset(Xt)
+                rX = self._rank(X)
                 if rX > i or rX < 0:
                     return False
                 for j in range(i, len(E) + 1):
-                    for Y in combinations(E, j):
-                        YY = frozenset(Y)
-                        rY = self._rank(YY)
-                        if XX.issubset(YY) and rX > rY:
+                    for Yt in combinations(E, j):
+                        Y = frozenset(Yt)
+                        rY = self._rank(Y)
+                        if X.issubset(Y) and rX > rY:
                             return False
-                        if (self._rank(XX.union(YY)) +
-                           self._rank(XX.intersection(YY)) > rX + rY):
+                        if (self._rank(X.union(Y)) +
+                           self._rank(X.intersection(Y)) > rX + rY):
                             return False
         return True
 
@@ -2387,24 +2388,22 @@ cdef class Matroid(SageObject):
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
         """
-        cdef SetSystem C
         cdef frozenset E = self.groundset()
         cdef set C_set = set()
         cdef set B_ext = set()
+        cdef frozenset X
         if k is None:
             for B in self.bases_iterator():
                 for e in B ^ E:
                     B_ext.add(B | set([e]))
-            for S in B_ext:
-                C_set.add(self._circuit(S))
-            return SetSystem(list(E), C_set)
+            for X in B_ext:
+                C_set.add(self._circuit(X))
         else:
-            C = SetSystem(list(E))
-            for X in combinations(E, k):
-                X = frozenset(X)
+            for Xt in combinations(E, k):
+                X = frozenset(Xt)
                 if self._is_circuit(X):
-                    C.append(X)
-                return C
+                    C_set.add(X)
+        return SetSystem(list(E), C_set)
 
     def circuits_iterator(self, k=None):
         """
@@ -2424,22 +2423,24 @@ cdef class Matroid(SageObject):
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
         """
-        rk = self.rank()
+        cdef int r, start, stop, j
+        cdef frozenset X
+        r = self.rank()
         if k is None:
             start = 0
-            stop = rk + 2
+            stop = r + 2
         else:
-            if k >= rk + 2:
+            if k >= r + 2:
                 return
             start = k
             stop = k + 1
         for j in range(start, stop):
-            for X in combinations(self.groundset(), j):
-                X = frozenset(X)
+            for Xt in combinations(self.groundset(), j):
+                X = frozenset(Xt)
                 if self._is_circuit(X):
                     yield X
 
-    cpdef nonspanning_circuits(self):
+    cpdef SetSystem nonspanning_circuits(self):
         """
         Return the nonspanning circuits of the matroid.
 
@@ -2488,13 +2489,15 @@ cdef class Matroid(SageObject):
             ['b', 'c', 'd'], ['b', 'e', 'g'], ['c', 'f', 'g'],
             ['d', 'e', 'f']]
         """
+        cdef int k
+        cdef frozenset X
         for k in range(self.rank() + 1):
-            for X in combinations(self.groundset(), k):
-                X = frozenset(X)
+            for Xt in combinations(self.groundset(), k):
+                X = frozenset(Xt)
                 if self._is_circuit(X):
                     yield X
 
-    cpdef cocircuits(self):
+    cpdef SetSystem cocircuits(self):
         """
         Return the cocircuits of the matroid.
 
@@ -2538,7 +2541,7 @@ cdef class Matroid(SageObject):
             C.update([self._cocircuit(self.groundset().difference(B).union(set([e]))) for e in B])
         return list(C)
 
-    cpdef noncospanning_cocircuits(self):
+    cpdef SetSystem noncospanning_cocircuits(self):
         """
         Return the noncospanning cocircuits of the matroid.
 
@@ -2562,7 +2565,7 @@ cdef class Matroid(SageObject):
         """
         return self.dual().nonspanning_circuits()
 
-    cpdef circuit_closures(self):
+    cpdef dict circuit_closures(self):
         """
         Return the closures of circuits of the matroid.
 
@@ -2596,7 +2599,7 @@ cdef class Matroid(SageObject):
             CC[len(C) - 1].add(self.closure(C))
         return {r: CC[r] for r in range(self.rank() + 1) if CC[r]}
 
-    cpdef nonspanning_circuit_closures(self):
+    cpdef dict nonspanning_circuit_closures(self):
         """
         Return the closures of nonspanning circuits of the matroid.
 
@@ -2627,7 +2630,7 @@ cdef class Matroid(SageObject):
             CC[len(C) - 1].add(self.closure(C))
         return {r: CC[r] for r in range(self.rank() + 1) if CC[r]}
 
-    cpdef nonbases(self):
+    cpdef SetSystem nonbases(self):
         r"""
         Return the nonbases of the matroid.
 
@@ -2652,14 +2655,13 @@ cdef class Matroid(SageObject):
 
         Test all subsets of the groundset of cardinality ``self.full_rank()``
         """
-        cdef SetSystem res
-        res = SetSystem(list(self.groundset()))
+        cdef set NB = set()
         cdef frozenset X
-        for XX in combinations(self.groundset(), self.full_rank()):
-            X = frozenset(XX)
-            if self._rank(X) < len(X):
-                res.append(X)
-        return res
+        for Xt in combinations(self.groundset(), self.full_rank()):
+            X = frozenset(Xt)
+            if not self._is_independent(X):
+                NB.add(X)
+        return SetSystem(list(self.groundset()), NB)
 
     def nonbases_iterator(self):
         r"""
@@ -2685,66 +2687,67 @@ cdef class Matroid(SageObject):
             [['a', 'b', 'c']]
         """
         cdef frozenset X
-        for XX in combinations(self.groundset(), self.full_rank()):
-            X = frozenset(XX)
-            if self._rank(X) < len(X):
-                yield frozenset(X)
+        for Xt in combinations(self.groundset(), self.full_rank()):
+            X = frozenset(Xt)
+            if not self._is_independent(X):
+                yield X
 
-    cpdef dependent_r_sets(self, long r):
+    cpdef SetSystem dependent_k_sets(self, long k):
         r"""
         Return the list of dependent subsets of fixed size.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M.dependent_r_sets(3)
+            sage: M.dependent_k_sets(3)
             SetSystem of 0 sets over 8 elements
             sage: sorted([sorted(X) for X in
-            ....: matroids.catalog.Vamos().dependent_r_sets(4)])
+            ....: matroids.catalog.Vamos().dependent_k_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
             ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
 
         ALGORITHM:
 
-        Test all subsets of the groundset of cardinality ``r``
+        Test all subsets of the groundset of cardinality `k`.
         """
         cdef set D = set()
         cdef frozenset X
-        for XX in combinations(self.groundset(), r):
-            X = frozenset(XX)
+        for Xt in combinations(self.groundset(), k):
+            X = frozenset(Xt)
             if not self._is_independent(X):
                 D.add(X)
         return SetSystem(list(self.groundset()), D)
 
-    def dependent_r_sets_iterator(self, long r):
+    def dependent_k_sets_iterator(self, long k):
         r"""
         Return an iterator over the dependent subsets of fixed size.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         ALGORITHM:
 
-        Test all subsets of the groundset of cardinality ``r``.
+        Test all subsets of the groundset of cardinality `k`.
 
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: list(M.dependent_r_sets_iterator(3))
+            sage: list(M.dependent_k_sets_iterator(3))
             []
             sage: sorted([sorted(X) for X in
-            ....: matroids.catalog.Vamos().dependent_r_sets_iterator(4)])
+            ....: matroids.catalog.Vamos().dependent_k_sets_iterator(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
             ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
         """
-        for X in combinations(self.groundset(), r):
-            X = frozenset(X)
-            if self._rank(X) < len(X):
+        cdef frozenset X
+        for Xt in combinations(self.groundset(), k):
+            X = frozenset(Xt)
+            if not self._is_independent(X):
                 yield X
 
     cpdef SetSystem bases(self):
@@ -2767,7 +2770,7 @@ cdef class Matroid(SageObject):
 
         .. SEEALSO::
 
-            :meth:`M.independent_r_sets() <sage.matroids.matroid.Matroid.independent_r_sets>`
+            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
         cdef SetSystem res
         res = SetSystem(list(self.groundset()))
@@ -2794,13 +2797,13 @@ cdef class Matroid(SageObject):
 
         .. SEEALSO::
 
-            :meth:`M.independent_r_sets() <sage.matroids.matroid.Matroid.independent_r_sets>`
+            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
         for X in combinations(self.groundset(), self.full_rank()):
             if self._rank(frozenset(X)) == len(X):
                 yield frozenset(X)
 
-    cpdef independent_sets(self):
+    cpdef SetSystem independent_sets(self):
         r"""
         Return the list of independent subsets of the matroid.
 
@@ -2813,7 +2816,7 @@ cdef class Matroid(SageObject):
 
         .. SEEALSO::
 
-            :meth:`M.independent_r_sets() <sage.matroids.matroid.Matroid.independent_r_sets>`
+            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
         cdef int r
         cdef int full_rank = self.full_rank()
@@ -2837,7 +2840,7 @@ cdef class Matroid(SageObject):
                 r += 1
             else:
                 r -= 1
-        return res
+        return SetSystem(list(self.groundset()), res)
 
     def independent_sets_iterator(self):
         r"""
@@ -2852,7 +2855,7 @@ cdef class Matroid(SageObject):
 
         .. SEEALSO::
 
-            :meth:`M.independent_r_sets() <sage.matroids.matroid.Matroid.independent_r_sets>`
+            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
         cdef int r
         cdef int full_rank = self.full_rank()
@@ -2877,26 +2880,26 @@ cdef class Matroid(SageObject):
             else:
                 r -= 1
 
-    cpdef independent_r_sets(self, long r):
+    cpdef SetSystem independent_k_sets(self, long k):
         r"""
-        Return the size-``r`` independent subsets of the matroid.
+        Return the size-`k` independent subsets of the matroid.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         OUTPUT: :class:`SetSystem`
 
         ALGORITHM:
 
-        Test all subsets of the groundset of cardinality ``r``.
+        Test all subsets of the groundset of cardinality `k`.
 
         EXAMPLES::
 
             sage: M = matroids.catalog.Pappus()
-            sage: M.independent_r_sets(4)
+            sage: M.independent_k_sets(4)
             SetSystem of 0 sets over 9 elements
-            sage: S = M.independent_r_sets(3); S
+            sage: S = M.independent_k_sets(3); S
             SetSystem of 75 sets over 9 elements
             sage: frozenset({'a', 'c', 'e'}) in S
             True
@@ -2908,27 +2911,27 @@ cdef class Matroid(SageObject):
         """
         cdef set I = set()
         cdef frozenset X
-        for XX in combinations(self.groundset(), r):
-            X = frozenset(XX)
+        for Xt in combinations(self.groundset(), k):
+            X = frozenset(Xt)
             if self._is_independent(X):
                 I.add(X)
         return SetSystem(list(self.groundset()), I)
 
-    def independent_r_sets_iterator(self, r):
+    def independent_k_sets_iterator(self, r):
         r"""
-        Return an iterator over the size-``r`` independent subsets of the
+        Return an iterator over the size-`k` independent subsets of the
         matroid.
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         EXAMPLES::
 
             sage: M = matroids.catalog.Pappus()
-            sage: list(M.independent_r_sets_iterator(4))
+            sage: list(M.independent_k_sets_iterator(4))
             []
-            sage: S = list(M.independent_r_sets_iterator(3))
+            sage: S = list(M.independent_k_sets_iterator(3))
             sage: len(S)
             75
             sage: frozenset({'a', 'c', 'e'}) in S
@@ -2936,19 +2939,20 @@ cdef class Matroid(SageObject):
 
         ALGORITHM:
 
-        Test all subsets of the groundset of cardinality ``r``
+        Test all subsets of the groundset of cardinality `k`.
 
         .. SEEALSO::
 
             :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
             :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
         """
-        for X in combinations(self.groundset(), r):
-            X = frozenset(X)
+        cdef frozenset X
+        for Xt in combinations(self.groundset(), r):
+            X = frozenset(Xt)
             if self._rank(X) == len(X):
                 yield X
 
-    cpdef _extend_flags(self, flags):
+    cpdef list _extend_flags(self, list flags):
         r"""
         Recursion for the ``self._flags(r)`` method.
 
@@ -2959,7 +2963,7 @@ cdef class Matroid(SageObject):
             sage: sorted(M._extend_flags(F)) == sorted(M._flags(2))
             True
         """
-        newflags = []
+        cdef list newflags = []
         for [F, B, X] in flags:
             while X:
                 x = min(X)
@@ -2974,20 +2978,20 @@ cdef class Matroid(SageObject):
                 X = newX
         return newflags
 
-    cpdef _flags(self, r):
+    cpdef list _flags(self, long k):
         r"""
-        Compute rank-``r`` flats, with extra information for more speed.
+        Compute the rank-`k` flats, with extra information for more speed.
 
         Used in the :meth:`flats() <sage.matroids.matroid.Matroid.flats>`
         method.
 
         INPUT:
 
-        - ``r`` -- A natural number.
+        - ``k`` -- integer
 
         OUTPUT:
 
-        A list of triples `(F, B, X)` with `F` a flat of rank ``r``,
+        A list of triples `(F, B, X)` with `F` a flat of rank `k`,
         `B` a lexicographically least basis of `F`, and `X` the remaining
         elements of the groundset that can potentially be lex-least extensions
         of the flat.
@@ -3004,15 +3008,15 @@ cdef class Matroid(SageObject):
               [frozenset({'f'}), {'f'}, frozenset({'g'})],
               [frozenset({'g'}), {'g'}, frozenset()]]]
         """
-        if r < 0:
+        if k < 0:
             return []
-        loops = self._closure(frozenset())
-        flags = [[loops, set(), self.groundset() - loops]]
-        for r in range(r):
+        cdef frozenset loops = self._closure(frozenset())
+        cdef list flags = [[loops, set(), self.groundset() - loops]]
+        for i in range(k):
             flags = self._extend_flags(flags)
         return flags
 
-    cpdef flats(self, r):
+    cpdef SetSystem flats(self, long k):
         r"""
         Return the collection of flats of the matroid of specified rank.
 
@@ -3020,7 +3024,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- A natural number.
+        - ``k`` -- integer
 
         OUTPUT: :class:`SetSystem`
 
@@ -3036,9 +3040,9 @@ cdef class Matroid(SageObject):
             ['b', 'c', 'd'], ['b', 'e', 'g'], ['c', 'f', 'g'],
             ['d', 'e', 'f']]
         """
-        return SetSystem(list(self.groundset()), subsets=[f[0] for f in self._flags(r)])
+        return SetSystem(list(self.groundset()), subsets=[f[0] for f in self._flags(k)])
 
-    cpdef coflats(self, r):
+    cpdef SetSystem coflats(self, long k):
         r"""
         Return the collection of coflats of the matroid of specified corank.
 
@@ -3046,7 +3050,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``r`` -- nonnegative integer
+        - ``k`` -- integer
 
         OUTPUT: :class:`SetSystem`
 
@@ -3062,7 +3066,7 @@ cdef class Matroid(SageObject):
             ['b', 'd'], ['b', 'e'], ['b', 'f'], ['c', 'd'], ['c', 'e', 'f'],
             ['d', 'e']]
         """
-        return self.dual().flats(r)
+        return self.dual().flats(k)
 
     def lattice_of_flats(self):
         """
@@ -3079,14 +3083,14 @@ cdef class Matroid(SageObject):
              for X in self.flats(i)]
         return LatticePoset((F, lambda x, y: x < y))
 
-    cpdef hyperplanes(self):
+    cpdef SetSystem hyperplanes(self):
         """
-        Return the set of hyperplanes of the matroid.
+        Return the hyperplanes of the matroid.
 
         A *hyperplane* is a flat of rank ``self.full_rank() - 1``. A *flat* is
         a closed set.
 
-        OUTPUT: an iterable containing all hyperplanes of the matroid
+        OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
 
@@ -3125,7 +3129,7 @@ cdef class Matroid(SageObject):
         cdef int i, s
         for i in range(self.full_rank() + 1):
             s = 0
-            for _ in self.independent_r_sets_iterator(i):
+            for _ in self.independent_k_sets_iterator(i):
                 s += 1
             f.append(ZZ(s))
         return f
@@ -3183,7 +3187,7 @@ cdef class Matroid(SageObject):
             W.append(ZZ(len(flags)))
         return W
 
-    cpdef broken_circuits(self, ordering=None):
+    cpdef SetSystem broken_circuits(self, ordering=None):
         r"""
         Return the list of broken circuits of ``self``.
 
@@ -3217,13 +3221,13 @@ cdef class Matroid(SageObject):
             if len(orderset) != len(self.groundset()) or orderset != self.groundset():
                 raise ValueError("not an ordering of the groundset")
             ordering = list(ordering)
-        ret = set()
+        BC = set()
         for C in self.circuits_iterator():
             for k in ordering:
                 if k in C:
-                    ret.add(frozenset(C).difference([k]))
+                    BC.add(frozenset(C).difference([k]))
                     break
-        return frozenset(ret)
+        return SetSystem(list(self.groundset()), BC)
 
     cpdef SetSystem no_broken_circuits_sets(self, ordering=None):
         r"""
@@ -5665,7 +5669,7 @@ cdef class Matroid(SageObject):
         # test if there are any parallel pairs
         for e in E:
             X = self._closure(frozenset([e]))
-            if len(X)>1:
+            if len(X) > 1:
                 if certificate:
                     return False, self._circuit(X)
                     # r(C) + r(E\C) - r(E) <= r(C) < 2, |C| = 2, |E\C| >= 2
@@ -5780,16 +5784,16 @@ cdef class Matroid(SageObject):
         Y = set(self.groundset()-X)
 
         # Dictionary allow conversion between two representations
-        dX = dict(zip(range(len(X)),X))
-        dY = dict(zip(range(len(Y)),Y))
-        rdX = dict(zip(X,range(len(X))))
-        rdY = dict(zip(Y,range(len(Y))))
+        dX = dict(zip(range(len(X)), X))
+        dY = dict(zip(range(len(Y)), Y))
+        rdX = dict(zip(X, range(len(X))))
+        rdY = dict(zip(Y, range(len(Y))))
 
         # the partial matrix
-        M = matrix(len(X),len(Y))
+        M = matrix(len(X), len(Y))
         for y in Y:
-            for x in (X & self.fundamental_circuit(X,y)):
-                M[rdX[x],rdY[y]]=1
+            for x in (X & self.fundamental_circuit(X, y)):
+                M[rdX[x], rdY[y]]=1
 
         for (x,y) in spanning_forest(M):
             P_rows=set([dX[x]])
@@ -5847,13 +5851,13 @@ cdef class Matroid(SageObject):
         X = set(self.basis())
         Y = set(self.groundset()-X)
 
-        dX = dict(zip(range(len(X)),X))
-        dY = dict(zip(range(len(Y)),Y))
-        rdX = dict(zip(X,range(len(X))))
-        rdY = dict(zip(Y,range(len(Y))))
+        dX = dict(zip(range(len(X)), X))
+        dY = dict(zip(range(len(Y)), Y))
+        rdX = dict(zip(X, range(len(X))))
+        rdY = dict(zip(Y, range(len(Y))))
 
         # the partial matrix
-        M = matrix(len(X),len(Y))
+        M = matrix(len(X), len(Y))
         for y in Y:
             for x in (X & self.fundamental_circuit(X,y)):
                 M[rdX[x],rdY[y]]=1
@@ -6281,9 +6285,11 @@ cdef class Matroid(SageObject):
 
         [Oxl2011]_, p. 327.
         """
+        cdef frozenset X
+        cdef int k
         for k in range(self.rank() + 2):
-            for X in combinations(self.groundset(), k):
-                X = frozenset(X)
+            for Xt in combinations(self.groundset(), k):
+                X = frozenset(Xt)
                 if self._is_circuit(X):
                     return k
         from sage.rings.infinity import infinity
@@ -7781,22 +7787,22 @@ cdef class Matroid(SageObject):
         # doubling search for minimum independent sets that partitions the groundset
         n = self.size()
         r = self.rank()
-        hi = -(-n//r)
+        hi = - (-n // r)
         lo = hi
         X = set()
         # doubling step
         while True:
             p = PartitionMatroid([[(i, x) for i in range(hi)] for x in self.groundset()])
-            X = MatroidSum([self]*hi)._intersection_unweighted(p)
-            if len(X)==self.size():
+            X = MatroidSum([self] * hi)._intersection_unweighted(p)
+            if len(X) == self.size():
                 break
             lo = hi
-            hi = min(hi*2,n)
+            hi = min(hi * 2, n)
         # binary search step
         while lo < hi:
             mid = (lo+hi)//2
             p = PartitionMatroid([[(i, x) for i in range(mid)] for x in self.groundset()])
-            X = MatroidSum([self]*mid)._intersection_unweighted(p)
+            X = MatroidSum([self] * mid)._intersection_unweighted(p)
             if len(X) != self.size():
                 lo = mid + 1
             else:
@@ -8520,7 +8526,7 @@ cdef class Matroid(SageObject):
                 r = self._rank(self.groundset()) - len(c)
 
                 # get candidate independent_sets
-                for I in self.independent_r_sets_iterator(r):
+                for I in self.independent_k_sets_iterator(r):
                     if I.issubset(c[0]):
 
                         # add the facet

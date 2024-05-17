@@ -842,14 +842,14 @@ def Matroid(groundset=None, data=None, **kwds):
     # Independent sets:
     elif key == 'independent_sets':
         # Convert to list of bases first
-        rk = -1
+        r = -1
         bases = []
-        for II in data:
-            if len(II) == rk:
-                bases.append(II)
-            elif len(II) > rk:
-                bases = [II]
-                rk = len(II)
+        for I in data:
+            if len(I) == r:
+                bases.append(I)
+            elif len(I) > r:
+                bases = [I]
+                r = len(I)
         if groundset is None:
             groundset = set()
             for B in bases:
@@ -869,7 +869,7 @@ def Matroid(groundset=None, data=None, **kwds):
     # Nonspanning circuits:
     elif key == 'nonspanning_circuits':
         try:
-            rk = kwds.pop("rank")
+            r = kwds.pop("rank")
         except TypeError:
             raise TypeError("the rank needs to be specified alongside the " +
                             "nonspanning circuits")
@@ -880,7 +880,7 @@ def Matroid(groundset=None, data=None, **kwds):
                 groundset.update(C)
         # Compute the spanning circuits. Note: slow!
         SC = []  # spanning circuits
-        for S in combinations(groundset, rk+1):
+        for S in combinations(groundset, r + 1):
             flag = True
             for C in data:
                 if set(S) >= set(C):
@@ -1029,7 +1029,7 @@ def Matroid(groundset=None, data=None, **kwds):
             raise TypeError("for the lexicographic index, the groundset needs "
                             + "to be specified")
         try:
-            rk = kwds.pop("rank")
+            r = kwds.pop("rank")
         except KeyError:
             raise TypeError(
                 "for the lexicographic index, the rank needs to be specified"
@@ -1037,14 +1037,14 @@ def Matroid(groundset=None, data=None, **kwds):
 
         groundset = tuple(groundset)
         data = tuple(data)
-        rk = int(rk)
+        r = int(r)
         N = len(groundset)
 
-        subsets = list(combinations(range(N), rk))
+        subsets = list(combinations(range(N), r))
         if len(data) != len(subsets):
             raise ValueError(
                 "expected string of length %s (%s choose %s), got %s"
-                % (len(subsets), N, rk, len(data))
+                % (len(subsets), N, r, len(data))
             )
         bases = []
         for i, x in enumerate(data):
@@ -1059,22 +1059,22 @@ def Matroid(groundset=None, data=None, **kwds):
                 'for RevLex-Index, the groundset needs to be specified'
             )
         try:
-            rk = kwds.pop("rank")
+            r = kwds.pop("rank")
         except KeyError:
             raise TypeError('for RevLex-Index, the rank needs to be specified')
 
         groundset = tuple(groundset)
         data = tuple(data)
-        rk = int(rk)
+        r = int(r)
         N = len(groundset)
 
         def revlex_sort_key(s):
             return tuple(reversed(s))
-        subsets = sorted(combinations(range(N), rk), key=revlex_sort_key)
+        subsets = sorted(combinations(range(N), r), key=revlex_sort_key)
         if len(data) != len(subsets):
             raise ValueError(
                 "expected string of length %s (%s choose %s), got %s"
-                % (len(subsets), N, rk, len(data))
+                % (len(subsets), N, r, len(data))
             )
         bases = []
         for i, x in enumerate(data):

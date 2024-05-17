@@ -890,7 +890,7 @@ def L8(groundset=None):
 
         sage: K4 = matroids.catalog.K4(range(6))
         sage: Bext = [list(b) for b in K4.bases()] + [list(I)+[6] for I in
-        ....:                                         K4.independent_r_sets(2)]
+        ....:                                         K4.independent_k_sets(2)]
         sage: K4ext = Matroid(bases=Bext)
         sage: import random
         sage: e = random.choice(list(M.groundset()))
@@ -1727,7 +1727,7 @@ def Wheel(r, field=None, ring=None, groundset=None):
 
     INPUT:
 
-    - ``r`` -- positive integer; the rank of the desired matroid
+    - ``r`` -- integer; the rank of the desired matroid
     - ``ring`` -- any ring; if provided, output will be a linear matroid
       over the ring or field ``ring``. If the ring is `\ZZ`, then output
       will be a regular matroid
@@ -1803,7 +1803,7 @@ def Whirl(r, groundset=None):
 
     INPUT:
 
-    - ``r`` -- positive integer; the rank of the desired matroid
+    - ``r`` -- integer; the rank of the desired matroid
     - ``groundset`` -- string (optional); the groundset of the matroid
 
     OUTPUT: the rank-`r` whirl matroid, represented as a ternary matroid
@@ -1873,7 +1873,7 @@ def Uniform(r, n, groundset=None):
 
     INPUT:
 
-    - ``r`` -- nonnegative integer; the rank of the uniform matroid
+    - ``k`` -- integer; the rank of the uniform matroid
     - ``n`` -- nonnegative integer; the number of elements of the uniform matroid
     - ``groundset`` -- string (optional); the groundset of the matroid
 
