@@ -58,7 +58,7 @@ cdef class BasisExchangeMatroid(Matroid):
     cpdef frozenset _coclosure(self, frozenset F)
 
     cpdef frozenset _augment(self, frozenset X, frozenset Y)
-    cpdef bint _is_independent(self, F)
+    cpdef bint _is_independent(self, frozenset F)
 
     cpdef list whitney_numbers2(self)
     cdef  _whitney_numbers2_rec(self, object f_vec, bitset_t* flats, bitset_t* todo, long elt, long rnk)

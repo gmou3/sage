@@ -1555,6 +1555,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: frozenset(v.keys()) == M.fundamental_circuit([0, 1], 3)
             True
         """
+        B = frozenset(B)
         if e in B or not self._is_basis(B):
             return None
         self._move_current_basis(B, set())
@@ -1601,6 +1602,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
             sage: frozenset(v.keys()) == M.fundamental_cocircuit([0, 1], 0)
             True
         """
+        B = frozenset(B)
         if e not in B or not self._is_basis(B):
             return None
         self._move_current_basis(B, set())
@@ -2194,7 +2196,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
                 if fundamentals is None:
                     values = R
                 else:   # generate only chains that satisfy shallow test for 'crossratios in fundamentals'
-                    T = set(c.keys())
+                    T = frozenset(c.keys())
                     if not self._is_independent(T | set([f])):
                         raise ValueError("_extend_chains can only extend chains with basic support")
                     self._move_current_basis(T | set([f]), set())
@@ -2264,17 +2266,17 @@ cdef class LinearMatroid(BasisExchangeMatroid):
 
             sage: M = Matroid(reduced_matrix=Matrix(GF(2), [[1, 1, 0],
             ....:                                      [1, 0, 1], [0, 1, 1]]))
-            sage: len(M._linear_extension_chains(F=set([0, 1, 2])))
+            sage: len(M._linear_extension_chains(F=frozenset([0, 1, 2])))
             8
-            sage: M._linear_extension_chains(F=set())
+            sage: M._linear_extension_chains(F=frozenset())
             [{}]
-            sage: M._linear_extension_chains(F=set([1]))
+            sage: M._linear_extension_chains(F=frozenset([1]))
             [{}, {1: 1}]
-            sage: len(M._linear_extension_chains(F=set([0, 1])))
+            sage: len(M._linear_extension_chains(F=frozenset([0, 1])))
             4
             sage: N = Matroid(ring=QQ, reduced_matrix=[[1, 1, 0],
             ....: [1, 0, 1], [0, 1, 1]])
-            sage: N._linear_extension_chains(F=set([0, 1]),
+            sage: N._linear_extension_chains(F=frozenset([0, 1]),
             ....:                           fundamentals=set([1, -1, 1/2, 2]))
             [{0: 1}, {}, {0: 1, 1: 1}, {0: -1, 1: 1}, {1: 1}]
         """
@@ -6267,13 +6269,13 @@ cdef class RegularMatroid(LinearMatroid):
         EXAMPLES::
 
             sage: M = matroids.Wheel(3)
-            sage: len(M._linear_extension_chains(F=set([0, 1, 2])))
+            sage: len(M._linear_extension_chains(F=frozenset([0, 1, 2])))
             7
-            sage: M._linear_extension_chains(F=set())
+            sage: M._linear_extension_chains(F=frozenset())
             [{}]
-            sage: M._linear_extension_chains(F=set([1]))
+            sage: M._linear_extension_chains(F=frozenset([1]))
             [{}, {1: 1}]
-            sage: len(M._linear_extension_chains(F=set([0, 1])))
+            sage: len(M._linear_extension_chains(F=frozenset([0, 1])))
             4
         """
         if fundamentals is None:

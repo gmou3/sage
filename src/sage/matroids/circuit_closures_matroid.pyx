@@ -221,7 +221,7 @@ cdef class CircuitClosuresMatroid(Matroid):
         """
         return self._matroid_rank
 
-    cpdef bint _is_independent(self, F):
+    cpdef bint _is_independent(self, frozenset F):
         """
         Test if input is independent.
 
@@ -235,9 +235,9 @@ cdef class CircuitClosuresMatroid(Matroid):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_independent(set(['a', 'b', 'c']))
+            sage: M._is_independent(frozenset(['a', 'b', 'c']))
             True
-            sage: M._is_independent(set(['a', 'b', 'c', 'd']))
+            sage: M._is_independent(frozenset(['a', 'b', 'c', 'd']))
             False
         """
         for r in sorted(self._circuit_closures, key=cmp_elements_key):

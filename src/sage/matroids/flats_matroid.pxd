@@ -7,7 +7,7 @@ cdef class FlatsMatroid(Matroid):
     cpdef frozenset groundset(self)
     cpdef int _rank(self, frozenset X)
     cpdef full_rank(self)
-    cpdef bint _is_independent(self, X)
+    cpdef bint _is_independent(self, frozenset X)
 
     # enumeration
     cpdef flats(self, k)

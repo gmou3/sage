@@ -940,7 +940,7 @@ cdef class BasisExchangeMatroid(Matroid):
         self.__augment(self._output, self._input, self._input2)
         return self.__unpack(self._output)
 
-    cpdef bint _is_independent(self, F):
+    cpdef bint _is_independent(self, frozenset F):
         """
         Test if input is independent.
 
@@ -955,9 +955,9 @@ cdef class BasisExchangeMatroid(Matroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: M._is_independent(set(['a', 'b', 'c']))
+            sage: M._is_independent(frozenset(['a', 'b', 'c']))
             True
-            sage: M._is_independent(set(['a', 'b', 'c', 'd']))
+            sage: M._is_independent(frozenset(['a', 'b', 'c', 'd']))
             False
 
         .. NOTE::

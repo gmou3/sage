@@ -299,7 +299,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
 
     # a function that is very efficient for this class
 
-    cpdef _is_basis(self, X):
+    cpdef bint _is_basis(self, frozenset X):
         """
         Test if input is a basis.
 
@@ -319,9 +319,9 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         EXAMPLES::
 
             sage: M = Matroid(bases=matroids.catalog.Vamos().bases())
-            sage: M._is_basis(set(['a', 'b', 'c', 'e']))
+            sage: M._is_basis(frozenset(['a', 'b', 'c', 'e']))
             True
-            sage: M._is_basis(set(['a', 'b', 'c', 'd']))
+            sage: M._is_basis(frozenset(['a', 'b', 'c', 'd']))
             False
         """
         self._pack(self._b, X)
@@ -391,7 +391,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
 
             sage: from sage.matroids.advanced import *
             sage: M = BasisMatroid(matroids.catalog.Vamos())
-            sage: M._minor(contractions=set(['a']), deletions=set(['b', 'c']))
+            sage: M._minor(contractions=frozenset(['a']), deletions=frozenset(['b', 'c']))
             Matroid of rank 3 on 5 elements with 10 bases
         """
         E = self.groundset() - (contractions | deletions)

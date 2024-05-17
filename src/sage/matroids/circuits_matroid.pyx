@@ -140,7 +140,7 @@ cdef class CircuitsMatroid(Matroid):
         """
         return self._matroid_rank
 
-    cpdef bint _is_independent(self, X):
+    cpdef bint _is_independent(self, frozenset X):
         """
         Test if input is independent.
 

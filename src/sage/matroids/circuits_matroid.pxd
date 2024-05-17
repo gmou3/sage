@@ -11,7 +11,7 @@ cdef class CircuitsMatroid(Matroid):
     cpdef frozenset groundset(self)
     cpdef int _rank(self, frozenset X)
     cpdef full_rank(self)
-    cpdef bint _is_independent(self, X)
+    cpdef bint _is_independent(self, frozenset X)
     cpdef frozenset _max_independent(self, frozenset X)
     cpdef frozenset _circuit(self, frozenset X)
     cpdef frozenset _closure(self, frozenset X)

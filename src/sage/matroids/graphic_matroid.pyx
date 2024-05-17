@@ -653,7 +653,7 @@ cdef class GraphicMatroid(Matroid):
             DS_vertices.union(u, v)
         return len(X) - (DS_vertices.number_of_subsets() - Integer(1))
 
-    cpdef _is_circuit(self, X):
+    cpdef bint _is_circuit(self, frozenset X):
         """
         Test if input is a circuit.
 
@@ -666,11 +666,11 @@ cdef class GraphicMatroid(Matroid):
         EXAMPLES::
 
             sage: M = Matroid(range(5), graphs.DiamondGraph())
-            sage: M._is_circuit([0,1,2])
+            sage: M._is_circuit(frozenset([0,1,2]))
             True
-            sage: M._is_circuit([0,1,2,3])
+            sage: M._is_circuit(frozenset([0,1,2,3]))
             False
-            sage: M._is_circuit([0,1,3])
+            sage: M._is_circuit(frozenset([0,1,3]))
             False
         """
         cdef GenericGraph_pyx g = self._subgraph_from_set(X)
@@ -918,7 +918,7 @@ cdef class GraphicMatroid(Matroid):
             g.add_edge(e)
         return frozenset(XX)
 
-    cpdef _is_closed(self, X):
+    cpdef bint _is_closed(self, frozenset X):
         """
         Test if input is a closed set.
 

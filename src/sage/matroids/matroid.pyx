@@ -905,7 +905,7 @@ cdef class Matroid(SageObject):
 
     # override the following methods for even better efficiency
 
-    cpdef bint _is_independent(self, X):
+    cpdef bint _is_independent(self, frozenset X):
         """
         Test if input is independent.
 
@@ -919,14 +919,14 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_independent(set(['a', 'b', 'c']))
+            sage: M._is_independent(frozenset(['a', 'b', 'c']))
             True
-            sage: M._is_independent(set(['a', 'b', 'c', 'd']))
+            sage: M._is_independent(frozenset(['a', 'b', 'c', 'd']))
             False
         """
         return len(X) == self._rank(X)
 
-    cpdef _is_basis(self, X):
+    cpdef bint _is_basis(self, frozenset X):
         """
         Test if input is a basis.
 
@@ -946,9 +946,9 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_basis(set(['a', 'b', 'c', 'e']))
+            sage: M._is_basis(frozenset(['a', 'b', 'c', 'e']))
             True
-            sage: M._is_basis(set(['a', 'b', 'c', 'd']))
+            sage: M._is_basis(frozenset(['a', 'b', 'c', 'd']))
             False
 
         If ``X`` does not have the right size, behavior can become
@@ -959,7 +959,7 @@ cdef class Matroid(SageObject):
         """
         return self._is_independent(X)
 
-    cpdef _is_circuit(self, X):
+    cpdef bint _is_circuit(self, frozenset X):
         """
         Test if input is a circuit.
 
@@ -991,7 +991,7 @@ cdef class Matroid(SageObject):
             Z.add(x)
         return True
 
-    cpdef _is_closed(self, X):
+    cpdef bint _is_closed(self, frozenset X):
         """
         Test if input is a closed set.
 
@@ -1010,17 +1010,17 @@ cdef class Matroid(SageObject):
             sage: M._is_closed(frozenset(['a', 'b', 'c', 'e']))
             False
         """
-        X = set(X)
-        Y = self.groundset().difference(X)
-        r = self._rank(frozenset(X))
+        cdef set XX = set(X)
+        cdef frozenset Y = self.groundset().difference(X)
+        cdef int r = self._rank(frozenset(X))
         for y in Y:
-            X.add(y)
-            if self._rank(frozenset(X)) == r:
+            XX.add(y)
+            if self._rank(frozenset(XX)) == r:
                 return False
-            X.discard(y)
+            XX.discard(y)
         return True
 
-    cpdef _is_coindependent(self, X):
+    cpdef bint _is_coindependent(self, frozenset X):
         """
         Test if input is coindependent.
 
@@ -1041,7 +1041,7 @@ cdef class Matroid(SageObject):
         """
         return self._corank(X) == len(X)
 
-    cpdef _is_cobasis(self, X):
+    cpdef bint _is_cobasis(self, frozenset X):
         """
         Test if input is a cobasis.
 
@@ -1060,16 +1060,16 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M._is_cobasis(set(['a', 'b', 'c', 'e']))
+            sage: M._is_cobasis(frozenset(['a', 'b', 'c', 'e']))
             True
-            sage: M._is_cobasis(set(['a', 'b', 'c', 'd']))
+            sage: M._is_cobasis(frozenset(['a', 'b', 'c', 'd']))
             False
-            sage: M._is_cobasis(set(['a', 'b', 'c']))
+            sage: M._is_cobasis(frozenset(['a', 'b', 'c']))
             False
         """
         return self._is_basis(self.groundset().difference(X))
 
-    cpdef _is_cocircuit(self, X):
+    cpdef bint _is_cocircuit(self, frozenset X):
         """
         Test if input is a cocircuit.
 
@@ -1101,7 +1101,7 @@ cdef class Matroid(SageObject):
             Z.add(x)
         return True
 
-    cpdef frozenset _is_coclosed(self, frozenset X):
+    cpdef bint _is_coclosed(self, frozenset X):
         """
         Test if input is a coclosed set.
 
