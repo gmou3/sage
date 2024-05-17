@@ -24,17 +24,15 @@ Implementation
 
 The class ``DualMatroid`` wraps around a matroid instance to represent its
 dual. Only useful for classes that don't have an explicit construction of the
-dual (such as :class:`RankMatroid <sage.matroids.rank_matroid.RankMatroid>`
-and
+dual (such as :class:`RankMatroid <sage.matroids.rank_matroid.RankMatroid>` and
 :class:`CircuitClosuresMatroid <sage.matroids.circuit_closures_matroid.CircuitClosuresMatroid>`).
-It is also used as default implementation of the method
+It is also used as the default implementation of the method
 :meth:`M.dual() <sage.matroids.matroid.Matroid.dual>`.
 For direct access to the ``DualMatroid`` constructor, run::
 
     sage: from sage.matroids.advanced import *
 
 See also :mod:`sage.matroids.advanced`.
-
 
 AUTHORS:
 
@@ -61,8 +59,8 @@ class DualMatroid(Matroid):
 
     For some matroid representations it can be computationally expensive to
     derive an explicit representation of the dual. This class wraps around any
-    matroid to provide an abstract dual. It also serves as default
-    implementation.
+    matroid to provide an abstract dual. It also serves as the default
+    implementation of the dual.
 
     INPUT:
 
@@ -100,9 +98,17 @@ class DualMatroid(Matroid):
                  {'a', 'b', 'g', 'h'}, {'c', 'd', 'e', 'f'},
                  {'e', 'f', 'g', 'h'}},
              4: {{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}}}'
+
+        TESTS::
+
+            sage: from sage.matroids.dual_matroid import DualMatroid
+            sage: DualMatroid([])
+            Traceback (most recent call last):
+            ...
+            TypeError: no matroid provided to take the dual of
         """
         if not isinstance(matroid, Matroid):
-            raise TypeError("no matroid provided to take dual of.")
+            raise TypeError("no matroid provided to take the dual of")
         self._matroid = matroid
 
     def groundset(self):
@@ -503,32 +509,35 @@ class DualMatroid(Matroid):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by
+        The output is obtained by relabeling each element `e` by
         ``mapping[e]``, where ``mapping`` is a given injective map. If
-        ``e not in mapping`` then the identity map is assumed.
+        ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``mapping`` -- a python object such that `mapping[e]` is the new
+        - ``mapping`` -- a Python object such that ``mapping[e]`` is the new
           label of `e`
 
         OUTPUT: matroid
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.FanoDual([0,1,2,3,4,5,6])
+            sage: M = matroids.catalog.K5dual(range(10))
+            sage: type(M)
+            <class 'sage.matroids.dual_matroid.DualMatroid'>
             sage: sorted(M.groundset())
-            [0, 1, 2, 3, 4, 5, 6]
-            sage: N = M.dual().relabel({0:7})
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            sage: N = M.dual().relabel({0:10})
             sage: sorted(N.groundset())
-            [1, 2, 3, 4, 5, 6, 7]
-            sage: N.is_isomorphic(matroids.catalog.Fano())
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            sage: N.is_isomorphic(matroids.catalog.K5())
             True
 
         TESTS::
 
-            sage: M = matroids.catalog.FanoDual([0,1,2,3,4,5,6])
-            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g'}
+            sage: M = matroids.catalog.K5dual(range(10))
+            sage: f = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e',
+            ....:      5: 'f', 6: 'g', 7: 'h', 8: 'i', 9: 'j'}
             sage: N = M.relabel(f)
             sage: for S in powerset(M.groundset()):
             ....:     assert M.rank(S) == N.rank([f[x] for x in S])

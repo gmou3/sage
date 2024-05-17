@@ -2964,14 +2964,14 @@ cdef class LinearMatroid(BasisExchangeMatroid):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by
+        The output is obtained by relabeling each element `e` by
         ``mapping[e]``, where ``mapping`` is a given injective map. If
         ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``mapping`` -- a python object such that ``mapping[e]`` is the new
-          label of ``e``
+        - ``mapping`` -- a Python object such that ``mapping[e]`` is the new
+          label of `e`
 
         OUTPUT: matroid
 
@@ -4010,14 +4010,14 @@ cdef class BinaryMatroid(LinearMatroid):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by
+        The output is obtained by relabeling each element `e` by
         ``mapping[e]``, where ``mapping`` is a given injective map. If
         ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``mapping`` -- a python object such that ``mapping[e]`` is the new
-          label of ``e``
+        - ``mapping`` -- a Python object such that ``mapping[e]`` is the new
+          label of `e`
 
         OUTPUT: matroid
 
@@ -4890,14 +4890,14 @@ cdef class TernaryMatroid(LinearMatroid):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by
+        The output is obtained by relabeling each element `e` by
         ``mapping[e]``, where ``mapping`` is a given injective map. If
         ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``mapping`` -- a python object such that ``mapping[e]`` is the new
-          label of ``e``
+        - ``mapping`` -- a Python object such that ``mapping[e]`` is the new
+          label of `e`
 
         OUTPUT: matroid
 
@@ -5602,14 +5602,14 @@ cdef class QuaternaryMatroid(LinearMatroid):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by
+        The output is obtained by relabeling each element `e` by
         ``mapping[e]``, where ``mapping`` is a given injective map. If
         ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``mapping`` -- a python object such that ``mapping[e]`` is the new
-          label of ``e``
+        - ``mapping`` -- a Python object such that ``mapping[e]`` is the new
+          label of `e`
 
         OUTPUT: matroid
 
@@ -6527,14 +6527,14 @@ cdef class RegularMatroid(LinearMatroid):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 
-        The output is obtained by relabeling each element ``e`` by
+        The output is obtained by relabeling each element `e` by
         ``mapping[e]``, where ``mapping`` is a given injective map. If
         ``mapping[e]`` is not defined, then the identity map is assumed.
 
         INPUT:
 
-        - ``mapping`` -- a python object such that ``mapping[e]`` is the new
-          label of ``e``
+        - ``mapping`` -- a Python object such that ``mapping[e]`` is the new
+          label of `e`
 
         OUTPUT: matroid
 
