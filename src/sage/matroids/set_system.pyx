@@ -81,8 +81,8 @@ cdef class SetSystem:
         else:
             self._groundset = groundset
         self._idx = {}
-        for i in range(len(groundset)):
-            self._idx[groundset[i]] = i
+        for i in range(len(self._groundset)):
+            self._idx[self._groundset[i]] = i
 
         self._groundset_size = len(groundset)
         self._bitset_size = max(self._groundset_size, 1)
@@ -97,11 +97,11 @@ cdef class SetSystem:
 
         INPUT:
 
-        - ``groundset`` -- a list or tuple of finitely many elements.
+        - ``groundset`` -- a list or tuple of finitely many elements
         - ``subsets`` -- (default: ``None``) an enumerator for a set of
-          subsets of ``groundset``.
+          subsets of ``groundset``
         - ``capacity`` -- (default: ``1``) Initial maximal capacity of the set
-          system.
+          system
 
         EXAMPLES::
 
@@ -268,7 +268,7 @@ cdef class SetSystem:
 
     cdef inline _append(self, bitset_t X):
         """
-        Append subset in internal, bitset format
+        Append subset in internal, bitset format.
         """
         if self._capacity == self._len:
             self.resize(self._capacity * 2)

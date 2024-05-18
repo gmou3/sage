@@ -1846,7 +1846,7 @@ cdef class BasisExchangeMatroid(Matroid):
             repeat = nxksrd(self._input, self._groundset_size, self._matroid_rank, True)
         NSC.resize()
         if k:
-            return SetSystem(list(self.groundset()), frozenset([C for C in NSC if len(C) == k]))
+            return SetSystem(self.groundset(), [C for C in NSC if len(C) == k])
         else:
             return NSC
 

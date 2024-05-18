@@ -287,8 +287,8 @@ cdef class CircuitsMatroid(Matroid):
         if certificate:
             return self._is_isomorphic(other), self._isomorphism(other)
         N = CircuitsMatroid(other)
-        S = SetSystem(list(self._groundset), self._C)
-        O = SetSystem(list(N._groundset), N._C)
+        S = SetSystem(self._groundset, self._C)
+        O = SetSystem(N._groundset, N._C)
         return S._isomorphism(O) is not None
 
     # representation
@@ -534,14 +534,14 @@ cdef class CircuitsMatroid(Matroid):
             :meth:`M.bases() <sage.matroids.circuits_matroid.bases>`
         """
         from itertools import combinations
-        cdef set I_r = set()
-        cdef set D_r = set(self.dependent_k_sets(k))
+        cdef SetSystem I_k = SetSystem(self._groundset)
+        cdef set D_k = set(self.dependent_k_sets(k))
         cdef frozenset S
         for St in combinations(self._groundset, k):
             S = frozenset(St)
-            if S not in D_r:
-                I_r.add(S)
-        return SetSystem(list(self._groundset), I_r)
+            if S not in D_k:
+                I_k.append(S)
+        return I_k
 
     cpdef SetSystem dependent_k_sets(self, long k):
         r"""
@@ -564,19 +564,19 @@ cdef class CircuitsMatroid(Matroid):
              ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
         """
         cdef int i
-        cdef set NB = set()
+        cdef set D_k = set()
         cdef frozenset S
         for i in range(min(self._k_C), k + 1):
             if i in self._k_C:
                 for S in self._k_C[i]:
-                    NB.add(S)
+                    D_k.add(S)
             if i == k:
                 break
-            for S in NB.copy():
-                NB.remove(S)
+            for S in D_k.copy():
+                D_k.remove(S)
                 for e in S ^ self._groundset:
-                    NB.add(S | set([e]))
-        return SetSystem(list(self._groundset), NB)
+                    D_k.add(S | set([e]))
+        return SetSystem(self._groundset, D_k)
 
     cpdef SetSystem circuits(self, k=None):
         """
@@ -602,16 +602,16 @@ cdef class CircuitsMatroid(Matroid):
              frozenset({0, 2, 3}),
              frozenset({1, 2, 3})]
         """
-        cdef set C = set()
+        cdef SetSystem C = SetSystem(self._groundset)
         if k is not None:
             if k in self._k_C:
                 for c in self._k_C[k]:
-                    C.add(c)
+                    C.append(c)
         else:
             for i in self._k_C:
                 for c in self._k_C[i]:
-                    C.add(c)
-        return SetSystem(list(self._groundset), C)
+                    C.append(c)
+        return C
 
     def circuits_iterator(self, k=None):
         """
@@ -660,12 +660,15 @@ cdef class CircuitsMatroid(Matroid):
             sage: M.nonspanning_circuits()
             SetSystem of 15 sets over 10 elements
         """
-        cdef set NSC = set()
+        cdef SetSystem NSC = SetSystem(self._groundset)
         cdef int i
-        for i in self._k_C:
-            if i <= self._matroid_rank:
-                NSC.update(self._k_C[i])
-        return SetSystem(list(self._groundset), NSC)
+        cdef frozenset S
+        for i in self._sorted_C_lens:
+            if i > self._matroid_rank:
+                break
+            for S in self._k_C[i]:
+                NSC.append(S)
+        return NSC
 
     def nonspanning_circuits_iterator(self):
         """
@@ -736,16 +739,16 @@ cdef class CircuitsMatroid(Matroid):
                 for e in self._groundset ^ S:
                     BC[i+1].add(S | set([e]))
 
-        cdef set B = set()
+        cdef SetSystem B = SetSystem(self._groundset)
         for St in combinations(ordering[1:], self._matroid_rank - 1):
             S = frozenset(St)
             if S | min_e not in BC[r]:
                 if not reduced:
-                    B.add(S | min_e)
+                    B.append(S | min_e)
                 else:
-                    B.add(S)
+                    B.append(S)
 
-        return SetSystem(list(self.groundset()), B)
+        return B
 
     cpdef SetSystem no_broken_circuits_sets(self, ordering=None, reduced=False):
         r"""
@@ -789,11 +792,11 @@ cdef class CircuitsMatroid(Matroid):
             True
         """
         from sage.topology.simplicial_complex import SimplicialComplex
-        cdef set NBC = set()
+        cdef SetSystem NBC = SetSystem(self._groundset)
         for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced),
                                    maximality_check=False).face_iterator():
-            NBC.add(frozenset(f))
-        return SetSystem(list(self.groundset()), NBC)
+            NBC.append(frozenset(f))
+        return NBC
 
     cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""
@@ -874,7 +877,7 @@ cdef class CircuitsMatroid(Matroid):
             sage: M.is_paving()
             True
         """
-        return self.girth() >= self.rank()
+        return self.girth() >= self._matroid_rank
 
     # verification
 
