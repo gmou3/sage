@@ -184,7 +184,7 @@ cdef class Matroid(SageObject):
     cpdef _is_3connected_CE(self, certificate=*)
     cpdef _is_3connected_BC(self, certificate=*)
     cpdef _is_3connected_BC_recursion(self, basis, fund_cocircuits)
-    cpdef is_paving(self)
+    cpdef bint is_paving(self)
     cpdef is_sparse_paving(self)
     cpdef girth(self)
 

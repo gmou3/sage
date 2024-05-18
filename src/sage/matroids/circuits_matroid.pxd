@@ -1,5 +1,5 @@
-from sage.matroids.matroid cimport Matroid
-from sage.matroids.set_system cimport SetSystem
+from .matroid cimport Matroid
+from .set_system cimport SetSystem
 
 cdef class CircuitsMatroid(Matroid):
     cdef frozenset _groundset
@@ -17,19 +17,17 @@ cdef class CircuitsMatroid(Matroid):
     cpdef frozenset _closure(self, frozenset X)
 
     # enumeration
-    cpdef SetSystem bases(self)
-    cpdef SetSystem nonbases(self)
     cpdef SetSystem independent_k_sets(self, long k)
     cpdef SetSystem dependent_k_sets(self, long k)
     cpdef SetSystem circuits(self, k=*)
     cpdef SetSystem nonspanning_circuits(self)
-    cpdef no_broken_circuits_facets(self, ordering=*, reduced=*)
+    cpdef SetSystem no_broken_circuits_facets(self, ordering=*, reduced=*)
     cpdef SetSystem no_broken_circuits_sets(self, ordering=*, reduced=*)
     cpdef broken_circuit_complex(self, ordering=*, reduced=*)
 
     # properties
     cpdef girth(self)
-    cpdef is_paving(self)
+    cpdef bint is_paving(self)
 
     # isomorphism and relabeling
     cpdef _is_isomorphic(self, other, certificate=*)

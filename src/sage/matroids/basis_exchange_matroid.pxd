@@ -69,9 +69,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
     cpdef bases_count(self)
     cpdef SetSystem independent_k_sets(self, long k)
-    cpdef SetSystem bases(self)
     cpdef SetSystem dependent_k_sets(self, long k)
-    cpdef SetSystem nonbases(self)
 
     cpdef SetSystem nonspanning_circuits(self)
     cpdef SetSystem cocircuits(self)

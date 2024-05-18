@@ -447,21 +447,6 @@ cdef class CircuitsMatroid(Matroid):
 
     # enumeration
 
-    cpdef SetSystem bases(self):
-        r"""
-        Return the bases of the matroid.
-
-        OUTPUT: :class:`SetSystem`
-
-        EXAMPLES::
-
-            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-            sage: M = CircuitsMatroid(matroids.CompleteGraphic(4))
-            sage: len(M.bases())
-            16
-        """
-        return self.independent_k_sets(self._matroid_rank)
-
     def bases_iterator(self):
         r"""
         Return an iterator over the bases of the matroid.
@@ -482,31 +467,12 @@ cdef class CircuitsMatroid(Matroid):
              frozenset({2, 3})]
         """
         from itertools import combinations
-        cdef set B = set()
         cdef set NB = set(self.nonbases())
         cdef frozenset S
         for St in combinations(self._groundset, self._matroid_rank):
             S = frozenset(St)
             if S not in NB:
                 yield S
-
-    cpdef SetSystem nonbases(self):
-        r"""
-        Return the nonbases of the matroid.
-
-        OUTPUT: :class:`SetSystem`
-
-        EXAMPLES::
-
-            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
-            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
-            sage: len(M.nonbases())
-            0
-            sage: M = CircuitsMatroid(matroids.CompleteGraphic(6))
-            sage: len(M.nonbases())
-            1707
-        """
-        return self.dependent_k_sets(self._matroid_rank)
 
     cpdef SetSystem independent_k_sets(self, long k):
         r"""
@@ -528,6 +494,13 @@ cdef class CircuitsMatroid(Matroid):
             SetSystem of 75 sets over 9 elements
             sage: frozenset({'a', 'c', 'e'}) in _
             True
+
+        TESTS::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.CompleteGraphic(4))
+            sage: len(M.bases())
+            16
 
         .. SEEALSO::
 
@@ -562,6 +535,16 @@ cdef class CircuitsMatroid(Matroid):
             sage: sorted([sorted(X) for X in M.dependent_k_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
              ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
+        
+        TESTS::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.Uniform(2, 4))
+            sage: len(M.nonbases())
+            0
+            sage: M = CircuitsMatroid(matroids.CompleteGraphic(6))
+            sage: len(M.nonbases())
+            1707
         """
         cdef int i
         cdef set D_k = set()
@@ -687,7 +670,7 @@ cdef class CircuitsMatroid(Matroid):
                 for C in self._k_C[i]:
                     yield C
 
-    cpdef no_broken_circuits_facets(self, ordering=None, reduced=False):
+    cpdef SetSystem no_broken_circuits_facets(self, ordering=None, reduced=False):
         r"""
         Return the no broken circuits (NBC) facets of ``self``.
 
@@ -862,7 +845,7 @@ cdef class CircuitsMatroid(Matroid):
         from sage.rings.infinity import infinity
         return min(self._k_C, default=infinity)
 
-    cpdef is_paving(self):
+    cpdef bint is_paving(self):
         """
         Return if ``self`` is paving.
 

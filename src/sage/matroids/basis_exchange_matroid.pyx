@@ -1554,7 +1554,7 @@ cdef class BasisExchangeMatroid(Matroid):
 
         INPUT:
 
-        - ``k`` -- nonnegative integer
+        - ``k`` -- integer
 
         OUTPUT: iterable containing all independent subsets of the matroid of
         cardinality ``k``
@@ -1566,6 +1566,11 @@ cdef class BasisExchangeMatroid(Matroid):
             184
             sage: [len(M.independent_k_sets(k)) for k in range(M.full_rank() + 1)]
             [1, 10, 45, 120, 201, 184]
+
+        TESTS::
+
+            sage: len([B for B in M.bases()])
+            184
         """
         cdef SetSystem BB
         BB = SetSystem(self._E)
@@ -1580,31 +1585,13 @@ cdef class BasisExchangeMatroid(Matroid):
             repeat = nxksrd(self._input, self._groundset_size, k, True)
         return BB
 
-    cpdef SetSystem bases(self):
-        """
-        Return the list of bases of the matroid.
-
-        A *basis* is a maximal independent set.
-
-        OUTPUT: iterable containing all bases of the matroid
-
-        EXAMPLES::
-
-            sage: M = matroids.catalog.N1()
-            sage: M.bases_count()
-            184
-            sage: len([B for B in M.bases()])
-            184
-        """
-        return self.independent_k_sets(self.full_rank())
-
     cpdef SetSystem dependent_k_sets(self, long k):
         """
         Return the list of dependent subsets of fixed size.
 
         INPUT:
 
-        - ``k`` -- nonnegative integer
+        - ``k`` -- integer
 
         OUTPUT: iterable containing all dependent subsets of size ``k``
 
@@ -1615,6 +1602,13 @@ cdef class BasisExchangeMatroid(Matroid):
             68
             sage: [len(M.dependent_k_sets(k)) for k in range(M.full_rank() + 1)]
             [0, 0, 0, 0, 9, 68]
+
+        TESTS::
+
+            sage: binomial(M.size(), M.full_rank())-M.bases_count()                     # needs sage.symbolic
+            68
+            sage: len([B for B in M.nonbases()])
+            68
         """
         cdef SetSystem NB
         NB = SetSystem(self._E)
@@ -1634,29 +1628,6 @@ cdef class BasisExchangeMatroid(Matroid):
                 repeat = nxksrd(self._input, self._groundset_size, k, True)
         NB.resize()
         return NB
-
-    cpdef SetSystem nonbases(self):
-        """
-        Return the list of nonbases of the matroid.
-
-        A *nonbasis* is a set with cardinality ``self.full_rank()`` that is
-        not a basis.
-
-        OUTPUT: iterable containing the nonbases of the matroid
-
-        .. SEEALSO::
-
-            :meth:`Matroid.basis() <sage.matroids.matroid.Matroid.basis>`
-
-        EXAMPLES::
-
-            sage: M = matroids.catalog.N1()
-            sage: binomial(M.size(), M.full_rank())-M.bases_count()                     # needs sage.symbolic
-            68
-            sage: len([B for B in M.nonbases()])
-            68
-        """
-        return self.dependent_k_sets(self.full_rank())
 
     cpdef SetSystem nonspanning_circuits(self):
         """

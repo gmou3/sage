@@ -2768,11 +2768,7 @@ cdef class Matroid(SageObject):
 
             :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
-        cdef SetSystem B = SetSystem(self.groundset())
-        for X in combinations(self.groundset(), self.full_rank()):
-            if self._rank(frozenset(X)) == len(X):
-                B.append(X)
-        return B
+        return self.independent_k_sets(self.full_rank())
 
     def bases_iterator(self):
         r"""
@@ -6214,7 +6210,7 @@ cdef class Matroid(SageObject):
                 return False
         return True
 
-    cpdef is_paving(self):
+    cpdef bint is_paving(self):
         """
         Return if ``self`` is paving.
 
