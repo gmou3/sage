@@ -363,12 +363,12 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: type(M)
             <class 'sage.matroids.flats_matroid.FlatsMatroid'>
 
-        If instead we simply provide a list of flats, then we get the subclass
+        If instead we simply provide a list of flats, then we get a subclass
         :class:`LatticeOfFlatsMatroid <sage.matroids.circuits_matroid.LatticeOfFlatsMatroid>`
         of :class:`FlatsMatroid <sage.matroids.circuits_matroid.FlatsMatroid>`.
         This class computes and stores the lattice of flats upon definition.
-        This can be time-consuming, but after that we benefit from some faster
-        methods (e.g., ``is_valid``)::
+        This can be time-consuming, but after it's done we benefit from some
+        faster methods (e.g., ``is_valid``)::
 
             sage: M = Matroid(flats=['', 'a', 'b', 'ab'])
             sage: for i in range(M.rank() + 1):  # print flats by rank
