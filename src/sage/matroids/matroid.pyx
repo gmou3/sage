@@ -8343,7 +8343,7 @@ cdef class Matroid(SageObject):
         For a matroid with loops, the broken circuit complex is not defined,
         and the method yields an error::
 
-            sage: M = Matroid(flats={0: ['a'], 1: ['ab', 'ac'], 2: ['abc']})
+            sage: M = Matroid(flats=['a', 'ab', 'ac', 'abc'])
             sage: M.broken_circuit_complex()
             Traceback (most recent call last):
             ...

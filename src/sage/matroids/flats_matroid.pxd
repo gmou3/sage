@@ -1,4 +1,5 @@
 from .matroid cimport Matroid
+from sage.combinat.posets.lattices import FiniteLatticePoset
 from .set_system cimport SetSystem
 
 cdef class FlatsMatroid(Matroid):
@@ -8,7 +9,8 @@ cdef class FlatsMatroid(Matroid):
     cpdef frozenset groundset(self)
     cpdef int _rank(self, frozenset X)
     cpdef full_rank(self)
-    cpdef bint _is_independent(self, frozenset X)
+    cpdef frozenset _closure(self, frozenset X)
+    cpdef bint _is_closed(self, frozenset X)
 
     # enumeration
     cpdef SetSystem flats(self, long k)
@@ -19,4 +21,9 @@ cdef class FlatsMatroid(Matroid):
     cpdef relabel(self, mapping)
 
     # verification
+    cpdef bint is_valid(self)
+
+cdef class LatticeOfFlatsMatroid(FlatsMatroid):
+    cdef object _L  # lattice_of_flats
+    cpdef list whitney_numbers(self)
     cpdef bint is_valid(self)
