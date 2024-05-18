@@ -714,8 +714,8 @@ cdef class LatticeOfFlatsMatroid(FlatsMatroid):
             sage: M.is_valid()
             False
 
-        Some invalid lists of flats are recognized as such even before calling
-        `is_valid`, upon the attempted matroid definition::
+        Some invalid lists of flats are recognized before calling ``is_valid``,
+        upon the attempted matroid definition::
 
             sage: M = Matroid(flats=[[], [0], [1]])  # missing groundset
             Traceback (most recent call last):

@@ -368,7 +368,7 @@ def Matroid(groundset=None, data=None, **kwds):
         of :class:`FlatsMatroid <sage.matroids.circuits_matroid.FlatsMatroid>`.
         This class computes and stores the lattice of flats upon definition.
         This can be time-consuming, but after that we benefit from some faster
-        methods (e.g., `is_valid`)::
+        methods (e.g., ``is_valid``)::
 
             sage: M = Matroid(flats=['', 'a', 'b', 'ab'])
             sage: for i in range(M.rank() + 1):  # print flats by rank
