@@ -4,11 +4,10 @@ from .matroid cimport Matroid
 from .set_system cimport SetSystem
 
 cdef class BasisExchangeMatroid(Matroid):
-    cdef long _groundset_size, _matroid_rank, _bitset_size
+    cdef long _groundset_size, _bitset_size
     cdef bitset_t _current_basis, _inside, _outside, _input, _input2, _output, _temp
     cdef tuple _E
     cdef dict _idx
-    cdef frozenset _groundset
 
     cdef _bcount
     cdef _weak_invariant_var, _strong_invariant_var, _heuristic_invariant_var

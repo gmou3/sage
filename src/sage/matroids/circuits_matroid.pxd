@@ -2,8 +2,6 @@ from .matroid cimport Matroid
 from .set_system cimport SetSystem
 
 cdef class CircuitsMatroid(Matroid):
-    cdef frozenset _groundset
-    cdef int _matroid_rank
     cdef set _C  # circuits
     cdef dict _k_C  # k-circuits (k=len)
     cdef list _sorted_C_lens

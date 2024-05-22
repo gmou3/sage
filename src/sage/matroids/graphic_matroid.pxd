@@ -2,7 +2,6 @@ from .matroid cimport Matroid
 from sage.graphs.generic_graph_pyx cimport GenericGraph_pyx
 
 cdef class GraphicMatroid(Matroid):
-    cdef frozenset _groundset
     cdef readonly GenericGraph_pyx _G
     cdef dict _vertex_map
     cdef dict _groundset_edge_map

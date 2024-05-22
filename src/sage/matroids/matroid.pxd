@@ -4,7 +4,8 @@ from sage.matroids.set_system cimport SetSystem
 cdef class Matroid(SageObject):
     cdef public _SageObject__custom_name
     cdef public _cached_info
-    cdef int _stored_full_rank
+    cdef frozenset _groundset
+    cdef int _matroid_rank
     cdef int _stored_size
 
     # virtual methods

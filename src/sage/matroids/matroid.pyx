@@ -1435,9 +1435,9 @@ cdef class Matroid(SageObject):
             sage: M.dual().full_rank()
             4
         """
-        if self._stored_full_rank == 0:
-            self._stored_full_rank = self._rank(self.groundset())
-        return self._stored_full_rank
+        if self._matroid_rank == 0:
+            self._matroid_rank = self._rank(self.groundset())
+        return self._matroid_rank
 
     cpdef basis(self):
         r"""

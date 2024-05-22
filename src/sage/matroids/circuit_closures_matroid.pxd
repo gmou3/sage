@@ -1,9 +1,7 @@
 from sage.matroids.matroid cimport Matroid
 
 cdef class CircuitClosuresMatroid(Matroid):
-    cdef frozenset _groundset  # _E
-    cdef dict _circuit_closures  # _CC
-    cdef int _matroid_rank  # _R
+    cdef dict _circuit_closures
     cpdef frozenset groundset(self)
     cpdef int _rank(self, frozenset X)
     cpdef full_rank(self)
