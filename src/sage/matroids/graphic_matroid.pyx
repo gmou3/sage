@@ -1110,7 +1110,7 @@ cdef class GraphicMatroid(Matroid):
         """
         return True
 
-    cpdef is_graphic(self):
+    cpdef bint is_graphic(self):
         r"""
         Return if ``self`` is graphic.
 
@@ -1124,7 +1124,7 @@ cdef class GraphicMatroid(Matroid):
         """
         return True
 
-    cpdef is_regular(self):
+    cpdef bint is_regular(self):
         r"""
         Return if ``self`` is regular.
 

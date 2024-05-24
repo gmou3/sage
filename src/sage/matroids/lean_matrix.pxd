@@ -27,7 +27,7 @@ cdef class LeanMatrix:
     cdef int pivot(self, long x, long y) except -1  # Not a Sage matrix operation
     cdef list gauss_jordan_reduce(self, columns)   # Not a Sage matrix operation
 
-    cdef list nonzero_positions_in_row(self, long k)
+    cdef list nonzero_positions_in_row(self, long r)
 
     cdef LeanMatrix transpose(self)
     cdef LeanMatrix _matrix_times_matrix_(self, LeanMatrix other)
@@ -63,7 +63,7 @@ cdef class BinaryMatrix(LeanMatrix):
     cdef list _character(self, bitset_t x)
     cdef BinaryMatrix _distinguish_by(self, BinaryMatrix P)
     cdef BinaryMatrix _splice_by(self, BinaryMatrix P)
-    cdef BinaryMatrix _isolate(self, long k)
+    cdef BinaryMatrix _isolate(self, long r)
     cdef BinaryMatrix equitable_partition(self, BinaryMatrix P=*)   # Not a Sage matrix operation
     cdef bint is_isomorphic(self, BinaryMatrix other, BinaryMatrix s_eq=*, BinaryMatrix o_eq=*) except -2   # Not a Sage matrix operation
 

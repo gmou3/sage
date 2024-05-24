@@ -91,7 +91,7 @@ cdef class BinaryMatroid(LinearMatroid):
     cpdef _fast_isom_test(self, other)
     cpdef relabel(self, mapping)
 
-    cpdef is_graphic(self)
+    cpdef bint is_graphic(self)
     cpdef bint is_valid(self)
 
 
@@ -172,6 +172,6 @@ cdef class RegularMatroid(LinearMatroid):
     cpdef has_line_minor(self, k, hyperlines=*, certificate=*)
     cpdef _linear_extension_chains(self, F, fundamentals=*)
 
-    cpdef is_graphic(self)
+    cpdef bint is_regular(self)
+    cpdef bint is_graphic(self)
     cpdef bint is_valid(self)
-    cpdef is_regular(self)

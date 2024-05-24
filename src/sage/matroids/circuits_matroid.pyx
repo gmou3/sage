@@ -535,7 +535,7 @@ cdef class CircuitsMatroid(Matroid):
             sage: sorted([sorted(X) for X in M.dependent_k_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
              ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
-        
+
         TESTS::
 
             sage: from sage.matroids.circuits_matroid import CircuitsMatroid

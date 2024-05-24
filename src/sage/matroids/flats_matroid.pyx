@@ -249,8 +249,8 @@ cdef class FlatsMatroid(Matroid):
         N = FlatsMatroid(other)
         flats_self = [F for i in self._F for F in self._F[i]]
         flats_other = [F for i in N._F for F in N._F[i]]
-        SS = SetSystem(list(self._groundset), flats_self)
-        OS = SetSystem(list(N._groundset), flats_other)
+        SS = SetSystem(self._groundset, flats_self)
+        OS = SetSystem(N._groundset, flats_other)
         return SS._isomorphism(OS) is not None
 
     # representation
@@ -361,7 +361,7 @@ cdef class FlatsMatroid(Matroid):
         version = 0
         return sage.matroids.unpickling.unpickle_flats_matroid, (version, data)
 
-    cpdef Matroid relabel(self, mapping):
+    cpdef relabel(self, mapping):
         r"""
         Return an isomorphic matroid with relabeled groundset.
 

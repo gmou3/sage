@@ -1950,7 +1950,8 @@ cdef class BasisExchangeMatroid(Matroid):
         partition of the matroid.
 
         The purpose of this partition is to heuristically find an isomorphism
-        between two matroids, by lining up their respective ``heuristic_partitions``.
+        between two matroids, by lining up their respective
+        ``heuristic_partitions``.
 
         EXAMPLES::
 

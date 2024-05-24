@@ -2712,7 +2712,7 @@ cdef class LinearMatroid(BasisExchangeMatroid):
                 return False, self.components()[0]
             else:
                 return False
-        if self.rank() > self.size()-self.rank():
+        if self.rank() > self.size() - self.rank():
             return self.dual()._is_3connected_shifting(certificate)
 
         # the partial matrix
@@ -3563,9 +3563,7 @@ cdef class BinaryMatroid(LinearMatroid):
         bicycle dimension of its cocycle-space, and is an invariant for binary
         matroids. See [Pen2012]_, [GR2001]_ for more information.
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -3595,9 +3593,7 @@ cdef class BinaryMatroid(LinearMatroid):
         The Brown invariant of a binary matroid equals the Brown invariant of
         its cocycle-space.
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -3802,7 +3798,7 @@ cdef class BinaryMatroid(LinearMatroid):
                              keep_initial_representation=False)
 
     # graphicness test
-    cpdef is_graphic(self):
+    cpdef bint is_graphic(self):
         """
         Test if the binary matroid is graphic.
 
@@ -3930,9 +3926,7 @@ cdef class BinaryMatroid(LinearMatroid):
 
         - ``randomized_tests`` -- Ignored.
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         ALGORITHM:
 
@@ -4560,9 +4554,7 @@ cdef class TernaryMatroid(LinearMatroid):
         bicycle dimension of its rowspace, and is a matroid invariant.
         See [Pen2012]_.
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -4586,9 +4578,7 @@ cdef class TernaryMatroid(LinearMatroid):
         character of its cocycle-space, and is an invariant for ternary
         matroids. See [Pen2012]_.
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -4804,11 +4794,9 @@ cdef class TernaryMatroid(LinearMatroid):
 
         INPUT:
 
-        - ``randomized_tests`` -- Ignored.
+        - ``randomized_tests`` -- ignored
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         ALGORITHM:
 
@@ -5399,9 +5387,7 @@ cdef class QuaternaryMatroid(LinearMatroid):
         The bicycle dimension of a matroid equals the bicycle dimension of its
         rowspace, and is a matroid invariant. See [Pen2012]_.
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -6282,7 +6268,7 @@ cdef class RegularMatroid(LinearMatroid):
             fundamentals = set([1])
         return LinearMatroid._linear_extension_chains(self, F, fundamentals)
 
-    cpdef is_graphic(self):
+    cpdef bint is_graphic(self):
         """
         Test if the regular matroid is graphic.
 
@@ -6342,7 +6328,7 @@ cdef class RegularMatroid(LinearMatroid):
 
     # representation
 
-    cpdef is_regular(self):
+    cpdef bint is_regular(self):
         r"""
         Return if ``self`` is regular.
 
@@ -6395,9 +6381,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         - ``randomized_tests`` -- Ignored.
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         ALGORITHM:
 
@@ -6454,9 +6438,7 @@ cdef class RegularMatroid(LinearMatroid):
 
         - ``randomized_tests`` -- Ignored.
 
-        OUTPUT:
-
-        boolean
+        OUTPUT: boolean
 
         ALGORITHM:
 

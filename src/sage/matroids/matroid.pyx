@@ -1474,7 +1474,6 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- a subset (or any iterable) of the groundset
 
-        OUTPUT: a subset of ``X``
         OUTPUT: subset of ``X``
 
         EXAMPLES::
@@ -1577,8 +1576,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- a subset (or any iterable) of the groundset
 
-        OUTPUT: a superset of ``X``
-        OUTPUT: set of elements containing ``X``
+        OUTPUT: superset of ``X``
 
         EXAMPLES::
 
@@ -1815,8 +1813,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- a subset (or any iterable) of the groundset
 
-        OUTPUT: a superset of ``X``
-        OUTPUT: a set of elements containing ``X``
+        OUTPUT: superset of ``X``
 
         .. SEEALSO::
 
@@ -2328,7 +2325,7 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M.is_valid()  # long time
+            sage: M.is_valid()
             True
 
         The following is the 'Escher matroid' by Brylawski and Kelly. See
@@ -2423,9 +2420,8 @@ cdef class Matroid(SageObject):
             ['b', 'd', 'f', 'g'], ['b', 'e', 'g'], ['c', 'd', 'e', 'g'],
             ['c', 'f', 'g'], ['d', 'e', 'f']]
         """
-        cdef int r, start, stop, j
+        cdef int start, stop, j, r = self.rank()
         cdef frozenset X
-        r = self.rank()
         if k is None:
             start = 0
             stop = r + 2
@@ -3957,9 +3953,9 @@ cdef class Matroid(SageObject):
 
         .. WARNING::
 
-            This method is linked to __richcmp__ (in Cython) and __cmp__ or
-            __eq__/__ne__ (in Python). If you override one, you should (and in
-            Cython: MUST) override the other!
+            This method is linked to ``__richcmp__`` (in Cython) and
+            ``__cmp__`` or ``__eq__``/``__ne__`` (in Python). If you override
+            one, you should (and in Cython: MUST) override the other!
 
         EXAMPLES::
 
@@ -5556,7 +5552,6 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``certificate`` -- boolean (default: ``False``); if ``True``,
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
         - ``algorithm`` -- (default: ``None``); specify which algorithm
@@ -5606,7 +5601,6 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``certificate`` -- boolean (default: ``False``); if ``True``,
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -5734,7 +5728,6 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``certificate`` -- boolean (default: ``False``); if ``True``,
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -5811,7 +5804,6 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``certificate`` -- boolean (default: ``False``); if ``True``,
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
 
@@ -6066,7 +6058,6 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``certificate`` -- boolean (default: ``False``); if ``True``,
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
 
@@ -6233,7 +6224,7 @@ cdef class Matroid(SageObject):
                     return False
         return True
 
-    cpdef is_sparse_paving(self):
+    cpdef bint is_sparse_paving(self):
         """
         Return if ``self`` is sparse-paving.
 
@@ -6340,7 +6331,6 @@ cdef class Matroid(SageObject):
           times a certain necessary condition for being binary is tested,
           using randomization
         - ``verify`` -- boolean (default: ``True``); if ``True``,
-        - ``verify`` -- (default: ``True``), boolean; if ``True``,
           any output will be a binary matroid representing ``self``; if
           ``False``, any output will represent ``self`` if and only if the
           matroid is binary
@@ -6522,7 +6512,6 @@ cdef class Matroid(SageObject):
           times a certain necessary condition for being ternary is tested,
           using randomization
         - ``verify`` -- boolean (default: ``True``); if ``True``,
-        - ``verify`` -- (default: ``True``), boolean; if ``True``,
           any output will be a ternary matroid representing ``self``; if
           ``False``, any output will represent ``self`` if and only if the
           matroid is ternary
@@ -6604,7 +6593,7 @@ cdef class Matroid(SageObject):
         """
         return self.ternary_matroid(randomized_tests=randomized_tests, verify=True) is not None
 
-    cpdef is_graphic(self):
+    cpdef bint is_graphic(self):
         r"""
         Return if ``self`` is graphic.
 
@@ -6638,7 +6627,7 @@ cdef class Matroid(SageObject):
                 return False
         return True
 
-    cpdef is_regular(self):
+    cpdef bint is_regular(self):
         r"""
         Return if ``self`` is regular.
 
@@ -6716,7 +6705,6 @@ cdef class Matroid(SageObject):
 
         - ``C`` -- a circuit
         - ``certificate`` -- boolean (default: ``False``), if ``True``
-        - ``certificate`` -- (default: ``False``) boolean, if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
           together with ``x``, if ``False`` return ``False, None``
@@ -6738,7 +6726,6 @@ cdef class Matroid(SageObject):
         """
         cdef set XX = set(C)
         cdef frozenset Ax, Bx, X
-
         _ = XX.pop()
         X = frozenset(XX)
         # cl(X) = cl(C), and to be a chord x must be spanned by C
@@ -6767,7 +6754,6 @@ cdef class Matroid(SageObject):
 
         - ``C`` -- a circuit
         - ``certificate`` -- boolean (default: ``False``), if ``True``
-        - ``certificate`` -- (default: ``False``) boolean, if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
           together with ``x``, if ``False`` return ``False, None``
@@ -7459,7 +7445,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``other`` -- matroid with the same groundset as ``self``
-        - ``weights`` -- a dictionary specifying a weight for each element of
+        - ``weights`` -- dictionary specifying a weight for each element of
           the common groundset ``E``
         - ``Y`` -- an extremal common independent set of ``self`` and
           ``other`` of size `k`; that is, a common independent set of maximum
@@ -8194,7 +8180,7 @@ cdef class Matroid(SageObject):
             sage: G = M.plot()                                                          # needs sage.plot sage.rings.finite_rings
             sage: type(G)                                                               # needs sage.plot sage.rings.finite_rings
             <class 'sage.plot.graphics.Graphics'>
-            sage: G.show()                                                              # needs sage.plot sage.rings.finite_rings, long time
+            sage: G.show()                                                              # needs sage.plot sage.rings.finite_rings
         """
         from sage.matroids import matroids_plot_helpers
         if pos_method == 1 and pos_dict is not None:
@@ -8594,7 +8580,7 @@ cdef class Matroid(SageObject):
             Matroid of rank 3 on 9 elements with 9 nonspanning circuits
             sage: len(N.independent_sets())
             6897
-            sage: len(list(N.bases()))
+            sage: len(N.bases())
             2100
         """
         from sage.matroids import union_matroid

@@ -169,7 +169,7 @@ cdef class CircuitClosuresMatroid(Matroid):
 
         The groundset is the set of elements that comprise the matroid.
 
-        OUTPUT: set
+        OUTPUT: frozenset
 
         EXAMPLES::
 
@@ -240,7 +240,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             sage: M._is_independent(frozenset(['a', 'b', 'c', 'd']))
             False
         """
-        for r in sorted(self._circuit_closures, key=cmp_elements_key):
+        for r in sorted(self._circuit_closures):
             if len(F) <= r:
                 break
             for C in self._circuit_closures[r]:
@@ -306,7 +306,7 @@ cdef class CircuitClosuresMatroid(Matroid):
             ...
             ValueError: no circuit in independent set
         """
-        for r in sorted(self._circuit_closures, key=cmp_elements_key):
+        for r in sorted(self._circuit_closures):
             for C in self._circuit_closures[r]:
                 S = set(F & C)
                 if len(S) > r:
@@ -552,4 +552,4 @@ cdef class CircuitClosuresMatroid(Matroid):
         M = CircuitClosuresMatroid(groundset=E, circuit_closures=CC)
         return M
 
-# TODO: customized minor, extend methods.
+# todo: customized minor, extend methods.

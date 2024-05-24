@@ -186,7 +186,7 @@ cdef class Matroid(SageObject):
     cpdef _is_3connected_BC(self, certificate=*)
     cpdef _is_3connected_BC_recursion(self, basis, fund_cocircuits)
     cpdef bint is_paving(self)
-    cpdef is_sparse_paving(self)
+    cpdef bint is_sparse_paving(self)
     cpdef girth(self)
 
     # representability
@@ -196,8 +196,8 @@ cdef class Matroid(SageObject):
     cpdef _local_ternary_matroid(self, basis=*)
     cpdef ternary_matroid(self, randomized_tests=*, verify=*)
     cpdef is_ternary(self, randomized_tests=*)
-    cpdef is_regular(self)
-    cpdef is_graphic(self)
+    cpdef bint is_regular(self)
+    cpdef bint is_graphic(self)
 
     # matroid k-closed
     cpdef is_k_closed(self, int k)
