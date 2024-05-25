@@ -434,12 +434,12 @@ class _ArbitraryCoordinates(_Coordinates):
 
         INPUT:
 
-         - ``custom_trans`` - A 3-tuple of transformation
+         - ``custom_trans`` -- A 3-tuple of transformation
            functions.
 
-         - ``dep_var`` - The dependent (function) variable.
+         - ``dep_var`` -- The dependent (function) variable.
 
-         - ``indep_vars`` - a list of the two other independent
+         - ``indep_vars`` -- a list of the two other independent
            variables.
 
         EXAMPLES::
@@ -1146,7 +1146,7 @@ def plot3d_adaptive(f, x_range, y_range, color="automatic",
 
     - ``grad_f`` -- gradient of f as a Python function
 
-    - ``color`` -- "automatic" - a rainbow of num_colors colors
+    - ``color`` -- "automatic"; a rainbow of num_colors colors
 
     - ``num_colors`` -- (default: 128) number of colors to use with default
        color

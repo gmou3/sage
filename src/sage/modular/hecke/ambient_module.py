@@ -280,11 +280,11 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
 
         INPUT:
 
-        -  ``codomain`` - a Hecke module, which should be of the same type as
+        -  ``codomain`` -- a Hecke module, which should be of the same type as
            self, or a positive integer (in which case Sage will use
            :meth:`~hecke_module_of_level` to find the "natural" module of the
            corresponding level).
-        -  ``t`` - int, the parameter of the degeneracy map, i.e., the map is
+        -  ``t`` -- int, the parameter of the degeneracy map, i.e., the map is
            related to `f(q)` - `f(q^t)`.
 
         OUTPUT: A morphism from ``self`` to ``codomain``.
@@ -451,17 +451,17 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
         INPUT:
 
 
-        -  ``self`` - Hecke module invariant under the Hecke operator of index
+        -  ``self`` -- Hecke module invariant under the Hecke operator of index
            n.
 
-        -  ``int n`` - a positive integer.
+        -  ``int n`` -- a positive integer.
 
-        -  ``var`` - variable of polynomial (default `x`)
+        -  ``var`` -- variable of polynomial (default `x`)
 
 
         OUTPUT:
 
-        -  ``list`` - list of the pairs (g,e), where g is an
+        -  ``list`` -- list of the pairs (g,e), where g is an
            irreducible factor of the characteristic polynomial of T_n, and e
            is its multiplicity.
 
@@ -550,13 +550,13 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
 
         INPUT:
 
-        -  ``i`` - nonnegative integer
+        -  ``i`` -- nonnegative integer
 
-        -  ``v`` - a list of positive integer
+        -  ``v`` -- a list of positive integer
 
         OUTPUT:
 
-        -  ``matrix`` - whose rows are the Hecke images
+        -  ``matrix`` -- whose rows are the Hecke images
 
         EXAMPLES::
 
@@ -717,7 +717,7 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
 
         INPUT:
 
-        -  ``p`` - (default: None); if not None, return only
+        -  ``p`` -- (default: None); if not None, return only
            the p-new submodule.
 
         OUTPUT: the new or p-new submodule of self, i.e. the intersection of
@@ -821,7 +821,7 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
 
         INPUT:
 
-        - ``p`` - (default: None); if not None, return only the p-old
+        - ``p`` -- (default: None); if not None, return only the p-old
           submodule.
 
         OUTPUT: the old or p-old submodule of self
@@ -960,12 +960,12 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
 
         INPUT:
 
-        -  ``V`` - submodule of ambient free module of the same rank as the
+        -  ``V`` -- submodule of ambient free module of the same rank as the
            rank of self.
 
-        -  ``Vdual`` - used to pass in dual submodule (may be None)
+        -  ``Vdual`` -- used to pass in dual submodule (may be None)
 
-        -  ``check`` - whether to check that submodule is Hecke equivariant
+        -  ``check`` -- whether to check that submodule is Hecke equivariant
 
         OUTPUT: Hecke submodule of self
 

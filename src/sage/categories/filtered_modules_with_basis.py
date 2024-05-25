@@ -124,7 +124,7 @@ class FilteredModulesWithBasis(FilteredModulesCategory):
 
             INPUT:
 
-            - ``d`` -- (optional, default ``None``) nonnegative integer
+            - ``d`` -- (default: ``None``) nonnegative integer
               or ``None``
 
             OUTPUT:

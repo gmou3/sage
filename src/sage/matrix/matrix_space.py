@@ -1156,7 +1156,7 @@ class MatrixSpace(UniqueRepresentation, Parent):
         INPUT:
 
 
-        -  ``R`` - ring
+        -  ``R`` -- ring
 
 
         OUTPUT: a matrix space
@@ -1183,7 +1183,7 @@ class MatrixSpace(UniqueRepresentation, Parent):
 
         INPUT:
 
-        -  ``R`` - ring
+        -  ``R`` -- ring
 
         OUTPUT: a matrix space
 
@@ -2394,14 +2394,14 @@ class MatrixSpace(UniqueRepresentation, Parent):
 
         INPUT:
 
-        -  ``density`` - ``float`` or ``None`` (default: ``None``);  rough
+        -  ``density`` -- ``float`` or ``None`` (default: ``None``);  rough
            measure of the proportion of nonzero entries in the random matrix;
            if set to ``None``, all entries of the matrix are randomized,
            allowing for any element of the underlying ring, but if set to
            a ``float``, a proportion of entries is selected and randomized to
            non-zero elements of the ring
 
-        -  ``*args, **kwds`` - remaining parameters, which may be passed to
+        -  ``*args, **kwds`` -- remaining parameters, which may be passed to
            the random_element function of the base ring. ("may be", since this
            function calls the ``randomize`` function on the zero matrix, which
            need not call the ``random_element`` function of the base ring at
@@ -2588,7 +2588,7 @@ class MatrixSpace(UniqueRepresentation, Parent):
 
         INPUT:
 
-        - ``*args``, ``**kwds`` - Parameters that can be forwarded to the
+        - ``*args``, ``**kwds`` -- Parameters that can be forwarded to the
           ``random_element`` method
 
         OUTPUT:
@@ -2651,9 +2651,9 @@ def _test_trivial_matrices_inverse(ring, sparse=True, implementation=None, check
 
     INPUT:
 
-    - ``ring`` - a ring
-    - ``sparse`` - a boolean
-    - ``checkrank`` - a boolean
+    - ``ring`` -- a ring
+    - ``sparse`` -- a boolean
+    - ``checkrank`` -- a boolean
 
     OUTPUT:
 

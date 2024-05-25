@@ -377,9 +377,9 @@ def milnor_multiplication_odd(m1,m2,p):
 
     INPUT:
 
-    - m1 - pair of tuples (e,r), where e is an increasing tuple of
+    - m1 -- pair of tuples (e,r), where e is an increasing tuple of
       non-negative integers and r is a tuple of non-negative integers
-    - m2 - pair of tuples (f,s), same format as m1
+    - m2 -- pair of tuples (f,s), same format as m1
     - p -- odd prime number
 
     OUTPUT:
@@ -640,7 +640,7 @@ def binomial_mod2(n,k):
 
     INPUT:
 
-    - `n`, `k` - integers
+    - `n`, `k` -- integers
 
     OUTPUT:
 
@@ -671,8 +671,8 @@ def binomial_modp(n,k,p):
 
     INPUT:
 
-    - `n`, `k` - integers
-    - `p` - prime number
+    - `n`, `k` -- integers
+    - `p` -- prime number
 
     OUTPUT:
 
@@ -697,10 +697,10 @@ def adem(a, b, c=0, p=2, generic=None):
 
     INPUT:
 
-    - `a`, `b`, `c` (optional) - nonnegative integers, corresponding
+    - `a`, `b`, `c` (optional) -- nonnegative integers, corresponding
       to either `P^a P^b` or (if `c` present) to `P^a \beta^b P^c`
-    - `p` - positive prime number (optional, default 2)
-    - `generic` - whether to use the generic Steenrod algebra, (default: depends on prime)
+    - `p` -- positive prime number (default: 2)
+    - `generic` -- whether to use the generic Steenrod algebra, (default: depends on prime)
 
     OUTPUT:
 
@@ -846,9 +846,9 @@ def make_mono_admissible(mono, p=2, generic=None):
 
     INPUT:
 
-    - ``mono`` - a tuple of non-negative integers
-    - `p` - prime number, optional (default 2)
-    - `generic` - whether to use the generic Steenrod algebra, (default: depends on prime)
+    - ``mono`` -- a tuple of non-negative integers
+    - `p` -- prime number, optional (default 2)
+    - `generic` -- whether to use the generic Steenrod algebra, (default: depends on prime)
 
     OUTPUT:
 

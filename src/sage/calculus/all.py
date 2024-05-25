@@ -40,7 +40,7 @@ def symbolic_expression(x):
 
     INPUT:
 
-    - ``x`` - an object
+    - ``x`` -- an object
 
     OUTPUT:
 

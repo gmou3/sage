@@ -2703,11 +2703,11 @@ def distance_regular_graph(list arr, existence=False, check=True):
 
     - ``existence`` -- boolean (optional); instead of building the graph return:
 
-      - ``True`` - if a graph with the given intersection array exists;
+      - ``True`` -- if a graph with the given intersection array exists;
 
-      - ``False`` - if there is no graph with the given intersection array;
+      - ``False`` -- if there is no graph with the given intersection array;
 
-      - ``Unknown`` - if Sage doesn't know if such a graph exists.
+      - ``Unknown`` -- if Sage doesn't know if such a graph exists.
 
     - ``check`` -- boolean (optional); if ``True``, then checks that the result
       of this function has the given intersection array. Default: ``True``

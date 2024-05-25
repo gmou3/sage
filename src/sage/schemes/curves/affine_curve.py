@@ -326,7 +326,7 @@ class AffinePlaneCurve(AffineCurve):
         OUTPUT:
 
 
-        -  ``list`` - The divisor of r represented as a list of
+        -  ``list`` -- The divisor of r represented as a list of
            coefficients and points. (TODO: This will change to a more
            structural output in the future.)
 
@@ -377,10 +377,10 @@ class AffinePlaneCurve(AffineCurve):
         INPUT:
 
 
-        -  ``pt`` - an F-rational point on X which is not a
+        -  ``pt`` -- an F-rational point on X which is not a
            point of ramification for the projection (x,y) - x.
 
-        -  ``n`` - the number of terms desired
+        -  ``n`` -- the number of terms desired
 
 
         OUTPUT: x = x0 + t y = y0 + power series in t
@@ -446,10 +446,10 @@ class AffinePlaneCurve(AffineCurve):
 
         INPUT:
 
-        -  ``*args`` - optional tuples (variable, minimum, maximum) for
+        -  ``*args`` -- optional tuples (variable, minimum, maximum) for
            plotting dimensions
 
-        -  ``**kwds`` - optional keyword arguments passed on to
+        -  ``**kwds`` -- optional keyword arguments passed on to
            ``implicit_plot``
 
         EXAMPLES:

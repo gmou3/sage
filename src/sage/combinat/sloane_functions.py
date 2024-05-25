@@ -454,7 +454,7 @@ class A000004(SloaneSequence):
 
         INPUT:
 
-        - ``n`` - non negative integer
+        - ``n`` -- non negative integer
 
         EXAMPLES::
 
@@ -503,7 +503,7 @@ class A000005(SloaneSequence):
 
         INPUT:
 
-        - ``n`` - positive integer
+        - ``n`` -- positive integer
 
         EXAMPLES::
 

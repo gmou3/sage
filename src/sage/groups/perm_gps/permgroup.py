@@ -1910,7 +1910,7 @@ class PermutationGroup_generic(FiniteGroup):
 
         INPUT:
 
-        - ``seed`` (optional, default: ``None``), if given must be a
+        - ``seed`` (default: ``None``), if given must be a
           subset of the domain of a base.  When used, an attempt to
           create a base containing all or part of ``seed`` will be
           made.
@@ -2471,7 +2471,7 @@ class PermutationGroup_generic(FiniteGroup):
 
         INPUT:
 
-        - ``other`` - a permutation group.
+        - ``other`` -- a permutation group.
 
         OUTPUT:
 
@@ -2728,7 +2728,7 @@ class PermutationGroup_generic(FiniteGroup):
 
         INPUT:
 
-        - ``N`` - A group which is acted on by ``self`` and
+        - ``N`` -- A group which is acted on by ``self`` and
           naturally embeds as a normal subgroup of the returned semidirect
           product.
 

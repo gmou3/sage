@@ -605,18 +605,18 @@ def _run_latex_(filename, debug=False, density=150, engine=None, png=False, do_i
 
     -  ``filename`` -- string; file to process, including full path
 
-    -  ``debug`` -- bool (optional, default ``False``); whether to print
+    -  ``debug`` -- bool (default: ``False``); whether to print
        verbose debugging output
 
-    -  ``density`` -- integer (optional, default 150); how big output
+    -  ``density`` -- integer (default: 150); how big output
        image is.
 
     -  ``engine`` -- string: latex engine to use.
 
-    -  ``png`` -- bool (optional, default ``False``); whether to produce a
+    -  ``png`` -- bool (default: ``False``); whether to produce a
        png file.
 
-    -  ``do_in_background`` -- bool (optional, default ``False``).  Unused,
+    -  ``do_in_background`` -- bool (default: ``False``).  Unused,
        kept for backwards compatibility.
 
     OUTPUT:
@@ -1007,7 +1007,7 @@ class Latex(LatexCall):
         - ``engine`` -- latex engine to use. Currently ``'latex'``,
           ``'pdflatex'``, ``'xelatex'`` and ``'lualatex'`` are supported
 
-        - ``locals`` - extra local variables used when evaluating Sage code in ``x``
+        - ``locals`` -- extra local variables used when evaluating Sage code in ``x``
 
         .. WARNING::
 
@@ -1132,7 +1132,7 @@ class Latex(LatexCall):
 
         INPUT:
 
-        - ``left``, ``right`` - strings or ``None``
+        - ``left``, ``right`` -- strings or ``None``
 
         If both ``left`` and ``right`` are ``None``, then return the
         current delimiters.  Otherwise, set the left and/or right
@@ -1250,7 +1250,7 @@ class Latex(LatexCall):
 
         INPUT:
 
-        - ``align`` - a string (``'r'`` for right, ``'c'`` for center,
+        - ``align`` -- a string (``'r'`` for right, ``'c'`` for center,
           ``'l'`` for left) or ``None``.
 
         OUTPUT:

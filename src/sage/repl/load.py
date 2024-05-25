@@ -296,10 +296,10 @@ def load_wrap(filename, attach=False):
 
     INPUT:
 
-    - ``filename`` - a string; the argument to the load or attach
+    - ``filename`` -- a string; the argument to the load or attach
       command
 
-    - ``attach`` - a boolean (default: False); whether to attach
+    - ``attach`` -- a boolean (default: False); whether to attach
       ``filename``, instead of loading it
 
     OUTPUT:
