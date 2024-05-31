@@ -97,10 +97,10 @@ cdef class SetSystem:
 
         INPUT:
 
-        - ``groundset`` -- a list or tuple of finitely many elements
-        - ``subsets`` -- (default: ``None``) an enumerator for a set of
-          subsets of ``groundset``
-        - ``capacity`` -- (default: ``1``) Initial maximal capacity of the set
+        - ``groundset`` -- list or tuple of finitely many elements
+        - ``subsets`` -- (default: ``None``) enumerator for a set of subsets of
+          ``groundset``
+        - ``capacity`` -- (default: ``1``) initial maximal capacity of the set
           system
 
         EXAMPLES::
@@ -163,7 +163,7 @@ cdef class SetSystem:
 
         INPUT:
 
-        - ``k`` -- integer. The index of the subset in the system.
+        - ``k`` -- integer; the index of the subset in the system
 
         OUTPUT:
 
@@ -518,10 +518,10 @@ cdef class SetSystem:
 
         INPUT:
 
-        - ``P``, an equitable ordered partition of the groundset, stored as
-          a SetSystem.
-        - ``EP``, the corresponding equitable partition of the edges, stored
-          as a list of lists of indices of subsets of this SetSystem.
+        - ``P`` -- an equitable ordered partition of the groundset, stored as
+          a SetSystem
+        - ``EP`` -- the corresponding equitable partition of the edges, stored
+          as a list of lists of indices of subsets of this SetSystem
 
         OUTPUT:
 
@@ -594,18 +594,18 @@ cdef class SetSystem:
 
         INPUT:
 
-        - ``P`` -- (default: ``None``) an ordered partition of the groundset.
+        - ``P`` -- (default: ``None``) an ordered partition of the groundset
         - ``EP`` -- (default: ``None``) the corresponding partition of the
           edges, stored as a list of lists of indices of subsets of this
-          SetSystem.
+          SetSystem
 
         OUTPUT:
 
         - ``P`` -- an ordered partition of the groundset into singletons,
-          stored as a SetSystem.
+          stored as a SetSystem
         - ``EP`` -- the corresponding partition of the edges, stored as a list
-          of lists of indices of subsets of this SetSystem.
-        - ``h`` -- integer invariant of the SetSystem.
+          of lists of indices of subsets of this SetSystem
+        - ``h`` -- integer invariant of the SetSystem
 
         EXAMPLES::
 

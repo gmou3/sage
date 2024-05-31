@@ -12,16 +12,16 @@ The Singular interface will only work if Singular is installed on
 your computer; this should be the case, since Singular is included
 with Sage. The interface offers three pieces of functionality:
 
-#. ``singular_console()`` - A function that dumps you
+#. ``singular_console()`` -- A function that dumps you
    into an interactive command-line Singular session.
 
-#. ``singular(expr, type='def')`` - Creation of a
+#. ``singular(expr, type='def')`` -- Creation of a
    Singular object. This provides a Pythonic interface to Singular.
    For example, if ``f=singular(10)``, then
    ``f.factorize()`` returns the factorization of
    `10` computed using Singular.
 
-#. ``singular.eval(expr)`` - Evaluation of arbitrary
+#. ``singular.eval(expr)`` -- Evaluation of arbitrary
    Singular expressions, with the result returned as a string.
 
 Of course, there are polynomial rings and ideals in Sage as well
@@ -582,7 +582,7 @@ class Singular(ExtraTabCompletion, Expect):
 
         -  ``x`` -- string (of code)
 
-        -  ``allow_semicolon`` -- default: False; if False then
+        -  ``allow_semicolon`` -- default: ``False``; if False then
            raise a :class:`TypeError` if the input line contains a semicolon.
 
         -  ``strip`` -- ignored
@@ -1926,7 +1926,7 @@ class SingularElement(ExtraTabCompletion, ExpectElement, sage.interfaces.abc.Sin
            the resulting matrix is going to be defined.
            By default, the output of :meth:`sage_global_ring` is used.
 
-        - ``sparse`` -- (default: True); determines whether the
+        - ``sparse`` -- (default: ``True``); determines whether the
           resulting matrix is sparse or not.
 
         EXAMPLES::

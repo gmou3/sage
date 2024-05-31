@@ -121,18 +121,18 @@ AUTHORS:
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
 
+from sage.misc.lazy_import import lazy_import
+lazy_import('sage.combinat.posets.posets', 'FinitePoset')
 from sage.arith.misc import GCD as gcd
-from sage.combinat.posets.posets import FinitePoset
 from sage.features.databases import DatabaseReflexivePolytopes
 from sage.geometry.cone import _ambient_space_point, integral_length
-from sage.geometry.hasse_diagram import lattice_from_incidences
+lazy_import('sage.geometry.hasse_diagram', 'lattice_from_incidences')
 from sage.geometry.point_collection import (PointCollection,
                                             is_PointCollection,
                                             read_palp_point_collection)
 from sage.geometry.toric_lattice import ToricLattice, is_ToricLattice
-from sage.groups.perm_gps.permgroup_named import SymmetricGroup
+lazy_import('sage.groups.perm_gps.permgroup_named', 'SymmetricGroup')
 
-from sage.misc.lazy_import import lazy_import
 from sage.features import PythonModule
 from sage.features.palp import PalpExecutable
 lazy_import('ppl', ['C_Polyhedron', 'Generator_System', 'Linear_Expression'],
@@ -146,7 +146,7 @@ from sage.misc.cachefunc import cached_method
 from sage.misc.flatten import flatten
 from sage.misc.temporary_file import tmp_filename
 from sage.modules.free_module_element import vector
-from sage.numerical.mip import MixedIntegerLinearProgram
+lazy_import('sage.numerical.mip', 'MixedIntegerLinearProgram')
 lazy_import("sage.plot.plot3d.index_face_set", "IndexFaceSet")
 lazy_import("sage.plot.plot3d.all", ["line3d", "point3d"])
 lazy_import("sage.plot.plot3d.shapes2", "text3d")
@@ -3506,7 +3506,7 @@ class LatticePolytopeClass(ConvexSet_compact, Hashable, sage.geometry.abc.Lattic
 
         Most of the parameters are self-explanatory:
 
-        -  ``show_facets`` -- (default:True)
+        -  ``show_facets`` -- (default: ``True``)
 
         -  ``facet_opacity`` -- (default:0.5)
 
@@ -3515,29 +3515,29 @@ class LatticePolytopeClass(ConvexSet_compact, Hashable, sage.geometry.abc.Lattic
         -  ``facet_colors`` -- (default:None) if specified, must be a list of
            colors for each facet separately, used instead of ``facet_color``
 
-        -  ``show_edges`` -- (default:True) whether to draw
+        -  ``show_edges`` -- (default: ``True``) whether to draw
            edges as lines
 
         -  ``edge_thickness`` -- (default:3)
 
         -  ``edge_color`` -- (default:(0.5,0.5,0.5))
 
-        -  ``show_vertices`` -- (default:True) whether to draw
+        -  ``show_vertices`` -- (default: ``True``) whether to draw
            vertices as balls
 
         -  ``vertex_size`` -- (default:10)
 
         -  ``vertex_color`` -- (default:(1,0,0))
 
-        -  ``show_points`` -- (default:True) whether to draw
+        -  ``show_points`` -- (default: ``True``) whether to draw
            other points as balls
 
         -  ``point_size`` -- (default:10)
 
         -  ``point_color`` -- (default:(0,0,1))
 
-        -  ``show_vindices`` -- (default:same as
-           show_vertices) whether to show indices of vertices
+        -  ``show_vindices`` -- (default: same as
+           ``show_vertices``) whether to show indices of vertices
 
         -  ``vindex_color`` -- (default:(0,0,0)) color for
            vertex labels
@@ -3545,7 +3545,7 @@ class LatticePolytopeClass(ConvexSet_compact, Hashable, sage.geometry.abc.Lattic
         -  ``vlabels`` -- (default:None) if specified, must be a list of labels
            for each vertex, default labels are vertex indices
 
-        -  ``show_pindices`` -- (default:same as show_points)
+        -  ``show_pindices`` -- (default: same as ``show_points``)
            whether to show indices of other points
 
         -  ``pindex_color`` -- (default:(0,0,0)) color for
@@ -3903,7 +3903,7 @@ class LatticePolytopeClass(ConvexSet_compact, Hashable, sage.geometry.abc.Lattic
         -  ``keys`` -- a string of options passed to poly.x. The
            key "f" is added automatically.
 
-        -  ``reduce_dimension`` -- (default: False) if ``True`` and this
+        -  ``reduce_dimension`` -- (default: ``False``) if ``True`` and this
            polytope is not full-dimensional, poly.x will be called for the
            vertices of this polytope in some basis of the spanned affine space.
 
@@ -4907,7 +4907,7 @@ class NefPartition(SageObject, Hashable):
 
         - ``i`` -- an integer
 
-        - ``all_points`` -- (default: False) whether to list all lattice points
+        - ``all_points`` -- (default: ``False``) whether to list all lattice points
           or just vertices
 
         OUTPUT:
@@ -4941,7 +4941,7 @@ class NefPartition(SageObject, Hashable):
 
         INPUT:
 
-        - ``all_points`` -- (default: False) whether to list all lattice points
+        - ``all_points`` -- (default: ``False``) whether to list all lattice points
           or just vertices
 
         OUTPUT:

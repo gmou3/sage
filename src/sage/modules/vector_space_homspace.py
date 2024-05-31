@@ -208,7 +208,7 @@ def is_VectorSpaceHomspace(x):
 
     INPUT:
 
-    ``x`` - anything
+    - ``x`` -- anything
 
     EXAMPLES:
 
@@ -262,7 +262,7 @@ class VectorSpaceHomspace(sage.modules.free_module_homspace.FreeModuleHomspace):
           - a list or tuple containing images of the domain's basis vectors
           - a function from the domain to the codomain
 
-        - ``check`` (default: True) -- ``True`` or ``False``, required for
+        - ``check`` (default: ``True``) -- ``True`` or ``False``, required for
           compatibility with calls from
           :meth:`sage.structure.parent.Parent.hom`.
 

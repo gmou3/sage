@@ -447,6 +447,29 @@ cdef class CircuitsMatroid(Matroid):
 
     # enumeration
 
+    cpdef bases(self):
+        r"""
+        Return the bases of the matroid.
+
+        OUTPUT: :class:`SetSystem`
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.CompleteGraphic(4))
+            sage: len(M.bases())
+            16
+        """
+        from itertools import combinations
+        cdef set B = set()
+        cdef set NB = set(self.nonbases())
+        cdef frozenset SS
+        for S in combinations(self._groundset, self._matroid_rank):
+            SS = frozenset(S)
+            if SS not in NB:
+                B.add(SS)
+        return SetSystem(self._groundset, B)
+
     def bases_iterator(self):
         r"""
         Return an iterator over the bases of the matroid.
@@ -546,6 +569,63 @@ cdef class CircuitsMatroid(Matroid):
             sage: len(M.nonbases())
             1707
         """
+        return self.dependent_r_sets(self._matroid_rank)
+
+    cpdef independent_r_sets(self, long r):
+        r"""
+        Return the size-``r`` independent subsets of the matroid.
+
+        INPUT:
+
+        - ``r`` -- nonnegative integer
+
+        OUTPUT: :class:`SetSystem`
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Pappus())
+            sage: M.independent_r_sets(4)
+            SetSystem of 0 sets over 9 elements
+            sage: M.independent_r_sets(3)
+            SetSystem of 75 sets over 9 elements
+            sage: frozenset({'a', 'c', 'e'}) in _
+            True
+
+        .. SEEALSO::
+
+            :meth:`M.bases() <sage.matroids.circuits_matroid.bases>`
+        """
+        from itertools import combinations
+        cdef set I_r = set()
+        cdef set D_r = set(self.dependent_r_sets(r))
+        cdef frozenset SS
+        for S in combinations(self._groundset, r):
+            SS = frozenset(S)
+            if SS not in D_r:
+                I_r.add(SS)
+        return SetSystem(self._groundset, I_r)
+
+    cpdef dependent_r_sets(self, long r):
+        r"""
+        Return the dependent subsets of fixed size.
+
+        INPUT:
+
+        - ``r`` -- nonnegative integer
+
+        OUTPUT: :class:`SetSystem`
+
+        EXAMPLES::
+
+            sage: from sage.matroids.circuits_matroid import CircuitsMatroid
+            sage: M = CircuitsMatroid(matroids.catalog.Vamos())
+            sage: M.dependent_r_sets(3)
+            SetSystem of 0 sets over 8 elements
+            sage: sorted([sorted(X) for X in M.dependent_r_sets(4)])
+            [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
+             ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
+        """
         cdef int i
         cdef set D_k = set()
         cdef frozenset S
@@ -558,8 +638,8 @@ cdef class CircuitsMatroid(Matroid):
             for S in D_k.copy():
                 D_k.remove(S)
                 for e in S ^ self._groundset:
-                    D_k.add(S | set([e]))
-        return SetSystem(self._groundset, D_k)
+                    NB.add(S | set([e]))
+        return SetSystem(self._groundset, NB)
 
     cpdef SetSystem circuits(self, k=None):
         """
@@ -593,8 +673,8 @@ cdef class CircuitsMatroid(Matroid):
         else:
             for i in self._k_C:
                 for c in self._k_C[i]:
-                    C.append(c)
-        return C
+                    C.add(c)
+        return SetSystem(self._groundset, C)
 
     def circuits_iterator(self, k=None):
         """
@@ -645,13 +725,10 @@ cdef class CircuitsMatroid(Matroid):
         """
         cdef SetSystem NSC = SetSystem(self._groundset)
         cdef int i
-        cdef frozenset S
-        for i in self._sorted_C_lens:
-            if i > self._matroid_rank:
-                break
-            for S in self._k_C[i]:
-                NSC.append(S)
-        return NSC
+        for i in self._k_C:
+            if i <= self._matroid_rank:
+                NSC.update(self._k_C[i])
+        return SetSystem(self._groundset, NSC)
 
     def nonspanning_circuits_iterator(self):
         """
@@ -731,7 +808,7 @@ cdef class CircuitsMatroid(Matroid):
                 else:
                     B.append(S)
 
-        return B
+        return SetSystem(self.groundset(), B)
 
     cpdef SetSystem no_broken_circuits_sets(self, ordering=None, reduced=False):
         r"""
@@ -778,8 +855,8 @@ cdef class CircuitsMatroid(Matroid):
         cdef SetSystem NBC = SetSystem(self._groundset)
         for f in SimplicialComplex(self.no_broken_circuits_facets(ordering, reduced),
                                    maximality_check=False).face_iterator():
-            NBC.append(frozenset(f))
-        return NBC
+            NBC.add(frozenset(f))
+        return SetSystem(self.groundset(), NBC)
 
     cpdef broken_circuit_complex(self, ordering=None, reduced=False):
         r"""

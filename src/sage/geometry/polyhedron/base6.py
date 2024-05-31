@@ -174,7 +174,7 @@ class Polyhedron_base6(Polyhedron_base5):
         - ``position`` -- positive number; the position to take the projection
           point in Schlegel diagrams.
 
-        - ``orthonormal`` -- Boolean (default: True); whether to use
+        - ``orthonormal`` -- Boolean (default: ``True``); whether to use
           orthonormal projections.
 
         - ``**kwds`` -- optional keyword parameters that are passed to
@@ -507,7 +507,7 @@ class Polyhedron_base6(Polyhedron_base5):
           recognize.
         - ``opacity`` -- real number (default: 0.8) between 0 and 1 giving the opacity of
           the front facets.
-        - ``axis`` -- Boolean (default: False) draw the axes at the origin or not.
+        - ``axis`` -- Boolean (default: ``False``) draw the axes at the origin or not.
         - ``output_type`` -- string (default: ``None``), valid values
           are ``None`` (deprecated), ``'LatexExpr'`` and ``'TikzPicture'``,
           whether to return a LatexExpr object (which inherits from Python
@@ -1548,13 +1548,16 @@ class Polyhedron_base6(Polyhedron_base5):
                                                          orthogonal=True,
                                                          extend=True))
             if AA is not None:
-                data_sets.append(self.affine_hull_projection(return_all_data=True,
-                                                             orthonormal=True,
-                                                             extend=True))
-                data_sets.append(self.affine_hull_projection(return_all_data=True,
-                                                             orthonormal=True,
-                                                             extend=True,
-                                                             minimal=True))
+                try:
+                    data_sets.append(self.affine_hull_projection(return_all_data=True,
+                                                                 orthonormal=True,
+                                                                 extend=True))
+                    data_sets.append(self.affine_hull_projection(return_all_data=True,
+                                                                 orthonormal=True,
+                                                                 extend=True,
+                                                                 minimal=True))
+                except ModuleNotFoundError:
+                    pass
 
         for i, data in enumerate(data_sets):
             if verbose:

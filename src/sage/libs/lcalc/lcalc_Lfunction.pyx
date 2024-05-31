@@ -134,7 +134,7 @@ cdef class Lfunction:
 
         - ``s`` --  a complex number
         - ``derivative`` -- integer (default: 0)  the derivative to be evaluated
-        - ``rotate`` -- (default: False) If True, this returns the value of the
+        - ``rotate`` -- (default: ``False``) If True, this returns the value of the
           Hardy Z-function (sometimes called the Riemann-Siegel Z-function or
           the Siegel Z-function).
 
@@ -225,7 +225,6 @@ cdef class Lfunction:
         cdef c_Complex z = new_Complex(mpfr_get_d(complexified_s.__re, MPFR_RNDN), mpfr_get_d(complexified_s.__im, MPFR_RNDN))
         cdef c_Complex result = self._hardy_z_function(z)
         return CCC(result.real(),result.imag())
-
 
     def compute_rank(self):
         """
@@ -647,7 +646,6 @@ cdef class Lfunction_D(Lfunction):
     cdef inline c_Complex _value(self,c_Complex s,int derivative) noexcept:
         return (<c_Lfunction_D *>(self.thisptr)).value(s, derivative, "pure")
 
-
     cdef inline c_Complex _hardy_z_function(self,c_Complex s) noexcept:
         return (<c_Lfunction_D *>(self.thisptr)).value(s, 0, "rotated pure")
 
@@ -791,13 +789,11 @@ cdef class Lfunction_C:
     cdef inline c_Complex _value(self,c_Complex s,int derivative) noexcept:
         return (<c_Lfunction_C *>(self.thisptr)).value(s, derivative, "pure")
 
-
     cdef inline c_Complex _hardy_z_function(self,c_Complex s) noexcept:
         return (<c_Lfunction_C *>(self.thisptr)).value(s, 0,"rotated pure")
 
     cdef inline int _compute_rank(self) noexcept:
         return (<c_Lfunction_C *>(self.thisptr)).compute_rank()
-
 
     cdef void _find_zeros_v(self, double T1, double T2, double stepsize, doublevec *result) noexcept:
         (<c_Lfunction_C *>self.thisptr).find_zeros_v(T1,T2,stepsize,result[0])
@@ -876,13 +872,11 @@ cdef class Lfunction_Zeta(Lfunction):
     cdef inline c_Complex _value(self,c_Complex s,int derivative) noexcept:
         return (<c_Lfunction_Zeta *>(self.thisptr)).value(s, derivative, "pure")
 
-
     cdef inline c_Complex _hardy_z_function(self,c_Complex s) noexcept:
         return (<c_Lfunction_Zeta *>(self.thisptr)).value(s, 0, "rotated pure")
 
     cdef inline int _compute_rank(self) noexcept:
         return (<c_Lfunction_Zeta *>(self.thisptr)).compute_rank()
-
 
     cdef void _find_zeros_v(self, double T1, double T2, double stepsize, doublevec *result) noexcept:
         (<c_Lfunction_Zeta *>self.thisptr).find_zeros_v(T1,T2,stepsize,result[0])

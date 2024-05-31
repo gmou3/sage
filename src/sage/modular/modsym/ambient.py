@@ -164,14 +164,14 @@ class ModularSymbolsAmbient(ModularSymbolsSpace, AmbientHeckeModule):
         weight = int(weight)
         if weight <= 1:
             raise ValueError("Weight (=%s) Modular symbols of weight <= 1 not defined." % weight)
-        if not arithgroup.is_CongruenceSubgroup(group):
+        if not isinstance(group, arithgroup.CongruenceSubgroupBase):
             raise TypeError("group must be a congruence subgroup")
 
         sign = int(sign)
         if base_ring not in Fields():
             raise TypeError("base_ring must be a field")
 
-        if character is None and arithgroup.is_Gamma0(group):
+        if character is None and isinstance(group, arithgroup.Gamma0_class):
             character = TrivialCharacter(group.level(), base_ring)
 
         ModularSymbolsSpace.__init__(self, group, weight,
@@ -695,7 +695,7 @@ class ModularSymbolsAmbient(ModularSymbolsSpace, AmbientHeckeModule):
             - 3 entries: `[i, \alpha, \beta]` where `0\le i\le k-2`
               and `\alpha` and `\beta` are cusps;
 
-        - ``check`` (bool, default True) -- flag that determines
+        - ``check`` (bool, default: ``True``) -- flag that determines
           whether the input ``x`` needs processing: use check=False
           for efficiency if the input ``x`` is a list of length 3 whose
           first entry is an Integer, and whose second and third
@@ -777,7 +777,7 @@ class ModularSymbolsAmbient(ModularSymbolsSpace, AmbientHeckeModule):
           polynomial over `\ZZ` of degree `k` and `\alpha` and `\beta`
           are cusps.
 
-        - ``check`` (bool, default True) -- if True check the validity
+        - ``check`` (bool, default: ``True``) -- if True check the validity
           of the input tuple ``x``
 
         OUTPUT:
@@ -1986,7 +1986,7 @@ class ModularSymbolsAmbient(ModularSymbolsSpace, AmbientHeckeModule):
 
         -  ``sign`` -- int (either -1 or +1)
 
-        -  ``compute_dual`` -- bool (default: True) also
+        -  ``compute_dual`` -- bool (default: ``True``) also
            compute dual subspace. This are useful for many algorithms.
 
 
@@ -2101,7 +2101,7 @@ class ModularSymbolsAmbient(ModularSymbolsSpace, AmbientHeckeModule):
            useful to speed up certain calculations; it is the
            corresponding submodule of the ambient dual module;
 
-        - ``check`` (bool, default True) -- if True, check that `M` is
+        - ``check`` (bool, default: ``True``) -- if True, check that `M` is
            a submodule, i.e. is invariant under all Hecke operators.
 
         OUTPUT:
@@ -2691,9 +2691,9 @@ class ModularSymbolsAmbient_wtk_g0(ModularSymbolsAmbient):
         # 1. Find coset representatives H for Gamma_0(M.level()) \ Gamma_0(self.level())
         #    (need to be careful in some small levels, cf. #13198)
 
-        if arithgroup.is_Gamma0(M.group()):
+        if isinstance(M.group(), arithgroup.Gamma0_class):
             H = arithgroup.degeneracy_coset_representatives_gamma0(level, N, 1)
-        elif arithgroup.is_Gamma1(M.group()):
+        elif isinstance(M.group(), arithgroup.Gamma1_class):
             H = arithgroup.degeneracy_coset_representatives_gamma1(level, N, 1)
         else:
             raise NotImplementedError("Degeneracy raising maps not implemented for GammaH levels")

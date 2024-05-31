@@ -467,9 +467,9 @@ class AmbientHeckeModule(module.HeckeModule_free_module):
         -  ``self`` -- Hecke module invariant under the Hecke operator of index
            `n`.
 
-        -  ``n`` -- a positive integer.
+        -  ``n`` --- a positive integer.
 
-        -  ``var`` -- variable of polynomial (default ``'x'``)
+        -  ``var`` --- variable of polynomial (default ``'x'``)
 
         OUTPUT:
 

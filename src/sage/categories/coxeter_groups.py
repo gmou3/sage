@@ -2324,7 +2324,7 @@ class CoxeterGroups(Category_singleton):
 
             - ``i`` -- an element of the index set of the Coxeter group
             - ``side`` -- 'left' or 'right' (default: 'right')
-            - ``length_increasing`` -- a boolean (default: True) specifying
+            - ``length_increasing`` -- a boolean (default: ``True``) specifying
               the direction of the projection
 
             See :meth:`CoxeterGroups.ParentMethods.simple_projections`
@@ -2792,7 +2792,7 @@ class CoxeterGroups(Category_singleton):
             INPUT:
 
             - side -- 'left' or 'right'  (default: 'right')
-            - positive -- a boolean (default: False)
+            - positive -- a boolean (default: ``False``)
             - index_set -- a list of indices or None
 
             OUTPUT: a list
@@ -2839,7 +2839,7 @@ class CoxeterGroups(Category_singleton):
 
             INPUT:
 
-            - ``c``-- a Coxeter element.
+            - ``c`` -- a Coxeter element.
 
             OUTPUT:
 
@@ -2911,7 +2911,7 @@ class CoxeterGroups(Category_singleton):
 
             Number of `c`-sortable elements in `A_3` (Catalan number)::
 
-                sage: len([w for w in W if w.is_coxeter_sortable(c)])
+                sage: len([w for w in W if w.is_coxeter_sortable(c)])                   # needs sage.rings.number_field
                 14
 
             TESTS::
@@ -2964,7 +2964,7 @@ class CoxeterGroups(Category_singleton):
                 applied. If ``side`` is 'left' then the operation is
                 applied on the left.
 
-            - ``length_increasing`` -- a boolean (default True)
+            - ``length_increasing`` -- a boolean (default: ``True``)
                 whether to act length increasingly or decreasingly
 
             EXAMPLES::

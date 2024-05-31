@@ -13,13 +13,13 @@
      `\exp(-(x-c)²/(2σ²))` where `\exp(-(x-c)²/(2σ²))` is precomputed and
      stored in a table. Any real-valued `c` is supported.
 
- - ``DGS_DISC_GAUSS_UNIFORM_LOGTABLE`` - samples are drawn from a uniform
+ - ``DGS_DISC_GAUSS_UNIFORM_LOGTABLE`` -- samples are drawn from a uniform
    distribution and accepted with probability proportional to
    `\exp(-(x-c)²/(2σ²))` where `\exp(-(x-c)²/(2σ²))` is computed using
    logarithmically many calls to Bernoulli distributions. Only integer-valued
    `c` are supported.
 
- - ``DGS_DISC_GAUSS_UNIFORM_ONLINE`` - samples are drawn from a uniform
+ - ``DGS_DISC_GAUSS_UNIFORM_ONLINE`` -- samples are drawn from a uniform
    distribution and accepted with probability proportional to
    `\exp(-(x-c)²/(2σ²))` where `\exp(-(x-c)²/(2σ²))` is computed in each
    invocation. Typically this is very slow. Any real-valued `c` is accepted.

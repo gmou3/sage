@@ -54,8 +54,6 @@ import sage.rings.infinity
 import sage.rings.rational
 import sage.rings.rational_field
 import sage.rings.ideal
-import sage.libs.pari.all
-import sage.rings.ideal
 from sage.categories.basic import EuclideanDomains, DedekindDomains
 from sage.categories.infinite_enumerated_sets import InfiniteEnumeratedSets
 from sage.categories.noetherian_rings import NoetherianRings
@@ -608,7 +606,7 @@ cdef class IntegerRing_class(CommutativeRing):
 
         - ``x``, ``y`` integers -- bounds for the result.
 
-        - ``distribution``-- a string:
+        - ``distribution`` -- a string:
 
           - ``'uniform'``
           - ``'mpz_rrandomb'``

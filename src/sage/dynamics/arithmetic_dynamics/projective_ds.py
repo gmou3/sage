@@ -3088,8 +3088,8 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
         - ``check_primes`` -- (optional) boolean: this signals whether to
             check whether each element in ``prime_list`` is a prime
 
-          * ``'BM'`` - the Bruin-Molnar algorithm [BM2012]_
-          * ``'HS'`` - the Hutz-Stoll algorithm [HS2018]_
+          * ``'BM'`` -- the Bruin-Molnar algorithm [BM2012]_
+          * ``'HS'`` -- the Hutz-Stoll algorithm [HS2018]_
 
         OUTPUT:
 
@@ -3269,8 +3269,8 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
 
         - ``algorithm`` -- (optional) string; can be one of the following:
 
-          * ``'BM'`` - the Bruin-Molnar algorithm [BM2012]_
-          * ``'HS'`` - for the Hutz-Stoll algorithm [HS2018]_
+          * ``'BM'`` -- the Bruin-Molnar algorithm [BM2012]_
+          * ``'HS'`` -- for the Hutz-Stoll algorithm [HS2018]_
 
           if not specified, properties of the map are utilized to choose
 
@@ -3587,12 +3587,12 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
 
         - ``starting_prime`` -- (default: 5) the first prime to use for CRT
 
-        - ``algorithm``-- (optional) can be one of the following:
+        - ``algorithm`` -- (optional) can be one of the following:
 
-          * ``'CRT'`` - Chinese Remainder Theorem
-          * ``'fixed_points'`` - fixed points algorithm
+          * ``'CRT'`` -- Chinese Remainder Theorem
+          * ``'fixed_points'`` -- fixed points algorithm
 
-        - ``return_functions``-- (default: ``False``) boolean; ``True``
+        - ``return_functions`` -- (default: ``False``) boolean; ``True``
           returns elements as linear fractional transformations and
           ``False`` returns elements as `PGL2` matrices
 
@@ -4108,7 +4108,7 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
 
         INPUT:
 
-        - ``check`` -- boolean (default: True)
+        - ``check`` -- boolean (default: ``True``)
 
         - ``use_algebraic_closure`` -- boolean (default: ``True``) -- If ``True``, uses the
           algebraic closure. If ``False``, uses the smallest extension of the base field
@@ -4676,8 +4676,8 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
         - ``algorithm`` -- (default: ``'variety'``) must be one of
           the following:
 
-          * ``'variety'`` - find the rational points on the appropriate variety
-          * ``'cyclegraph'`` - find the cycles from the cycle graph
+          * ``'variety'`` -- find the rational points on the appropriate variety
+          * ``'cyclegraph'`` -- find the cycles from the cycle graph
 
         - ``return_scheme`` -- return a subscheme of the ambient space
           that defines the ``n`` th periodic points
@@ -6018,10 +6018,10 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
         - ``error_limit`` -- (default: 0.000001) a real number, sets
           the error tolerance
 
-        - ``smallest_coeffs`` -- (default: True), boolean, whether to find the
+        - ``smallest_coeffs`` -- (default: ``True``), boolean, whether to find the
           model with smallest coefficients
 
-        - ``dynatomic`` -- (default: True) boolean, to use formal periodic points
+        - ``dynatomic`` -- (default: ``True``) boolean, to use formal periodic points
 
         - ``start_n`` -- (default: 1), positive integer, firs period to rry to find
           appropriate binary form
@@ -6034,10 +6034,10 @@ class DynamicalSystem_projective(SchemeMorphism_polynomial_projective_space,
           * ``'BM'`` -- Bruin-Molnar algorithm [BM2012]_
           * ``'HS'`` -- Hutz-Stoll algorithm [HS2018]_
 
-        - ``check_minimal`` -- (default: True), boolean, whether to check
+        - ``check_minimal`` -- (default: ``True``), boolean, whether to check
           if this map is a minimal model
 
-        - ``smallest_coeffs`` -- (default: True), boolean, whether to find the
+        - ``smallest_coeffs`` -- (default: ``True``), boolean, whether to find the
           model with smallest coefficients
 
         OUTPUT:
@@ -9203,7 +9203,7 @@ class DynamicalSystem_projective_finite_field(DynamicalSystem_projective_field,
 
         The following keywords are used when the dimension of the domain is 1:
 
-        - ``absolute``-- (default: ``False``) boolean; if ``True``, then
+        - ``absolute`` -- (default: ``False``) boolean; if ``True``, then
           return the absolute automorphism group and a field of definition
 
         - ``iso_type`` -- (default: ``False``) boolean; if ``True``, then

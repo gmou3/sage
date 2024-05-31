@@ -3,7 +3,7 @@ Message delivery
 
 Various interfaces to messaging services. Currently:
 
-- ``pushover`` - a platform for sending and receiving push notifications
+- ``pushover`` -- a platform for sending and receiving push notifications
 
 is supported.
 

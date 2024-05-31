@@ -2457,7 +2457,8 @@ cdef class Matroid(SageObject):
             ['b', 'c', 'd'], ['b', 'e', 'g'], ['c', 'f', 'g'],
             ['d', 'e', 'f']]
         """
-        cdef SetSystem NSC = SetSystem(self.groundset())
+        cdef SetSystem C
+        C = SetSystem(self.groundset())
         for N in self.nonbases_iterator():
             if self._rank(N) == self.full_rank() - 1:
                 NSC.append(self._circuit(N))
@@ -2652,7 +2653,12 @@ cdef class Matroid(SageObject):
 
         Test all subsets of the groundset of cardinality ``self.full_rank()``
         """
-        return self.dependent_k_sets(self.full_rank())
+        cdef SetSystem res
+        res = SetSystem(self.groundset())
+        for X in combinations(self.groundset(), self.full_rank()):
+            if self._rank(X) < len(X):
+                res.append(X)
+        return res
 
     def nonbases_iterator(self):
         r"""
@@ -2710,8 +2716,8 @@ cdef class Matroid(SageObject):
         for Xt in combinations(self.groundset(), k):
             X = frozenset(Xt)
             if not self._is_independent(X):
-                D_k.append(X)
-        return D_k
+                D.add(X)
+        return SetSystem(self.groundset(), D)
 
     def dependent_k_sets_iterator(self, long k):
         r"""
@@ -2763,7 +2769,12 @@ cdef class Matroid(SageObject):
 
             :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
-        return self.independent_k_sets(self.full_rank())
+        cdef SetSystem res
+        res = SetSystem(self.groundset())
+        for X in combinations(self.groundset(), self.full_rank()):
+            if self._rank(frozenset(X)) == len(X):
+                res.append(X)
+        return res
 
     def bases_iterator(self):
         r"""
@@ -2902,8 +2913,8 @@ cdef class Matroid(SageObject):
         for Xt in combinations(self.groundset(), k):
             X = frozenset(Xt)
             if self._is_independent(X):
-                I_k.append(X)
-        return I_k
+                I.add(X)
+        return SetSystem(self.groundset(), I)
 
     def independent_k_sets_iterator(self, r):
         r"""
@@ -3028,7 +3039,7 @@ cdef class Matroid(SageObject):
             ['b', 'c', 'd'], ['b', 'e', 'g'], ['c', 'f', 'g'],
             ['d', 'e', 'f']]
         """
-        return SetSystem(self.groundset(), subsets=[f[0] for f in self._flags(k)])
+        return SetSystem(self.groundset(), subsets=[f[0] for f in self._flags(r)])
 
     cpdef SetSystem coflats(self, long k):
         r"""
@@ -3304,7 +3315,7 @@ cdef class Matroid(SageObject):
                 if is_indep:
                     NBC.append(frozenset(H))
                     next_level.extend(Ht)
-        return NBC
+        return SetSystem(self.groundset(), B)
 
     def no_broken_circuits_sets_iterator(self, ordering=None):
         r"""
@@ -3613,7 +3624,7 @@ cdef class Matroid(SageObject):
             return self._is_isomorphic(other), self._isomorphism(other)
         if self is other:
             return True
-        return (self.full_rank() == other.full_rank() and SetSystem(self.groundset(), self.nonbases())._isomorphism(SetSystem(other.groundset(), other.nonbases())) is not None)
+        return (self.full_rank() == other.full_rank() and SetSystem(self.groundset(), list(self.nonbases()))._isomorphism(SetSystem(other.groundset(), list(other.nonbases()))) is not None)
 
     cpdef isomorphism(self, other):
         r"""
@@ -3679,7 +3690,7 @@ cdef class Matroid(SageObject):
         if self is other:
             return {e:e for e in self.groundset()}
         if self.full_rank() == other.full_rank():
-            return SetSystem(self.groundset(), self.nonbases())._isomorphism(SetSystem(other.groundset(), other.nonbases()))
+            return SetSystem(self.groundset(), list(self.nonbases()))._isomorphism(SetSystem(other.groundset(), list(other.nonbases())))
         else:
             return None
 

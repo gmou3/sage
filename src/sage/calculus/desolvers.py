@@ -14,40 +14,40 @@ symbolic variables, for example with ``var("_C")``.
 
 Commands:
 
-- :func:`desolve` - Compute the "general solution" to a 1st or 2nd order
+- :func:`desolve` -- Compute the "general solution" to a 1st or 2nd order
   ODE via Maxima.
 
-- :func:`desolve_laplace` - Solve an ODE using Laplace transforms via
+- :func:`desolve_laplace` -- Solve an ODE using Laplace transforms via
   Maxima. Initial conditions are optional.
 
-- :func:`desolve_rk4` - Solve numerically an IVP for one first order
+- :func:`desolve_rk4` -- Solve numerically an IVP for one first order
   equation, return list of points or plot.
 
-- :func:`desolve_system_rk4` - Solve numerically an IVP for a system of first
+- :func:`desolve_system_rk4` -- Solve numerically an IVP for a system of first
   order equations, return list of points.
 
-- :func:`desolve_odeint` - Solve numerically a system of first-order ordinary
+- :func:`desolve_odeint` -- Solve numerically a system of first-order ordinary
   differential equations using :func:`~scipy:scipy.integrate.odeint` from
   the module :mod:`scipy:scipy.integrate`.
 
-- :func:`desolve_system` - Solve a system of 1st order ODEs of any size using
+- :func:`desolve_system` -- Solve a system of 1st order ODEs of any size using
   Maxima. Initial conditions are optional.
 
-- :func:`eulers_method` - Approximate solution to a 1st order DE,
+- :func:`eulers_method` -- Approximate solution to a 1st order DE,
   presented as a table.
 
-- :func:`eulers_method_2x2` - Approximate solution to a 1st order system
+- :func:`eulers_method_2x2` -- Approximate solution to a 1st order system
   of DEs, presented as a table.
 
-- :func:`eulers_method_2x2_plot` - Plot the sequence of points obtained
+- :func:`eulers_method_2x2_plot` -- Plot the sequence of points obtained
   from Euler's method.
 
 The following functions require the optional package ``tides``:
 
-- :func:`desolve_mintides` - Numerical solution of a system of 1st order ODEs via
+- :func:`desolve_mintides` -- Numerical solution of a system of 1st order ODEs via
   the Taylor series integrator method implemented in TIDES.
 
-- :func:`desolve_tides_mpfr` - Arbitrary precision Taylor series integrator implemented in TIDES.
+- :func:`desolve_tides_mpfr` -- Arbitrary precision Taylor series integrator implemented in TIDES.
 
 AUTHORS:
 
@@ -223,8 +223,8 @@ def desolve(de, dvar, ics=None, ivar=None, show_method=False, contrib_ode=False,
 
     - ``algorithm`` -- (default: ``'maxima'``) one of
 
-      * ``'maxima'`` - use maxima
-      * ``'fricas'`` - use FriCAS (the optional fricas spkg has to be installed)
+      * ``'maxima'`` -- use maxima
+      * ``'fricas'`` -- use FriCAS (the optional fricas spkg has to be installed)
 
     OUTPUT:
 
@@ -812,8 +812,8 @@ def desolve_system(des, vars, ics=None, ivar=None, algorithm="maxima"):
 
     - ``algorithm`` -- (default: ``'maxima'``) one of
 
-      * ``'maxima'`` - use maxima
-      * ``'fricas'`` - use FriCAS (the optional fricas spkg has to be installed)
+      * ``'maxima'`` -- use maxima
+      * ``'fricas'`` -- use FriCAS (the optional fricas spkg has to be installed)
 
     EXAMPLES::
 
