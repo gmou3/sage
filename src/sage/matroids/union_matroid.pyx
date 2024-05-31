@@ -79,9 +79,7 @@ cdef class MatroidUnion(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 
@@ -309,9 +307,7 @@ cdef class PartitionMatroid(Matroid):
 
         - ``X`` -- an object with Python's ``frozenset`` interface
 
-        OUTPUT:
-
-        Integer.
+        OUTPUT: integer
 
         EXAMPLES::
 

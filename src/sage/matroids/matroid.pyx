@@ -348,7 +348,7 @@ from itertools import combinations, product
 from sage.matrix.constructor import matrix
 from sage.misc.lazy_import import LazyImport
 from sage.misc.prandom import shuffle
-from sage.misc.superseded import deprecation
+from sage.misc.superseded import deprecation, deprecated_function_alias
 from sage.rings.integer_ring import ZZ
 from sage.structure.richcmp cimport rich_to_bool, richcmp
 from sage.structure.sage_object cimport SageObject
@@ -2368,6 +2368,11 @@ cdef class Matroid(SageObject):
         """
         Return the circuits of the matroid.
 
+        INPUT:
+
+        - ``k`` -- integer (optional); if provided, return only circuits of
+          length `k`
+
         OUTPUT: :class:`SetSystem`
 
         .. SEEALSO::
@@ -2457,8 +2462,7 @@ cdef class Matroid(SageObject):
             ['b', 'c', 'd'], ['b', 'e', 'g'], ['c', 'f', 'g'],
             ['d', 'e', 'f']]
         """
-        cdef SetSystem C
-        C = SetSystem(self.groundset())
+        cdef SetSystem NSC = SetSystem(self.groundset())
         for N in self.nonbases_iterator():
             if self._rank(N) == self.full_rank() - 1:
                 NSC.append(self._circuit(N))
@@ -2653,12 +2657,7 @@ cdef class Matroid(SageObject):
 
         Test all subsets of the groundset of cardinality ``self.full_rank()``
         """
-        cdef SetSystem res
-        res = SetSystem(self.groundset())
-        for X in combinations(self.groundset(), self.full_rank()):
-            if self._rank(X) < len(X):
-                res.append(X)
-        return res
+        return self.dependent_k_sets(self.full_rank())
 
     def nonbases_iterator(self):
         r"""
@@ -2689,6 +2688,8 @@ cdef class Matroid(SageObject):
             if not self._is_independent(X):
                 yield X
 
+    dependent_r_sets = deprecated_function_alias(38057, dependent_k_sets)
+
     cpdef SetSystem dependent_k_sets(self, long k):
         r"""
         Return the list of dependent subsets of fixed size.
@@ -2716,8 +2717,8 @@ cdef class Matroid(SageObject):
         for Xt in combinations(self.groundset(), k):
             X = frozenset(Xt)
             if not self._is_independent(X):
-                D.add(X)
-        return SetSystem(self.groundset(), D)
+                D_k.append(X)
+        return D_k
 
     def dependent_k_sets_iterator(self, long k):
         r"""
@@ -2769,12 +2770,7 @@ cdef class Matroid(SageObject):
 
             :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
         """
-        cdef SetSystem res
-        res = SetSystem(self.groundset())
-        for X in combinations(self.groundset(), self.full_rank()):
-            if self._rank(frozenset(X)) == len(X):
-                res.append(X)
-        return res
+        return self.independent_k_sets(self.full_rank())
 
     def bases_iterator(self):
         r"""
@@ -2879,6 +2875,8 @@ cdef class Matroid(SageObject):
             else:
                 r -= 1
 
+    independent_r_sets = deprecated_function_alias(38057, independent_k_sets)
+
     cpdef SetSystem independent_k_sets(self, long k):
         r"""
         Return the size-`k` independent subsets of the matroid.
@@ -2913,8 +2911,8 @@ cdef class Matroid(SageObject):
         for Xt in combinations(self.groundset(), k):
             X = frozenset(Xt)
             if self._is_independent(X):
-                I.add(X)
-        return SetSystem(self.groundset(), I)
+                I_k.append(X)
+        return I_k
 
     def independent_k_sets_iterator(self, r):
         r"""
@@ -3039,7 +3037,7 @@ cdef class Matroid(SageObject):
             ['b', 'c', 'd'], ['b', 'e', 'g'], ['c', 'f', 'g'],
             ['d', 'e', 'f']]
         """
-        return SetSystem(self.groundset(), subsets=[f[0] for f in self._flags(r)])
+        return SetSystem(self.groundset(), subsets=[f[0] for f in self._flags(k)])
 
     cpdef SetSystem coflats(self, long k):
         r"""
@@ -3059,7 +3057,7 @@ cdef class Matroid(SageObject):
 
         EXAMPLES::
 
-            sage: M = matroids.catalog.Q6()                                      # needs sage.rings.finite_rings
+            sage: M = matroids.catalog.Q6()                                             # needs sage.rings.finite_rings
             sage: sorted([sorted(F) for F in M.coflats(2)])                             # needs sage.rings.finite_rings
             [['a', 'b'], ['a', 'c'], ['a', 'd', 'f'], ['a', 'e'], ['b', 'c'],
             ['b', 'd'], ['b', 'e'], ['b', 'f'], ['c', 'd'], ['c', 'e', 'f'],
@@ -3315,7 +3313,7 @@ cdef class Matroid(SageObject):
                 if is_indep:
                     NBC.append(frozenset(H))
                     next_level.extend(Ht)
-        return SetSystem(self.groundset(), B)
+        return NBC
 
     def no_broken_circuits_sets_iterator(self, ordering=None):
         r"""
@@ -3624,7 +3622,7 @@ cdef class Matroid(SageObject):
             return self._is_isomorphic(other), self._isomorphism(other)
         if self is other:
             return True
-        return (self.full_rank() == other.full_rank() and SetSystem(self.groundset(), list(self.nonbases()))._isomorphism(SetSystem(other.groundset(), list(other.nonbases()))) is not None)
+        return (self.full_rank() == other.full_rank() and SetSystem(self.groundset(), self.nonbases())._isomorphism(SetSystem(other.groundset(), other.nonbases())) is not None)
 
     cpdef isomorphism(self, other):
         r"""
@@ -3690,7 +3688,7 @@ cdef class Matroid(SageObject):
         if self is other:
             return {e:e for e in self.groundset()}
         if self.full_rank() == other.full_rank():
-            return SetSystem(self.groundset(), list(self.nonbases()))._isomorphism(SetSystem(other.groundset(), list(other.nonbases())))
+            return SetSystem(self.groundset(), self.nonbases())._isomorphism(SetSystem(other.groundset(), other.nonbases()))
         else:
             return None
 
@@ -5390,7 +5388,7 @@ cdef class Matroid(SageObject):
             ....:             groundset='abcdef')
             sage: N.is_kconnected(3)
             False
-            sage: matroids.catalog.BetsyRoss().is_kconnected(3)                  # needs sage.graphs
+            sage: matroids.catalog.BetsyRoss().is_kconnected(3)                         # needs sage.graphs
             True
             sage: matroids.AG(5,2).is_kconnected(4)
             True

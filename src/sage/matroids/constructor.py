@@ -115,13 +115,13 @@ from sage.categories.rings import Rings
 from sage.rings.finite_rings.finite_field_base import FiniteField
 import sage.matroids.matroid
 import sage.matroids.basis_exchange_matroid
-from .rank_matroid import RankMatroid
-from .circuits_matroid import CircuitsMatroid
-from .flats_matroid import FlatsMatroid
-from .circuit_closures_matroid import CircuitClosuresMatroid
-from .basis_matroid import BasisMatroid
-from .linear_matroid import LinearMatroid, RegularMatroid, BinaryMatroid, TernaryMatroid, QuaternaryMatroid
-from .graphic_matroid import GraphicMatroid
+from sage.matroids.rank_matroid import RankMatroid
+from sage.matroids.circuits_matroid import CircuitsMatroid
+from sage.matroids.flats_matroid import FlatsMatroid
+from sage.matroids.circuit_closures_matroid import CircuitClosuresMatroid
+from sage.matroids.basis_matroid import BasisMatroid
+from sage.matroids.linear_matroid import LinearMatroid, RegularMatroid, BinaryMatroid, TernaryMatroid, QuaternaryMatroid
+from sage.matroids.graphic_matroid import GraphicMatroid
 import sage.matroids.utilities
 
 def Matroid(groundset=None, data=None, **kwds):
@@ -644,7 +644,7 @@ def Matroid(groundset=None, data=None, **kwds):
 
             sage: M = Matroid(circuit_closures=[(2, 'abd'), (3, 'abcdef'),
             ....:                               (2, 'bce')])
-            sage: M.equals(matroids.catalog.Q6())                                # needs sage.rings.finite_rings
+            sage: M.equals(matroids.catalog.Q6())                                       # needs sage.rings.finite_rings
             True
 
     #.  Lex-Index and RevLex-Index:
