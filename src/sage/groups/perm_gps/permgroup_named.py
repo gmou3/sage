@@ -1986,7 +1986,7 @@ class TransitiveGroupsAll(DisjointUnionEnumeratedSets):
             sage: S = TransitiveGroups()
             sage: S.category()
             Category of facade infinite enumerated sets
-            sage: TestSuite(TransitiveGroups()).run()  # long time
+            sage: TestSuite(TransitiveGroups()).run()
         """
         DisjointUnionEnumeratedSets.__init__(self,
                                              Family(NonNegativeIntegers(),
@@ -3479,7 +3479,7 @@ class SmallPermutationGroup(PermutationGroup_generic):
         [ 2  0 -2 -1  0  1]
         [ 2  0  2 -1  0 -1]
         sage: def numgps(n): return ZZ(libgap.NumberSmallGroups(n))
-        sage: all(SmallPermutationGroup(n,k).id() == [n,k]  # long time
+        sage: all(SmallPermutationGroup(n,k).id() == [n,k]
         ....:     for n in [1..64] for k in [1..numgps(n)])
         True
         sage: H = SmallPermutationGroup(6,1)

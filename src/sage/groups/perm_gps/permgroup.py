@@ -1236,9 +1236,9 @@ class PermutationGroup_generic(FiniteGroup):
 
             sage: sum(1 for x in A.iteration()) == 60000
             True
-            sage: sum(1 for x in A.iteration(algorithm="BFS")) == 60000  # long time
+            sage: sum(1 for x in A.iteration(algorithm="BFS")) == 60000
             True
-            sage: sum(1 for x in A.iteration(algorithm="DFS")) == 60000  # long time
+            sage: sum(1 for x in A.iteration(algorithm="DFS")) == 60000
             True
         """
         if algorithm == "SGS":

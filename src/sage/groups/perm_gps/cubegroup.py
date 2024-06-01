@@ -1086,10 +1086,10 @@ class CubeGroup(PermutationGroup_generic):
 
             sage: rubik = CubeGroup()
             sage: state = rubik.faces("R")
-            sage: rubik.solve(state)  # long time
+            sage: rubik.solve(state)
             'R'
             sage: state = rubik.faces("R*U")
-            sage: rubik.solve(state, algorithm='gap')  # long time
+            sage: rubik.solve(state, algorithm='gap')       # long time
             'R*U'
 
         You can also check this another (but similar) way using the
