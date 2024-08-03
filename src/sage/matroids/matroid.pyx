@@ -63,9 +63,9 @@ additional functionality (e.g. linear extensions).
     - :meth:`circuit_closures() <sage.matroids.matroid.Matroid.circuit_closures>`
     - :meth:`nonspanning_circuit_closures() <sage.matroids.matroid.Matroid.nonspanning_circuit_closures>`
     - :meth:`bases() <sage.matroids.matroid.Matroid.bases>`
-    - :meth:`independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
+    - :meth:`independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
     - :meth:`nonbases() <sage.matroids.matroid.Matroid.nonbases>`
-    - :meth:`dependent_k_sets() <sage.matroids.matroid.Matroid.dependent_k_sets>`
+    - :meth:`dependent_sets() <sage.matroids.matroid.Matroid.dependent_sets>`
     - :meth:`flats() <sage.matroids.matroid.Matroid.flats>`
     - :meth:`coflats() <sage.matroids.matroid.Matroid.coflats>`
     - :meth:`hyperplanes() <sage.matroids.matroid.Matroid.hyperplanes>`
@@ -299,7 +299,7 @@ Minors::
 Testing. Note that the abstract base class does not support pickling::
 
     sage: M = sage.matroids.matroid.Matroid()
-    sage: TestSuite(M).run(skip="_test_pickling")
+    sage: TestSuite(M).run(skip='_test_pickling')
 
 REFERENCES
 ==========
@@ -659,7 +659,7 @@ cdef class Matroid(SageObject):
         OUTPUT:
 
         ``frozenset`` instance containing a subset of the groundset.
-        A :class:`ValueError` is raised if the set contains no circuit.
+        A :exc:`ValueError` is raised if the set contains no circuit.
 
         EXAMPLES::
 
@@ -693,8 +693,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``B`` -- a basis of the matroid.
-        - ``e`` -- an element not in ``B``.
+        - ``B`` -- a basis of the matroid
+        - ``e`` -- an element not in ``B``
 
         OUTPUT: a set of elements
 
@@ -793,7 +793,7 @@ cdef class Matroid(SageObject):
         OUTPUT:
 
         ``frozenset`` instance containing a subset of the groundset.
-        A :class:`ValueError` is raised if the set contains no cocircuit.
+        A :exc:`ValueError` is raised if the set contains no cocircuit.
 
         EXAMPLES::
 
@@ -827,8 +827,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``B`` -- a basis of the matroid.
-        - ``e`` -- an element of ``B``.
+        - ``B`` -- a basis of the matroid
+        - ``e`` -- an element of ``B``
 
         OUTPUT: a set of elements
 
@@ -878,7 +878,7 @@ cdef class Matroid(SageObject):
         - ``X`` -- an object with Python's ``frozenset`` interface containing
           a subset of ``self.groundset()``
         - ``Y`` -- an object with Python's ``frozenset`` interface containing
-          a subset of ``self.groundset()``, and disjoint from ``X``.
+          a subset of ``self.groundset()``, and disjoint from ``X``
 
         OUTPUT: a subset of the groundset as a :class:`frozenset`
 
@@ -1210,8 +1210,8 @@ cdef class Matroid(SageObject):
             if certificate:
                 return False, None
             return False
-        YY = self.dual().independent_k_sets(cd)
-        for X in self.independent_k_sets_iterator(rd):
+        YY = self.dual().independent_sets(cd)
+        for X in self.independent_sets_iterator(rd):
             for Y in YY:
                 if X.isdisjoint(Y):
                     if N._is_isomorphic(self._minor(contractions=X, deletions=Y)):
@@ -1231,7 +1231,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``F`` -- a subset of the groundset, assumed to be a closed set of
-          rank `r(M) - 2`.
+          rank `r(M) - 2`
 
         OUTPUT: integer
 
@@ -1256,9 +1256,9 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``element`` -- a hashable object not in ``self.groundset()``.
+        - ``element`` -- a hashable object not in ``self.groundset()``
         - ``hyperplanes`` -- the set of hyperplanes of a linear subclass of
-          ``self``.
+          ``self``
 
         OUTPUT: matroid
 
@@ -1540,8 +1540,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``B`` -- a basis of the matroid.
-        - ``e`` -- an element not in ``B``.
+        - ``B`` -- a basis of the matroid
+        - ``e`` -- an element not in ``B``
 
         OUTPUT: a set of elements
 
@@ -1601,7 +1601,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``X`` -- a subset (or any iterable) of the groundset
-        - ``k`` -- a positive integer
+        - ``k`` -- positive integer
 
         EXAMPLES::
 
@@ -1890,8 +1890,8 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``B`` -- a basis of the matroid.
-        - ``e`` -- an element of ``B``.
+        - ``B`` -- a basis of the matroid
+        - ``e`` -- an element of ``B``
 
         OUTPUT: a set of elements
 
@@ -2049,7 +2049,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``X`` -- a subset (or any iterable) of the groundset
-        - ``k`` -- a positive integer
+        - ``k`` -- positive integer
 
         OUTPUT: boolean
 
@@ -2657,7 +2657,7 @@ cdef class Matroid(SageObject):
 
         Test all subsets of the groundset of cardinality ``self.full_rank()``
         """
-        return self.dependent_k_sets(self.full_rank())
+        return self.dependent_sets(self.full_rank())
 
     def nonbases_iterator(self):
         r"""
@@ -2688,11 +2688,11 @@ cdef class Matroid(SageObject):
             if not self._is_independent(X):
                 yield X
 
-    dependent_r_sets = deprecated_function_alias(38057, dependent_k_sets)
+    dependent_r_sets = deprecated_function_alias(38057, dependent_sets)
 
-    cpdef SetSystem dependent_k_sets(self, long k):
+    cpdef SetSystem dependent_sets(self, long k):
         r"""
-        Return the list of dependent subsets of fixed size.
+        Return the dependent sets of fixed size.
 
         INPUT:
 
@@ -2701,10 +2701,10 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: M.dependent_k_sets(3)
+            sage: M.dependent_sets(3)
             SetSystem of 0 sets over 8 elements
             sage: sorted([sorted(X) for X in
-            ....: matroids.catalog.Vamos().dependent_k_sets(4)])
+            ....: matroids.catalog.Vamos().dependent_sets(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
             ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
 
@@ -2720,9 +2720,9 @@ cdef class Matroid(SageObject):
                 D_k.append(X)
         return D_k
 
-    def dependent_k_sets_iterator(self, long k):
+    def dependent_sets_iterator(self, long k):
         r"""
-        Return an iterator over the dependent subsets of fixed size.
+        Return an iterator over the dependent sets of fixed size.
 
         INPUT:
 
@@ -2735,10 +2735,10 @@ cdef class Matroid(SageObject):
         EXAMPLES::
 
             sage: M = matroids.catalog.Vamos()
-            sage: list(M.dependent_k_sets_iterator(3))
+            sage: list(M.dependent_sets_iterator(3))
             []
             sage: sorted([sorted(X) for X in
-            ....: matroids.catalog.Vamos().dependent_k_sets_iterator(4)])
+            ....: matroids.catalog.Vamos().dependent_sets_iterator(4)])
             [['a', 'b', 'c', 'd'], ['a', 'b', 'e', 'f'], ['a', 'b', 'g', 'h'],
             ['c', 'd', 'e', 'f'], ['e', 'f', 'g', 'h']]
         """
@@ -2768,9 +2768,9 @@ cdef class Matroid(SageObject):
 
         .. SEEALSO::
 
-            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
+            :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
         """
-        return self.independent_k_sets(self.full_rank())
+        return self.independent_sets(self.full_rank())
 
     def bases_iterator(self):
         r"""
@@ -2790,7 +2790,7 @@ cdef class Matroid(SageObject):
 
         .. SEEALSO::
 
-            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
+            :meth:`M.independent_sets_iterator() <sage.matroids.matroid.Matroid.independent_sets_iterator>`
         """
         cdef frozenset X
         for Xt in combinations(self.groundset(), self.full_rank()):
@@ -2798,9 +2798,16 @@ cdef class Matroid(SageObject):
             if self._is_independent(X):
                 yield X
 
-    cpdef SetSystem independent_sets(self):
+    cpdef SetSystem independent_sets(self, long k=-1):
         r"""
-        Return the list of independent subsets of the matroid.
+        Return the independent sets of the matroid.
+
+        INPUT:
+
+        - ``k`` -- integer (optional); if specified, return the size-`k`
+          independent sets of the matroid
+
+        OUTPUT: :class:`SetSystem`
 
         EXAMPLES::
 
@@ -2808,17 +2815,38 @@ cdef class Matroid(SageObject):
             sage: I = M.independent_sets()
             sage: len(I)
             121
+            sage: M.independent_sets(4)
+            SetSystem of 0 sets over 9 elements
+            sage: S = M.independent_sets(3); S
+            SetSystem of 75 sets over 9 elements
+            sage: frozenset({'a', 'c', 'e'}) in S
+            True
 
         .. SEEALSO::
 
-            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
+            :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
+        """
+        if k == -1:  # all independent sets
+            return self._independent_sets()
+
+        # independent k-sets
+        cdef SetSystem I_k = SetSystem(self.groundset())
+        cdef frozenset X
+        for Xt in combinations(self.groundset(), k):
+            X = frozenset(Xt)
+            if self._is_independent(X):
+                I_k.append(X)
+        return I_k
+
+    cdef SetSystem _independent_sets(self):
+        """
+        Return all independent sets of the matroid.
         """
         cdef int r
         cdef int full_rank = self.full_rank()
         cdef list T = [set() for r in range(full_rank)]
         cdef list I = [frozenset()] * (full_rank+1)
         r = 0
-
         res = [frozenset()]
         T[0] = set(self.groundset()) - self.closure([])
         while r >= 0:
@@ -2837,9 +2865,14 @@ cdef class Matroid(SageObject):
                 r -= 1
         return SetSystem(self.groundset(), res)
 
-    def independent_sets_iterator(self):
+    def independent_sets_iterator(self, k=None):
         r"""
-        Return an iterator over the independent subsets of the matroid.
+        Return an iterator over the independent sets of the matroid.
+
+        INPUT:
+
+        - ``k`` -- integer (optional); if specified, return an iterator over
+          the size-`k` independent sets of the matroid
 
         EXAMPLES::
 
@@ -2847,107 +2880,49 @@ cdef class Matroid(SageObject):
             sage: I = list(M.independent_sets_iterator())
             sage: len(I)
             121
-
-        .. SEEALSO::
-
-            :meth:`M.independent_k_sets() <sage.matroids.matroid.Matroid.independent_k_sets>`
-        """
-        cdef int r
-        cdef int full_rank = self.full_rank()
-        cdef list T = [set() for r in range(full_rank)]
-        cdef list I = [frozenset()] * (full_rank+1)
-        r = 0
-
-        yield frozenset()
-        T[0] = set(self.groundset()) - self.closure([])
-        while r >= 0:
-            if r + 1 == full_rank:
-                for x in T[r]:
-                    I[r+1] = I[r].union([x])
-                    yield I[r+1]
-                T[r] = set()
-                r -= 1
-            elif T[r]:
-                I[r+1] = I[r].union([T[r].pop()])
-                yield I[r+1]
-                T[r+1] = T[r] - self._closure(I[r+1])
-                r += 1
-            else:
-                r -= 1
-
-    independent_r_sets = deprecated_function_alias(38057, independent_k_sets)
-
-    cpdef SetSystem independent_k_sets(self, long k):
-        r"""
-        Return the size-`k` independent subsets of the matroid.
-
-        INPUT:
-
-        - ``k`` -- integer
-
-        OUTPUT: :class:`SetSystem`
-
-        ALGORITHM:
-
-        Test all subsets of the groundset of cardinality `k`.
-
-        EXAMPLES::
-
             sage: M = matroids.catalog.Pappus()
-            sage: M.independent_k_sets(4)
-            SetSystem of 0 sets over 9 elements
-            sage: S = M.independent_k_sets(3); S
-            SetSystem of 75 sets over 9 elements
-            sage: frozenset({'a', 'c', 'e'}) in S
-            True
-
-        .. SEEALSO::
-
-            :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
-            :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
-        """
-        cdef SetSystem I_k = SetSystem(self.groundset())
-        cdef frozenset X
-        for Xt in combinations(self.groundset(), k):
-            X = frozenset(Xt)
-            if self._is_independent(X):
-                I_k.append(X)
-        return I_k
-
-    def independent_k_sets_iterator(self, r):
-        r"""
-        Return an iterator over the size-`k` independent subsets of the
-        matroid.
-
-        INPUT:
-
-        - ``k`` -- integer
-
-        EXAMPLES::
-
-            sage: M = matroids.catalog.Pappus()
-            sage: list(M.independent_k_sets_iterator(4))
+            sage: list(M.independent_sets_iterator(4))
             []
-            sage: S = list(M.independent_k_sets_iterator(3))
+            sage: S = list(M.independent_sets_iterator(3))
             sage: len(S)
             75
             sage: frozenset({'a', 'c', 'e'}) in S
             True
 
-        ALGORITHM:
-
-        Test all subsets of the groundset of cardinality `k`.
-
         .. SEEALSO::
 
-            :meth:`M.independent_sets() <sage.matroids.matroid.Matroid.independent_sets>`
-            :meth:`M.bases() <sage.matroids.matroid.Matroid.bases>`
+            :meth:`M.bases_iterator() <sage.matroids.matroid.Matroid.bases_iterator>`
         """
+        cdef int r
+        cdef int full_rank = self.full_rank()
+        cdef list T = [set() for r in range(full_rank)]
+        cdef list I = [frozenset()] * (full_rank+1)
         cdef frozenset X
-        for Xt in combinations(self.groundset(), r):
-            X = frozenset(Xt)
-            if self._rank(X) == len(X):
-                yield X
+        if k is None:
+            r = 0
+            yield frozenset()
+            T[0] = set(self.groundset()) - self.closure([])
+            while r >= 0:
+                if r + 1 == full_rank:
+                    for x in T[r]:
+                        I[r+1] = I[r].union([x])
+                        yield I[r+1]
+                    T[r] = set()
+                    r -= 1
+                elif T[r]:
+                    I[r+1] = I[r].union([T[r].pop()])
+                    yield I[r+1]
+                    T[r+1] = T[r] - self._closure(I[r+1])
+                    r += 1
+                else:
+                    r -= 1
+        else:
+            for Xt in combinations(self.groundset(), k):
+                X = frozenset(Xt)
+                if self._rank(X) == len(X):
+                    yield X
+
+    independent_r_sets = deprecated_function_alias(38057, independent_sets)
 
     cpdef list _extend_flags(self, list flags):
         r"""
@@ -3126,7 +3101,7 @@ cdef class Matroid(SageObject):
         cdef int i, s
         for i in range(self.full_rank() + 1):
             s = 0
-            for _ in self.independent_k_sets_iterator(i):
+            for _ in self.independent_sets_iterator(i):
                 s += 1
             f.append(ZZ(s))
         return f
@@ -3186,7 +3161,7 @@ cdef class Matroid(SageObject):
 
     cpdef SetSystem broken_circuits(self, ordering=None):
         r"""
-        Return the list of broken circuits of ``self``.
+        Return the broken circuits of ``self``.
 
         Let `M` be a matroid with groundset `E`, and let `<` be a total
         ordering on `E`. A *broken circuit* for `M` means a subset `B` of
@@ -3631,7 +3606,8 @@ cdef class Matroid(SageObject):
         Two matroids `M` and `N` are *isomorphic* if there is a bijection `f`
         from the groundset of `M` to the groundset of `N` such that a subset
         `X` is independent in `M` if and only if `f(X)` is independent in `N`.
-        This method returns one isomorphism `f` from self to other, if such an isomorphism exists.
+        This method returns one isomorphism `f` from ``self`` to ``other``, if
+        such an isomorphism exists.
 
         INPUT:
 
@@ -3924,8 +3900,8 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``other`` -- matroid
-        - ``morphism`` -- a dictionary mapping the groundset of ``self`` to
-          the groundset of ``other``.
+        - ``morphism`` -- dictionary mapping the groundset of ``self`` to
+          the groundset of ``other``
 
         OUTPUT: boolean
 
@@ -4164,7 +4140,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- Either a single element of the groundset, or a collection
+        - ``X`` -- either a single element of the groundset, or a collection
           of elements
 
         OUTPUT: the matroid obtained by contracting the element(s) in ``X``
@@ -4241,7 +4217,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``X`` -- Either a single element of the groundset, or a collection
+        - ``X`` -- either a single element of the groundset, or a collection
           of elements
 
         OUTPUT: the matroid obtained by deleting the element(s) in ``X``
@@ -4420,9 +4396,10 @@ cdef class Matroid(SageObject):
         - ``k`` -- the length of the line minor
         - ``hyperlines`` -- (default: ``None``) a set of flats of codimension
           2. Defaults to the set of all flats of codimension 2.
-        - ``certificate`` -- (default: ``False``) if ``True`` returns ``(True, F)``,
-          where ``F`` is a flat and ``self.minor(contractions=F)`` has a
-          `U_{2,k}` restriction or ``(False, None)``.
+        - ``certificate`` -- boolean (default: ``False``); if ``True`` returns
+          ``(True, F)``, where ``F`` is a flat and
+          ``self.minor(contractions=F)`` has a `U_{2,k}` restriction or
+          ``(False, None)``.
 
         OUTPUT: boolean or tuple
 
@@ -4484,8 +4461,8 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``k`` -- the length of the line minor
-        - ``hyperlines`` -- (default: None) a set of flats of codimension 2.
-          The flats are assumed to be ``frozenset`` compatible.
+        - ``hyperlines`` -- (default: ``None``) a set of flats of codimension 2;
+          the flats are assumed to be ``frozenset`` compatible
 
         OUTPUT: boolean or tuple
 
@@ -5079,7 +5056,7 @@ cdef class Matroid(SageObject):
         deleting the complement of that subset is
         :meth:`connected <sage.matroids.matroid.Matroid.is_connected>`.
 
-        OUTPUT: a list of subsets
+        OUTPUT: list of subsets
 
         .. SEEALSO::
 
@@ -5358,11 +5335,11 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``k`` -- integer greater or equal to 1
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
           then return ``True, None`` if the matroid is k-connected,
           and ``False, X`` otherwise, where ``X`` is a `<k`-separation
 
-        OUTPUT: boolean, or a tuple ``(boolean, frozenset)``
+        OUTPUT: boolean or tuple ``(boolean, frozenset)``
 
         .. SEEALSO::
 
@@ -5485,17 +5462,17 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``certificate`` -- (default: ``False``) boolean; if ``True``,
+        - ``certificate`` -- boolean (default: ``False``); if ``True``,
           then return ``True, None`` if the matroid is 3-connected,
           and ``False,`` `X` otherwise, where `X` is a `<3`-separation
-        - ``algorithm`` -- (default: ``None``); specify which algorithm
+        - ``algorithm`` -- (default: ``None``) specify which algorithm
           to compute 3-connectivity:
 
-          - ``None`` -- The most appropriate algorithm is chosen automatically.
-          - ``"bridges"`` -- Bixby and Cunningham's algorithm, based on bridges [BC1977]_.
-            Note that this cannot return a separator.
-          - ``"intersection"`` -- An algorithm based on matroid intersection.
-          - ``"shifting"`` -- An algorithm based on the shifting algorithm [Raj1987]_.
+          - ``None`` -- the most appropriate algorithm is chosen automatically
+          - ``'bridges'`` -- Bixby and Cunningham's algorithm, based on bridges
+            [BC1977]_; note that this cannot return a separator
+          - ``'intersection'`` -- an algorithm based on matroid intersection
+          - ``'shifting'`` -- an algorithm based on the shifting algorithm [Raj1987]_
 
         OUTPUT: boolean, or a tuple ``(boolean, frozenset)``
 
@@ -5521,9 +5498,9 @@ cdef class Matroid(SageObject):
             ....:                              [0, 0, 1, 0, 0, 1]])
             sage: M.is_3connected()
             False
-            sage: M.is_3connected() == M.is_3connected(algorithm="bridges")
+            sage: M.is_3connected() == M.is_3connected(algorithm='bridges')
             True
-            sage: M.is_3connected() == M.is_3connected(algorithm="intersection")
+            sage: M.is_3connected() == M.is_3connected(algorithm='intersection')
             True
             sage: N = Matroid(circuit_closures={2: ['abc', 'cdef'],
             ....:                               3: ['abcdef']},
@@ -5562,13 +5539,13 @@ cdef class Matroid(SageObject):
         - ``certificate`` -- boolean (default: ``False``); if ``True``,
           then return ``True, None`` if the matroid is 4-connected,
           and ``False,`` `X` otherwise, where `X` is a `<4`-separation
-        - ``algorithm`` -- (default: ``None``); specify which algorithm
+        - ``algorithm`` -- (default: ``None``) specify which algorithm
           to compute 4-connectivity:
 
-          - ``None`` -- The most appropriate algorithm is chosen automatically.
-          - ``"intersection"`` -- an algorithm based on matroid intersection, equivalent
-            to calling ``is_kconnected(4, certificate)``.
-          - ``"shifting"`` -- an algorithm based on the shifting algorithm [Raj1987]_.
+          - ``None`` -- the most appropriate algorithm is chosen automatically
+          - ``'intersection'`` -- an algorithm based on matroid intersection, equivalent
+            to calling ``is_kconnected(4, certificate)``
+          - ``'shifting'`` -- an algorithm based on the shifting algorithm [Raj1987]_
 
         OUTPUT: boolean, or a tuple ``(boolean, frozenset)``
 
@@ -5591,9 +5568,9 @@ cdef class Matroid(SageObject):
             ....:                                  [0,0,1,1,0,0,1,1,0,1,0,1],
             ....:                                  [0,0,0,0,1,1,1,1,0,0,1,1],
             ....:                                  [0,0,0,0,0,0,0,0,1,1,1,1]])
-            sage: M.is_4connected() == M.is_4connected(algorithm="shifting")            # needs sage.graphs
+            sage: M.is_4connected() == M.is_4connected(algorithm='shifting')            # needs sage.graphs
             True
-            sage: M.is_4connected() == M.is_4connected(algorithm="intersection")
+            sage: M.is_4connected() == M.is_4connected(algorithm='intersection')
             True
         """
         if algorithm is None or algorithm == "intersection":
@@ -5922,15 +5899,15 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``X`` -- a basis
-        - ``P_rows`` -- a set of row indices of the first submatrix
-        - ``P_cols`` -- a set of column indices of the first submatrix
-        - ``Q_rows`` -- a set of row indices of the second submatrix
-        - ``Q_cols`` -- a set of column indices of the second submatrix
+        - ``P_rows`` -- set of row indices of the first submatrix
+        - ``P_cols`` -- set of column indices of the first submatrix
+        - ``Q_rows`` -- set of row indices of the second submatrix
+        - ``Q_cols`` -- set of column indices of the second submatrix
         - ``m`` -- separation size
 
         OUTPUT:
 
-        - ``False, None``  -- if there is no ``m``-separator
+        - ``False, None`` -- if there is no ``m``-separator
         - ``True, E`` -- if there exists an ``m``-separator ``E``
 
         EXAMPLES::
@@ -5991,7 +5968,7 @@ cdef class Matroid(SageObject):
 
         OUTPUT:
 
-        - ``False, None``  -- if there is no ``m``-separator
+        - ``False, None`` -- if there is no ``m``-separator
         - ``True, E`` -- if there exist an ``m``-separator ``E``
 
         EXAMPLES::
@@ -6121,9 +6098,10 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``basis`` -- a basis of the matroid.
+        - ``basis`` -- a basis of the matroid
         - ``fund_cocircuits`` -- a iterable of some fundamental cocircuits with
-          respect to ``basis``. It must contain all separating fundamental cocircuits.
+          respect to ``basis``; it must contain all separating fundamental
+          cocircuits
 
         OUTPUT: boolean
 
@@ -6427,9 +6405,7 @@ cdef class Matroid(SageObject):
 
         - ``basis`` -- (optional) a set; the basis `B` as above
 
-        OUTPUT:
-
-        A :class:`TernaryMatroid <sage.matroids.linear_matroid.TernaryMatroid>`.
+        OUTPUT: a :class:`TernaryMatroid <sage.matroids.linear_matroid.TernaryMatroid>`
 
         ALGORITHM:
 
@@ -6524,7 +6500,7 @@ cdef class Matroid(SageObject):
           ``False``, any output will represent ``self`` if and only if the
           matroid is ternary
 
-        OUTPUT: Either a
+        OUTPUT: either a
         :class:`TernaryMatroid <sage.matroids.linear_matroid.TernaryMatroid>`,
         or ``None``
 
@@ -6712,7 +6688,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``C`` -- a circuit
-        - ``certificate`` -- boolean (default: ``False``), if ``True``
+        - ``certificate`` -- boolean (default: ``False``); if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
           together with ``x``, if ``False`` return ``False, None``
@@ -6761,7 +6737,7 @@ cdef class Matroid(SageObject):
         INPUT:
 
         - ``C`` -- a circuit
-        - ``certificate`` -- boolean (default: ``False``), if ``True``
+        - ``certificate`` -- boolean (default: ``False``); if ``True``
           return ``True, (x, Ax, Bx)``, where ``x`` is a chord and ``Ax`` and
           ``Bx`` are circuits whose union is the elements of ``C``
           together with ``x``, if ``False`` return ``False, None``
@@ -6805,7 +6781,7 @@ cdef class Matroid(SageObject):
         - ``k1`` -- (optional) the integer `k_1`
         - ``k2`` -- (optional) the integer `k_2`; if not specified,
           then this method returns if ``self`` is `k_1`-chordal
-        - ``certificate`` -- (default: ``False``) boolean;  if
+        - ``certificate`` -- boolean (default: ``False``);  if
           ``True`` return ``True, C``, where ``C`` is a non
           ``k1`` ``k2`` circuit
 
@@ -6885,7 +6861,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- (default: the groundset) a subset (or any iterable)
           of the groundset
-        - ``weights`` -- a dictionary or function mapping the elements of
+        - ``weights`` -- dictionary or function mapping the elements of
           ``X`` to nonnegative weights
 
         OUTPUT: a subset of ``X``
@@ -6970,7 +6946,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- (default: the groundset) a subset (or any iterable)
           of the groundset
-        - ``weights`` -- a dictionary or function mapping the elements of
+        - ``weights`` -- dictionary or function mapping the elements of
           ``X`` to nonnegative weights
 
         OUTPUT: a subset of ``X``
@@ -7061,7 +7037,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- (default: the groundset) a subset (or any iterable)
           of the groundset
-        - ``weights`` -- a dictionary or function mapping the elements of
+        - ``weights`` -- dictionary or function mapping the elements of
           ``X`` to nonnegative weights
 
         OUTPUT: boolean
@@ -7208,7 +7184,7 @@ cdef class Matroid(SageObject):
 
         - ``X`` -- (default: the groundset) a subset (or any iterable)
           of the groundset
-        - ``weights`` -- a dictionary or function mapping the elements of
+        - ``weights`` -- dictionary or function mapping the elements of
           ``X`` to nonnegative weights
 
         OUTPUT: boolean
@@ -7221,7 +7197,6 @@ cdef class Matroid(SageObject):
         of all that was selected before. If an element is not coindependent of the
         previously selected elements, then we check if it is coindependent with the
         previously selected elements with higher weight.
-
 
         EXAMPLES::
 
@@ -7416,7 +7391,7 @@ cdef class Matroid(SageObject):
 
         - ``other`` -- a second matroid with the same groundset as this
           matroid
-        - ``weights`` -- a dictionary which must specify a weight for each
+        - ``weights`` -- dictionary which must specify a weight for each
           element of the common groundset
 
         OUTPUT: a subset of the groundset
@@ -7746,7 +7721,7 @@ cdef class Matroid(SageObject):
         Return a minimum number of disjoint independent sets that covers the
         groundset.
 
-        OUTPUT: a list of disjoint independent sets that covers the groundset
+        OUTPUT: list of disjoint independent sets that covers the groundset
 
         EXAMPLES::
 
@@ -8005,13 +7980,13 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``solver`` -- (default: ``None``) Specify a Linear Program (LP) solver
+        - ``solver`` -- (default: ``None``) specify a Linear Program (LP) solver
           to be used. If set to ``None``, the default one is used. For more
           information on LP solvers and which default solver is used, see the
           method :meth:`~sage.numerical.mip.MixedIntegerLinearProgram.solve` of
           the class :class:`~sage.numerical.mip.MixedIntegerLinearProgram`.
 
-        - ``verbose`` -- integer (default: ``0``). Sets the level of verbosity
+        - ``verbose`` -- integer (default: 0); sets the level of verbosity
           of the LP solver. Set to 0 by default, which means quiet.
 
         .. SEEALSO::
@@ -8162,19 +8137,23 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``B`` -- (optional) a list containing a basis.
-          If internal point placement is used, these elements will be placed as vertices of a triangle.
-        - ``lineorders`` -- (optional) A list of lists where each of the inner lists
-          specify groundset elements in a certain order which will be used to draw the
-          corresponding line in geometric representation (if it exists).
-        - ``pos_method`` -- An integer specifying positioning method.
+        - ``B`` -- (optional) list containing a basis; if internal point
+          placement is used, these elements will be placed as vertices of a
+          triangle
+        - ``lineorders`` -- (optional) list of lists where each of the inner
+          lists specify groundset elements in a certain order which will be
+          used to draw the corresponding line in geometric representation (if
+          it exists)
+        - ``pos_method`` -- integer specifying positioning method
             - ``0``: default positioning
             - ``1``: use pos_dict if it is not ``None``
-            - ``2``: Force directed (Not yet implemented).
+            - ``2``: force directed (Not yet implemented)
 
-        - ``pos_dict``: A dictionary mapping groundset elements to their (x,y) positions.
-        - ``save_pos``: boolean indicating that point placements (either internal or user provided) and
-          line orders (if provided) will be cached in the matroid (``M._cached_info``) and can be used for
+        - ``pos_dict`` -- dictionary mapping groundset elements to their (x,y)
+          positions
+        - ``save_pos`` -- boolean indicating that point placements (either
+          internal or user provided) and line orders (if provided) will be
+          cached in the matroid (``M._cached_info``) and can be used for
           reproducing the geometric representation during the same session
 
         OUTPUT:
@@ -8228,19 +8207,19 @@ cdef class Matroid(SageObject):
         - ``lineorders`` -- (optional) a list of lists where each of the inner
           lists specify groundset elements in a certain order which will be
           used to draw the corresponding line in geometric representation (if
-          it exists).
+          it exists)
         - ``pos_method`` -- integer specifying the positioning method
             - ``0``: default positioning
             - ``1``: use pos_dict if it is not ``None``
             - ``2``: Force directed (Not yet implemented).
 
-        - ``pos_dict`` -- a dictionary mapping groundset elements to their
+        - ``pos_dict`` -- dictionary mapping groundset elements to their
           (x, y) positions
         - ``save_pos`` -- boolean indicating that point placements (either
           internal or user provided) and line orders (if provided) will be
           cached in the matroid (``M._cached_info``) and can be used for
           reproducing the geometric representation during the same session
-        - ``lims`` -- a list of 4 elements ``[xmin,xmax,ymin,ymax]``
+        - ``lims`` -- list of 4 elements ``[xmin,xmax,ymin,ymax]``
 
         EXAMPLES::
 
@@ -8271,16 +8250,16 @@ cdef class Matroid(SageObject):
 
     cpdef _fix_positions(self, pos_dict=None, lineorders=None):
         """
-        Cache point positions and line orders without actually plotting
+        Cache point positions and line orders without actually plotting.
 
         INPUT:
 
-        - ``pos_dict`` -- (optional) A dictionary mapping groundset elements to
+        - ``pos_dict`` -- (optional) dictionary mapping groundset elements to
           their (x, y) positions
-        - ``lineorders`` -- (optional) a list of lists where each of the inner
+        - ``lineorders`` -- (optional) list of lists where each of the inner
           lists specify groundset elements in a certain order which will be
           used to draw the corresponding line in geometric representation (if
-          it exists).
+          it exists)
 
         EXAMPLES::
 
@@ -8514,7 +8493,7 @@ cdef class Matroid(SageObject):
                 r = self._rank(self.groundset()) - len(c)
 
                 # get candidate independent_sets
-                for I in self.independent_k_sets_iterator(r):
+                for I in self.independent_sets_iterator(r):
                     if I.issubset(c[0]):
 
                         # add the facet
@@ -8534,7 +8513,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``matroids`` -- a matroid or a list of matroids
+        - ``matroids`` -- matroid or a list of matroids
 
         OUTPUT: an instance of
         :class:`MatroidUnion <sage.matroids.union_matroid.MatroidUnion>`
@@ -8574,7 +8553,7 @@ cdef class Matroid(SageObject):
 
         INPUT:
 
-        - ``matroids`` -- a matroid or list of matroids
+        - ``matroids`` -- matroid or list of matroids
 
         OUTPUT: an instance of
         :class:`MatroidSum <sage.matroids.union_matroid.MatroidSum>`

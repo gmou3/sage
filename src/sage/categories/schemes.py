@@ -1,3 +1,4 @@
+# sage_setup: distribution = sagemath-categories
 r"""
 Schemes
 """
@@ -93,7 +94,7 @@ class Schemes(Category):
 
     def _call_(self, x):
         """
-        Construct a scheme from the data in ``x``
+        Construct a scheme from the data in ``x``.
 
         EXAMPLES:
 
@@ -137,7 +138,6 @@ class Schemes(Category):
               Defn: Natural morphism:
                       From: Integer Ring
                       To:   Rational Field
-
         """
         from sage.schemes.generic.scheme import Scheme
         if isinstance(x, Scheme):

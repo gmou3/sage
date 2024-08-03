@@ -106,8 +106,8 @@ AUTHORS:
 
 from itertools import combinations
 from sage.combinat.posets.lattices import FiniteLatticePoset
-from sage.matrix.constructor import Matrix
-from sage.structure.element import is_Matrix
+from sage.matrix.constructor import matrix
+from sage.structure.element import Matrix
 from sage.rings.integer_ring import ZZ
 from sage.rings.rational_field import QQ
 from sage.categories.fields import Fields
@@ -173,34 +173,33 @@ def Matroid(groundset=None, data=None, **kwds):
 
     INPUT:
 
-    - ``groundset`` -- (optional) If provided, the groundset of the
-      matroid. Otherwise, the function attempts to determine a groundset
-      from the data.
+    - ``groundset`` -- (optional) the groundset of the matroid; if not
+      provided, the function attempts to determine a groundset from the data
 
     Exactly one of the following inputs must be given (where ``data``
     must be a positional argument and anything else must be a keyword
     argument):
 
     - ``data`` -- a graph or a matrix or a RevLex-Index string or a list
-      of independent sets containing all bases or a matroid.
-    - ``bases`` -- The list of bases (maximal independent sets) of the
-      matroid.
-    - ``independent_sets`` -- The list of independent sets of the matroid.
-    - ``circuits`` -- The list of circuits of the matroid.
-    - ``nonspanning_circuits`` -- The list of nonspanning circuits of the
-      matroid.
-    - ``flats`` -- The dictionary, list, or lattice of flats of the matroid.
-    - ``graph`` -- A graph, whose edges form the elements of the matroid.
-    - ``matrix`` -- A matrix representation of the matroid.
-    - ``reduced_matrix`` -- A reduced representation of the matroid: if
+      of independent sets containing all bases or a matroid
+    - ``bases`` -- the list of bases (maximal independent sets) of the
+      matroid
+    - ``independent_sets`` -- the list of independent sets of the matroid
+    - ``circuits`` -- the list of circuits of the matroid
+    - ``nonspanning_circuits`` -- the list of nonspanning circuits of the
+      matroid
+    - ``flats`` -- the dictionary, list, or lattice of flats of the matroid
+    - ``graph`` -- a graph, whose edges form the elements of the matroid
+    - ``matrix`` -- a matrix representation of the matroid
+    - ``reduced_matrix`` -- a reduced representation of the matroid: if
       ``reduced_matrix = A``
       then the matroid is represented by `[I\ \ A]` where `I` is an
-      appropriately sized identity matrix.
-    - ``morphism`` -- A morphism representation of the matroid.
-    - ``reduced_morphism`` -- A reduced morphism representation of the matroid.
-    - ``rank_function`` -- A function that computes the rank of each subset.
-      Can only be provided together with a groundset.
-    - ``circuit_closures`` -- Either a list of tuples ``(k, C)`` with ``C``
+      appropriately sized identity matrix
+    - ``morphism`` -- a morphism representation of the matroid
+    - ``reduced_morphism`` -- a reduced morphism representation of the matroid
+    - ``rank_function`` -- a function that computes the rank of each subset;
+      can only be provided together with a groundset
+    - ``circuit_closures`` -- either a list of tuples ``(k, C)`` with ``C``
       the closure of a circuit, and ``k`` the rank of ``C``, or a dictionary
       ``D`` with ``D[k]`` the set of closures of rank-``k`` circuits.
     - ``lex`` -- the encoding of the ``r``-subsets of the groundset (where
@@ -214,7 +213,7 @@ def Matroid(groundset=None, data=None, **kwds):
 
     Further options:
 
-    - ``regular`` -- (default: ``False``) boolean. If ``True``,
+    - ``regular`` -- boolean (default: ``False``); if ``True``,
       output a
       :class:`RegularMatroid <sage.matroids.linear_matroid.RegularMatroid>`
       instance such that, *if* the input defines a valid regular matroid, then
@@ -223,10 +222,10 @@ def Matroid(groundset=None, data=None, **kwds):
     - ``ring`` -- any ring. If provided, and the input is a ``matrix`` or
       ``reduced_matrix``, output will be a linear matroid over the ring or
       field ``ring``.
-    - ``field`` -- any field. Same as ``ring``, but only fields are allowed.
-    - ``check`` -- (default: ``True``) boolean. If ``True`` and
-      ``regular`` is true, the output is checked to make sure it is a valid
-      regular matroid.
+    - ``field`` -- any field. Same as ``ring``, but only fields are allowed
+    - ``check`` -- boolean (default: ``True``); if ``True`` and
+      ``regular`` is ``True``, the output is checked to make sure it is a valid
+      regular matroid
 
     .. WARNING::
 
@@ -694,7 +693,7 @@ def Matroid(groundset=None, data=None, **kwds):
         Only the ``0`` symbols really matter; any other symbol can be used
         instead of ``*``::
 
-            sage: Matroid("abcdefg", revlex="0++++++++0++++0+++++0+--++----+--++", rank=4)
+            sage: Matroid("abcdefg", revlex='0++++++++0++++0+++++0+--++----+--++', rank=4)
             Matroid of rank 4 on 7 elements with 31 bases
 
         It is checked that the input makes sense (but not that it defines a
@@ -774,7 +773,7 @@ def Matroid(groundset=None, data=None, **kwds):
         Traceback (most recent call last):
         ...
         TypeError: no input data given for Matroid()
-        sage: Matroid("abc", bases=["abc"], foo="bar")
+        sage: Matroid("abc", bases=["abc"], foo='bar')
         Traceback (most recent call last):
         ...
         TypeError: ...Matroid() got an unexpected keyword argument 'foo'
@@ -794,7 +793,7 @@ def Matroid(groundset=None, data=None, **kwds):
         Traceback (most recent call last):
         ...
         TypeError: for rank functions, the groundset needs to be specified
-        sage: Matroid(matroid="rubbish")
+        sage: Matroid(matroid='rubbish')
         Traceback (most recent call last):
         ...
         TypeError: input 'rubbish' is not a matroid
@@ -838,8 +837,8 @@ def Matroid(groundset=None, data=None, **kwds):
             Graph = ()
         if isinstance(data, Graph):
             key = 'graph'
-        elif is_Matrix(data) or (
-             isinstance(data, tuple) and is_Matrix(data[0])):
+        elif isinstance(data, Matrix) or (
+             isinstance(data, tuple) and isinstance(data[0], Matrix)):
             key = 'matrix'
         elif isinstance(data, sage.modules.with_basis.morphism.ModuleMorphism) or (
              isinstance(data, tuple) and
@@ -959,7 +958,7 @@ def Matroid(groundset=None, data=None, **kwds):
             #    labels!
             V = G.vertices(sort=True)
             n = G.num_verts()
-            A = Matrix(ZZ, n, m, 0)
+            A = matrix(ZZ, n, m, 0)
             mm = 0
             for i, j, k in G.edge_iterator():
                 A[V.index(i), mm] = -1
@@ -989,11 +988,11 @@ def Matroid(groundset=None, data=None, **kwds):
             A = A.matrix()
 
         # Fix the representation
-        if not is_Matrix(A):
+        if not isinstance(A, Matrix):
             if base_ring is not None:
-                A = Matrix(base_ring, A)
+                A = matrix(base_ring, A)
             else:
-                A = Matrix(A)
+                A = matrix(A)
 
         # Fix the ring
         if base_ring is not None:

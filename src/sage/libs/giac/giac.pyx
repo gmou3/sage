@@ -1,5 +1,6 @@
 # distutils: libraries = giac
 # distutils: language = c++
+# distutils: extra_compile_args = -std=c++11
 r"""
 Interface to the c++ giac library.
 
@@ -302,7 +303,7 @@ def _giac(s):
         sage: A = libgiac.table(()); A  # create an empty giac table
         table(
         )
-        sage: A[2,3] = 33; A[0,2] = '2/7' # set non zero entries of the sparse matrix
+        sage: A[2,3] = 33; A[0,2] = '2/7' # set nonzero entries of the sparse matrix
         sage: A*A  # basic matrix operation are supported with sparse matrices
         table(
         (0,3) = 66/7
@@ -537,7 +538,6 @@ def _giac(s):
    - *Set*
 
          * ``intersect``, ``minus``, ``union``, ``is_element``, ``is_included``
-
     """
     return Pygen(s).eval()
 
@@ -547,7 +547,7 @@ def _giac(s):
 #######################################
 cdef class GiacSetting(Pygen):
     """
-    A class to customise the Computer Algebra  System settings
+    A class to customise the Computer Algebra System settings.
 
     EXAMPLES::
 
@@ -906,7 +906,6 @@ cdef class Pygen(GiacMethods_base):
            sage: from sage.libs.giac.giac import libgiac
            sage: l=libgiac("seq[]");len(l) # 29552 comment28
            0
-
         """
         if (self._type == 7):
             sig_on()
@@ -1044,7 +1043,7 @@ cdef class Pygen(GiacMethods_base):
 
     def __iter__(self):
         """
-        Pygen lists of 10^6 elements should be yield
+        Pygen lists of 10^6 elements should be yield.
 
         TESTS::
 
@@ -1261,7 +1260,7 @@ cdef class Pygen(GiacMethods_base):
 
     def redim(self, a, b=None):
         """
-        Increase the size of a matrix when possible, otherwise return self.
+        Increase the size of a matrix when possible, otherwise return ``self``.
 
         EXAMPLES::
 
@@ -1288,7 +1287,7 @@ cdef class Pygen(GiacMethods_base):
 
     # def htmlhelp(self, str lang='en'):
     #     """
-    #     Open the giac  html  detailled help about self in an external  browser
+    #     Open the giac  html  detailled help about ``self`` in an external  browser
 
     #     There are currently 3 supported languages: 'en', 'fr', 'el'
 
@@ -1345,7 +1344,7 @@ cdef class Pygen(GiacMethods_base):
 
     def _integer_(self,Z=None):
         """
-        Convert giac integers or modular integers to sage Integers (via gmp)
+        Convert giac integers or modular integers to sage Integers (via gmp).
 
         EXAMPLES::
 
@@ -1359,11 +1358,10 @@ cdef class Pygen(GiacMethods_base):
            sage: c=libgiac('2 % nextprime(2**40)')
            sage: ZZ(c^1000)
            -233775163595
-           sage: Mod(2,next_prime(2^40))^1000 - ZZ(c^1000)
+          sage: Mod(2,next_prime(2^40))^1000 - ZZ(c^1000)
            0
            sage: 2^320-(c^320).sage()
            0
-
         """
         cdef Integer n = PY_NEW(Integer)
         typ = self._type
@@ -1394,7 +1392,7 @@ cdef class Pygen(GiacMethods_base):
 
     def _rational_(self, Z=None):
         """
-        Convert giac rationals to sage rationals
+        Convert giac rationals to sage rationals.
 
         EXAMPLES::
 
@@ -1472,7 +1470,6 @@ cdef class Pygen(GiacMethods_base):
             sage: sage.symbolic.expression.register_symbol(sin, {'giac':'myFun'})
             sage: ex.sage()
             sin(x)
-
         """
         typ = self._type
 
@@ -1512,8 +1509,7 @@ cdef class Pygen(GiacMethods_base):
 
     def _symbolic_(self, R):
         r"""
-        Convert self object to the ring R via a basic string evaluation. (slow)
-
+        Convert ``self`` object to the ring R via a basic string evaluation. (slow)
 
         EXAMPLES::
 
@@ -1562,7 +1558,6 @@ cdef class Pygen(GiacMethods_base):
         Return matrix over the (Sage) ring R  where self
         should be a  Giac matrix. The default ring is ZZ.
 
-
         EXAMPLES::
 
             sage: from sage.libs.giac.giac import *
@@ -1596,7 +1591,6 @@ cdef class Pygen(GiacMethods_base):
         r"""
         Return vector over the (Sage) ring R where self
         should be a  Giac matrix. The default ring is ZZ.
-
 
         EXAMPLES::
 
