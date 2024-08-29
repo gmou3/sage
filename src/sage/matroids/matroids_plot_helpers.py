@@ -58,7 +58,7 @@ EXAMPLES::
     ....:             4: (0.5, 1.0),  5: (1.0, 0.0), 6: (1.0, 0.666666666666667),
     ....:             7: (3,3), 8: (4,0), 9: (-1,1), 10: (-2,-2)}
     sage: M1._cached_info = {'plot_positions': pos_dict, 'plot_lineorders': None}
-    sage: matroids_plot_helpers.geomrep(M1, sp=True)                                    # long time, needs sage.plot sage.rings.finite_rings
+    sage: matroids_plot_helpers.geomrep(M1, sp=True)                                    # needs sage.plot sage.rings.finite_rings
     Graphics object consisting of 22 graphics primitives
 """
 # *****************************************************************************
@@ -322,7 +322,7 @@ def createline(ptsdict, ll, lineorders2=None):
         [4, 4, 100, 100]
         sage: G = line(zip(x_i, y_i), color='black', thickness=3, zorder=1)             # needs sage.plot
         sage: G += points(zip(x, y), color='black', size=300, zorder=2)                 # needs sage.plot
-        sage: G.show()                                                                  # needs sage.plot, long time
+        sage: G.show()                                                                  # needs sage.plot
         sage: x,y,x_i,y_i = matroids_plot_helpers.createline(ptsdict,
         ....: ['a','b','c','d'],lineorders2=[['b','a','c','d'],
         ....: ['p','q','r','s']])
@@ -330,7 +330,7 @@ def createline(ptsdict, ll, lineorders2=None):
         [4, 4, 100, 100]
         sage: G = line(zip(x_i, y_i), color='black', thickness=3, zorder=1)             # needs sage.plot
         sage: G += points(zip(x, y), color='black', size=300, zorder=2)                 # needs sage.plot
-        sage: G.show()                                                                  # needs sage.plot, long time
+        sage: G.show()                                                                  # needs sage.plot
 
     .. NOTE::
 

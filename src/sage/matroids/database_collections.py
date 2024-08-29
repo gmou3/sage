@@ -109,7 +109,7 @@ def AllMatroids(n, r=None, type='all'):
 
     TESTS::
 
-        sage: # optional - matroid_database, long time
+        sage: # optional - matroid_database
         sage: all_n = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
         sage: for i in range(0, 8 + 1):
         ....:     assert len(list(matroids.AllMatroids(i))) == all_n[i]
@@ -130,7 +130,7 @@ def AllMatroids(n, r=None, type='all'):
         ....:     [  None,  None,   None, None, None, None, None, None,  None,   None,  None,      1,   12],
         ....:     [  None,  None,   None, None, None, None, None, None,  None,   None,  None,   None,    1]
         ....: ]
-        sage: for r in range(0, 12 + 1):
+        sage: for r in range(0, 12 + 1): # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if all[r][n] and all[r][n] < 1000:
         ....:             assert len(list(matroids.AllMatroids(n, r))) == all[r][n]
@@ -143,7 +143,7 @@ def AllMatroids(n, r=None, type='all'):
         ....:     [ None,  None,   None,    1,    2,    4,    9,   23,    68,   383,  5249, 232928, None],
         ....:     [ None,  None,   None, None,    1,    3,   11,   49,   617, 185981, None,   None, None]
         ....: ]
-        sage: for r in range(0, 4 + 1):
+        sage: for r in range(0, 4 + 1): # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if simple[r][n] and simple[r][n] < 1000:
         ....:             assert len(list(matroids.AllMatroids(n, r, "simple"))) == simple[r][n]
@@ -153,21 +153,21 @@ def AllMatroids(n, r=None, type='all'):
         ....:     [1,  3,    18,  201, 9413],
         ....:     [1, 34, 12284, None, None]
         ....: ]
-        sage: for r in range(0, 1 + 1):
+        sage: for r in range(0, 1 + 1): # long time
         ....:     for n in range(0, 4 + 1):
         ....:         if unorientable[r][n] and unorientable[r][n] < 1000:
         ....:             assert len(list(matroids.AllMatroids(n+7, r+3, "unorientable"))) == unorientable[r][n]
         ....:             for M in matroids.AllMatroids(n+7, r+3, "unorientable"):
         ....:                 assert M.is_valid()
     """
-    from .basis_matroid import BasisMatroid
+    from sage.matroids.constructor import Matroid
     from sage.features.databases import DatabaseMatroids
     DatabaseMatroids().require()
     import matroid_database
 
     if type != "all" and type != "unorientable":
         try:
-            getattr(BasisMatroid(groundset=[0], bases=[[0]]), "is_" + type)
+            getattr(Matroid(bases=[[1, 2], [1, 3]]), "is_" + type)
         except AttributeError:
             raise AttributeError(
                 "The type \"%s\" is not available. " % type +
@@ -185,7 +185,7 @@ def AllMatroids(n, r=None, type='all'):
 
     for r in rng:
         if (r == 0 or r == n) and type != "unorientable":
-            M = BasisMatroid(groundset=range(n), bases=[range(r)])
+            M = Matroid(groundset=range(n), bases=[range(r)])
             M.rename(type + "_n" + str(n).zfill(2) + "_r" + str(r).zfill(2) + "_#" + "0" + ": " + repr(M))
             if type == "all":
                 yield M
@@ -208,7 +208,7 @@ def AllMatroids(n, r=None, type='all'):
 
             cnt = 0
             for B in matroids_bases(n, rp):
-                M = BasisMatroid(groundset=range(n), bases=B)
+                M = Matroid(groundset=range(n), bases=B)
 
                 if type != "unorientable" and n - r < r:
                     M = M.dual()
@@ -221,6 +221,7 @@ def AllMatroids(n, r=None, type='all'):
                     if f():
                         yield M
                         cnt += 1
+
 
 def OxleyMatroids():
     """
@@ -242,8 +243,8 @@ def OxleyMatroids():
 
     REFERENCES:
 
-    These matroids are the nonparametrized matroids that appear in the
-    Appendix ``Some Interesting Matroids`` in [Oxl2011]_ (p. 639-64).
+    These matroids are the nonparametrized matroids that appear in the Appendix
+    ``Some Interesting Matroids`` in [Oxl2011]_ (p. 639-64).
     """
     from sage.matroids.database_matroids import (
         U24, U25, U35, K4, Whirl3, Q6, P6, U36, R6,
@@ -271,6 +272,7 @@ def OxleyMatroids():
     for M in lst:
         yield M()
 
+
 def BrettellMatroids():
     """
     Iterate over Brettell's matroid collection.
@@ -288,11 +290,6 @@ def BrettellMatroids():
 
         :mod:`Matroid catalog <sage.matroids.matroids_catalog>`, under
         ``Brettell's matroid collection``.
-
-    TESTS::
-
-        sage: for M in matroids.BrettellMatroids():
-        ....:     assert M.is_valid()
     """
     from sage.matroids.database_matroids import (
         RelaxedNonFano, TippedFree3spike,

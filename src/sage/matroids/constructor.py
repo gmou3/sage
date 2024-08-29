@@ -954,8 +954,7 @@ def Matroid(groundset=None, data=None, **kwds):
             # Construct the incidence matrix
             # NOTE: we are not using Sage's built-in method because
             # 1) we would need to fix the loops anyway
-            # 2) Sage will sort the columns, making it impossible to keep
-            #    labels!
+            # 2) Sage will sort the columns, making it impossible to keep labels!
             V = G.vertices(sort=True)
             n = G.num_verts()
             A = matrix(ZZ, n, m, 0)
@@ -965,7 +964,7 @@ def Matroid(groundset=None, data=None, **kwds):
                 A[V.index(j), mm] += 1  # So loops get 0
                 mm += 1
             M = RegularMatroid(matrix=A, groundset=groundset)
-            want_regular = False  # Save some time, result is already regular
+            want_regular = False  # Save some time, since result is already regular
         else:
             M = GraphicMatroid(G, groundset=groundset)
 
@@ -998,8 +997,7 @@ def Matroid(groundset=None, data=None, **kwds):
         if base_ring is not None:
             if A.base_ring() is not base_ring:
                 A = A.change_ring(base_ring)
-        elif A.base_ring() is ZZ and not want_regular:
-            # Usually a rational matrix is intended, we presume.
+        elif A.base_ring() is ZZ and not want_regular:  # Usually a rational matrix is intended, we presume.
             A = A.change_ring(QQ)
             base_ring = QQ
         else:
@@ -1013,16 +1011,12 @@ def Matroid(groundset=None, data=None, **kwds):
                 elif len(groundset) == A.nrows() + A.ncols():
                     is_reduced = True
                 else:
-                    raise ValueError(
-                        "groundset size does not correspond to matrix size"
-                    )
+                    raise ValueError("groundset size does not correspond to matrix size")
             elif is_reduced:
                 if len(groundset) == A.nrows() + A.ncols():
                     pass
                 else:
-                    raise ValueError(
-                        "groundset size does not correspond to matrix size"
-                    )
+                    raise ValueError("groundset size does not correspond to matrix size")
 
         if is_reduced:
             kw = dict(groundset=groundset, reduced_matrix=A)
@@ -1046,9 +1040,7 @@ def Matroid(groundset=None, data=None, **kwds):
     # Rank functions:
     elif key == 'rank_function':
         if groundset is None:
-            raise TypeError(
-                "for rank functions, the groundset needs to be specified"
-            )
+            raise TypeError('for rank functions, the groundset needs to be specified')
         M = RankMatroid(groundset=groundset, rank_function=data)
 
     # Lex-Index:
@@ -1083,9 +1075,7 @@ def Matroid(groundset=None, data=None, **kwds):
     # RevLex-Index:
     elif key == "revlex":
         if groundset is None:
-            raise TypeError(
-                'for RevLex-Index, the groundset needs to be specified'
-            )
+            raise TypeError('for RevLex-Index, the groundset needs to be specified')
         try:
             r = kwds.pop("rank")
         except KeyError:
@@ -1141,9 +1131,7 @@ def Matroid(groundset=None, data=None, **kwds):
 
     # All keywords should be used
     for k in kwds:
-        raise TypeError(
-            "Matroid() got an unexpected keyword argument '{}'".format(k)
-        )
+        raise TypeError("Matroid() got an unexpected keyword argument '{}'".format(k))
 
     if want_regular:
         M = sage.matroids.utilities.make_regular_matroid_from_matroid(M)
