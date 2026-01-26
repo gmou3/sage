@@ -12,6 +12,9 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+.rc[0-9]+'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   PYTHON_VERSION: 3.12
 
@@ -81,14 +84,28 @@ jobs:
       - name: Copy doc
         id: copy
         run: |
+          VERSION="${{ github.ref_name }}"
           mkdir -p ./doc
           cp -r builddir/src/doc/pdf doc/
           cp -rL builddir/src/doc/html doc/
           cp builddir/src/doc/index.html doc/
           zip -r livedoc.zip doc
 
+          # Create release tarballs
+          tar -czf sage-doc-html-${VERSION}.tar.gz -C doc html
+          tar -czf sage-doc-pdf-${VERSION}.tar.gz -C doc pdf
+
       - name: Upload livedoc
         uses: actions/upload-artifact@v4
         with:
           name: livedoc
           path: livedoc.zip
+
+      - name: Upload docs to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            sage-doc-html-${{ github.ref_name }}.tar.gz
+            sage-doc-pdf-${{ github.ref_name }}.tar.gz
+          token: ${{ secrets.RELEASE_CREATION_TOKEN }}
+        if: github.ref_type == 'tag'
