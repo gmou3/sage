@@ -115,6 +115,8 @@ additional functionality (e.g. linear extensions).
     - :meth:`girth() <sage.matroids.matroid.Matroid.girth>`
 
 - Representation
+    - :meth:`realization_space() <sage.matroids.matroid.Matroid.realization_space>`
+    - :meth:`is_realizable() <sage.matroids.matroid.Matroid.is_realizable>`
     - :meth:`is_graphic() <sage.matroids.matroid.Matroid.is_graphic>`
     - :meth:`is_regular() <sage.matroids.matroid.Matroid.is_regular>`
     - :meth:`binary_matroid() <sage.matroids.matroid.Matroid.binary_matroid>`
@@ -6290,6 +6292,28 @@ cdef class Matroid(SageObject):
         return infinity
 
     # representability
+
+    def realization_space(self, basis=None, saturate=False, simplify=True,
+                          characteristic=None, q=None, ground_ring=None,
+                          compute_matrix=True):
+        r"""
+        Return the realization space of this matroid.
+        """
+        from sage.matroids.realization_space import realization_space
+        return realization_space(
+            self, basis=basis, saturate=saturate, simplify=simplify,
+            char=characteristic, q=q, ground_ring=ground_ring,
+            compute_matrix=compute_matrix,
+        )
+
+    def is_realizable(self, characteristic=None, q=None):
+        r"""
+        Return whether this matroid is realizable.
+        """
+        from sage.matroids.realization_space import realization_space
+        RS = realization_space(self, char=characteristic, q=q,
+                               compute_matrix=False)
+        return RS.is_realizable()
 
     cpdef _local_binary_matroid(self, basis=None):
         r"""
