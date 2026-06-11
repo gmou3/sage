@@ -34,6 +34,7 @@ py.install_sources(
   'matroids_plot_helpers.py',
   'minor_matroid.py',
   'rank_matroid.py',
+  'realization_space.py',
   'set_system.pxd',
   'set_system.pyx',
   'transversal_matroid.pxd',
