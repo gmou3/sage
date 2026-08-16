@@ -533,8 +533,11 @@ cdef class FlatsMatroid(Matroid):
         TESTS::
 
             sage: from sage.matroids.flats_matroid import FlatsMatroid
-            sage: for M in matroids.AllMatroids(4):  # optional - matroid_database
-            ....:     assert M.whitney_numbers2() == FlatsMatroid(M).whitney_numbers2()
+            sage: n = 5
+            sage: for r in range(n + 1):
+            ....:     for M in matroids.AllMatroids(r, n):  # optional - matroid_database
+            ....:         assert M.whitney_numbers2() == \
+            ....:                FlatsMatroid(M).whitney_numbers2()
         """
         cdef list W = []
         cdef int i
