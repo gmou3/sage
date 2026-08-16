@@ -3120,8 +3120,11 @@ cdef class Matroid(SageObject):
 
         TESTS::
 
-            sage: for M in matroids.AllMatroids(5):                                     # optional - matroid_database
-            ....:     assert M.f_vector() == SimplicialComplex(M.bases()).f_vector()
+            sage: n = 5
+            sage: for r in range(n + 1):
+            ....:     for M in matroids.AllMatroids(r, n):                                     # optional - matroid_database
+            ....:         assert M.f_vector() == \
+            ....:                SimplicialComplex(M.bases()).f_vector()
         """
         cdef list f = []
         cdef int i, s
@@ -6242,8 +6245,11 @@ cdef class Matroid(SageObject):
             sage: M = matroids.Uniform(4, 50)  # fast because we don't check M.dual().is_paving()
             sage: M.is_sparse_paving()
             True
-            sage: for M in matroids.AllMatroids(8):  # optional - matroid_database
-            ....:    assert M.is_sparse_paving() == (M.is_paving() and M.dual().is_paving())
+            sage: n = 8
+            sage: for r in range(n + 1):
+            ....:     for M in matroids.AllMatroids(r, n):  # optional - matroid_database
+            ....:         assert M.is_sparse_paving() == \
+            ....:                (M.is_paving() and M.dual().is_paving())
         """
         if not self.is_paving():
             return False
@@ -7988,11 +7994,14 @@ cdef class Matroid(SageObject):
             sage: M.characteristic_polynomial()
             0
             sage: l = -1
-            sage: for M in matroids.AllMatroids(6):  # optional - matroid_database
-            ....:     r = M.rank()
-            ....:     assert M.characteristic_polynomial(l) == (-1)**r * M.tutte_polynomial(1 - l, 0)
-            ....:     if not M.loops():
-            ....:         assert (-1)**r * M.characteristic_polynomial(l) == sum(M.broken_circuit_complex().f_vector())
+            sage: n = 6
+            sage: for r in range(n + 1):
+            ....:     for M in matroids.AllMatroids(r, n):  # optional - matroid_database
+            ....:         assert M.characteristic_polynomial(l) == \
+            ....:                (-1)**r * M.tutte_polynomial(1 - l, 0)
+            ....:         if not M.loops():
+            ....:             assert (-1)**r * M.characteristic_polynomial(l) == \
+            ....:                    sum(M.broken_circuit_complex().f_vector())
         """
         R = ZZ['l']
         cdef list w = self.whitney_numbers()
@@ -8365,13 +8374,16 @@ cdef class Matroid(SageObject):
 
             sage: M = matroids.catalog.Fano()
             sage: assert M.broken_circuit_complex().is_immutable()                      # needs sage.graphs
-            sage: for M in matroids.AllMatroids(5):  # optional - matroid_database
-            ....:     r = M.rank()
-            ....:     if r > 0 and not M.dual().loops():
+            sage: n = 5
+            sage: for r in range(1, n + 1):
+            ....:     for M in matroids.AllMatroids(r, n):  # optional - matroid_database
+            ....:         if M.dual().loops():
+            ....:             continue
             ....:         C = SimplicialComplex(M.bases(), maximality_check=False)
             ....:         betti = C.betti()
             ....:         betti[0] -= 1  # reduced homology
-            ....:         assert betti[r-1] == len(M.dual().broken_circuit_complex().facets())
+            ....:         assert betti[r - 1] == \
+            ....:                len(M.dual().broken_circuit_complex().facets())
         """
         from sage.topology.simplicial_complex import SimplicialComplex
         cdef int r = self.rank()

@@ -22,80 +22,72 @@ AUTHORS:
 # ****************************************************************************
 
 
-def AllMatroids(n, r=None, type='all'):
+def AllMatroids(r, n, type='all'):
     r"""
     Iterate over all matroids of certain number of elements (and, optionally,
     of specific rank and type).
 
     INPUT:
 
-    - ``n`` -- integer; the number of elements of the matroids
-    - ``r`` -- integer (optional); the rank of the matroids (`0 \le r \le n`)
+    - ``r`` -- integer; the rank of the matroids (`0 \le r`)
+    - ``n`` -- integer; the number of elements of the matroids (`\le r \le n`)
     - ``type`` -- string (default: ``'all'``); the type of the matroids. Must
       be one of the following:
 
-      * ``'all'`` -- all matroids; available: (n=0-9), (n=0-12, r=0-2),
-        (n=0-11, r=3)
+      * ``'all'`` -- all matroids; available: (r=*, n=0-9), (r<=3, n=0-12),
+        (r=4, n=0-9)
       * ``'unorientable'`` -- all unorientable matroids; the rank `r` must be
-        specified; available: (n=7-11, r=3), (n=7-9, r=4)
+        specified; available: (r=3, n=7-11), (r=4, n=7-9)
       * any other type for which there exists an ``is_type`` method;
         availability same as for ``'all'``
 
     EXAMPLES::
 
-        sage: for M in matroids.AllMatroids(2):                                         # optional - matroid_database
-        ....:     M
-        all_n02_r00_#0: Matroid of rank 0 on 2 elements with 1 bases
-        all_n02_r01_#0: Matroid of rank 1 on 2 elements with 2 bases
-        all_n02_r01_#1: Matroid of rank 1 on 2 elements with 1 bases
-        all_n02_r02_#0: Matroid of rank 2 on 2 elements with 1 bases
+        sage: for r in range(3):
+        ....:     for M in matroids.AllMatroids(r, 2):                                  # optional - matroid_database
+        ....:         M
+        r00n02_all_#0: Matroid of rank 0 on 2 elements with 1 bases
+        r01n02_all_#0: Matroid of rank 1 on 2 elements with 2 bases
+        r01n02_all_#1: Matroid of rank 1 on 2 elements with 1 bases
+        r02n02_all_#0: Matroid of rank 2 on 2 elements with 1 bases
 
     ::
 
-        sage: for M in matroids.AllMatroids(5, 3, 'simple'):                            # optional - matroid_database
+        sage: for M in matroids.AllMatroids(3, 5, 'simple'):                            # optional - matroid_database
         ....:     M
-        simple_n05_r03_#0: Matroid of rank 3 on 5 elements with 10 bases
-        simple_n05_r03_#1: Matroid of rank 3 on 5 elements with 9 bases
-        simple_n05_r03_#2: Matroid of rank 3 on 5 elements with 8 bases
-        simple_n05_r03_#3: Matroid of rank 3 on 5 elements with 6 bases
+        r03n05_simple_#0: Matroid of rank 3 on 5 elements with 10 bases
+        r03n05_simple_#1: Matroid of rank 3 on 5 elements with 9 bases
+        r03n05_simple_#2: Matroid of rank 3 on 5 elements with 8 bases
+        r03n05_simple_#3: Matroid of rank 3 on 5 elements with 6 bases
 
     ::
 
-        sage: # optional - matroid_database
-        sage: for M in matroids.AllMatroids(4, type='paving'):
+        sage: for M in matroids.AllMatroids(3, 6, type='paving'):                       # optional - matroid_database
         ....:     M
-        paving_n04_r00_#0: Matroid of rank 0 on 4 elements with 1 bases
-        paving_n04_r01_#0: Matroid of rank 1 on 4 elements with 4 bases
-        paving_n04_r01_#1: Matroid of rank 1 on 4 elements with 3 bases
-        paving_n04_r01_#2: Matroid of rank 1 on 4 elements with 2 bases
-        paving_n04_r01_#3: Matroid of rank 1 on 4 elements with 1 bases
-        paving_n04_r02_#0: Matroid of rank 2 on 4 elements with 6 bases
-        paving_n04_r02_#1: Matroid of rank 2 on 4 elements with 5 bases
-        paving_n04_r02_#2: Matroid of rank 2 on 4 elements with 4 bases
-        paving_n04_r02_#3: Matroid of rank 2 on 4 elements with 3 bases
-        paving_n04_r03_#0: Matroid of rank 3 on 4 elements with 4 bases
-        paving_n04_r03_#1: Matroid of rank 3 on 4 elements with 3 bases
-        paving_n04_r04_#0: Matroid of rank 4 on 4 elements with 1 bases
+        r03n06_paving_#0: Matroid of rank 3 on 6 elements with 20 bases
+        r03n06_paving_#1: Matroid of rank 3 on 6 elements with 19 bases
+        r03n06_paving_#2: Matroid of rank 3 on 6 elements with 18 bases
+        r03n06_paving_#3: Matroid of rank 3 on 6 elements with 18 bases
+        r03n06_paving_#4: Matroid of rank 3 on 6 elements with 17 bases
+        r03n06_paving_#5: Matroid of rank 3 on 6 elements with 16 bases
+        r03n06_paving_#6: Matroid of rank 3 on 6 elements with 16 bases
+        r03n06_paving_#7: Matroid of rank 3 on 6 elements with 15 bases
+        r03n06_paving_#8: Matroid of rank 3 on 6 elements with 10 bases
 
     ::
 
         sage: # optional - matroid_database
-        sage: for M in matroids.AllMatroids(10, 4):
+        sage: for M in matroids.AllMatroids(4, 10):
         ....:     M
         Traceback (most recent call last):
         ...
-        ValueError: (n=10, r=4, type='all') is not available in the database
-        sage: for M in matroids.AllMatroids(12, 3, 'unorientable'):
+        ValueError: (r=4, n=10, type='all') is not available in the database
+        sage: for M in matroids.AllMatroids(3, 12, 'unorientable'):
         ....:     M
         Traceback (most recent call last):
         ...
-        ValueError: (n=12, r=3, type='unorientable') is not available in the database
-        sage: for M in matroids.AllMatroids(8, type='unorientable'):
-        ....:     M
-        Traceback (most recent call last):
-        ...
-        ValueError: The rank needs to be specified for type 'unorientable'
-        sage: for M in matroids.AllMatroids(6, type='nice'):
+        ValueError: (r=3, n=12, type='unorientable') is not available in the database
+        sage: for M in matroids.AllMatroids(2, 4, type='nice'):
         ....:     M
         Traceback (most recent call last):
         ...
@@ -105,16 +97,16 @@ def AllMatroids(n, r=None, type='all'):
     REFERENCES:
 
     The underlying database was retrieved from Yoshitake Matsumoto's Database
-    of Matroids; see [Mat2012]_.
+    of Matroids; see [Mat2012]_. It has also been supplemented with the output
+    of the `matroid-generator <https://github.com/gmou3/matroid-generator>`_.
 
     TESTS::
 
         sage: # optional - matroid_database
         sage: all_n = [1, 2, 4, 8, 17, 38, 98, 306, 1724, 383172]
-        sage: for i in range(0, 8 + 1):
-        ....:     assert len(list(matroids.AllMatroids(i))) == all_n[i]
-        ....:     for M in matroids.AllMatroids(i):
-        ....:         assert M.is_valid()
+        sage: for n in range(0, 8 + 1):
+        ....:     assert sum(M.is_valid() for r in range(0, n + 1)
+        ....:                for M in matroids.AllMatroids(r, n)) == all_n[n]
         sage: all = [
         ....:     [     1,     1,      1,    1,    1,    1,    1,    1,     1,      1,     1,      1,    1],
         ....:     [  None,     1,      2,    3,    4,    5,    6,    7,     8,      9,    10,     11,   12],
@@ -133,8 +125,8 @@ def AllMatroids(n, r=None, type='all'):
         sage: for r in range(0, 12 + 1):  # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if all[r][n] and all[r][n] < 1000:
-        ....:             assert len(list(matroids.AllMatroids(n, r))) == all[r][n]
-        ....:             for M in matroids.AllMatroids(n, r):
+        ....:             assert sum(M.is_valid() for M in matroids.AllMatroids(r, n)) == all[r][n]
+        ....:             for M in matroids.AllMatroids(r, n):
         ....:                 assert M.is_valid()
         sage: simple = [
         ....:     [    1,  None,   None, None, None, None, None, None,  None,  None,  None,   None, None],
@@ -146,8 +138,8 @@ def AllMatroids(n, r=None, type='all'):
         sage: for r in range(0, 4 + 1):  # long time
         ....:     for n in range(r, 12 + 1):
         ....:         if simple[r][n] and simple[r][n] < 1000:
-        ....:             assert len(list(matroids.AllMatroids(n, r, 'simple'))) == simple[r][n]
-        ....:             for M in matroids.AllMatroids(n, r, 'simple'):
+        ....:             assert sum(M.is_valid() and M.is_simple() for M in matroids.AllMatroids(r, n)) == simple[r][n]
+        ....:             for M in matroids.AllMatroids(r, n, 'simple'):
         ....:                 assert M.is_valid() and M.is_simple()
         sage: unorientable = [
         ....:     [1,  3,    18,  201, 9413],
@@ -156,18 +148,18 @@ def AllMatroids(n, r=None, type='all'):
         sage: for r in range(0, 1 + 1):  # long time
         ....:     for n in range(0, 4 + 1):
         ....:         if unorientable[r][n] and unorientable[r][n] < 1000:
-        ....:             assert len(list(matroids.AllMatroids(n+7, r+3, 'unorientable'))) == unorientable[r][n]
-        ....:             for M in matroids.AllMatroids(n+7, r+3, 'unorientable'):
+        ....:             assert sum(M.is_valid() for M in matroids.AllMatroids(r+3, n+7, 'unorientable')) == unorientable[r][n]
+        ....:             for M in matroids.AllMatroids(r+3, n+7, 'unorientable'):
         ....:                 assert M.is_valid()
     """
-    from sage.matroids.constructor import Matroid
+    from sage.matroids.basis_matroid import BasisMatroid
     from sage.features.databases import DatabaseMatroids
     DatabaseMatroids().require()
     import matroid_database
 
     if type != 'all' and type != 'unorientable':
         try:
-            getattr(Matroid(bases=[[1, 2], [1, 3]]), 'is_' + type)
+            getattr(BasisMatroid, 'is_' + type)
         except AttributeError:
             raise AttributeError(
                 "The type '%s' is not available. " % type +
@@ -175,52 +167,29 @@ def AllMatroids(n, r=None, type='all'):
                 "type to be supported."
             )
 
-    if r is None and type == 'unorientable':
-        raise ValueError("The rank needs to be specified for type '%s'" % type)
+    type_db = 'all' if (type != 'unorientable') else 'unorientable'
+    matroids_colex = getattr(matroid_database, type_db + '_matroids_colex')
 
-    if r is None:
-        rng = range(n + 1)
-    else:
-        rng = range(r, r + 1)
+    try:
+        matroids_colex(r, n).__next__()
+    except ValueError:
+        raise ValueError(
+            "(r=%s, n=%s, type='%s')" % (r, n, type)
+            + " is not available in the database"
+        )
 
-    for r in rng:
-        if (r == 0 or r == n) and type != 'unorientable':
-            M = Matroid(groundset=range(n), bases=[range(r)])
-            M.rename(type + '_n' + str(n).zfill(2) + '_r' + str(r).zfill(2) + '_#' + '0' + ': ' + repr(M))
-            if type == 'all':
-                yield M
-            else:
-                f = getattr(M, 'is_' + type)
-                if f():
-                    yield M
+    cnt = 0
+    for colex in matroids_colex(r, n):
+        M = BasisMatroid(rank=r, groundset=range(n), colex=colex)
+        M.rename(f'r{r:02d}n{n:02d}_{type}_#{cnt}: {repr(M)}')
+        if type == 'all' or type == 'unorientable':
+            yield M
+            cnt += 1
         else:
-            rp = min(r, n - r) if (type != 'unorientable') else r
-            type_db = 'all' if (type != 'unorientable') else 'unorientable'
-
-            matroids_bases = getattr(matroid_database, type_db + '_matroids_bases')
-            try:
-                matroids_bases(n, rp).__next__()
-            except ValueError:
-                raise ValueError(
-                    "(n=%s, r=%s, type='%s')" % (n, r, type)
-                    + " is not available in the database"
-                )
-
-            cnt = 0
-            for B in matroids_bases(n, rp):
-                M = Matroid(groundset=range(n), bases=B)
-
-                if type != 'unorientable' and n - r < r:
-                    M = M.dual()
-                M.rename(type + '_n' + str(n).zfill(2) + '_r' + str(r).zfill(2) + '_#' + str(cnt) + ': ' + repr(M))
-                if type == 'all' or type == 'unorientable':
-                    yield M
-                    cnt += 1
-                else:
-                    f = getattr(M, 'is_' + type)
-                    if f():
-                        yield M
-                        cnt += 1
+            f = getattr(M, 'is_' + type)
+            if f():
+                yield M
+                cnt += 1
 
 
 def OxleyMatroids():

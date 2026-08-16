@@ -173,7 +173,7 @@ def Matroid(groundset=None, data=None, **kwds):
     must be a positional argument and anything else must be a keyword
     argument):
 
-    - ``data`` -- a graph or a matrix or a RevLex-Index string or a list
+    - ``data`` -- a graph or a matrix or a colex string or a list
       of independent sets containing all bases or a matroid
     - ``bases`` -- the list of bases (maximal independent sets) of the
       matroid
@@ -195,8 +195,8 @@ def Matroid(groundset=None, data=None, **kwds):
     - ``circuit_closures`` -- either a list of tuples ``(k, C)`` with ``C``
       the closure of a circuit, and ``k`` the rank of ``C``, or a dictionary
       ``D`` with ``D[k]`` the set of closures of rank-``k`` circuits
-    - ``revlex`` -- the encoding as a string of ``0`` and ``*`` symbols;
-      used by [Mat2012]_ and explained in [MMIB2012]_
+    - ``colex`` -- the encoding as a string of ``0`` and ``*`` symbols;
+      used as "revlex" by [Mat2012]_ and explained in [MMIB2012]_
     - ``matroid`` -- an object that is already a matroid; useful only with the
       ``regular`` option
 
@@ -636,7 +636,7 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: M.equals(matroids.catalog.Q6())                                       # needs sage.rings.finite_rings
             True
 
-    #.  RevLex-Index:
+    #.  Colex string:
 
         This requires the ``groundset`` to be given and also needs a
         additional keyword argument ``rank`` to specify the rank of the
@@ -657,7 +657,7 @@ def Matroid(groundset=None, data=None, **kwds):
         Only the ``0`` symbols really matter, any symbol can be used
         instead of ``*``:
 
-            sage: Matroid("abcdefg", revlex='0++++++++0++++0+++++0+--++----+--++', rank=4)
+            sage: Matroid("abcdefg", colex='0++++++++0++++0+++++0+--++----+--++', rank=4)
             Matroid of rank 4 on 7 elements with 31 bases
 
         It is checked that the input makes sense (but not that it
@@ -666,11 +666,11 @@ def Matroid(groundset=None, data=None, **kwds):
             sage: Matroid("abcdef", "000000******0**")
             Traceback (most recent call last):
             ...
-            TypeError: for RevLex-Index, the rank needs to be specified
+            TypeError: for colex string, the rank needs to be specified
             sage: Matroid("abcdef", "000000******0**", rank=3)
             Traceback (most recent call last):
             ...
-            ValueError: expected string of length 20 (6 choose 3), got 15
+            ValueError: colex string must have length 20
             sage: M = Matroid("abcdef", "*0000000000000*", rank=4); M
             Matroid of rank 4 on 6 elements with 2 bases
             sage: M.is_valid()
@@ -786,7 +786,7 @@ def Matroid(groundset=None, data=None, **kwds):
         for k in ['bases', 'independent_sets', 'circuits',
                   'nonspanning_circuits', 'flats', 'graph', 'matrix',
                   'reduced_matrix', 'morphism', 'reduced_morphism',
-                  'rank_function', 'revlex', 'circuit_closures', 'matroid']:
+                  'rank_function', 'colex', 'circuit_closures', 'matroid']:
             if k in kwds:
                 data = kwds.pop(k)
                 key = k
@@ -814,7 +814,7 @@ def Matroid(groundset=None, data=None, **kwds):
         elif isinstance(data, sage.matroids.matroid.Matroid):
             key = 'matroid'
         elif isinstance(data, str):
-            key = 'revlex'
+            key = 'colex'
         elif isinstance(data, (dict, FiniteLatticePoset)):
             key = 'flats'
         elif data is None:
@@ -1011,29 +1011,17 @@ def Matroid(groundset=None, data=None, **kwds):
             raise TypeError('for rank functions, the groundset needs to be specified')
         M = RankMatroid(groundset=groundset, rank_function=data)
 
-    # RevLex-Index:
-    elif key == "revlex":
+    # Colex string:
+    elif key == "colex":
         if groundset is None:
-            raise TypeError('for RevLex-Index, the groundset needs to be specified')
+            raise TypeError('for colex string, the groundset needs to be specified')
         try:
             rk = kwds.pop("rank")
         except KeyError:
-            raise TypeError('for RevLex-Index, the rank needs to be specified')
+            raise TypeError('for colex string, the rank needs to be specified')
 
-        groundset = tuple(groundset)
-        data = tuple(data)
-        rk = int(rk)
-        N = len(groundset)
-
-        def revlex_sort_key(s):
-            return tuple(reversed(s))
-        subsets = sorted(combinations(range(N), rk), key=revlex_sort_key)
-        if len(data) != len(subsets):
-            raise ValueError("expected string of length %s (%s choose %s), got %s" %
-                             (len(subsets), N, rk, len(data)))
-        bases = [[groundset[c] for c in subsets[i]]
-                 for i, x in enumerate(data) if x != '0']
-        M = BasisMatroid(groundset=groundset, bases=bases)
+        colex = ''.join('0' if c == '0' else '*' for c in data)
+        M = BasisMatroid(rank=rk, groundset=groundset, colex=colex)
 
     # Circuit closures:
     elif key == 'circuit_closures':
