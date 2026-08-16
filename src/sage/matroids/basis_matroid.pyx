@@ -86,6 +86,8 @@ cdef class BasisMatroid(BasisExchangeMatroid):
     - ``groundset`` -- any iterable set (optional)
     - ``bases`` -- set of subsets of the ``groundset`` (optional)
     - ``nonbases`` -- set of subsets of the ``groundset`` (optional)
+    - ``colex`` -- ``'0'``/``'*'``-string representation of r-set inclusions in
+      colex order (optional)
     - ``rank`` -- natural number (optional)
 
     EXAMPLES:
@@ -134,7 +136,8 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         sage: M1.is_valid()
         False
     """
-    def __init__(self, M=None, groundset=None, bases=None, nonbases=None, rank=None):
+    def __init__(self, M=None, groundset=None, bases=None, nonbases=None,
+                 colex=None, rank=None):
         """
         See the class definition for full documentation.
 
@@ -212,7 +215,13 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         bitset_init(self._b, max(size, 1))
         bitset_clear(self._bb)
 
-        if bases is not None:
+        if colex is not None:
+            if len(colex) != binom[size][rank]:
+                raise ValueError(
+                    f"colex string must have length {binom[size][rank]}")
+            bitset_from_str(self._bb, colex, '0', '*')
+            self._bcount = bitset_len(self._bb)
+        elif bases is not None:
             if len(bases) == 0:
                 raise ValueError("set of bases must be nonempty")
             self._bcount = 0
@@ -658,7 +667,7 @@ cdef class BasisMatroid(BasisExchangeMatroid):
         cdef long i, j
         cdef list bc
         cdef dict bi
-        bc = [0 for i in range(len(self))]
+        bc = [0 for _ in range(len(self))]
         for i in range(binom[self._groundset_size][self._matroid_rank]):
             if not bitset_in(self._bb, i):
                 index_to_set(self._b, i, self._matroid_rank, self._groundset_size)
