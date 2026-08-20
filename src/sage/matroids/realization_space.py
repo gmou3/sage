@@ -19,6 +19,7 @@ from sage.matroids.utilities import cmp_elements_key
 from sage.rings.polynomial.multi_polynomial_ring_base import MPolynomialRing_base
 from sage.rings.polynomial.polynomial_ring import PolynomialRing_general
 from sage.rings.ring import Fields
+import json
 
 
 def _is_poly_ring(R):
@@ -955,3 +956,263 @@ def _characteristic_set_rabinowitsch(I, Q, R):
         return CharacteristicSet(True, candidates, uncertain=candidates)
 
     return CharacteristicSet(False, set(), uncertain=suspects)
+
+
+"""
+JSON (de)serialization for MatroidRealizationSpace
+====================================================
+
+Standalone module: import it (for its side effect) alongside wherever
+MatroidRealizationSpace is defined/used. It monkeypatches to_dict / to_json
+/ save_json / from_dict / from_json / load_json onto the class, so any RS
+object of that class -- however it was constructed, e.g. via
+M.realization_space() -- gains these methods.
+
+Usage
+-----
+    import matroid_realization_json  # side effect: attaches the methods
+
+    RS = realization_space(M, char=0)
+    RS.save_json("my_space.json")
+
+    RS2 = MatroidRealizationSpace.load_json("my_space.json")
+
+or in-memory:
+
+    d = RS.to_dict()          # plain JSON-safe dict
+    s = RS.to_json()          # JSON string
+    RS2 = MatroidRealizationSpace.from_json(s)
+
+If your MatroidRealizationSpace class lives in a differently-named module,
+adjust the import below to match.
+"""
+
+import json
+
+# ---------------------------------------------------------------------------
+# Ring (de)serialization
+# ---------------------------------------------------------------------------
+
+
+def _ser_ground_ring(ring):
+    """Serialize a ground ring (ZZ, QQ, or GF(p)) to a JSON-safe dict."""
+    if ring is ZZ:
+        return {"kind": "ZZ"}
+    if ring is QQ:
+        return {"kind": "QQ"}
+    try:
+        if ring.is_finite() and ring.is_field():
+            return {"kind": "GF", "p": int(ring.characteristic())}
+    except Exception:
+        pass
+    raise ValueError("Don't know how to serialize ground ring {!r}".format(ring))
+
+
+def _deser_ground_ring(data):
+    kind = data["kind"]
+    if kind == "ZZ":
+        return ZZ
+    if kind == "QQ":
+        return QQ
+    if kind == "GF":
+        return GF(data["p"])
+    raise ValueError("Unknown ground ring kind {!r}".format(kind))
+
+
+def _ser_ring(R):
+    """Serialize ambient_ring: either a polynomial ring or a bare ground ring."""
+    if _is_poly_ring(R):
+        return {
+            "kind": "poly",
+            "base_ring": _ser_ground_ring(R.base_ring()),
+            "var_names": [str(g) for g in R.gens()],
+        }
+    return {"kind": "base", "base_ring": _ser_ground_ring(R)}
+
+
+def _deser_ring(data):
+    base = _deser_ground_ring(data["base_ring"])
+    if data["kind"] == "poly":
+        names = data["var_names"]
+        if not names:
+            return base
+        return PolynomialRing(base, len(names), names)
+    return base
+
+
+def _ring_element_from_str(R, s):
+    """Parse a string back into an element of R (poly ring or base ring)."""
+    return R(s)
+
+
+# ---------------------------------------------------------------------------
+# Groundset element (de)serialization
+# ---------------------------------------------------------------------------
+# Matroid groundset elements are usually ints or strings, but the matroid
+# library allows arbitrary hashables (including tuples/frozensets). Plain
+# ints/strings/floats/bools/None serialize as bare JSON values (no wrapper,
+# for compact/readable output); tuples, frozensets, and lists need a
+# {"t": ..., "v": ...} wrapper (t=type, v=value) since JSON can't otherwise
+# distinguish them from each other or roundtrip them unambiguously.
+
+def _ser_elem(e):
+    if e is None or isinstance(e, (bool, str)):
+        return e
+    if isinstance(e, int):
+        return int(e)
+    if isinstance(e, float):
+        return e
+    if isinstance(e, frozenset):
+        return {"t": "frozenset", "v": [_ser_elem(x) for x in e]}
+    if isinstance(e, tuple):
+        return {"t": "tuple", "v": [_ser_elem(x) for x in e]}
+    if isinstance(e, list):
+        return {"t": "list", "v": [_ser_elem(x) for x in e]}
+    # Sage Integer, etc.
+    try:
+        return int(e)
+    except Exception:
+        return {"t": "str", "v": str(e)}
+
+
+def _deser_elem(d):
+    if not isinstance(d, dict):
+        return d  # bare int/str/float/bool/None
+    t = d["t"]
+    if t == "str":
+        return d["v"]
+    if t == "frozenset":
+        return frozenset(_deser_elem(x) for x in d["v"])
+    if t == "tuple":
+        return tuple(_deser_elem(x) for x in d["v"])
+    if t == "list":
+        return [_deser_elem(x) for x in d["v"]]
+    raise ValueError("Unknown element tag {!r}".format(t))
+
+
+# ---------------------------------------------------------------------------
+# MatroidRealizationSpace <-> dict / JSON
+# ---------------------------------------------------------------------------
+
+def _mrs_to_dict(self):
+    """Serialize this realization space to a JSON-safe dict."""
+    ring_data = _ser_ring(self.ambient_ring)
+
+    ideal_gens = [str(f) for f in self.defining_ideal.gens()]
+    ineq_strs = [str(f) for f in self.inequations]
+
+    if self.realization_matrix is not None:
+        mat = self.realization_matrix
+        matrix_data = {
+            "nrows": mat.nrows(),
+            "ncols": mat.ncols(),
+            "entries": [[str(mat[i, j]) for j in range(mat.ncols())]
+                        for i in range(mat.nrows())],
+        }
+    else:
+        matrix_data = None
+
+    return {
+        "basis": [_ser_elem(e) for e in self.basis],
+        "ambient_ring": ring_data,
+        "defining_ideal_gens": ideal_gens,
+        "inequations": ineq_strs,
+        "realization_matrix": matrix_data,
+        "char": int(self.char) if self.char is not None else None,
+        "q": int(self.q) if self.q is not None else None,
+        "ground_ring": _ser_ground_ring(self.ground_ring),
+        "one_realization": self.one_realization,
+        "is_realizable": self._is_realizable,
+    }
+
+
+def _mrs_to_json(self, **kwargs):
+    return json.dumps(self.to_dict(), **kwargs)
+
+
+def _mrs_save_json(self, path, **kwargs):
+    with open(path, "w") as fh:
+        fh.write(self.to_json(**kwargs))
+
+
+def _mrs_from_dict(data):
+    R = _deser_ring(data["ambient_ring"])
+    ground_ring = _deser_ground_ring(data["ground_ring"])
+
+    basis = frozenset(_deser_elem(e) for e in data["basis"])
+
+    gens = [_ring_element_from_str(R, s) for s in data["defining_ideal_gens"]]
+    defining_ideal = R.ideal(gens) if gens else R.ideal([R(0)])
+
+    inequations = [_ring_element_from_str(R, s) for s in data["inequations"]]
+
+    md = data["realization_matrix"]
+    if md is not None:
+        entries = [[_ring_element_from_str(R, s) for s in row] for row in md["entries"]]
+        realization_matrix = matrix(R, md["nrows"], md["ncols"], entries)
+    else:
+        realization_matrix = None
+
+    MRS = MatroidRealizationSpace(
+        basis, defining_ideal, inequations, R, realization_matrix,
+        data["char"], data["q"], ground_ring,
+    )
+    MRS.one_realization = data["one_realization"]
+    MRS._is_realizable = data["is_realizable"]
+    return MRS
+
+
+def _mrs_from_json(s):
+    return MatroidRealizationSpace.from_dict(json.loads(s))
+
+
+def _mrs_load_json(path):
+    with open(path) as fh:
+        return MatroidRealizationSpace.from_json(fh.read())
+
+
+# ---------------------------------------------------------------------------
+# Attach as methods on MatroidRealizationSpace
+# ---------------------------------------------------------------------------
+
+MatroidRealizationSpace.to_dict = _mrs_to_dict
+MatroidRealizationSpace.to_json = _mrs_to_json
+MatroidRealizationSpace.save_json = _mrs_save_json
+MatroidRealizationSpace.from_dict = staticmethod(_mrs_from_dict)
+MatroidRealizationSpace.from_json = staticmethod(_mrs_from_json)
+MatroidRealizationSpace.load_json = staticmethod(_mrs_load_json)
+
+
+# ---------------------------------------------------------------------------
+# Bulk save/load for a dict of MatroidRealizationSpace, keyed by index
+# ---------------------------------------------------------------------------
+
+def save_realization_spaces_json(RS_dict, path, **kwargs):
+    """
+    Save a dict {index: MatroidRealizationSpace} to a single JSON file.
+
+    `index` may be an int or string key; it's stored as a string (JSON object
+    keys are always strings) and converted back to int on load if possible.
+    """
+    data = {str(k): rs.to_dict() for k, rs in RS_dict.items()}
+    with open(path, "w") as fh:
+        json.dump(data, fh, **kwargs)
+
+
+def load_realization_spaces_json(path):
+    """
+    Load a JSON file written by save_realization_spaces_json back into a
+    dict {index: MatroidRealizationSpace}. Keys that look like ints are
+    converted back to int (so `RS[0]`, `RS[1]`, ... works as before).
+    """
+    with open(path) as fh:
+        data = json.load(fh)
+
+    result = {}
+    for k, d in data.items():
+        try:
+            key = int(k)
+        except ValueError:
+            key = k
+        result[key] = MatroidRealizationSpace.from_dict(d)
+    return result
