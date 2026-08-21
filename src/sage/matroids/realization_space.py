@@ -4,7 +4,7 @@ Matroid Realization Space
 
 SageMath translation of the OSCAR (Julia) matroid realization space module.
 """
-
+from collections import Counter, defaultdict
 from cysignals.alarm import alarm, cancel_alarm, AlarmInterrupt
 from itertools import combinations
 from sage.all import (
@@ -20,11 +20,18 @@ from sage.rings.polynomial.multi_polynomial_ring_base import MPolynomialRing_bas
 from sage.rings.polynomial.polynomial_ring import PolynomialRing_general
 from sage.rings.ring import Fields
 import json
+import operator
 
 
 def _is_poly_ring(R):
     """True if R is a multivariate or univariate polynomial ring."""
     return isinstance(R, (MPolynomialRing_base, PolynomialRing_general))
+
+
+def _change_ring(f, R):
+    if hasattr(f, 'change_ring'):
+        return f.change_ring(R.base_ring())
+    return R(f)
 
 # ---------------------------------------------------------------------------
 # MatroidRealizationSpace
@@ -93,6 +100,16 @@ class MatroidRealizationSpace:
 
         return "\n".join(lines)
 
+    def _relations(self, R=None):
+        """
+        Yield the equations and inequations of the realization space as
+        (poly, op) pairs over base ring R (or raw if R is None).
+        """
+        for g in self.defining_ideal.gens():
+            yield (_change_ring(g, R) if R else g, operator.eq)
+        for g in self.inequations:
+            yield (_change_ring(g, R) if R else g, operator.ne)
+
     # ------------------------------------------------------------------
     # Realizability
     # ------------------------------------------------------------------
@@ -126,6 +143,92 @@ class MatroidRealizationSpace:
 
         self._is_realizable = False
         return False
+
+    def concrete_realization(self, q):
+        r"""
+        Return a concrete ``MatroidRealizationSpace`` over `GF(q)`.
+
+        A return value of ``None`` signifies that the matroid is not
+        `q`-realizable.
+        """
+        p, _ = is_prime_power(q, get_data=True)
+        if self.char is not None and self.char != 0 and self.char != p:
+            raise ValueError(f"q={q} has characteristic {p}, but the realization "
+                             f"space requires characteristic {self.char}")
+
+        F = GF(q)
+        R = (self.ambient_ring.change_ring(F)
+             if hasattr(self.ambient_ring, 'change_ring') else F)
+
+        rels = list(self._relations(R))
+
+        def return_rs(subs):
+            A = self.realization_matrix
+            if A is not None:
+                A = A.change_ring(R).subs(subs).change_ring(F)
+            RS_q = MatroidRealizationSpace(self.basis, F.ideal(F(0)), [],
+                                           F, A, p, q, F)
+            RS_q.one_realization = True
+            RS_q._is_realizable = True
+            return RS_q
+
+        if not _is_poly_ring(R):
+            if not all(op(f, 0) for f, op in rels):
+                return None
+            return return_rs({})
+
+        appearance = Counter()
+        for f, _ in rels:
+            for v in f.variables():
+                appearance[v] += 1
+        variables = sorted(R.gens(), key=lambda v: (-appearance[v], str(v)))
+        n = len(variables)
+        var_index = {v: i for i, v in enumerate(variables)}
+        domains = [list(F) for _ in range(n)]
+
+        def support(f):
+            return {var_index[v] for v in f.variables()}
+
+        def prune(f, op):
+            supp = support(f)
+            if not supp:
+                return None if not op(f, 0) else []
+            if len(supp) == 1:
+                i = next(iter(supp))
+                v = variables[i]
+                domains[i] = [c for c in domains[i] if op(f.subs({v: c}), 0)]
+                return []
+            return [(f, op, supp)]
+
+        reduced_rels = []
+        for f, op in rels:
+            res = prune(f, op)
+            if res is None:
+                return None
+            reduced_rels.extend(res)
+
+        if not all(domains):
+            return None
+
+        rels_by_level = defaultdict(list)
+        for f, op, supp in reduced_rels:
+            rels_by_level[max(supp)].append((f, op))
+
+        def backtrack(k, subs):
+            if k == n:
+                return subs
+            v = variables[k]
+            for val in domains[k]:
+                subs[v] = val
+                if all(op(f.subs(subs), 0) for f, op in rels_by_level[k]):
+                    res = backtrack(k + 1, subs)
+                    if res is not None:
+                        return res
+            subs.pop(v, None)
+            return None
+
+        subs = backtrack(0, {})
+        return return_rs(subs) if subs is not None else None
 
 # ---------------------------------------------------------------------------
 # Factorisation helpers
@@ -541,7 +644,7 @@ def reduce_realization_space(MRS):
         MRS_new._is_realizable = False
         return MRS_new
 
-    # sgens_new = _gens_prime_divisors([g for g in sgens_new if g != 0])
+    sgens_new = _gens_prime_divisors([g for g in sgens_new if g != 0])
 
     X_new = X.apply_map(phi) if X is not None else None
 
@@ -700,102 +803,6 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
         RS.realization_matrix = expand_fn(RS.realization_matrix)
 
     return RS
-
-
-# ---------------------------------------------------------------------------
-# realization  (find a single concrete realization)
-# ---------------------------------------------------------------------------
-
-def realization(M_or_RS, basis=None, saturate=False, simplify=True,
-                char=None, q=None):
-    """
-    Find one concrete realization of the matroid (or realization space).
-
-    Returns a MatroidRealizationSpace with one_realization=True.
-    """
-    if isinstance(M_or_RS, MatroidRealizationSpace):
-        RS = M_or_RS
-    else:
-        RS = realization_space(M_or_RS, basis=basis, saturate=saturate,
-                               simplify=simplify, char=char, q=q)
-
-    if char is None and q is None:
-        raise ValueError("A field or characteristic must be specified.")
-
-    if not RS.is_realizable():
-        return RS
-
-    R = RS.ambient_ring
-    if not _is_poly_ring(R):
-        RS.one_realization = True
-        return RS
-
-    I = RS.defining_ideal
-    eqs = list(I.gens())
-
-    dim_I = I.dimension()
-
-    if dim_I == 0:
-        try:
-            for p in I.minimal_associated_primes():
-                if all(not p.reduce(ineq) == 0 for ineq in RS.inequations):
-                    RS_new = MatroidRealizationSpace(
-                        RS.basis, p, [], R, RS.realization_matrix, RS.char, RS.q, RS.ground_ring
-                    )
-                    RS_new = reduce_realization_space(RS_new)
-                    RS_new.one_realization = True
-                    return RS_new
-        except Exception:
-            pass
-        RS.one_realization = True
-        return RS
-
-    # Positive-dimensional: specialise first d variables
-    d = min(dim_I, R.ngens())
-    base_val = 7 if (char is None or char == 0) else char
-    upper = min(base_val**d, 1000)
-
-    found = False
-    I_new = I
-    ineqs_new = list(RS.inequations)
-
-    for counter in range(upper):
-        # Little-endian base-b digits, matching Oscar's digits()
-        vals = []
-        tmp = counter
-        for _ in range(d):
-            vals.append(tmp % base_val)
-            tmp //= base_val
-
-        spec_eqs = [R.gen(i) - vals[i] for i in range(d)]
-        I_try = R.ideal(eqs + spec_eqs)
-        I_try = R.ideal(I_try.groebner_basis())
-        if I_try.is_one():
-            continue
-
-        gb_list = list(I_try.gens())
-        ineqs_try = [f.reduce(gb_list) for f in RS.inequations]
-        if R(0) in ineqs_try:
-            continue
-
-        # I_try = _stepwise_saturation(I_try, ineqs_try)
-        # if I_try.is_one():
-        #     continue
-
-        I_new = I_try
-        ineqs_new = ineqs_try
-        found = True
-        break
-
-    if not found:
-        return RS
-
-    RS_new = MatroidRealizationSpace(
-        RS.basis, I_new, ineqs_new, R, RS.realization_matrix, RS.char, RS.q, RS.ground_ring
-    )
-    RS_new = reduce_realization_space(RS_new)
-    RS_new.one_realization = True
-    return RS_new
 
 
 # ---------------------------------------------------------------------------
@@ -986,9 +993,6 @@ or in-memory:
 If your MatroidRealizationSpace class lives in a differently-named module,
 adjust the import below to match.
 """
-
-import json
-
 # ---------------------------------------------------------------------------
 # Ring (de)serialization
 # ---------------------------------------------------------------------------
