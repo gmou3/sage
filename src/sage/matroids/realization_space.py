@@ -104,12 +104,22 @@ class MatroidRealizationSpace:
         if self._is_realizable is not None:
             return self._is_realizable
 
+        I = self.defining_ideal
+        ineqs = self.inequations
+
         if not _is_poly_ring(self.ambient_ring):
-            self._is_realizable = not self.defining_ideal.is_one()
+            if I.is_one():
+                self._is_realizable = False
+            elif I.is_zero():
+                self._is_realizable = all(f != 0 for f in ineqs)
+            else:
+                n = gcd(I.gens())
+                self._is_realizable = any(
+                    all(GF(p)(f) != 0 for f in ineqs) for p, _ in n.factor())
             return self._is_realizable
 
-        for p in self.defining_ideal.minimal_associated_primes():
-            if all(p.reduce(ineq) != 0 for ineq in self.inequations):
+        for p in I.minimal_associated_primes():
+            if all(p.reduce(ineq) != 0 for ineq in ineqs):
                 self._is_realizable = True
                 return True
 
