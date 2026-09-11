@@ -6303,7 +6303,7 @@ cdef class Matroid(SageObject):
         from sage.matroids.realization_space import realization_space
         return realization_space(
             self, basis=basis, saturate=saturate, simplify=simplify,
-            char=characteristic, q=q, ground_ring=ground_ring,
+            characteristic=characteristic, q=q, ground_ring=ground_ring,
             compute_matrix=compute_matrix,
         )
 
@@ -6312,7 +6312,7 @@ cdef class Matroid(SageObject):
         Return whether this matroid is realizable.
         """
         from sage.matroids.realization_space import realization_space
-        RS = realization_space(self, char=characteristic, q=q,
+        RS = realization_space(self, characteristic=characteristic, q=q,
                                compute_matrix=False)
         return RS.is_realizable()
 
