@@ -4,9 +4,8 @@ Matroid Realization Space
 
 SageMath translation of the OSCAR (Julia) matroid realization space module.
 """
-from collections import Counter, defaultdict
+from collections import defaultdict
 from cysignals.alarm import alarm, cancel_alarm, AlarmInterrupt
-from itertools import combinations
 from sage.all import (
     ZZ, QQ, GF,
     PolynomialRing,
@@ -20,7 +19,7 @@ from sage.rings.polynomial.multi_polynomial_ring_base import MPolynomialRing_bas
 from sage.rings.polynomial.polynomial_ring import PolynomialRing_general
 from sage.rings.ring import Fields
 import json
-import operator
+cimport cython
 
 
 def _is_poly_ring(R):
@@ -28,17 +27,73 @@ def _is_poly_ring(R):
     return isinstance(R, (MPolynomialRing_base, PolynomialRing_general))
 
 
-def _change_ring(f, R):
-    if hasattr(f, 'change_ring'):
-        return f.change_ring(R.base_ring())
-    return R(f)
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cpdef list _backtrack(Py_ssize_t k, list subs, Py_ssize_t n, list domains,
+                      dict rels_by_level, object zero):
+    """
+    Try to extend a partial assignment `subs[0:k]` to a full assignment
+    `subs[0:n]` satisfying every relation, choosing candidate values for
+    variable `k` from `domains[k]` and pruning against `rels_by_level[k]`.
+
+    Returns the completed `subs` list on success, or `None` if no
+    extension of the current partial assignment satisfies all relations.
+    """
+    cdef Py_ssize_t i, pw, max_p, idx, pw2
+    cdef list candidates, new_candidates, coeff_buf, terms, rest, res
+    cdef dict groups
+    cdef bool is_eq
+    cdef object val, result, s, term, coeff
+    cdef tuple level_rel
+
+    if k == n:
+        return subs
+
+    candidates = domains[k]
+    level_rels = rels_by_level.get(k, ())
+
+    for level_rel in level_rels:
+        groups, max_p, is_eq, coeff_buf = level_rel
+        if not candidates:
+            break
+
+        for i in range(max_p + 1):
+            coeff_buf[i] = zero
+
+        for pw, terms in groups.items():
+            # compute coefficient of the univariate poly at this power
+            s = zero
+            for rest, coeff in terms:
+                term = coeff
+                for idx, pw2 in rest:
+                    term = term * subs[idx] if pw2 == 1 else term * (subs[idx] ** pw2)
+                s = s + term
+            coeff_buf[max_p - pw] = s
+
+        new_candidates = []
+        for val in candidates:
+            # Horner evaluation of the univariate poly, then check the relation
+            result = coeff_buf[0]
+            for i in range(1, max_p + 1):
+                result = result * val + coeff_buf[i]
+            if is_eq ^ (result != zero):
+                new_candidates.append(val)
+        candidates = new_candidates
+
+    for val in candidates:
+        subs[k] = val
+        res = _backtrack(k + 1, subs, n, domains, rels_by_level, zero)
+        if res is not None:
+            return res
+
+    return None
 
 # ---------------------------------------------------------------------------
 # MatroidRealizationSpace
 # ---------------------------------------------------------------------------
 
 
-class MatroidRealizationSpace:
+cdef class MatroidRealizationSpace:
     """
     Represents the realization space of a matroid.
 
@@ -52,20 +107,25 @@ class MatroidRealizationSpace:
     q                  : prime-power field size (int or None)
     ground_ring        : ZZ, QQ, GF(p), …
     one_realization    : bool — True when this records a single concrete realization
+
+    All of the above are declared as `cdef` attributes in realization_space.pxd
+    rather than in this class body (a .pyx and its .pxd may not both declare
+    the same cdef attribute).
     """
 
     def __init__(self, basis, defining_ideal, inequations, ambient_ring,
-                 realization_matrix, char, q, ground_ring):
+                 realization_matrix, characteristic, q, ground_ring):
         self.basis = frozenset(basis)
         self.defining_ideal = defining_ideal
         self.inequations = list(inequations)
         self.ambient_ring = ambient_ring
         self.realization_matrix = realization_matrix
-        self.char = char
+        self.char = characteristic
         self.q = q
         self.ground_ring = ground_ring
         self.one_realization = False
         self._is_realizable = None   # cached tri-state: None / True / False
+        self._structure_cache = None  # see _structure() below
 
     # ------------------------------------------------------------------
     # Pretty printing
@@ -134,6 +194,84 @@ class MatroidRealizationSpace:
         self._is_realizable = False
         return False
 
+    def _structure(self):
+        r"""
+        Field-independent structural setup for ``concrete_realization``,
+        cached once per instance.
+        """
+        if self._structure_cache is not None:
+            return self._structure_cache
+
+        is_poly = _is_poly_ring(self.ambient_ring)
+        n_gens = len(self.ambient_ring.gens())
+
+        def raw_terms(g):
+            if not hasattr(g, 'iterator_exp_coeff'):
+                return [((0,) * n_gens, g)]
+            return list(g.iterator_exp_coeff())
+
+        gens_raw_terms = [raw_terms(g) for g in self.defining_ideal.gens()]
+        ineqs_raw_terms = [raw_terms(g) for g in self.inequations]
+
+        appearance_by_index = [0] * n_gens
+        for terms in gens_raw_terms + ineqs_raw_terms:
+            seen = set()
+            for exp, _ in terms:
+                for j, e in enumerate(exp):
+                    if e != 0:
+                        seen.add(j)
+            for j in seen:
+                appearance_by_index[j] += 1
+
+        order = sorted(range(n_gens), key=lambda j: (-appearance_by_index[j], j))
+        n = len(order)
+        raw_to_sorted = [0] * n_gens
+        for i, j in enumerate(order):
+            raw_to_sorted[j] = i
+
+        def terms_from_raw(raw_terms_list):
+            terms = []
+            for exp, c in raw_terms_list:
+                e = {raw_to_sorted[j]: exp[j] for j in range(n_gens) if exp[j] != 0}
+                terms.append((e, c))
+            return terms
+
+        rels_terms = [(terms_from_raw(t), True) for t in gens_raw_terms]
+        rels_terms.extend([(terms_from_raw(t), False) for t in ineqs_raw_terms])
+
+        zero_support_rels = []   # [(raw_coeff_sum, is_eq)] -- checked once per q
+        single_var_rels = []     # [(i, terms, is_eq)]      -- prunes domains[i] per q
+        rels_by_level_static = defaultdict(list)  # {k: [(groups, max_p, is_eq)]}
+
+        for terms, is_eq in rels_terms:
+            supp = set()
+            for e, _ in terms:
+                supp.update(e.keys())
+            if not supp:
+                c = sum((c for _, c in terms), 0)
+                zero_support_rels.append((c, is_eq))
+            elif len(supp) == 1:
+                i = next(iter(supp))
+                single_var_rels.append((i, terms, is_eq))
+            else:
+                k = max(supp)
+                groups = defaultdict(list)
+                for e, coeff in terms:
+                    pv = e.get(k, 0)
+                    rest = [(idx, pw) for idx, pw in e.items() if idx != k]
+                    groups[pv].append((rest, coeff))
+                max_p = max(groups)
+                rels_by_level_static[k].append((dict(groups), max_p, is_eq))
+
+        for k in rels_by_level_static:
+            rels_by_level_static[k].sort(key=lambda r: r[1])  # ascending max_p
+
+        self._structure_cache = (
+            is_poly, order, n, zero_support_rels, single_var_rels,
+            dict(rels_by_level_static),
+        )
+        return self._structure_cache
+
     def concrete_realization(self, q):
         r"""
         Return a concrete ``MatroidRealizationSpace`` over `GF(q)`.
@@ -146,48 +284,16 @@ class MatroidRealizationSpace:
             raise ValueError(f"q={q} has characteristic {p}, but the realization "
                              f"space requires characteristic {self.char}")
 
+        is_poly, order, n, zero_support_rels, single_var_rels, rels_by_level_static = (
+            self._structure()
+        )
+
         F = GF(q)
         zero = F(0)
         R = (self.ambient_ring.change_ring(F)
              if hasattr(self.ambient_ring, 'change_ring') else F)
         gens = R.gens()
-
-        def raw_terms(g):
-            if not hasattr(g, 'dict'):
-                return [((0,) * len(gens), g)]
-            return list(g.dict().items())
-
-        gens_raw_terms = [raw_terms(g) for g in self.defining_ideal.gens()]
-        ineqs_raw_terms = [raw_terms(g) for g in self.inequations]
-
-        appearance_by_index = [0] * len(gens)
-        for terms in gens_raw_terms + ineqs_raw_terms:
-            seen = set()
-            for exp, _ in terms:
-                for j, e in enumerate(exp):
-                    if e != 0:
-                        seen.add(j)
-            for j in seen:
-                appearance_by_index[j] += 1
-
-        order = sorted(range(len(gens)), key=lambda j: (-appearance_by_index[j], str(gens[j])))
         variables = [gens[j] for j in order]
-        n = len(variables)
-        var_index = {v: i for i, v in enumerate(variables)}
-        domains = [list(F) for _ in range(n)]
-        raw_to_sorted = [var_index[gens[j]] for j in range(len(gens))]
-
-        def terms_from_raw(raw_terms_list):
-            """Build (sorted-index exponent dict, F coefficient) pairs from an
-            already-extracted raw term list -- no second g.dict() call."""
-            terms = []
-            for exp, c in raw_terms_list:
-                e = {raw_to_sorted[j]: exp[j] for j in range(len(gens)) if exp[j] != 0}
-                terms.append((e, F(c)))
-            return terms
-
-        rels_terms = [(terms_from_raw(t), operator.eq) for t in gens_raw_terms]
-        rels_terms.extend([(terms_from_raw(t), operator.ne) for t in ineqs_raw_terms])
 
         def return_rs(subs):
             A = self.realization_matrix
@@ -199,117 +305,125 @@ class MatroidRealizationSpace:
             RS_q._is_realizable = True
             return RS_q
 
-        if not _is_poly_ring(R):
-            def as_constant(terms):
-                return sum((c for _, c in terms), zero)
-            if not all(op(as_constant(terms), zero) for terms, op in rels_terms):
+        for c, is_eq in zero_support_rels:
+            if not (is_eq ^ (F(c) != zero)):
                 return None
+
+        if not is_poly:
             return return_rs({})
 
-        rels_with_supp = []
-        for terms, op in rels_terms:
-            supp = set()
-            for e, _ in terms:
-                supp.update(e.keys())
-            rels_with_supp.append((terms, op, supp))
+        domains = [list(F) for _ in range(n)]
 
-        def prune(terms, op, supp):
-            if not supp:
-                c = terms[0][1] if terms else zero
-                return None if not op(c, zero) else []
-            if len(supp) == 1:
-                i = next(iter(supp))
-                def eval_at(val):
-                    total = zero
-                    for e, coeff in terms:
-                        total += coeff * val ** e.get(i, 0)
-                    return total
-                domains[i] = [c for c in domains[i] if op(eval_at(c), zero)]
-                return []
-            return [(terms, op, supp)]
+        for i, terms, is_eq in single_var_rels:
+            terms_F = [(e, F(coeff)) for e, coeff in terms]
+
+            def eval_at(val, terms=terms_F, i=i):
+                total = zero
+                for e, coeff in terms:
+                    total += coeff * val ** e.get(i, 0)
+                return total
+
+            domains[i] = [c for c in domains[i] if is_eq ^ (eval_at(c) != zero)]
 
         if not all(domains):
             return None
 
-        # Encode and manipulate raw polynomials to avoid using the slow
-        # `f.subs` method in the inner loop of backtrack
-        def compile_terms(f):
-            terms = []
-            exps = f.exponents()
-            coeffs = f.coefficients()
-            for exp, coeff in zip(exps, coeffs):
-                e = {raw_to_sorted[j]: ej for j, ej in enumerate(exp) if ej != 0}
-                terms.append((e, coeff))
-            return terms
-
-        def group_by_pivot(terms, k):
-            """Return a dict mapping pivot exponent to list of
-            (exponent_dict, coeff) pairs."""
-            groups = defaultdict(list)
-            for e, coeff in terms:
-                pv = e.get(k, 0)
-                rest = [(idx, pw) for idx, pw in e.items() if idx != k]
-                groups[pv].append((rest, coeff))
-            return groups
-
-        reduced_rels = []
-        for terms, op, supp in rels_with_supp:
-            res = prune(terms, op, supp)
-            if res is None:
-                return None
-            reduced_rels.extend(res)
-
-        rels_by_level = defaultdict(list)
-        for terms, op, supp in reduced_rels:
-            k = max(supp)
-            groups = group_by_pivot(terms, k)
-            max_p = max(groups)
-            coeff_buf = [zero] * (max_p + 1)
-            rels_by_level[k].append((groups, max_p, op, coeff_buf))
-
-        for k in rels_by_level:
-            rels_by_level[k].sort(key=lambda r: r[1])  # ascending max_p
+        # Coerce rels into F instead of leaving them raw for _backtrack (slow)
+        rels_by_level = {
+            k: [
+                (
+                    {pv: [(rest, F(coeff)) for rest, coeff in terms]
+                     for pv, terms in groups.items()},
+                    max_p, is_eq, [zero] * (max_p + 1),
+                )
+                for groups, max_p, is_eq in rels
+            ]
+            for k, rels in rels_by_level_static.items()
+        }
 
         subs = [None] * n
-
-        def backtrack(k, subs):
-            if k == n:
-                return subs
-            candidates = domains[k]
-            for groups, max_p, op, coeff_buf in rels_by_level[k]:
-                if not candidates:
-                    break
-                for i in range(max_p + 1):
-                    coeff_buf[i] = zero
-                for pw, terms in groups.items():
-                    # compute coeff of univariate poly
-                    s = zero
-                    for rest, coeff in terms:
-                        term = coeff
-                        for idx, pw2 in rest:
-                            term *= subs[idx] if pw2 == 1 else subs[idx] ** pw2
-                        s += term
-                    coeff_buf[max_p - pw] = s
-                new_candidates = []
-                for val in candidates:
-                    # evaluate univariate poly and check result
-                    result = coeff_buf[0]
-                    for i in range(1, max_p + 1):
-                        result = result * val + coeff_buf[i]
-                    if op(result, zero):
-                        new_candidates.append(val)
-                candidates = new_candidates
-            for val in candidates:
-                subs[k] = val
-                res = backtrack(k + 1, subs)
-                if res is not None:
-                    return res
-            return None
-
-        subs = backtrack(0, subs)
+        subs = _backtrack(0, subs, n, domains, rels_by_level, zero)
         if subs is None:
             return None
         return return_rs({variables[k]: subs[k] for k in range(n)})
+
+    # ------------------------------------------------------------------
+    # Serialization
+    # ------------------------------------------------------------------
+
+    def to_dict(self):
+        """Serialize this realization space to a JSON-safe dict."""
+        ring_data = _ser_ring(self.ambient_ring)
+
+        ideal_gens = [str(f) for f in self.defining_ideal.gens()]
+        ineq_strs = [str(f) for f in self.inequations]
+
+        if self.realization_matrix is not None:
+            mat = self.realization_matrix
+            matrix_data = {
+                "nrows": mat.nrows(),
+                "ncols": mat.ncols(),
+                "entries": [[str(mat[i, j]) for j in range(mat.ncols())]
+                            for i in range(mat.nrows())],
+            }
+        else:
+            matrix_data = None
+
+        return {
+            "basis": [_ser_elem(e) for e in self.basis],
+            "ambient_ring": ring_data,
+            "defining_ideal_gens": ideal_gens,
+            "inequations": ineq_strs,
+            "realization_matrix": matrix_data,
+            "char": int(self.char) if self.char is not None else None,
+            "q": int(self.q) if self.q is not None else None,
+            "ground_ring": _ser_ground_ring(self.ground_ring),
+            "one_realization": self.one_realization,
+            "is_realizable": self._is_realizable,
+        }
+
+    def to_json(self, **kwargs):
+        return json.dumps(self.to_dict(), **kwargs)
+
+    def save_json(self, path, **kwargs):
+        with open(path, "w") as fh:
+            fh.write(self.to_json(**kwargs))
+
+    @staticmethod
+    def from_dict(data):
+        R = _deser_ring(data["ambient_ring"])
+        ground_ring = _deser_ground_ring(data["ground_ring"])
+
+        basis = frozenset(_deser_elem(e) for e in data["basis"])
+
+        gens = [_ring_element_from_str(R, s) for s in data["defining_ideal_gens"]]
+        defining_ideal = R.ideal(gens) if gens else R.ideal([R(0)])
+
+        inequations = [_ring_element_from_str(R, s) for s in data["inequations"]]
+
+        md = data["realization_matrix"]
+        if md is not None:
+            entries = [[_ring_element_from_str(R, s) for s in row] for row in md["entries"]]
+            realization_matrix = matrix(R, md["nrows"], md["ncols"], entries)
+        else:
+            realization_matrix = None
+
+        MRS = MatroidRealizationSpace(
+            basis, defining_ideal, inequations, R, realization_matrix,
+            data["char"], data["q"], ground_ring,
+        )
+        MRS.one_realization = data["one_realization"]
+        MRS._is_realizable = data["is_realizable"]
+        return MRS
+
+    @staticmethod
+    def from_json(s):
+        return MatroidRealizationSpace.from_dict(json.loads(s))
+
+    @staticmethod
+    def load_json(path):
+        with open(path) as fh:
+            return MatroidRealizationSpace.from_json(fh.read())
 
 # ---------------------------------------------------------------------------
 # Factorisation helpers
@@ -356,18 +470,6 @@ def _gens_prime_divisors(polys):
 def _stepwise_saturation(I, ineqs):
     """
     Saturate ideal I w.r.t. each element of ineqs sequentially.
-
-    Processes ineqs in order of ascending total degree: saturating by a
-    low-degree (cheap) generator first tends to simplify/shrink I quickly,
-    which usually makes the remaining, higher-degree saturations faster
-    than if they'd been run against the original, larger ideal. This is a
-    heuristic (not guaranteed optimal for every ideal), but it's a
-    reasonable default and costs nothing extra to apply.
-
-    Note: I : (f1...fk)^\\infty is independent of the order the fi are
-    processed in (saturation by a product equals iterated saturation,
-    regardless of order) — only the runtime is affected by ordering, not
-    the result.
     """
     R = I.ring()
     for f in sorted(ineqs, key=lambda f: f.degree()):
@@ -642,7 +744,7 @@ def _reduce_ideal_one_step(igens, sgens, ideal_vars, R, FR, X):
         return igens, sgens, X, None, None, True
 
     # Try each candidate; skip to next if substitution times out
-    for cost, best_v, best_t in candidates:
+    for _, best_v, best_t in candidates:
         timed_out = False
         alarm(30)
         try:
@@ -738,7 +840,7 @@ def reduce_realization_space(MRS):
 # realization_space  (main public function)
 # ---------------------------------------------------------------------------
 
-def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
+def realization_space(M, basis=None, saturate=False, simplify=True, characteristic=None,
                       q=None, ground_ring=None, compute_matrix=True):
     """
     Compute the matroid realization space of matroid M.
@@ -749,7 +851,12 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
     basis       : iterable or None — basis specifying the identity columns
     saturate    : bool — saturate defining ideal w.r.t. inequations (slow)
     simplify    : bool — eliminate variables where possible
-    char        : int or None — characteristic of coefficient field
+    characteristic       : int or None — characteristic of coefficient field
+                  (named `characteristic`, not `char`: Cython reserves `char` as a
+                  C type keyword and rejects it as a bare identifier
+                  anywhere in a .pyx file. Keyword callers using the old
+                  `char=...` name need to switch to `characteristic=...`; positional
+                  callers are unaffected.)
     q           : int or None — prime power; work over GF(q)
     ground_ring : Ring or None — override base ring (default ZZ)
 
@@ -765,21 +872,21 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
         if basis not in M.bases():
             raise ValueError("The given basis is not valid.")
 
-    if char is not None and char != 0 and not is_prime(char):
+    if characteristic is not None and characteristic != 0 and not is_prime(characteristic):
         raise ValueError("The characteristic must be 0 or a prime number.")
 
     if q is not None:
         if not is_prime_power(q):
             raise ValueError("q must be a prime power.")
         p, _ = is_prime_power(q, get_data=True)
-        if char is not None and char != p:
+        if characteristic is not None and characteristic != p:
             raise ValueError("The given characteristic doesn't match q.")
-        char = p
+        characteristic = p
 
-    if char == 0:
+    if characteristic == 0:
         ground_ring = QQ
-    elif char is not None:
-        ground_ring = GF(char)
+    elif characteristic is not None:
+        ground_ring = GF(characteristic)
 
     # Simplify: remove loops and parallel elements
     Ms, reps, rep_col, expand_fn = _simplify_for_realization_space(M, basis)
@@ -800,7 +907,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
         # No free variables
         full_mat = expand_fn(mat)
         RS = MatroidRealizationSpace(
-            basis, R.ideal([R(0)]), [], R, full_mat, char, q, ground_ring
+            basis, R.ideal([R(0)]), [], R, full_mat, characteristic, q, ground_ring
         )
         RS._is_realizable = True
         return RS
@@ -814,7 +921,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
         if col_det == 0:
             ineqs.append(col_det)
             RS = MatroidRealizationSpace(
-                basis, R.ideal(eqs), ineqs, R, None, char, q, ground_ring
+                basis, R.ideal(eqs), ineqs, R, None, characteristic, q, ground_ring
             )
             RS._is_realizable = False
             return RS
@@ -834,7 +941,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
 
         if def_ideal.is_one():
             RS = MatroidRealizationSpace(
-                basis, def_ideal, ineqs, R, None, char, q, ground_ring
+                basis, def_ideal, ineqs, R, None, characteristic, q, ground_ring
             )
             RS._is_realizable = False
             return RS
@@ -844,7 +951,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
     RS = MatroidRealizationSpace(
         basis, def_ideal, ineqs, R,
         mat if compute_matrix else None,
-        char, q, ground_ring,
+        characteristic, q, ground_ring,
     )
 
     # GF(q): add Frobenius equations x^q = x
@@ -962,7 +1069,7 @@ def characteristic_set(M_or_RS, basis=None, verify=True):
     if RS.char is not None or RS.q is not None:
         raise ValueError(
             "characteristic_set needs a realization space computed over ZZ "
-            "(char=None, q=None), not one already specialized to a fixed "
+            "(characteristic=None, q=None), not one already specialized to a fixed "
             "characteristic or field size."
         )
 
@@ -994,7 +1101,7 @@ def characteristic_set(M_or_RS, basis=None, verify=True):
     if verify and result.uncertain and M is not None:
         still_excluded = set(result.primes)
         for p in result.uncertain:
-            RS_p = realization_space(M, basis=basis, char=p)
+            RS_p = realization_space(M, basis=basis, characteristic=p)
             realizable = RS_p.is_realizable()
 
             if result.finite:
@@ -1060,7 +1167,7 @@ Usage
 -----
     import matroid_realization_json  # side effect: attaches the methods
 
-    RS = realization_space(M, char=0)
+    RS = realization_space(M, characteristic=0)
     RS.save_json("my_space.json")
 
     RS2 = MatroidRealizationSpace.load_json("my_space.json")
@@ -1178,94 +1285,12 @@ def _deser_elem(d):
 # ---------------------------------------------------------------------------
 # MatroidRealizationSpace <-> dict / JSON
 # ---------------------------------------------------------------------------
-
-def _mrs_to_dict(self):
-    """Serialize this realization space to a JSON-safe dict."""
-    ring_data = _ser_ring(self.ambient_ring)
-
-    ideal_gens = [str(f) for f in self.defining_ideal.gens()]
-    ineq_strs = [str(f) for f in self.inequations]
-
-    if self.realization_matrix is not None:
-        mat = self.realization_matrix
-        matrix_data = {
-            "nrows": mat.nrows(),
-            "ncols": mat.ncols(),
-            "entries": [[str(mat[i, j]) for j in range(mat.ncols())]
-                        for i in range(mat.nrows())],
-        }
-    else:
-        matrix_data = None
-
-    return {
-        "basis": [_ser_elem(e) for e in self.basis],
-        "ambient_ring": ring_data,
-        "defining_ideal_gens": ideal_gens,
-        "inequations": ineq_strs,
-        "realization_matrix": matrix_data,
-        "char": int(self.char) if self.char is not None else None,
-        "q": int(self.q) if self.q is not None else None,
-        "ground_ring": _ser_ground_ring(self.ground_ring),
-        "one_realization": self.one_realization,
-        "is_realizable": self._is_realizable,
-    }
-
-
-def _mrs_to_json(self, **kwargs):
-    return json.dumps(self.to_dict(), **kwargs)
-
-
-def _mrs_save_json(self, path, **kwargs):
-    with open(path, "w") as fh:
-        fh.write(self.to_json(**kwargs))
-
-
-def _mrs_from_dict(data):
-    R = _deser_ring(data["ambient_ring"])
-    ground_ring = _deser_ground_ring(data["ground_ring"])
-
-    basis = frozenset(_deser_elem(e) for e in data["basis"])
-
-    gens = [_ring_element_from_str(R, s) for s in data["defining_ideal_gens"]]
-    defining_ideal = R.ideal(gens) if gens else R.ideal([R(0)])
-
-    inequations = [_ring_element_from_str(R, s) for s in data["inequations"]]
-
-    md = data["realization_matrix"]
-    if md is not None:
-        entries = [[_ring_element_from_str(R, s) for s in row] for row in md["entries"]]
-        realization_matrix = matrix(R, md["nrows"], md["ncols"], entries)
-    else:
-        realization_matrix = None
-
-    MRS = MatroidRealizationSpace(
-        basis, defining_ideal, inequations, R, realization_matrix,
-        data["char"], data["q"], ground_ring,
-    )
-    MRS.one_realization = data["one_realization"]
-    MRS._is_realizable = data["is_realizable"]
-    return MRS
-
-
-def _mrs_from_json(s):
-    return MatroidRealizationSpace.from_dict(json.loads(s))
-
-
-def _mrs_load_json(path):
-    with open(path) as fh:
-        return MatroidRealizationSpace.from_json(fh.read())
-
-
-# ---------------------------------------------------------------------------
-# Attach as methods on MatroidRealizationSpace
-# ---------------------------------------------------------------------------
-
-MatroidRealizationSpace.to_dict = _mrs_to_dict
-MatroidRealizationSpace.to_json = _mrs_to_json
-MatroidRealizationSpace.save_json = _mrs_save_json
-MatroidRealizationSpace.from_dict = staticmethod(_mrs_from_dict)
-MatroidRealizationSpace.from_json = staticmethod(_mrs_from_json)
-MatroidRealizationSpace.load_json = staticmethod(_mrs_load_json)
+# The (de)serialization methods themselves (to_dict, to_json, save_json,
+# from_dict, from_json, load_json) are defined directly in the
+# MatroidRealizationSpace class body above; they call the ring/element
+# (de)serialization helpers defined earlier in this file
+# (_ser_ring, _deser_ring, _ser_ground_ring, _deser_ground_ring,
+# _ring_element_from_str, _ser_elem, _deser_elem).
 
 
 # ---------------------------------------------------------------------------
