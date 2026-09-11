@@ -117,6 +117,7 @@ additional functionality (e.g. linear extensions).
 - Representation
     - :meth:`realization_space() <sage.matroids.matroid.Matroid.realization_space>`
     - :meth:`is_realizable() <sage.matroids.matroid.Matroid.is_realizable>`
+    - :meth:`characteristic_set() <sage.matroids.matroid.Matroid.characteristic_set>`
     - :meth:`is_graphic() <sage.matroids.matroid.Matroid.is_graphic>`
     - :meth:`is_regular() <sage.matroids.matroid.Matroid.is_regular>`
     - :meth:`binary_matroid() <sage.matroids.matroid.Matroid.binary_matroid>`
@@ -6315,6 +6316,13 @@ cdef class Matroid(SageObject):
                                compute_matrix=False)
         return RS.is_realizable()
 
+    def characteristic_set(self, basis=None):
+        r"""
+        Return the characteristic set of this matroid.
+        """
+        from sage.matroids.realization_space import characteristic_set
+        return characteristic_set(self, basis=basis)
+        
     cpdef _local_binary_matroid(self, basis=None):
         r"""
         Return a binary matroid `M` so that relative to a fixed basis `B`,

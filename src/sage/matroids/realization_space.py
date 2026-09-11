@@ -795,3 +795,163 @@ def realization(M_or_RS, basis=None, saturate=False, simplify=True,
     RS_new = reduce_realization_space(RS_new)
     RS_new.one_realization = True
     return RS_new
+
+
+# ---------------------------------------------------------------------------
+# characteristic_set
+# ---------------------------------------------------------------------------
+
+class CharacteristicSet:
+    """
+    The characteristic set of a matroid,
+
+        χ(M) = {p ∈ P ∪ {0} : M is realizable over some field of
+                               characteristic p}.
+
+    As explained in 2.2, exactly one of the following holds:
+
+    * ``finite`` is True  — χ(M) is a finite set of primes (0 is never
+      included), stored directly in ``primes``.
+    * ``finite`` is False — χ(M) is P ∪ {0} minus a finite set of "excluded"
+      primes, stored in ``primes``. (0 is always in χ(M) in this case.)
+
+    Use ``p in cs`` to test membership rather than reading ``primes``
+    directly, since the meaning of ``primes`` flips between the two cases.
+    """
+
+    def __init__(self, finite, primes, uncertain=()):
+        self.finite = bool(finite)
+        self.primes = frozenset(int(p) for p in primes)
+        self.uncertain = frozenset(int(p) for p in uncertain)
+
+    def __contains__(self, p):
+        if self.finite:
+            return p in self.primes
+        return True if p == 0 else p not in self.primes
+
+    def __iter__(self):
+        if not self.finite:
+            raise TypeError("characteristic set is infinite; test membership with `in` instead")
+        return iter(sorted(self.primes))
+
+    def __eq__(self, other):
+        if not isinstance(other, CharacteristicSet):
+            return NotImplemented
+        return self.finite == other.finite and self.primes == other.primes
+
+    def __repr__(self):
+        if self.finite:
+            s = "{{{}}}".format(", ".join(str(p) for p in sorted(self.primes)))
+        else:
+            excluded = sorted(self.primes)
+            s = "P ∪ {0}" if not excluded else "(P ∪ {{0}}) \\ {{{}}}".format(
+                ", ".join(str(p) for p in excluded))
+        if self.uncertain:
+            s += "  [unverified: {}]".format(
+                ", ".join(str(p) for p in sorted(self.uncertain)))
+        return s
+
+
+def _prime_divisors(n):
+    n = ZZ(n)
+    if n == 0:
+        return set()
+    return {int(p) for p, _ in n.factor()}
+
+
+def characteristic_set(M_or_RS, basis=None, verify=True):
+    r"""
+    Compute the characteristic set χ(M) of a matroid M.
+    """
+    if isinstance(M_or_RS, MatroidRealizationSpace):
+        RS = M_or_RS
+        M = None
+    else:
+        M = M_or_RS
+        RS = realization_space(M, basis=basis, compute_matrix=False)
+
+    if RS.char is not None or RS.q is not None:
+        raise ValueError(
+            "characteristic_set needs a realization space computed over ZZ "
+            "(char=None, q=None), not one already specialized to a fixed "
+            "characteristic or field size."
+        )
+
+    base_ring = RS.ambient_ring.base_ring() if _is_poly_ring(RS.ambient_ring) else RS.ambient_ring
+    if base_ring is not ZZ:
+        raise ValueError("characteristic_set needs a realization space defined over ZZ.")
+
+    if RS._is_realizable is False:
+        return CharacteristicSet(True, set())
+
+    I = RS.defining_ideal
+    Q = RS.inequations
+
+    if not _is_poly_ring(RS.ambient_ring):
+        if I.is_one():
+            result = CharacteristicSet(True, set())
+        elif I.is_zero():
+            excluded = set()
+            for q in Q:
+                excluded |= _prime_divisors(q)
+            result = CharacteristicSet(False, excluded)
+        else:
+            n = gcd([ZZ(g) for g in I.gens()])
+            result = CharacteristicSet(True, _prime_divisors(n))
+    else:
+        R = RS.ambient_ring
+        result = _characteristic_set_rabinowitsch(I, Q, R)
+
+    if verify and result.uncertain and M is not None:
+        still_excluded = set(result.primes)
+        for p in result.uncertain:
+            RS_p = realization_space(M, basis=basis, char=p)
+            realizable = RS_p.is_realizable()
+
+            if result.finite:
+                if not realizable:
+                    still_excluded.discard(p)
+            else:
+                if not realizable:
+                    still_excluded.add(p)
+
+        result = CharacteristicSet(result.finite, still_excluded)
+
+    return result
+
+
+def _characteristic_set_rabinowitsch(I, Q, R):
+    """
+    Build the Rabinowitsch ideal J' = I + (y*g + 1) (g = product of Q) in R[y]
+    and read constants / leading coefficients off its Gröbner basis.
+    """
+    y = 'y_char_set'
+    while y in R.variable_names():
+        y += '_'
+    Rext = PolynomialRing(ZZ, list(R.variable_names()) + [y])
+    y = Rext.gens()[-1]
+    phi = R.hom(list(Rext.gens()[:-1]))  # codomain inferred as Rext
+
+    g = Rext(1)
+    for q in Q:
+        g *= phi(q)
+    f = y * g + 1
+
+    Jp = Rext.ideal([phi(h) for h in I.gens()] + [f])
+
+    if Jp.is_one():
+        return CharacteristicSet(True, set())
+
+    G = [g_ for g_ in Jp.groebner_basis() if g_ != 0]
+    constants = [ZZ(g_.constant_coefficient()) for g_ in G if g_.is_constant()]
+    constants = [c for c in constants if c != 0]
+
+    leading_coeffs = [ZZ(g_.lc()) for g_ in G]
+    gamma = lcm(leading_coeffs) if leading_coeffs else ZZ(1)
+    suspects = _prime_divisors(gamma)
+
+    if constants:
+        candidates = _prime_divisors(gcd(constants))
+        return CharacteristicSet(True, candidates, uncertain=candidates)
+
+    return CharacteristicSet(False, set(), uncertain=suspects)
