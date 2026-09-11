@@ -18,6 +18,7 @@ from sage.graphs.graph import Graph
 from sage.matroids.utilities import cmp_elements_key
 from sage.rings.polynomial.multi_polynomial_ring_base import MPolynomialRing_base
 from sage.rings.polynomial.polynomial_ring import PolynomialRing_general
+from sage.rings.ring import Fields
 
 
 def _is_poly_ring(R):
@@ -27,6 +28,7 @@ def _is_poly_ring(R):
 # ---------------------------------------------------------------------------
 # MatroidRealizationSpace
 # ---------------------------------------------------------------------------
+
 
 class MatroidRealizationSpace:
     """
@@ -118,7 +120,9 @@ class MatroidRealizationSpace:
 # Factorisation helpers
 # ---------------------------------------------------------------------------
 
+
 _factor_cache = {}
+
 
 def _factor_cached(f):
     try:
@@ -130,6 +134,7 @@ def _factor_cached(f):
         _factor_cache[key] = f.factor()
     return _factor_cache[key]
 
+
 def _normalize_poly(f):
     """Normalize polynomial to have positive leading coefficient."""
     try:
@@ -139,6 +144,7 @@ def _normalize_poly(f):
         return f
     except Exception:
         return f
+
 
 def _gens_prime_divisors(polys):
     result = []
@@ -150,6 +156,7 @@ def _gens_prime_divisors(polys):
             if normalized not in result:
                 result.append(normalized)
     return result
+
 
 def _stepwise_saturation(I, ineqs):
     """
@@ -184,27 +191,21 @@ def _fundamental_circuits_basis_graph(M, basis):
 
     Returns
     -------
-    E_dict  : {(u,v): (row_index, col_elem)} — edge key is (max, min)
-    G       : sage Graph
+    E_dict     : {frozenset({b_elem, e}): (row_index, e)}
+    G          : sage Graph
+    fund_circs : list of fundamental circuits, one per non-basis element
+                 (in the same order as `non_basis`)
     """
+    row_idx = {b_elem: idx for idx, b_elem in enumerate(sorted(basis))}
+    non_basis = sorted(M.groundset() - basis)
+    fund_circs = [M._fundamental_circuit(basis, e) for e in non_basis]
+
     E_dict = {}
     edges = []
-
-    fund_circs = [M.fundamental_circuit(basis, e)
-                  for e in sorted(M.groundset() - basis, key=cmp_elements_key)]
-
-    for circ in fund_circs:
-        non_basis_in = circ - basis
-        if len(non_basis_in) != 1:
-            continue
-        r = next(iter(non_basis_in))
-
-        for idx, b_elem in enumerate(basis):
-            if b_elem in circ:
-                u, v = sorted([r, b_elem], key=cmp_elements_key)
-                if (u, v) not in E_dict:
-                    E_dict[(u, v)] = (idx, r)
-                    edges.append((u, v))
+    for e, circ in zip(non_basis, fund_circs):
+        for b_elem in circ - {e}:
+            E_dict[frozenset((b_elem, e))] = (row_idx[b_elem], e)
+            edges.append((b_elem, e))
 
     G = Graph(edges, multiedges=False)
     return E_dict, G, fund_circs
@@ -221,50 +222,49 @@ def _realization_space_matrix(M, basis, F):
     Returns (R, mat) where R is the ambient (polynomial) ring and mat is
     an r × n matrix over R.
     """
-    E = sorted(M.groundset(), key=cmp_elements_key)
-    n = len(E)
     r = M.rank()
-
-    elem_to_idx = {e: i for i, e in enumerate(E)}
+    n = len(M.groundset())
 
     E_dict, G_sharp, fund_circs = _fundamental_circuits_basis_graph(M, basis)
     SF = {
-        tuple(sorted([u, v], key=cmp_elements_key))
-        for G in G_sharp.connected_components_subgraphs()
+        frozenset((u, v)) for G in G_sharp.connected_components_subgraphs()
         for (u, v, _) in G.min_spanning_tree(check_weight=False)
     }
 
-    # Circuits restricted to basis elements (for variable count)
-    fund_circs_basis = [c & basis for c in fund_circs]
-
     # Count free variables
-    nvars = (n - r) * r
-    nvars -= sum(r - len(c) for c in fund_circs_basis)
+    nvars = sum(len(c) - 1 for c in fund_circs)
     nvars -= len(SF)
     nvars = max(nvars, 0)
 
     if nvars > 0:
-        names = ['{}{}'.format('x', i) for i in range(1, nvars + 1)]
+        names = [f'x{i}' for i in range(1, nvars + 1)]
         R = PolynomialRing(F, nvars, names)
-        xs = list(R.gens())
+
+        # Singular's fast det() computation needs a field
+        if F in Fields():
+            Q = R
+        else:
+            Q = PolynomialRing(F.fraction_field(), nvars, names)
+
+        xs = list(Q.gens())
     else:
         R = F
+        Q = F
         xs = []
 
-    mat = zero_matrix(R, r, n)
+    mat = zero_matrix(Q, r, n)
+    one = Q.one()
 
     # Identity block for basis columns
-    for i, b_elem in enumerate(basis):
-        col = elem_to_idx[b_elem]
-        mat[i, col] = R(1)
+    for i, b_elem in enumerate(sorted(basis)):
+        mat[i, b_elem] = one
 
     var_counter = 0
     for key, (row_idx, col_elem) in E_dict.items():
-        col = elem_to_idx[col_elem]
         if key in SF:
-            mat[row_idx, col] = R(1)
+            mat[row_idx, col_elem] = one
         else:
-            mat[row_idx, col] = xs[var_counter]
+            mat[row_idx, col_elem] = xs[var_counter]
             var_counter += 1
 
     return R, mat
@@ -303,6 +303,7 @@ def _simplify_for_realization_space(M, basis):
 
     # Restrict to representatives
     M = M.delete([e for e in M.groundset() if e not in reps])
+    M = M.relabel(rep_col)
 
     def expand_to_full(simple_mat):
         R = simple_mat.base_ring()
@@ -316,7 +317,7 @@ def _simplify_for_realization_space(M, basis):
                 full[i, j_idx] = simple_mat[i, col]
         return full
 
-    return M, expand_to_full
+    return M, reps, rep_col, expand_to_full
 
 
 # ---------------------------------------------------------------------------
@@ -327,7 +328,7 @@ def _find_good_basis_heuristically(M):
     """Choose a basis minimising circuit–basis incidences."""
     best_score = float('inf')
     for b in M.bases():
-        score = sum(len(M.fundamental_circuit(b, e))
+        score = sum(len(M._fundamental_circuit(b, e))
                     for e in M.groundset() - b)
         if score < best_score:
             best_score = score
@@ -505,10 +506,10 @@ def reduce_realization_space(MRS):
         elim[v] = t
         ideal_vars.remove(v)
 
-    # ---- Build reduced ring without eliminated variables -----------------
+    # Build reduced ring without eliminated variables
     xs = list(R.gens())
     kept = [v for v in xs if v not in elim]
-    kept_names = ['x{}'.format(i+1) for i in range(len(kept))]
+    kept_names = ['x{}'.format(i + 1) for i in range(len(kept))]
     if len(kept) == 0:
         R_new = R.base_ring()
         phi = R.hom([R_new(0)] * len(xs), R_new)
@@ -585,75 +586,73 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
     elif char is not None:
         ground_ring = GF(char)
 
-    # --- Simplify: remove loops and parallel elements ---
-    Ms, expand_fn = _simplify_for_realization_space(M, basis)
+    # Simplify: remove loops and parallel elements
+    Ms, reps, rep_col, expand_fn = _simplify_for_realization_space(M, basis)
 
-    # --- Choose working basis ---
-    if basis is None:
-        basis = _find_good_basis_heuristically(Ms)
+    # Choose working basis
+    if basis is not None:
+        work_basis = frozenset(rep_col[e] for e in basis)
+    else:
+        work_basis = _find_good_basis_heuristically(Ms)
+        basis = frozenset(e for e in reps if rep_col[e] in work_basis)
 
-    polyR, mat = _realization_space_matrix(Ms, basis, ground_ring)
+    R, mat = _realization_space_matrix(Ms, work_basis, ground_ring)
 
     eqs = []
     ineqs = []
 
-    if not _is_poly_ring(polyR):
+    if not _is_poly_ring(R):
         # No free variables
         full_mat = expand_fn(mat)
         RS = MatroidRealizationSpace(
-            basis, polyR.ideal([polyR(0)]), [], polyR, full_mat, char, q, ground_ring
+            basis, R.ideal([R(0)]), [], R, full_mat, char, q, ground_ring
         )
         RS._is_realizable = True
         return RS
 
+    # Collect inequations from bases
+    for B in Ms.bases():
+        sub = mat.matrix_from_columns(B)
+        col_det = R(sub.determinant())
+        ineqs.append(col_det)
 
-    B = Ms.bases()
-    E_idx = {
-        e: i for i, e in
-        enumerate(sorted(Ms.groundset(), key=cmp_elements_key))
-    }
-
-    # --- Collect equations and inequations from all r-subsets ---
-    for col_elems in combinations(Ms.groundset(), Ms.rank()):
-        col_set = frozenset(col_elems)
-        col_indices = [E_idx[e] for e in col_elems]
-        sub = mat.matrix_from_columns(col_indices)
-        col_det = sub.determinant()
-        is_basis = col_set in B
-
-        if is_basis and col_det == 0:
+        if col_det == 0:
             ineqs.append(col_det)
             RS = MatroidRealizationSpace(
-                basis, polyR.ideal(eqs), ineqs, polyR, None, char, q, ground_ring
+                basis, R.ideal(eqs), ineqs, R, None, char, q, ground_ring
             )
             RS._is_realizable = False
             return RS
 
-        if is_basis:
-            ineqs.append(col_det)
-        else:
-            eqs.append(col_det)
+    # Collect equations from nonbases
+    for NB in Ms.nonbases():
+        sub = mat.matrix_from_columns(NB)
+        col_det = R(sub.determinant())
+        eqs.append(col_det)
 
-    def_ideal = polyR.ideal(eqs) if eqs else polyR.ideal([polyR(0)])
-    gb = def_ideal.groebner_basis()
-    def_ideal = polyR.ideal(gb)
+    def_ideal = R.ideal(eqs) if eqs else R.ideal([R(0)])
+    mat = mat.change_ring(R)
 
-    if def_ideal.is_one():
-        RS = MatroidRealizationSpace(
-            basis, def_ideal, ineqs, polyR, None, char, q, ground_ring
-        )
-        RS._is_realizable = False
-        return RS
+    if simplify:
+        gb = def_ideal.groebner_basis()
+        def_ideal = R.ideal(gb)
 
-    ineqs = _gens_prime_divisors(ineqs)
+        if def_ideal.is_one():
+            RS = MatroidRealizationSpace(
+                basis, def_ideal, ineqs, R, None, char, q, ground_ring
+            )
+            RS._is_realizable = False
+            return RS
+
+        ineqs = _gens_prime_divisors(ineqs)
 
     RS = MatroidRealizationSpace(
-        basis, def_ideal, ineqs, polyR,
+        basis, def_ideal, ineqs, R,
         mat if compute_matrix else None,
         char, q, ground_ring,
     )
 
-    # --- GF(q): add Frobenius equations x^q = x ---
+    # GF(q): add Frobenius equations x^q = x
     if q is not None and _is_poly_ring(RS.ambient_ring):
         R2 = RS.ambient_ring
         frob_eqs = [x**q - x for x in R2.gens()]
@@ -666,7 +665,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
     if simplify:
         RS = reduce_realization_space(RS)
 
-    # --- Optional saturation ---
+    # Optional saturation
     if saturate and _is_poly_ring(RS.ambient_ring):
         RS.defining_ideal = _stepwise_saturation(RS.defining_ideal, RS.inequations)
         RS._is_realizable = not RS.defining_ideal.is_one()
@@ -675,7 +674,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
     if simplify and saturate:
         RS = reduce_realization_space(RS)
 
-    # --- Filter redundant inequations ---
+    # Filter redundant inequations
     # if simplify:
     #     non_redundant = []
     #     I = RS.defining_ideal
@@ -685,7 +684,7 @@ def realization_space(M, basis=None, saturate=False, simplify=True, char=None,
     #             non_redundant.append(ineq)
     #     RS.inequations = non_redundant
 
-    # --- Expand simple realization matrix back to full n columns ---
+    # Expand simple realization matrix back to full n columns
     if RS.realization_matrix is not None:
         RS.realization_matrix = expand_fn(RS.realization_matrix)
 
