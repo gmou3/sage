@@ -100,16 +100,6 @@ class MatroidRealizationSpace:
 
         return "\n".join(lines)
 
-    def _relations(self, R=None):
-        """
-        Yield the equations and inequations of the realization space as
-        (poly, op) pairs over base ring R (or raw if R is None).
-        """
-        for g in self.defining_ideal.gens():
-            yield (_change_ring(g, R) if R else g, operator.eq)
-        for g in self.inequations:
-            yield (_change_ring(g, R) if R else g, operator.ne)
-
     # ------------------------------------------------------------------
     # Realizability
     # ------------------------------------------------------------------
@@ -157,78 +147,169 @@ class MatroidRealizationSpace:
                              f"space requires characteristic {self.char}")
 
         F = GF(q)
+        zero = F(0)
         R = (self.ambient_ring.change_ring(F)
              if hasattr(self.ambient_ring, 'change_ring') else F)
+        gens = R.gens()
 
-        rels = list(self._relations(R))
+        def raw_terms(g):
+            if not hasattr(g, 'dict'):
+                return [((0,) * len(gens), g)]
+            return list(g.dict().items())
+
+        gens_raw_terms = [raw_terms(g) for g in self.defining_ideal.gens()]
+        ineqs_raw_terms = [raw_terms(g) for g in self.inequations]
+
+        appearance_by_index = [0] * len(gens)
+        for terms in gens_raw_terms + ineqs_raw_terms:
+            seen = set()
+            for exp, _ in terms:
+                for j, e in enumerate(exp):
+                    if e != 0:
+                        seen.add(j)
+            for j in seen:
+                appearance_by_index[j] += 1
+
+        order = sorted(range(len(gens)), key=lambda j: (-appearance_by_index[j], str(gens[j])))
+        variables = [gens[j] for j in order]
+        n = len(variables)
+        var_index = {v: i for i, v in enumerate(variables)}
+        domains = [list(F) for _ in range(n)]
+        raw_to_sorted = [var_index[gens[j]] for j in range(len(gens))]
+
+        def terms_from_raw(raw_terms_list):
+            """Build (sorted-index exponent dict, F coefficient) pairs from an
+            already-extracted raw term list -- no second g.dict() call."""
+            terms = []
+            for exp, c in raw_terms_list:
+                e = {raw_to_sorted[j]: exp[j] for j in range(len(gens)) if exp[j] != 0}
+                terms.append((e, F(c)))
+            return terms
+
+        rels_terms = [(terms_from_raw(t), operator.eq) for t in gens_raw_terms]
+        rels_terms.extend([(terms_from_raw(t), operator.ne) for t in ineqs_raw_terms])
 
         def return_rs(subs):
             A = self.realization_matrix
             if A is not None:
                 A = A.change_ring(R).subs(subs).change_ring(F)
-            RS_q = MatroidRealizationSpace(self.basis, F.ideal(F(0)), [],
+            RS_q = MatroidRealizationSpace(self.basis, F.ideal(zero), [],
                                            F, A, p, q, F)
             RS_q.one_realization = True
             RS_q._is_realizable = True
             return RS_q
 
         if not _is_poly_ring(R):
-            if not all(op(f, 0) for f, op in rels):
+            def as_constant(terms):
+                return sum((c for _, c in terms), zero)
+            if not all(op(as_constant(terms), zero) for terms, op in rels_terms):
                 return None
             return return_rs({})
 
-        appearance = Counter()
-        for f, _ in rels:
-            for v in f.variables():
-                appearance[v] += 1
-        variables = sorted(R.gens(), key=lambda v: (-appearance[v], str(v)))
-        n = len(variables)
-        var_index = {v: i for i, v in enumerate(variables)}
-        domains = [list(F) for _ in range(n)]
+        rels_with_supp = []
+        for terms, op in rels_terms:
+            supp = set()
+            for e, _ in terms:
+                supp.update(e.keys())
+            rels_with_supp.append((terms, op, supp))
 
-        def support(f):
-            return {var_index[v] for v in f.variables()}
-
-        def prune(f, op):
-            supp = support(f)
+        def prune(terms, op, supp):
             if not supp:
-                return None if not op(f, 0) else []
+                c = terms[0][1] if terms else zero
+                return None if not op(c, zero) else []
             if len(supp) == 1:
                 i = next(iter(supp))
-                v = variables[i]
-                domains[i] = [c for c in domains[i] if op(f.subs({v: c}), 0)]
+                def eval_at(val):
+                    total = zero
+                    for e, coeff in terms:
+                        total += coeff * val ** e.get(i, 0)
+                    return total
+                domains[i] = [c for c in domains[i] if op(eval_at(c), zero)]
                 return []
-            return [(f, op, supp)]
-
-        reduced_rels = []
-        for f, op in rels:
-            res = prune(f, op)
-            if res is None:
-                return None
-            reduced_rels.extend(res)
+            return [(terms, op, supp)]
 
         if not all(domains):
             return None
 
+        # Encode and manipulate raw polynomials to avoid using the slow
+        # `f.subs` method in the inner loop of backtrack
+        def compile_terms(f):
+            terms = []
+            exps = f.exponents()
+            coeffs = f.coefficients()
+            for exp, coeff in zip(exps, coeffs):
+                e = {raw_to_sorted[j]: ej for j, ej in enumerate(exp) if ej != 0}
+                terms.append((e, coeff))
+            return terms
+
+        def group_by_pivot(terms, k):
+            """Return a dict mapping pivot exponent to list of
+            (exponent_dict, coeff) pairs."""
+            groups = defaultdict(list)
+            for e, coeff in terms:
+                pv = e.get(k, 0)
+                rest = [(idx, pw) for idx, pw in e.items() if idx != k]
+                groups[pv].append((rest, coeff))
+            return groups
+
+        reduced_rels = []
+        for terms, op, supp in rels_with_supp:
+            res = prune(terms, op, supp)
+            if res is None:
+                return None
+            reduced_rels.extend(res)
+
         rels_by_level = defaultdict(list)
-        for f, op, supp in reduced_rels:
-            rels_by_level[max(supp)].append((f, op))
+        for terms, op, supp in reduced_rels:
+            k = max(supp)
+            groups = group_by_pivot(terms, k)
+            max_p = max(groups)
+            coeff_buf = [zero] * (max_p + 1)
+            rels_by_level[k].append((groups, max_p, op, coeff_buf))
+
+        for k in rels_by_level:
+            rels_by_level[k].sort(key=lambda r: r[1])  # ascending max_p
+
+        subs = [None] * n
 
         def backtrack(k, subs):
             if k == n:
                 return subs
-            v = variables[k]
-            for val in domains[k]:
-                subs[v] = val
-                if all(op(f.subs(subs), 0) for f, op in rels_by_level[k]):
-                    res = backtrack(k + 1, subs)
-                    if res is not None:
-                        return res
-            subs.pop(v, None)
+            candidates = domains[k]
+            for groups, max_p, op, coeff_buf in rels_by_level[k]:
+                if not candidates:
+                    break
+                for i in range(max_p + 1):
+                    coeff_buf[i] = zero
+                for pw, terms in groups.items():
+                    # compute coeff of univariate poly
+                    s = zero
+                    for rest, coeff in terms:
+                        term = coeff
+                        for idx, pw2 in rest:
+                            term *= subs[idx] if pw2 == 1 else subs[idx] ** pw2
+                        s += term
+                    coeff_buf[max_p - pw] = s
+                new_candidates = []
+                for val in candidates:
+                    # evaluate univariate poly and check result
+                    result = coeff_buf[0]
+                    for i in range(1, max_p + 1):
+                        result = result * val + coeff_buf[i]
+                    if op(result, zero):
+                        new_candidates.append(val)
+                candidates = new_candidates
+            for val in candidates:
+                subs[k] = val
+                res = backtrack(k + 1, subs)
+                if res is not None:
+                    return res
             return None
 
-        subs = backtrack(0, {})
-        return return_rs(subs) if subs is not None else None
+        subs = backtrack(0, subs)
+        if subs is None:
+            return None
+        return return_rs({variables[k]: subs[k] for k in range(n)})
 
 # ---------------------------------------------------------------------------
 # Factorisation helpers
